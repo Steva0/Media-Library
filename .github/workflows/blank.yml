@@ -5,28 +5,57 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build-gcc:
+    name: Build with GCC
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Install Qt and build tools
+    - name: Install Qt and build tools (GCC)
       run: |
         sudo apt-get update
         sudo apt-get install -y qtbase5-dev qt5-qmake qtbase5-dev-tools build-essential cmake
 
-    - name: Configure project
-      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+    - name: Configure project with GCC
+      run: cmake -S . -B build-gcc -DCMAKE_BUILD_TYPE=Release
 
-    - name: Build project
-      run: cmake --build build --config Release
+    - name: Build project (GCC)
+      run: cmake --build build-gcc --config Release
 
-    - name: Run MediaLibrary
+    - name: Run MediaLibrary (GCC)
       run: |
-        if [ -f build/MediaLibrary ]; then
-          ./build/MediaLibrary
+        if [ -f build-gcc/MediaLibrary ]; then
+          ./build-gcc/MediaLibrary
+        else
+          echo "::warning::Executable not found!"
+        fi
+
+  build-clang:
+    name: Build with Clang
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Qt and Clang
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y qtbase5-dev qt5-qmake qtbase5-dev-tools clang cmake
+
+    - name: Configure project with Clang
+      run: |
+        cmake -S . -B build-clang -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+
+    - name: Build project (Clang)
+      run: cmake --build build-clang --config Release
+
+    - name: Run MediaLibrary (Clang)
+      run: |
+        if [ -f build-clang/MediaLibrary ]; then
+          ./build-clang/MediaLibrary
         else
           echo "::warning::Executable not found!"
         fi
