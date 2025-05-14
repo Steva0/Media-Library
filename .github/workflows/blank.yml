@@ -25,6 +25,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        path: .
+
 
     - name: Cache CMake files
       uses: actions/cache@v3
