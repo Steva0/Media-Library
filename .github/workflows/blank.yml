@@ -1,5 +1,4 @@
-
-name: CMake on multiple platforms
+name: CMake on multiple platforms with Qt
 
 on:
   push:
@@ -24,10 +23,12 @@ jobs:
             cpp_compiler: clang++
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        path: .
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
+    - name: Install Qt on Ubuntu
+      if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install -y qtbase5-dev
 
     - name: Cache CMake files
       uses: actions/cache@v3
@@ -35,7 +36,7 @@ jobs:
         path: |
           build
           ~/.cache/CMakeFiles
-        key: ${{ runner.os }}-cmake-${{ matrix.cpp_compiler }}-${{ matrix.build_type }}
+        key: ${{ runner.os }}-cmake-${{ matrix.cpp_compiler }}-${{ matrix.build_type || 'Release' }}
         restore-keys: |
           ${{ runner.os }}-cmake-
 
@@ -49,3 +50,26 @@ jobs:
 
     - name: Build
       run: cmake --build build --config Release --parallel
+
+    - name: Run tests with CTest
+      working-directory: build
+      run: ctest --output-on-failure
+
+    - name: Run MediaLibrary on Linux/macOS
+      if: runner.os != 'Windows'
+      run: |
+        if [ -f ./build/MediaLibrary ]; then
+          ./build/MediaLibrary
+        else
+          echo "::warning::MediaLibrary not found"
+        fi
+
+    - name: Run MediaLibrary on Windows
+      if: runner.os == 'Windows'
+      run: |
+        if (Test-Path .\build\Release\MediaLibrary.exe) {
+          .\build\Release\MediaLibrary.exe
+        } else {
+          Write-Host "::warning::MediaLibrary.exe not found"
+        }
+      shell: pwsh
