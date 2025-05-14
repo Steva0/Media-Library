@@ -20,7 +20,7 @@ public:
     Audiolibro(const Audiolibro& other);
     Audiolibro& operator=(const Audiolibro& other);
 
-    void accept(IMediaVisitor& v) const override;
+    void accept(IConstMediaVisitor& v) const override;
 
     std::string getNarrator() const;
     std::string getStreamingService() const;

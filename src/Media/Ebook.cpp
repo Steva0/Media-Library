@@ -23,7 +23,7 @@ Ebook& Ebook::operator=(const Ebook& other) {
     return *this;
 }
 
-void Ebook::accept(IMediaVisitor& v) const {
+void Ebook::accept(IConstMediaVisitor& v) const {
     v.visit(*this);
 }
 

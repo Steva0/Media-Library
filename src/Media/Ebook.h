@@ -20,7 +20,7 @@ public:
     Ebook(const Ebook& other);
     Ebook& operator=(const Ebook& other);
 
-    void accept(IMediaVisitor& v) const override;
+    void accept(IConstMediaVisitor& v) const override;
 
     unsigned int getFileSizeBytes() const;
     bool hasDrm() const;
