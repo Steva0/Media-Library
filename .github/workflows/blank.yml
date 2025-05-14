@@ -1,4 +1,4 @@
-name: CMake on multiple platforms with Qt
+name: BuiLd Test
 
 on:
   push:
@@ -42,11 +42,12 @@ jobs:
 
     - name: Configure CMake
       run: >
-        cmake -B build
+        cmake -S ${{ github.workspace }}
+        -B ${{ github.workspace }}/build
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=Release
-        -S .
+
 
     - name: Build
       run: cmake --build build --config Release --parallel
