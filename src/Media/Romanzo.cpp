@@ -29,7 +29,7 @@ Romanzo& Romanzo::operator=(const Romanzo& other) {
 }
 
 // Visitor
-void Romanzo::accept(IMediaVisitor& v) const {
+void Romanzo::accept(IConstMediaVisitor& v) const {
     v.visit(*this);
 }
 

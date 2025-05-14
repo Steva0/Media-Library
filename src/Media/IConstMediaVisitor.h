@@ -10,7 +10,8 @@ class Romanzo;
 class Audiolibro;
 class Ebook;
 
-class IMediaVisitor {
+class IConstMediaVisitor {
+
  public:
   virtual void visit(const Album &) = 0;
   virtual void visit(const Movie &) = 0;
@@ -19,7 +20,7 @@ class IMediaVisitor {
   virtual void visit(const Audiolibro &) = 0;
   virtual void visit(const Ebook &) = 0;
 };
-}  // namespace library::media
-#endif // MEDIA_I_MEDIA_VISITOR_H
 
+}  // namespace media
+#endif
 

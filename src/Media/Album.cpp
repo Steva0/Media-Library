@@ -11,4 +11,9 @@ Album::Album(const std::string &title, int release, const std::string &language,
       band_(band),
       band_members_(band_members),
       songs_(songs) {}
-}  // namespace library::media
+const std::string &Album::getBand() const { return band_; }
+const std::vector<std::string> &Album::getBandMembers() const {
+  return band_members_;
+}
+const std::vector<std::string> &Album::getSongs() const { return songs_; }
+}  // namespace media

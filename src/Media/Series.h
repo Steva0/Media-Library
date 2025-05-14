@@ -16,6 +16,9 @@ class Series : public Movie {
          const std::vector<std::string> &cast, unsigned int length,
          const std::string &universe, unsigned int episodes,
          unsigned int seasons, bool ended);
+  unsigned int getEpisodes() const;
+  unsigned int getSeasons() const;
+  bool isEnded() const;
 };
-}  // namespace library::media
+}  // namespace media
 #endif

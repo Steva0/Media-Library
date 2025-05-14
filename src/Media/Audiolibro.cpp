@@ -25,7 +25,7 @@ Audiolibro& Audiolibro::operator=(const Audiolibro& other) {
     return *this;
 }
 
-void Audiolibro::accept(IMediaVisitor& v) const {
+void Audiolibro::accept(IConstMediaVisitor& v) const {
     v.visit(*this);
 }
 

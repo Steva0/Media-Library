@@ -13,5 +13,7 @@ Series::Series(const std::string &title, int release,
       episodes_(episodes),
       seasons_(seasons),
       ended_(ended) {}
-
-}  // namespace library::media
+unsigned int Series::getEpisodes() const { return episodes_; }
+unsigned int Series::getSeasons() const { return seasons_; }
+bool Series::isEnded() const { return ended_; }
+}  // namespace media

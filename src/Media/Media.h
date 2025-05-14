@@ -2,7 +2,8 @@
 #define MEDIA_MEDIA_H
 #include <string>
 #include <vector>
-#include "IMediaVisitor.h"
+
+#include "IConstMediaVisitor.h"
 
 namespace media {
 class Media {
@@ -19,7 +20,18 @@ class Media {
   Media(const std::string &title, int release, const std::string &language,
         bool favourite, const std::vector<std::string> &genres,
         const std::string &img_path, const std::string &notes);
-  virtual void accept(IMediaVisitor &) const = 0;
+  virtual void accept(IConstMediaVisitor &) const = 0;
+
+  // Possiamo scegliere noi se utilizzare un riferimento costante o fare una copia
+  // Potenziali problemi possono verosimilmente essere la vita delle variabili
+  // Ignoro potenziali problemi di incapsulamento dovuti al const_cast
+  const std::string &getTitle() const;
+  int getRelease() const;
+  const std::string &getLanguage() const;
+  bool isFavourite() const;
+  const std::vector<std::string> &getGenres() const;
+  const std::string &getImgPath() const;
+  const std::string &getNotes() const;
 };
-}  // namespace library::media
+}  // namespace media
 #endif

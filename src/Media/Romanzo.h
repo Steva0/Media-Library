@@ -2,7 +2,6 @@
 #define Romanzo_H
 
 #include "Media.h"
-#include "IMediaVisitor.h"
 
 namespace media {
 
@@ -25,7 +24,7 @@ public:
     Romanzo& operator=(const Romanzo& other);
 
     // Virtual methods
-    void accept(IMediaVisitor& v) const override;
+    void accept(IConstMediaVisitor& v) const override;
 
     // Getters
     std::string getAuthor() const;
