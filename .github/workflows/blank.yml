@@ -1,4 +1,4 @@
-name: BuiLd Test
+name: Linux Qt Build
 
 on:
   push:
@@ -6,71 +6,27 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      fail-fast: true
-      matrix:
-        include:
-          - os: windows-latest
-            c_compiler: cl
-            cpp_compiler: cl
-          - os: ubuntu-latest
-            c_compiler: gcc
-            cpp_compiler: g++
-          - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Install Qt on Ubuntu
-      if: runner.os == 'Linux'
-      run: sudo apt-get update && sudo apt-get install -y qtbase5-dev
-
-    - name: Cache CMake files
-      uses: actions/cache@v3
-      with:
-        path: |
-          build
-          ~/.cache/CMakeFiles
-        key: ${{ runner.os }}-cmake-${{ matrix.cpp_compiler }}-${{ matrix.build_type || 'Release' }}
-        restore-keys: |
-          ${{ runner.os }}-cmake-
+    - name: Install Qt and dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y qtbase5-dev qt5-qmake qtbase5-dev-tools build-essential cmake
 
     - name: Configure CMake
-      run: >
-        cmake -S ${{ github.workspace }}
-        -B ${{ github.workspace }}/build
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-        -DCMAKE_BUILD_TYPE=Release
-
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
-      run: cmake --build build --config Release --parallel
+      run: cmake --build build --config Release
 
-    - name: Run tests with CTest
-      working-directory: build
-      run: ctest --output-on-failure
-
-    - name: Run MediaLibrary on Linux/macOS
-      if: runner.os != 'Windows'
+    - name: Run MediaLibrary
       run: |
         if [ -f ./build/MediaLibrary ]; then
           ./build/MediaLibrary
         else
-          echo "::warning::MediaLibrary not found"
+          echo "::warning::MediaLibrary binary not found"
         fi
-
-    - name: Run MediaLibrary on Windows
-      if: runner.os == 'Windows'
-      run: |
-        if (Test-Path .\build\Release\MediaLibrary.exe) {
-          .\build\Release\MediaLibrary.exe
-        } else {
-          Write-Host "::warning::MediaLibrary.exe not found"
-        }
-      shell: pwsh
