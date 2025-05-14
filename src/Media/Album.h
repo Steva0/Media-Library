@@ -15,6 +15,9 @@ class Album : public Media {
         const std::string &img_path, const std::string &notes,
         const std::string &band, const std::vector<std::string> &band_members,
         const std::vector<std::string> &songs);
+  const std::string &getBand() const;
+  const std::vector<std::string> &getBandMembers() const;
+  const std::vector<std::string> &getSongs() const;
 };
-}  // namespace library::media
+}  // namespace media
 #endif

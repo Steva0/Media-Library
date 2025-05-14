@@ -10,4 +10,7 @@ Movie::Movie(const std::string &title, int release, const std::string &language,
       cast_(cast),
       length_(length),
       universe_(universe) {}
-}  // namespace library::media
+const std::vector<std::string> &Movie::getCast() const { return cast_; }
+unsigned int Movie::getLength() const { return length_; }
+const std::string &Movie::getUniverse() const { return universe_; }
+}  // namespace media

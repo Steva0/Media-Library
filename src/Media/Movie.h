@@ -18,6 +18,9 @@ class Movie : public Media {
         const std::string &img_path, const std::string &notes,
         const std::vector<std::string> &cast, unsigned int length,
         const std::string &universe);
+  const std::vector<std::string> &getCast() const;
+  unsigned int getLength() const;
+  const std::string &getUniverse() const;
 };
-}  // namespace library::media
+}  // namespace media
 #endif

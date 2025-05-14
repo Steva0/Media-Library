@@ -5,11 +5,11 @@ class Movie;
 class Series;
 
 namespace media {
-class IMediaVisitor {
+class IConstMediaVisitor {
  public:
   virtual void visit(const Album &) = 0;
   virtual void visit(const Movie &) = 0;
   virtual void visit(const Series &) = 0;
 };
-}  // namespace library::media
+}  // namespace media
 #endif

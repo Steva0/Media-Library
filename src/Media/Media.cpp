@@ -10,4 +10,13 @@ Media::Media(const std::string &title, int release, const std::string &language,
       genres_(genres),
       img_path_(img_path),
       notes_(notes) {}
-}  // namespace library::media
+
+const std::string &Media::getTitle() const { return title_; }
+int Media::getRelease() const { return release_; }
+const std::string &Media::getLanguage() const { return language_; };
+bool Media::isFavourite() const { return favourite_; }
+const std::vector<std::string> &Media::getGenres() const { return genres_; }
+const std::string &Media::getImgPath() const { return img_path_; }
+const std::string &Media::getNotes() const { return notes_; }
+
+}  // namespace media
