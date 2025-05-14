@@ -20,4 +20,6 @@ class IMediaVisitor {
   virtual void visit(const Ebook &) = 0;
 };
 }  // namespace library::media
-#endif
+#endif // MEDIA_I_MEDIA_VISITOR_H
+
+
