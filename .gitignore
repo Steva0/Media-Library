@@ -1,3 +1,7 @@
+.cache
+.qmake.stash
+./src
+
 # C++ objects and libs
 *.slo
 *.lo
