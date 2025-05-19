@@ -97,6 +97,7 @@ Checks: >
   -modernize-use-nodiscard,
   -modernize-avoid-c-arrays,
   -modernize-type-traits,
+  -modernize-pass-by-value,
   -modernize-unary-static-assert,
   -performance-move-const-arg,
   -performance-avoid-endl,
