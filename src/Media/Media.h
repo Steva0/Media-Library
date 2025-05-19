@@ -25,6 +25,8 @@ class Media : IMedia{
   
  public:
 
+  virtual bool operator==(const Media &other) const;
+  
   void accept(IConstMediaVisitor &) const override;
   bool open() override;
 

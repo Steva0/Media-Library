@@ -16,4 +16,14 @@ const std::vector<std::string> &Album::getBandMembers() const {
   return band_members_;
 }
 const std::vector<std::string> &Album::getSongs() const { return songs_; }
+bool Album::operator==(const Media &other) const {
+  const Album *other_album = dynamic_cast<const Album *>(&other);
+  if (other_album) {
+    return Media::operator==(*other_album) && band_ == other_album->band_ &&
+           band_members_ == other_album->band_members_ &&
+           songs_ == other_album->songs_;
+  }
+  return false;
+}
+
 }  // namespace media

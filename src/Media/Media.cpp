@@ -14,6 +14,13 @@ Media::Media(const std::string &title, int release, const std::string &language,
 
 void Media::accept(IConstMediaVisitor &v) const {}
 
+bool Media::operator==(const Media &other) const {
+  return title_ == other.title_ && release_ == other.release_ &&
+         language_ == other.language_ && favourite_ == other.favourite_ &&
+         genres_ == other.genres_ && img_path_ == other.img_path_ &&
+         notes_ == other.notes_;
+}
+
 bool Media::open() {
   notes_ = "";
   std::cout<< "Media::open()" << std::endl;  

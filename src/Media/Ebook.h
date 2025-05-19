@@ -17,7 +17,7 @@ public:
           unsigned int pages, const std::string& series, const std::string& isbn,
           unsigned int fileSizeBytes, bool drm);
 
-    void accept(IConstMediaVisitor& v) const override;
+    bool operator==(const Media& other) const override;
 
     unsigned int getFileSizeBytes() const;
     bool hasDrm() const;

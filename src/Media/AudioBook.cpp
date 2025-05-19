@@ -12,8 +12,13 @@ AudioBook::AudioBook(const std::string& title, int publicationYear, const std::s
       narrator_(narrator), streamingService_(streamingService) {}
 
 
-void AudioBook::accept(IConstMediaVisitor& v) const {
-    v.visit(*this);
+bool AudioBook::operator==(const Media& other) const {
+    const AudioBook* otherAudioBook = dynamic_cast<const AudioBook*>(&other);
+    if (otherAudioBook) {
+        return Novel::operator==(*otherAudioBook) && narrator_ == otherAudioBook->narrator_ &&
+               streamingService_ == otherAudioBook->streamingService_;
+    }
+    return false;
 }
 
 std::string AudioBook::getNarrator() const {

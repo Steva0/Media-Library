@@ -17,7 +17,7 @@ public:
               unsigned int duration, const std::string& series, const std::string& isbn,
               const std::string& narrator, const std::string& streamingService);
 
-    void accept(IConstMediaVisitor& v) const override;
+    bool operator==(const Media& other) const override;
 
     std::string getNarrator() const;
     std::string getStreamingService() const;

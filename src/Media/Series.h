@@ -16,6 +16,7 @@ class Series : public Movie {
          const std::vector<std::string> &cast, unsigned int length,
          const std::string &universe, unsigned int episodes,
          unsigned int seasons, bool ended);
+  bool operator==(const Media &other) const override;
   unsigned int getEpisodes() const;
   unsigned int getSeasons() const;
   bool isEnded() const;

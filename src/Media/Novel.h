@@ -19,7 +19,7 @@ public:
           const std::string& author, const std::string& publisher,
           unsigned int pages, const std::string& series, const std::string& isbn);
 
-    void accept(IConstMediaVisitor& v) const override;
+    bool operator==(const Media& other) const override;
 
     // Getters
     std::string getAuthor() const;

@@ -13,6 +13,14 @@ Series::Series(const std::string &title, int release,
       episodes_(episodes),
       seasons_(seasons),
       ended_(ended) {}
+bool Series::operator==(const Media &other) const {
+    const Series *otherSeries = dynamic_cast<const Series *>(&other);
+    if (otherSeries) {
+        return Movie::operator==(*otherSeries) && episodes_ == otherSeries->episodes_ &&
+               seasons_ == otherSeries->seasons_ && ended_ == otherSeries->ended_;
+    }
+    return false;
+}
 unsigned int Series::getEpisodes() const { return episodes_; }
 unsigned int Series::getSeasons() const { return seasons_; }
 bool Series::isEnded() const { return ended_; }

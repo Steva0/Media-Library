@@ -11,9 +11,14 @@ Ebook::Ebook(const std::string& title, int publicationYear, const std::string& l
             author, publisher, pages, series, isbn),
       fileSizeBytes_(fileSizeBytes), drm_(drm) {}
 
-void Ebook::accept(IConstMediaVisitor& v) const {
-    v.visit(*this);
-}
+bool Ebook::operator==(const Media& other) const {
+    const Ebook* otherEbook = dynamic_cast<const Ebook*>(&other);
+    if (otherEbook) {
+        return Novel::operator==(*otherEbook) && fileSizeBytes_ == otherEbook->fileSizeBytes_ &&
+               drm_ == otherEbook->drm_;
+    }
+    return false;
+}   
 
 unsigned int Ebook::getFileSizeBytes() const {
     return fileSizeBytes_;

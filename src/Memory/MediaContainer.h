@@ -1,14 +1,53 @@
-#ifndef MEMORY_MEDIA_CONTAINER_H
-#define MEMORY_MEDIA_CONTAINER_H
-#include "../Media/Media.h"
+#ifndef MEMORY_MEDIACONTAINER_H
+#define MEMORY_MEDIACONTAINER_H
 
-namespace memory {
-class MediaContainer {
- public:
-  MediaContainer() = default;
-  int addMedia(media::Media *);
-  int removeMedia(media::Media *);
-  std::vector<media::Media *> filter(media::Media *);
+#include <array>
+#include <vector>
+#include <memory>
+#include <string>
+#include <algorithm>
+#include <functional>
+
+#include "Media.h"
+#include "Novel.h"
+#include "Album.h"
+#include "Movie.h"
+#include "Ebook.h"
+#include "AudioBook.h"
+#include "Series.h"
+
+namespace memory{
+
+enum class MediaType {
+    All = 0,
+    Novel,
+    Album,
+    Movie,
+    EBook,
+    AudioBook,
+    Series,
+    Count // serve per la dimensione dell’array
 };
-}  // namespace memory
-#endif
+
+class MediaContainer {
+private:
+    std::array<std::vector<std::shared_ptr<media::Media>>, static_cast<size_t>(MediaType::Count)> data_;
+
+    MediaType determineType(const std::shared_ptr<media::Media>& media) const;
+
+public:
+    void addMedia(const std::shared_ptr<media::Media>& media);
+    void removeMedia(const std::shared_ptr<media::Media>& media);
+    void clear();
+
+    std::vector<std::shared_ptr<media::Media>> filterByTitle(const std::string& title) const;
+    std::vector<std::shared_ptr<media::Media>> filterByYear(int year) const;
+
+    std::vector<std::shared_ptr<media::Media>> getAll() const;
+    std::vector<std::shared_ptr<media::Media>> getByType(MediaType type) const;
+    
+    // Combinazioni di filtri
+    std::vector<std::shared_ptr<media::Media>> filter(std::function<bool(const media::Media&)> predicate) const;
+};
+}
+#endif // MEMORY_MEDIACONTAINER_H

@@ -18,6 +18,7 @@ class Album : public Media {
   const std::string &getBand() const;
   const std::vector<std::string> &getBandMembers() const;
   const std::vector<std::string> &getSongs() const;
+  bool operator==(const Media &other) const override;
 };
 }  // namespace media
 #endif

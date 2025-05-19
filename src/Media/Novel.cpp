@@ -9,9 +9,14 @@ Novel::Novel(const std::string& title, int publicationYear, const std::string& l
     : Media(title, publicationYear, language, favorite, genres, imagePath, notes),
       author_(author), publisher_(publisher), pages_(pages), series_(series), isbn_(isbn) {}
 
-// Visitor
-void Novel::accept(IConstMediaVisitor& v) const {
-    v.visit(*this);
+bool Novel::operator==(const Media& other) const {
+    const Novel* otherNovel = dynamic_cast<const Novel*>(&other);
+    if (otherNovel) {
+        return Media::operator==(*otherNovel) && author_ == otherNovel->author_ &&
+               publisher_ == otherNovel->publisher_ && pages_ == otherNovel->pages_ &&
+               series_ == otherNovel->series_ && isbn_ == otherNovel->isbn_;
+    }
+    return false;
 }
 
 // Getters
