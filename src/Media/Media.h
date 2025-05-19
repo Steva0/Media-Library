@@ -2,11 +2,13 @@
 #define MEDIA_MEDIA_H
 #include <string>
 #include <vector>
+#include <iostream>
 
+#include "IMedia.h"
 #include "IConstMediaVisitor.h"
 
 namespace media {
-class Media {
+class Media : IMedia{
  private:
   std::string title_;
   int release_;
@@ -16,11 +18,15 @@ class Media {
   std::string img_path_;
   std::string notes_;
 
- public:
+  protected:
   Media(const std::string &title, int release, const std::string &language,
         bool favourite, const std::vector<std::string> &genres,
         const std::string &img_path, const std::string &notes);
-  virtual void accept(IConstMediaVisitor &) const = 0;
+  
+ public:
+
+  void accept(IConstMediaVisitor &) const override;
+  bool open() override;
 
   // Possiamo scegliere noi se utilizzare un riferimento costante o fare una copia
   // Potenziali problemi possono verosimilmente essere la vita delle variabili

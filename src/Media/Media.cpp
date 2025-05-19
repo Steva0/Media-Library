@@ -12,6 +12,14 @@ Media::Media(const std::string &title, int release, const std::string &language,
       img_path_(img_path),
       notes_(notes) {}
 
+void Media::accept(IConstMediaVisitor &v) const {}
+
+bool Media::open() {
+  notes_ = "";
+  std::cout<< "Media::open()" << std::endl;  
+  return false;
+}
+
 const std::string &Media::getTitle() const { return title_; }
 int Media::getRelease() const { return release_; }
 const std::string &Media::getLanguage() const { return language_; };

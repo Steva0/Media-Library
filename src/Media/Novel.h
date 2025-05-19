@@ -19,7 +19,6 @@ public:
           const std::string& author, const std::string& publisher,
           unsigned int pages, const std::string& series, const std::string& isbn);
 
-    // Virtual methods
     void accept(IConstMediaVisitor& v) const override;
 
     // Getters
