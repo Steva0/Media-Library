@@ -1,11 +1,11 @@
 #ifndef EBOOK_H
 #define EBOOK_H
 
-#include "Romanzo.h"
+#include "Novel.h"
 
 namespace media {
 
-class Ebook : public Romanzo {
+class Ebook : public Novel {
 private:
     unsigned int fileSizeBytes_;
     bool drm_;
@@ -16,9 +16,6 @@ public:
           const std::string& author, const std::string& publisher,
           unsigned int pages, const std::string& series, const std::string& isbn,
           unsigned int fileSizeBytes, bool drm);
-
-    Ebook(const Ebook& other);
-    Ebook& operator=(const Ebook& other);
 
     void accept(IConstMediaVisitor& v) const override;
 

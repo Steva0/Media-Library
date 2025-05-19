@@ -6,6 +6,7 @@ Media::Media(const std::string &title, int release, const std::string &language,
              const std::string &img_path, const std::string &notes)
     : title_(title),
       release_(release),
+      language_(language),
       favourite_(favourite),
       genres_(genres),
       img_path_(img_path),
