@@ -1,21 +1,26 @@
 #ifndef MEMORY_DATABASE_H
 #define MEMORY_DATABASE_H
-#include <QFile>
+#include <QSaveFile>
 
 #include "./MediaContainer.h"
 
 namespace memory {
-class Database {
+class DataBase {
  private:
   MediaContainer media_container_;
-  QFile db_file_;
+  QSaveFile file_;
 
+  // possiamo mettere open, close e save privati e poi usare un tipo di observer
+  // pattern per chiamare le funzioni.
  public:
-  Database() = default;
-  int open(const std::string &path);
-  int close();
+  DataBase() = default;
+  ~DataBase();
+  int open(const QString &path);
+  int close(bool save);
   int save();
-  std::vector<media::Media *> filterMedia(const media::Media *) const;
+  // TODO(alessandro): smart pointer
+  // possiamo cambiarlo a riferimenti costanti
+  std::vector<media::Media *> filterMedia(const media::Media *);
 };
 }  // namespace memory
 #endif

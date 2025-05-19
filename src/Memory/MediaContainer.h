@@ -8,7 +8,7 @@ class MediaContainer {
   MediaContainer() = default;
   int addMedia(media::Media *);
   int removeMedia(media::Media *);
-  std::vector<media::Media *> filter(media::Media *);
+  std::vector<media::Media *> filter(const media::Media *);
 };
 }  // namespace memory
 #endif
