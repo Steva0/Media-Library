@@ -29,34 +29,12 @@ void MediaContainer::clear() {
     }
 }
 
-std::vector<std::shared_ptr<media::Media>> MediaContainer::filterByTitle(const std::string& title) const {
-    return filter([&](const media::Media& m) {
-        return m.getTitle() == title;
-    });
-}
-
-std::vector<std::shared_ptr<media::Media>> MediaContainer::filterByYear(int year) const {
-    return filter([&](const media::Media& m) {
-        return m.getRelease() == year;
-    });
-}
-
 std::vector<std::shared_ptr<media::Media>> MediaContainer::getAll() const {
     return data_[static_cast<size_t>(MediaType::All)];
 }
 
 std::vector<std::shared_ptr<media::Media>> MediaContainer::getByType(MediaType type) const {
     return data_[static_cast<size_t>(type)];
-}
-
-std::vector<std::shared_ptr<media::Media>> MediaContainer::filter(std::function<bool(const media::Media&)> predicate) const {
-    std::vector<std::shared_ptr<media::Media>> result;
-    for (const auto& media : data_[static_cast<size_t>(MediaType::All)]) {
-        if (predicate(*media)) {
-            result.push_back(media);
-        }
-    }
-    return result;
 }
 
 MediaType MediaContainer::determineType(const std::shared_ptr<media::Media>& media) const {
@@ -68,4 +46,12 @@ MediaType MediaContainer::determineType(const std::shared_ptr<media::Media>& med
     if (std::dynamic_pointer_cast<media::Album>(media)) return MediaType::Album;
     return MediaType::All;
 }
+
+std::vector<std::shared_ptr<media::Media>> MediaContainer::filter(const std::shared_ptr<media::Media>& media) const{
+    auto allMedia = getAll();
+    return media->filter(allMedia);
+}
+
+
+
 }

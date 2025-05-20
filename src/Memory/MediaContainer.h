@@ -40,14 +40,11 @@ public:
     void removeMedia(const std::shared_ptr<media::Media>& media);
     void clear();
 
-    std::vector<std::shared_ptr<media::Media>> filterByTitle(const std::string& title) const;
-    std::vector<std::shared_ptr<media::Media>> filterByYear(int year) const;
-
     std::vector<std::shared_ptr<media::Media>> getAll() const;
     std::vector<std::shared_ptr<media::Media>> getByType(MediaType type) const;
-    
-    // Combinazioni di filtri
-    std::vector<std::shared_ptr<media::Media>> filter(std::function<bool(const media::Media&)> predicate) const;
+
+    //Sezione filtri
+    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Media>& media) const;
 };
 }
 #endif // MEMORY_MEDIACONTAINER_H
