@@ -36,34 +36,24 @@ void Ebook::setDrm(bool drm) {
     drm_ = drm;
 }
 
-std::vector<std::shared_ptr<Media>> Ebook::filter(const std::vector<std::shared_ptr<Ebook>>& input) const {
-    std::vector<std::shared_ptr<Media>> result;
+bool Ebook::filter(const Media& input) const {
+    // Riutilizzo filtro base di Novel
+    if (!Novel::filter(input))
+        return false;
+    // Cast to Ebook to access Ebook-specific members
+    const Ebook* ebookPtr = dynamic_cast<const Ebook*>(&input);
+    if (!ebookPtr)
+        return false;
 
-    // Riutilizza filtro base di Novel (che include filtro di Media)
-    std::vector<std::shared_ptr<Novel>> novels(input.begin(), input.end());
-    std::vector<std::shared_ptr<Media>> filteredNovels = Novel::filter(novels);
+    // File size filter
+    if (fileSizeBytes_ > 0 && ebookPtr->getFileSizeBytes() != fileSizeBytes_)
+        return false;
 
-    // Filtro specifico Ebook
-    for (const auto& novelPtr : filteredNovels) {
-        auto ebookPtr = std::dynamic_pointer_cast<Ebook>(novelPtr);
-        if (!ebookPtr) continue;
+    // DRM filter
+    if (drm_ && ebookPtr->hasDrm() != drm_)
+        return false;
 
-        bool match = true;
-
-        // File size
-        if (fileSizeBytes_ > 0 && ebookPtr->getFileSizeBytes() != fileSizeBytes_)
-            match = false;
-
-        // DRM
-        if (drm_ && ebookPtr->hasDrm() != drm_)
-            match = false;
-
-        if (match)
-            result.push_back(ebookPtr);
-    }
-
-    return result;
+    return true;
 }
-
 
 }

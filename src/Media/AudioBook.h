@@ -26,7 +26,7 @@ public:
     void setNarrator(const std::string& narrator);
     void setStreamingService(const std::string& service);
 
-    std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<AudioBook>>& input) const;
+    bool filter(const Media& audiobook) const override;
 };
 
 }

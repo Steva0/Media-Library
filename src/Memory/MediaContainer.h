@@ -3,9 +3,6 @@
 
 #include <array>
 #include <vector>
-#include <memory>
-#include <string>
-#include <algorithm>
 #include <QSaveFile>
 
 #include "Media.h"
@@ -19,42 +16,31 @@
 
 namespace memory {
 
-enum class MediaType {
-    All = 0,
-    Novel,
-    Album,
-    Movie,
-    EBook,
-    AudioBook,
-    Series,
-    Count
-};
-
 class MediaContainer {
 private:
-    std::array<std::vector<std::shared_ptr<media::Media>>, static_cast<size_t>(MediaType::Count)> data_;
+    static constexpr int INDEX_ALL = 0;
+    static constexpr int INDEX_NOVEL = 1;
+    static constexpr int INDEX_ALBUM = 2;
+    static constexpr int INDEX_MOVIE = 3;
+    static constexpr int INDEX_EBOOK = 4;
+    static constexpr int INDEX_AUDIOBOOK = 5;
+    static constexpr int INDEX_SERIES = 6;
+    static constexpr int TYPE_COUNT = 7;
 
-    MediaType determineType(const std::shared_ptr<media::Media>& media) const;
+    std::array<std::vector<media::Media>, TYPE_COUNT> data_;
 
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Media>& media) const;
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Novel>& novel) const;
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Album>& album) const;
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Movie>& movie) const;
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Ebook>& ebook) const;
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::AudioBook>& audiobook) const;
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Series>& series) const;
-
-    const std::vector<std::shared_ptr<media::Media>>& getAll() const;
-    const std::vector<std::shared_ptr<media::Media>>& getByType(MediaType type) const;
-    const std::vector<std::shared_ptr<media::Media>>& getByTypeAndSubtype(MediaType type) const;
+    int detectIndex(const media::Media& media) const;
+    std::vector<const media::Media*> MediaContainer::getByGroupIndex(int idx) const;
 
 public:
-    void addMedia(const std::shared_ptr<media::Media>& media);
-    void removeMedia(const std::shared_ptr<media::Media>& media);
+    void addMedia(const media::Media& media);
+    void removeMedia(const media::Media& media);
     void clear();
- 
-    // Filtri
-    std::vector<std::shared_ptr<media::Media>> filter(const media::Media& media) const;
+
+    std::vector<const media::Media*> filter(const media::Media& media) const;
+
+    const std::vector<media::Media>& getAll() const;
+    const std::vector<media::Media>& getByIndex(int idx) const;
 
     int serialize(QSaveFile& file) const;
 };

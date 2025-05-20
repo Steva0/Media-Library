@@ -25,36 +25,27 @@ unsigned int Series::getEpisodes() const { return episodes_; }
 unsigned int Series::getSeasons() const { return seasons_; }
 bool Series::isEnded() const { return ended_; }
 
-std::vector<std::shared_ptr<Media>> Series::filter(const std::vector<std::shared_ptr<Series>>& input) const {
-    std::vector<std::shared_ptr<Media>> result;
+bool Series::filter(const Media& input) const {
+     if (!Movie::filter(input))
+        return false;
 
-    // Riutilizzo filtro base di Movie (che a sua volta chiama Media::filter)
-    std::vector<std::shared_ptr<Movie>> baseInput(input.begin(), input.end());
-    std::vector<std::shared_ptr<Media>> filteredBase = Movie::filter(baseInput);
+    const Series* seriesPtr = dynamic_cast<const Series*>(&input);
+    if (!seriesPtr)
+        return false; // Protegge da cast fallito
 
-    for (const auto& mediaPtr : filteredBase) {
-        auto seriesPtr = std::dynamic_pointer_cast<Series>(mediaPtr);
-        if (!seriesPtr) continue;
+    // Episodes (confronto stretto)
+    if (episodes_ != std::numeric_limits<unsigned int>::max() && seriesPtr->getEpisodes() != episodes_)
+        return false;
 
-        bool match = true;
+    // Seasons (confronto stretto)
+    if (seasons_ != std::numeric_limits<unsigned int>::max() && seriesPtr->getSeasons() != seasons_)
+        return false;
 
-        // Episodes (confronto stretto)
-        if (episodes_ != std::numeric_limits<unsigned int>::max() && seriesPtr->getEpisodes() != episodes_)
-            match = false;
+    // Ended (confronto booleano)
+    if (ended_ && ended_ != seriesPtr->isEnded())
+        return false;
 
-        // Seasons (confronto stretto)
-        if (seasons_ != std::numeric_limits<unsigned int>::max() && seriesPtr->getSeasons() != seasons_)
-            match = false;
-
-        // Ended (confronto booleano)
-        if (ended_ && ended_ != seriesPtr->isEnded())
-            match = false;
-
-        if (match)
-            result.push_back(seriesPtr);
-    }
-
-    return result;
+    return true;
 }
 
 }  // namespace media

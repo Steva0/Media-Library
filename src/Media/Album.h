@@ -20,8 +20,9 @@ class Album : public Media {
   const std::vector<std::string> &getSongs() const;
   bool operator==(const Media &other) const override;
 
-  std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Album>>& input) const;
+  bool filter(const Media& album) const override;
 
 };
 }  // namespace media
+
 #endif

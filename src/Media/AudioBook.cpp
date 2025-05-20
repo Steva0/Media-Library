@@ -37,33 +37,21 @@ void AudioBook::setStreamingService(const std::string& service) {
     streamingService_ = service;
 }
 
-std::vector<std::shared_ptr<Media>> AudioBook::filter(const std::vector<std::shared_ptr<AudioBook>>& input) const {
-    std::vector<std::shared_ptr<Media>> result;
-
-    // Riutilizza filtro base di Novel (che include filtro di Media)
-    std::vector<std::shared_ptr<Novel>> novels(input.begin(), input.end());
-    std::vector<std::shared_ptr<Media>> filteredNovels = Novel::filter(novels);
+bool AudioBook::filter(const Media& input) const {
+    if (!Novel::filter(input))
+        return false;
+    const AudioBook* audiobookPtr = dynamic_cast<const AudioBook*>(&input);
+    if (!audiobookPtr)
+        return false; // Protegge da cast fallito
 
     // Filtro specifico AudioBook
-    for (const auto& novelPtr : filteredNovels) {
-        auto audiobookPtr = std::dynamic_pointer_cast<AudioBook>(novelPtr);
-        if (!audiobookPtr) continue;
+    if (!narrator_.empty() && !stringContainsIgnoreCase(audiobookPtr->getNarrator(), narrator_))
+        return false;
 
-        bool match = true;
+    if (!streamingService_.empty() && !stringContainsIgnoreCase(audiobookPtr->getStreamingService(), streamingService_))
+        return false;
 
-        // File size
-        if (narrator_ != "" && audiobookPtr->getNarrator()!= narrator_)
-            match = false;
-
-        // DRM
-        if (streamingService_ != "" && audiobookPtr->getStreamingService() != streamingService_)
-            match = false;
-
-        if (match)
-            result.push_back(audiobookPtr);
-    }
-
-    return result;
+    return true;
 }
 
 }

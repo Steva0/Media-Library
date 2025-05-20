@@ -21,7 +21,7 @@ class Series : public Movie {
   unsigned int getSeasons() const;
   bool isEnded() const;
 
-  std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Series>>& input) const;
+  bool filter(const Media& input) const override;
 };
 }  
 #endif  // MEDIA_SERIES_H

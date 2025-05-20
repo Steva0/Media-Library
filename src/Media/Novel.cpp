@@ -34,45 +34,37 @@ void Novel::setSeries(const std::string& series) { series_ = series; }
 void Novel::setIsbn(const std::string& isbn) { isbn_ = isbn; }
 
 
-std::vector<std::shared_ptr<Media>> Novel::filter(const std::vector<std::shared_ptr<Novel>>& input) const {
-    std::vector<std::shared_ptr<Media>> result;
+bool Novel::filter(const Media& input) const {
+    // Riutilizzo filtro base di Media
+    if (!Media::filter(input))
+        return false;
+    // Cast to Novel to access Novel-specific members
+    const Novel* novelPtr = dynamic_cast<const Novel*>(&input);
+    if (!novelPtr)
+        return false;
 
-    // Riutilizzo del filtro base di Media
-    std::vector<std::shared_ptr<Media>> baseInput(input.begin(), input.end());
-    std::vector<std::shared_ptr<Media>> filteredBase = Media::filter(baseInput);
+    // Match fields
+    // Autore
+    if (!author_.empty() && !stringContainsIgnoreCase(novelPtr->getAuthor(), author_))
+        return false;
 
-    // Filtro specifico per Novel
-    for (const auto& mediaPtr : filteredBase) {
-        auto novelPtr = std::dynamic_pointer_cast<Novel>(mediaPtr);
-        if (!novelPtr) continue;
+    // Editore
+    if (!publisher_.empty() && !stringContainsIgnoreCase(novelPtr->getPublisher(), publisher_))
+        return false;
 
-        bool match = true;
+    // Serie
+    if (!series_.empty() && !stringContainsIgnoreCase(novelPtr->getSeries(), series_))
+        return false;
 
-        // Autore
-        if (!author_.empty() && !stringContainsIgnoreCase(novelPtr->getAuthor(), author_))
-            match = false;
+    // ISBN
+    if (!isbn_.empty() && !stringContainsIgnoreCase(novelPtr->getIsbn(), isbn_))
+        return false;
 
-        // Editore
-        if (!publisher_.empty() && !stringContainsIgnoreCase(novelPtr->getPublisher(), publisher_))
-            match = false;
+    // Pagine (confronto stretto)
+    if (pages_ != std::numeric_limits<unsigned int>::max() && novelPtr->getPages() != pages_)
+        return false;
 
-        // Serie
-        if (!series_.empty() && !stringContainsIgnoreCase(novelPtr->getSeries(), series_))
-            match = false;
-
-        // ISBN
-        if (!isbn_.empty() && !stringContainsIgnoreCase(novelPtr->getIsbn(), isbn_))
-            match = false;
-
-        // Pagine (confronto stretto)
-        if (pages_ > 0 && novelPtr->getPages() != pages_)
-            match = false;
-
-        if (match)
-            result.push_back(novelPtr);
-    }
-
-    return result;
+    return true;
 }
 
 }

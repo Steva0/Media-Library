@@ -26,64 +26,52 @@ bool Album::operator==(const Media &other) const {
   return false;
 }
 
-std::vector<std::shared_ptr<Media>> Album::filter(const std::vector<std::shared_ptr<Album>>& input) const {
-    std::vector<std::shared_ptr<Media>> result;
-
+bool Album::filter(const Media& album) const {
     // Riutilizzo filtro base di Media
-    std::vector<std::shared_ptr<Media>> baseInput(input.begin(), input.end());
-    std::vector<std::shared_ptr<Media>> filteredBase = Media::filter(baseInput);
+    if (!Media::filter(album))
+        return false;
 
-    // Filtro specifico per Album
-    for (const auto& mediaPtr : filteredBase) {
-        auto albumPtr = std::dynamic_pointer_cast<Album>(mediaPtr);
-        if (!albumPtr) continue;
+    // Cast to Album to access Album-specific members
+    const Album* albumPtr = dynamic_cast<const Album*>(&album);
+    if (!albumPtr)
+        return false;
 
-        bool match = true;
+    // Band
+    if (!band_.empty() && !stringContainsIgnoreCase(albumPtr->getBand(), band_))
+        return false;
 
-        // Band
-        if (!band_.empty() && !stringContainsIgnoreCase(albumPtr->getBand(), band_))
-            match = false;
-
-        // Band members (ogni membro richiesto deve matchare almeno uno esistente)
-        if (!band_members_.empty()) {
-            for (const auto& memberFilter : band_members_) {
-                bool found = false;
-                for (const auto& m : albumPtr->getBandMembers()) {
-                    if (stringContainsIgnoreCase(m, memberFilter)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    match = false;
+    // Band members (ogni membro richiesto deve matchare almeno uno esistente)
+    if (!band_members_.empty()) {
+        for (const auto& memberFilter : band_members_) {
+            bool found = false;
+            for (const auto& m : albumPtr->getBandMembers()) {
+                if (stringContainsIgnoreCase(m, memberFilter)) {
+                    found = true;
                     break;
                 }
             }
-        }
-
-        // Songs (ogni canzone richiesta deve matchare almeno una esistente)
-        if (!songs_.empty()) {
-            for (const auto& songFilter : songs_) {
-                bool found = false;
-                for (const auto& s : albumPtr->getSongs()) {
-                    if (stringContainsIgnoreCase(s, songFilter)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    match = false;
-                    break;
-                }
+            if (!found) {
+                return false;
             }
         }
-
-        if (match)
-            result.push_back(albumPtr);
     }
 
-    return result;
+    // Songs (ogni canzone richiesta deve matchare almeno una esistente)
+    if (!songs_.empty()) {
+        for (const auto& songFilter : songs_) {
+            bool found = false;
+            for (const auto& s : albumPtr->getSongs()) {
+                if (stringContainsIgnoreCase(s, songFilter)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
-
 
 }  // namespace media

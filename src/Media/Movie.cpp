@@ -22,51 +22,44 @@ const std::vector<std::string> &Movie::getCast() const { return cast_; }
 unsigned int Movie::getLength() const { return length_; }
 const std::string &Movie::getUniverse() const { return universe_; }
 
-std::vector<std::shared_ptr<Media>> Movie::filter(const std::vector<std::shared_ptr<Movie>>& input) const {
-    std::vector<std::shared_ptr<Media>> result;
+bool Movie::filter(const Media& movie) const {
 
-    // Riutilizza filtro base di Media (poiché Movie deriva da Media)
-    std::vector<std::shared_ptr<Media>> baseInput(input.begin(), input.end());
-    std::vector<std::shared_ptr<Media>> filteredBase = Media::filter(baseInput);
+    if (!Media::filter(movie))
+        return false;
 
-    for (const auto& mediaPtr : filteredBase) {
-        auto moviePtr = std::dynamic_pointer_cast<Movie>(mediaPtr);
-        if (!moviePtr) continue;
-
-        bool match = true;
-
-        // Cast (match parziale, case-insensitive)
-        if (!cast_.empty()) {
-            const auto& movieCast = moviePtr->getCast();
-            for (const auto& filterCast : cast_) {
-                bool found = false;
-                for (const auto& member : movieCast) {
-                    if (stringContainsIgnoreCase(member, filterCast)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    match = false;
+    // Cast (match parziale, case-insensitive)
+    const Movie* moviePtr = dynamic_cast<const Movie*>(&movie);
+    if (!moviePtr) {
+        return false;
+    }
+    if (!cast_.empty()) {
+        const auto& movieCast = moviePtr->getCast();
+        for (const auto& filterCast : cast_) {
+            bool found = false;
+            for (const auto& member : movieCast) {
+                if (stringContainsIgnoreCase(member, filterCast)) {
+                    found = true;
                     break;
                 }
             }
+            if (!found) {
+                return false;
+            }
         }
-
-        // Length (confronto stretto)
-        if (length_ != std::numeric_limits<unsigned int>::max() && moviePtr->getLength() != length_)
-            match = false;
-
-        // Universe (match parziale, case-insensitive)
-        if (!universe_.empty() && !stringContainsIgnoreCase(moviePtr->getUniverse(), universe_))
-            match = false;
-
-        if (match)
-            result.push_back(moviePtr);
     }
 
-    return result;
+    // Length (confronto stretto)
+    if (length_ != std::numeric_limits<unsigned int>::max() && moviePtr->getLength() != length_)
+        return false;
+
+    // Universe (match parziale, case-insensitive)
+    if (!universe_.empty() && !stringContainsIgnoreCase(moviePtr->getUniverse(), universe_))
+        return false;
+    
+    return true;
 }
 
 
 }  // namespace media
+
+

@@ -31,55 +31,45 @@ bool Media::open() {
   return false;
 }
 
-std::vector<std::shared_ptr<Media>> Media::filter(const std::vector<std::shared_ptr<Media>>& input) const {
-    std::vector<std::shared_ptr<Media>> result;
+bool Media::filter(const Media& media) const {
+    bool match = true;
 
-    for (const auto& mediaPtr : input) {
-        if (!mediaPtr) continue;
+    // Title (substring, case-insensitive)
+    if (!getTitle().empty() && !stringContainsIgnoreCase(media.getTitle(), getTitle()))
+        match = false;
 
-        const Media& media = *mediaPtr;
-        bool match = true;
+    // Release (confronto stretto)
+    if (getRelease() != std::numeric_limits<int>::min() &&
+        media.getRelease() != getRelease())
+        match = false;
 
-        // Title (substring, case-insensitive)
-        if (!getTitle().empty() && !stringContainsIgnoreCase(media.getTitle(), getTitle()))
-            match = false;
+    // Language (substring, case-insensitive)
+    if (!getLanguage().empty() && media.getLanguage() != getLanguage())
+        match = false;
 
-        // Release (confronto stretto)
-        if (getRelease() != std::numeric_limits<int>::min() &&
-            media.getRelease() != getRelease())
-            match = false;
+    // Favourite (confronto booleano)
+    if (isFavourite() && media.isFavourite() != isFavourite())
+        match = false;
 
-        // Language (substring, case-insensitive)
-        if (!getLanguage().empty() && media.getLanguage() != getLanguage())
-            match = false;
-
-        // Favourite (confronto booleano)
-        if (isFavourite() && media.isFavourite() != isFavourite())
-            match = false;
-
-        // Generi (match parziale case-insensitive su ogni genere richiesto)
-        if (!getGenres().empty()) {
-            const auto& mediaGenres = media.getGenres();
-            for (const auto& genreFilter : getGenres()) {
-                bool found = false;
-                for (const auto& g : mediaGenres) {
-                    if (stringContainsIgnoreCase(g, genreFilter)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    match = false;
+    // Generi (match parziale case-insensitive su ogni genere richiesto)
+    if (!getGenres().empty()) {
+        const auto& mediaGenres = media.getGenres();
+        for (const auto& genreFilter : getGenres()) {
+            bool found = false;
+            for (const auto& g : mediaGenres) {
+                if (stringContainsIgnoreCase(g, genreFilter)) {
+                    found = true;
                     break;
                 }
             }
+            if (!found) {
+                match = false;
+                break;
+            }
         }
+    }   
 
-        if (match)
-            result.push_back(mediaPtr);
-    }
-
-    return result;
+    return match;
 }
 
 

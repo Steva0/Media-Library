@@ -1,25 +1,41 @@
 #include "MediaContainer.h"
+#include <typeinfo>
+#include <algorithm>
 
 namespace memory {
 
-void MediaContainer::addMedia(const std::shared_ptr<media::Media>& media) {
-    if (!media) return;
+void MediaContainer::addMedia(const media::Media& media) { 
+    data_[INDEX_ALL].push_back(media);  
 
-    data_[static_cast<size_t>(MediaType::All)].push_back(media);
-
-    MediaType type = determineType(media);
-    if (type != MediaType::All) {
-        data_[static_cast<size_t>(type)].push_back(media);
+    if (detectIndex(media) == INDEX_ALL) {
+        return; // Media already exists in the container
+    } else {
+        data_[detectIndex(media)].push_back(media);
     }
 }
 
-void MediaContainer::removeMedia(const std::shared_ptr<media::Media>& media) {
-    if (!media) return;
+int MediaContainer::detectIndex(const media::Media& media) const {
+    if (dynamic_cast<const media::Series*>(&media)) {
+        return INDEX_SERIES;
+    } else if (dynamic_cast<const media::AudioBook*>(&media)) {
+        return INDEX_AUDIOBOOK;
+    } else if (dynamic_cast<const media::Ebook*>(&media)) {
+        return INDEX_EBOOK;
+    } else if (dynamic_cast<const media::Movie*>(&media)) {
+        return INDEX_MOVIE;
+    } else if (dynamic_cast<const media::Album*>(&media)) {
+        return INDEX_ALBUM;
+    } else if (dynamic_cast<const media::Novel*>(&media)) {
+        return INDEX_NOVEL;
+    }
+    return INDEX_ALL; // Default case
+}
 
+void MediaContainer::removeMedia(const media::Media& media) {
     for (auto& vec : data_) {
         vec.erase(std::remove_if(vec.begin(), vec.end(),
-            [&](const std::shared_ptr<media::Media>& m) {
-                return typeid(*m) == typeid(*media) && *m == *media;
+            [&](const media::Media& m) {
+                return typeid(m) == typeid(media) && m == media;
             }), vec.end());
     }
 }
@@ -30,127 +46,54 @@ void MediaContainer::clear() {
     }
 }
 
-const std::vector<std::shared_ptr<media::Media>>& MediaContainer::getAll() const {
-    return data_[static_cast<size_t>(MediaType::All)];
+const std::vector<media::Media>& MediaContainer::getAll() const {
+    return data_[INDEX_ALL];
 }
 
-const std::vector<std::shared_ptr<media::Media>>& MediaContainer::getByType(MediaType type) const {
-    return data_[static_cast<size_t>(type)];
+const std::vector<media::Media>& MediaContainer::getByIndex(int idx) const {
+    return data_[idx];
 }
 
-const std::vector<std::shared_ptr<media::Media>>& MediaContainer::getByTypeAndSubtype(MediaType type) const {
-    std::vector<std::shared_ptr<media::Media>> result;
+const std::vector<media::Media>& MediaContainer::getByIndex(int idx) const {
+    return data_[idx];
+}
 
-    switch (type) {
-        case MediaType::Novel:
-            result.insert(result.end(), data_[static_cast<size_t>(MediaType::Novel)].begin(), data_[static_cast<size_t>(MediaType::Novel)].end());
-            result.insert(result.end(), data_[static_cast<size_t>(MediaType::EBook)].begin(), data_[static_cast<size_t>(MediaType::EBook)].end());
-            result.insert(result.end(), data_[static_cast<size_t>(MediaType::AudioBook)].begin(), data_[static_cast<size_t>(MediaType::AudioBook)].end());
+std::vector<const media::Media*> MediaContainer::getByGroupIndex(int idx) const {
+    std::vector<const media::Media*> result;
+
+    switch (idx) {
+        case INDEX_NOVEL:
+            result.insert(result.end(), data_[INDEX_NOVEL].begin(), data_[INDEX_NOVEL].end());
+            result.insert(result.end(), data_[INDEX_EBOOK].begin(), data_[INDEX_EBOOK].end());
+            result.insert(result.end(), data_[INDEX_AUDIOBOOK].begin(), data_[INDEX_AUDIOBOOK].end());
             break;
-        case MediaType::Movie:
-            result.insert(result.end(), data_[static_cast<size_t>(MediaType::Movie)].begin(), data_[static_cast<size_t>(MediaType::Movie)].end());
-            result.insert(result.end(), data_[static_cast<size_t>(MediaType::Series)].begin(), data_[static_cast<size_t>(MediaType::Series)].end());
+        case INDEX_MOVIE:
+            result.insert(result.end(), data_[INDEX_MOVIE].begin(), data_[INDEX_MOVIE].end());
+            result.insert(result.end(), data_[INDEX_SERIES].begin(), data_[INDEX_SERIES].end());
             break;
-        case MediaType::All:
-            result = data_[0];
+        case INDEX_ALL:
+            result.insert(result.end(), data_[INDEX_ALL].begin(), data_[INDEX_ALL].end());
             break;
         default:
-            result = data_[static_cast<size_t>(type)];
+            result.insert(result.end(), data_[idx].begin(), data_[idx].end());
             break;
     }
 
     return result;
 }
 
-MediaType MediaContainer::determineType(const std::shared_ptr<media::Media>& media) const {
-    if (std::dynamic_pointer_cast<media::Series>(media)) return MediaType::Series;
-    if (std::dynamic_pointer_cast<media::Movie>(media)) return MediaType::Movie;
-    if (std::dynamic_pointer_cast<media::AudioBook>(media)) return MediaType::AudioBook;
-    if (std::dynamic_pointer_cast<media::Ebook>(media)) return MediaType::EBook;
-    if (std::dynamic_pointer_cast<media::Novel>(media)) return MediaType::Novel;
-    if (std::dynamic_pointer_cast<media::Album>(media)) return MediaType::Album;
-    return MediaType::All;
-}
-
-std::vector<std::shared_ptr<media::Media>> MediaContainer::filter(const media::Media& media) const {
-    std::shared_ptr<media::Media> mediaPtr = std::make_shared<media::Media>(media);
-
-    if (auto m = std::dynamic_pointer_cast<media::Series>(mediaPtr)) return filters(m);
-    if (auto m = std::dynamic_pointer_cast<media::Movie>(mediaPtr)) return filters(m);
-    if (auto m = std::dynamic_pointer_cast<media::AudioBook>(mediaPtr)) return filters(m);
-    if (auto m = std::dynamic_pointer_cast<media::Ebook>(mediaPtr)) return filters(m);
-    if (auto m = std::dynamic_pointer_cast<media::Novel>(mediaPtr)) return filters(m);
-    if (auto m = std::dynamic_pointer_cast<media::Album>(mediaPtr)) return filters(m);
-    return filters(mediaPtr);
-}
-
-std::vector<std::shared_ptr<media::Media>> MediaContainer::filters(const std::shared_ptr<media::Media>& media) const {
-    auto allMedia = getAll();
-    return media->filter(allMedia);
-}
-
-std::vector<std::shared_ptr<media::Media>> MediaContainer::filters(const std::shared_ptr<media::Novel>& novel) const {
-    auto media = getByTypeAndSubtype(MediaType::Novel);
-    std::vector<std::shared_ptr<media::Novel>> allNovel;
-    for (const auto& m : media)
-        if (auto ptr = std::dynamic_pointer_cast<media::Novel>(m)) allNovel.push_back(ptr);
-    std::vector<std::shared_ptr<media::Media>> result;
-    for (const auto& m : novel->filter(allNovel)) result.push_back(m);
-    return result;
-}
-
-std::vector<std::shared_ptr<media::Media>> MediaContainer::filters(const std::shared_ptr<media::Album>& album) const {
-    auto media = getByType(MediaType::Album);
-    std::vector<std::shared_ptr<media::Album>> allAlbum;
-    for (const auto& m : media)
-        if (auto ptr = std::dynamic_pointer_cast<media::Album>(m)) allAlbum.push_back(ptr);
-    std::vector<std::shared_ptr<media::Media>> result;
-    for (const auto& m : album->filter(allAlbum)) result.push_back(m);
-    return result;
-}
-
-std::vector<std::shared_ptr<media::Media>> MediaContainer::filters(const std::shared_ptr<media::Movie>& movie) const {
-    auto media = getByTypeAndSubtype(MediaType::Movie);
-    std::vector<std::shared_ptr<media::Movie>> allMovie;
-    for (const auto& m : media)
-        if (auto ptr = std::dynamic_pointer_cast<media::Movie>(m)) allMovie.push_back(ptr);
-    std::vector<std::shared_ptr<media::Media>> result;
-    for (const auto& m : movie->filter(allMovie)) result.push_back(m);
-    return result;
-}
-
-std::vector<std::shared_ptr<media::Media>> MediaContainer::filters(const std::shared_ptr<media::Ebook>& ebook) const {
-    auto media = getByType(MediaType::EBook);
-    std::vector<std::shared_ptr<media::Ebook>> allEbook;
-    for (const auto& m : media)
-        if (auto ptr = std::dynamic_pointer_cast<media::Ebook>(m)) allEbook.push_back(ptr);
-    std::vector<std::shared_ptr<media::Media>> result;
-    for (const auto& m : ebook->filter(allEbook)) result.push_back(m);
-    return result;
-}
-
-std::vector<std::shared_ptr<media::Media>> MediaContainer::filters(const std::shared_ptr<media::AudioBook>& audiobook) const {
-    auto media = getByType(MediaType::AudioBook);
-    std::vector<std::shared_ptr<media::AudioBook>> allAudio;
-    for (const auto& m : media)
-        if (auto ptr = std::dynamic_pointer_cast<media::AudioBook>(m)) allAudio.push_back(ptr);
-    std::vector<std::shared_ptr<media::Media>> result;
-    for (const auto& m : audiobook->filter(allAudio)) result.push_back(m);
-    return result;
-}
-
-std::vector<std::shared_ptr<media::Media>> MediaContainer::filters(const std::shared_ptr<media::Series>& series) const {
-    auto media = getByType(MediaType::Series);
-    std::vector<std::shared_ptr<media::Series>> allSeries;
-    for (const auto& m : media)
-        if (auto ptr = std::dynamic_pointer_cast<media::Series>(m)) allSeries.push_back(ptr);
-    std::vector<std::shared_ptr<media::Media>> result;
-    for (const auto& m : series->filter(allSeries)) result.push_back(m);
-    return result;
+std::vector<const media::Media*> MediaContainer::filter(const media::Media& media) const {
+    std::vector<const media::Media*> results;
+    for (const media::Media* m : getByGroupIndex(detectIndex(media))) {
+        if (media.filter(*m)) {
+            results.push_back(m);
+        }
+    }
+    return results;
 }
 
 int MediaContainer::serialize(QSaveFile& file) const {
-    return Serializer::Serialize(getAll(), file);
+    return Serializer::Serialize(data_[INDEX_ALL], file);
 }
 
 } // namespace memory
