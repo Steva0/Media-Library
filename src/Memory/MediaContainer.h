@@ -5,13 +5,13 @@
 #include <vector>
 #include <QSaveFile>
 
-#include "Media.h"
-#include "Novel.h"
-#include "Album.h"
-#include "Movie.h"
-#include "Ebook.h"
-#include "AudioBook.h"
-#include "Series.h"
+#include "../Media/Media.h"
+#include "../Media/Novel.h"
+#include "../Media/Album.h"
+#include "../Media/Movie.h"
+#include "../Media/Ebook.h"
+#include "../Media/AudioBook.h"
+#include "../Media/Series.h"
 #include "Serializer.h"
 
 namespace memory {
