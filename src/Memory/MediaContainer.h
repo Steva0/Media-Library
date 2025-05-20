@@ -44,17 +44,17 @@ private:
     std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::AudioBook>& audiobook) const;
     std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Series>& series) const;
 
+    const std::vector<std::shared_ptr<media::Media>>& getAll() const;
+    const std::vector<std::shared_ptr<media::Media>>& getByType(MediaType type) const;
+    const std::vector<std::shared_ptr<media::Media>>& getByTypeAndSubtype(MediaType type) const;
+
 public:
     void addMedia(const std::shared_ptr<media::Media>& media);
     void removeMedia(const std::shared_ptr<media::Media>& media);
     void clear();
-
-    std::vector<std::shared_ptr<media::Media>> getAll() const;
-    std::vector<std::shared_ptr<media::Media>> getByType(MediaType type) const;
-    std::vector<std::shared_ptr<media::Media>> getByTypeAndSubtype(MediaType type) const;
-
+ 
     // Filtri
-    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Media>& media) const;
+    std::vector<std::shared_ptr<media::Media>> filter(const media::Media& media) const;
 
     int serialize(QSaveFile& file) const;
 };
