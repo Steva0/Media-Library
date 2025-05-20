@@ -1,5 +1,5 @@
-#ifndef AudioBook_H
-#define AudioBook_H
+#ifndef MEDIA_AUDIOBOOK_H
+#define MEDIA_AUDIOBOOK_H
 
 #include "Novel.h"
 
@@ -31,4 +31,4 @@ public:
 
 }
 
-#endif // AudioBook_H
+#endif // MEDIA_AUDIOBOOK_H

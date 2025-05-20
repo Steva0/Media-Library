@@ -23,5 +23,5 @@ class Series : public Movie {
 
   std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Series>>& input) const;
 };
-}  // namespace media
-#endif
+}  
+#endif  // MEDIA_SERIES_H

@@ -1,5 +1,5 @@
-#ifndef EBOOK_H
-#define EBOOK_H
+#ifndef MEDIA_EBOOK_H
+#define MEDIA_EBOOK_H
 
 #include "Novel.h"
 
@@ -31,4 +31,4 @@ public:
 
 }
 
-#endif // EBOOK_H
+#endif // MEDIA_EBOOK_H

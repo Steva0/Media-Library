@@ -1,5 +1,5 @@
-#ifndef STRINGUTILS_H
-#define STRINGUTILS_H
+#ifndef MEDIA_STRINGUTILS_H
+#define MEDIA_STRINGUTILS_H
 
 #include <string>
 #include <algorithm>
@@ -17,4 +17,4 @@ inline bool stringContainsIgnoreCase(const std::string& text, const std::string&
     return toLowerCase(text).find(toLowerCase(pattern)) != std::string::npos;
 }
 }
-#endif // STRINGUTILS_H
+#endif // MEDIA_STRINGUTILS_H

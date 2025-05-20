@@ -1,5 +1,5 @@
-#ifndef Romanzo_H
-#define Romanzo_H
+#ifndef MEDIA_ROMANZO_H
+#define MEDIA_ROMANZO_H
 
 #include "Media.h"
 
@@ -39,4 +39,4 @@ public:
 };
 
 }
-#endif // Novel_H
+#endif // MEDIA_ROMANZO_H
