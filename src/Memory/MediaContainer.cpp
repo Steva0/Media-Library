@@ -147,4 +147,8 @@ std::vector<std::shared_ptr<media::Media>> MediaContainer::filters(const std::sh
     return result;
 }
 
+int MediaContainer::serialize(QSaveFile& file) const {
+    return Serializer::Serialize(getAll(), file);
+}
+
 } // namespace memory

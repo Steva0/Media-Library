@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 #include <algorithm>
+#include <QSaveFile>
 
 #include "Media.h"
 #include "Novel.h"
@@ -14,6 +15,7 @@
 #include "Ebook.h"
 #include "AudioBook.h"
 #include "Series.h"
+#include "Serializer.h"
 
 namespace memory {
 
@@ -54,6 +56,7 @@ public:
     // Filtri
     std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Media>& media) const;
 
+    int serialize(QSaveFile& file) const;
 };
 
 } // namespace memory
