@@ -30,7 +30,7 @@ private:
     std::array<std::vector<media::Media>, TYPE_COUNT> data_;
 
     int detectIndex(const media::Media& media) const;
-    std::vector<const media::Media*>  getByGroupIndex(int idx) const;
+    std::vector<const media::Media*> MediaContainer::getByGroupIndex(int idx) const;
 
 public:
     void addMedia(const media::Media& media);

@@ -54,6 +54,10 @@ const std::vector<media::Media>& MediaContainer::getByIndex(int idx) const {
     return data_[idx];
 }
 
+const std::vector<media::Media>& MediaContainer::getByIndex(int idx) const {
+    return data_[idx];
+}
+
 std::vector<const media::Media*> MediaContainer::getByGroupIndex(int idx) const {
     std::vector<const media::Media*> result;
 
