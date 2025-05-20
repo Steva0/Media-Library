@@ -45,6 +45,13 @@ public:
 
     //Sezione filtri
     std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Media>& media) const;
+    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Novel>& novel) const;
+    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Album>& album) const;
+    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Movie>& movie) const;
+    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Ebook>& ebook) const;
+    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::AudioBook>& audiobook) const;
+    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Series>& series) const;
+
 };
 }
 #endif // MEMORY_MEDIACONTAINER_H
