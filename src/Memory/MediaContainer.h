@@ -42,15 +42,16 @@ public:
 
     std::vector<std::shared_ptr<media::Media>> getAll() const;
     std::vector<std::shared_ptr<media::Media>> getByType(MediaType type) const;
+    std::vector<std::shared_ptr<media::Media>> getByTypeAndSubtype(MediaType type) const;
 
     //Sezione filtri
     std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Media>& media) const;
-    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Novel>& novel) const;
-    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Album>& album) const;
-    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Movie>& movie) const;
-    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Ebook>& ebook) const;
-    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::AudioBook>& audiobook) const;
-    std::vector<std::shared_ptr<media::Media>> filter(const std::shared_ptr<media::Series>& series) const;
+    std::vector<std::shared_ptr<media::Novel>> filter(const std::shared_ptr<media::Novel>& novel) const;
+    std::vector<std::shared_ptr<media::Album>> filter(const std::shared_ptr<media::Album>& album) const;
+    std::vector<std::shared_ptr<media::Movie>> filter(const std::shared_ptr<media::Movie>& movie) const;
+    std::vector<std::shared_ptr<media::Ebook>> filter(const std::shared_ptr<media::Ebook>& ebook) const;
+    std::vector<std::shared_ptr<media::AudioBook>> filter(const std::shared_ptr<media::AudioBook>& audiobook) const;
+    std::vector<std::shared_ptr<media::Series>> filter(const std::shared_ptr<media::Series>& series) const;
 
 };
 }

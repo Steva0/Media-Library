@@ -34,6 +34,9 @@ public:
     void setPages(unsigned int pages);
     void setSeries(const std::string& series);
     void setIsbn(const std::string& isbn);
+
+    std::vector<std::shared_ptr<Novel>> filter(const std::vector<std::shared_ptr<Novel>> &novel) const;
 };
+
 }
 #endif // Novel_H

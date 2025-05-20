@@ -33,4 +33,46 @@ void Novel::setPages(unsigned int pages) { pages_ = pages; }
 void Novel::setSeries(const std::string& series) { series_ = series; }
 void Novel::setIsbn(const std::string& isbn) { isbn_ = isbn; }
 
+
+std::vector<std::shared_ptr<Novel>> Novel::filter(const std::vector<std::shared_ptr<Novel>>& input) const {
+    std::vector<std::shared_ptr<Novel>> result;
+
+    // Riutilizzo del filtro base di Media
+    std::vector<std::shared_ptr<Media>> baseInput(input.begin(), input.end());
+    std::vector<std::shared_ptr<Media>> filteredBase = Media::filter(baseInput);
+
+    // Filtro specifico per Novel
+    for (const auto& mediaPtr : filteredBase) {
+        auto novelPtr = std::dynamic_pointer_cast<Novel>(mediaPtr);
+        if (!novelPtr) continue;
+
+        bool match = true;
+
+        // Autore
+        if (!author_.empty() && !stringContainsIgnoreCase(novelPtr->getAuthor(), author_))
+            match = false;
+
+        // Editore
+        if (!publisher_.empty() && !stringContainsIgnoreCase(novelPtr->getPublisher(), publisher_))
+            match = false;
+
+        // Serie
+        if (!series_.empty() && !stringContainsIgnoreCase(novelPtr->getSeries(), series_))
+            match = false;
+
+        // ISBN
+        if (!isbn_.empty() && !stringContainsIgnoreCase(novelPtr->getIsbn(), isbn_))
+            match = false;
+
+        // Pagine (confronto stretto)
+        if (pages_ > 0 && novelPtr->getPages() != pages_)
+            match = false;
+
+        if (match)
+            result.push_back(novelPtr);
+    }
+
+    return result;
+}
+
 }

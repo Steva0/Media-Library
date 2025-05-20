@@ -37,6 +37,35 @@ std::vector<std::shared_ptr<media::Media>> MediaContainer::getByType(MediaType t
     return data_[static_cast<size_t>(type)];
 }
 
+std::vector<std::shared_ptr<media::Media>> MediaContainer::getByTypeAndSubtype(MediaType type) const {
+    std::vector<std::shared_ptr<media::Media>> result;
+
+    switch (type) {
+        case MediaType::Novel:
+            result.insert(result.end(), data_[static_cast<size_t>(MediaType::Novel)].begin(), data_[static_cast<size_t>(MediaType::Novel)].end());
+            result.insert(result.end(), data_[static_cast<size_t>(MediaType::EBook)].begin(), data_[static_cast<size_t>(MediaType::EBook)].end());
+            result.insert(result.end(), data_[static_cast<size_t>(MediaType::AudioBook)].begin(), data_[static_cast<size_t>(MediaType::AudioBook)].end());
+            break;
+
+        case MediaType::Movie:
+            result.insert(result.end(), data_[static_cast<size_t>(MediaType::Movie)].begin(), data_[static_cast<size_t>(MediaType::Movie)].end());
+            result.insert(result.end(), data_[static_cast<size_t>(MediaType::Series)].begin(), data_[static_cast<size_t>(MediaType::Series)].end());
+            break;
+
+        case MediaType::All:
+            result = data_[0]; // Tutti i media
+            break;
+
+        default:
+            // Ritorna il vettore corrispondente solo per quel tipo specifico
+            result = data_[static_cast<size_t>(type)];
+            break;
+    }
+
+    return result;
+}
+
+
 MediaType MediaContainer::determineType(const std::shared_ptr<media::Media>& media) const {
     if (std::dynamic_pointer_cast<media::Series>(media)) return MediaType::Series;
     if (std::dynamic_pointer_cast<media::Movie>(media)) return MediaType::Movie;
@@ -52,6 +81,7 @@ std::vector<std::shared_ptr<media::Media>> MediaContainer::filter(const std::sha
     return media->filter(allMedia);
 }
 
-
-
+std::vector<std::shared_ptr<media::Novel>> MediaContainer::filter(const std::shared_ptr<media::Novel>& novel) const{
+    auto allNovel= getByTypeAndSubtype(MediaType::Novel);
+    return novel->filter(allNovel);
 }
