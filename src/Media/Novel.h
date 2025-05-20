@@ -16,8 +16,8 @@ private:
 public:
     Novel(const std::string& title, int publicationYear, const std::string& language,
           bool favorite, const std::vector<std::string>& genres, const std::string& imagePath, const std::string& notes,
-          const std::string& author, const std::string& publisher,
-          unsigned int pages, const std::string& series, const std::string& isbn);
+          const std::string& author = "", const std::string& publisher = "",
+          unsigned int pages = std::numeric_limits<unsigned int>::max(), const std::string& series = "", const std::string& isbn = "");
 
     bool operator==(const Media& other) const override;
 
