@@ -1,5 +1,5 @@
-#ifndef EBOOK_H
-#define EBOOK_H
+#ifndef MEDIA_EBOOK_H
+#define MEDIA_EBOOK_H
 
 #include "Novel.h"
 
@@ -15,17 +15,20 @@ public:
           bool favorite, const std::vector<std::string>& genres, const std::string& imagePath, const std::string& notes,
           const std::string& author, const std::string& publisher,
           unsigned int pages, const std::string& series, const std::string& isbn,
-          unsigned int fileSizeBytes, bool drm);
+          unsigned int fileSizeBytes = 0, bool drm = false);
 
-    void accept(IConstMediaVisitor& v) const override;
+    bool operator==(const Media& other) const override;
 
     unsigned int getFileSizeBytes() const;
     bool hasDrm() const;
 
     void setFileSizeBytes(unsigned int size);
     void setDrm(bool drm);
+
+    std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Ebook>>& input) const;
+
 };
 
 }
 
-#endif // EBOOK_H
+#endif // MEDIA_EBOOK_H

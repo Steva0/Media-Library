@@ -3,9 +3,12 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <memory>
+#include <limits>
 
 #include "IMedia.h"
 #include "IConstMediaVisitor.h"
+#include "StringUtils.h"
 
 namespace media {
 class Media : IMedia{
@@ -18,13 +21,15 @@ class Media : IMedia{
   std::string img_path_;
   std::string notes_;
 
-  protected:
-  Media(const std::string &title, int release, const std::string &language,
-        bool favourite, const std::vector<std::string> &genres,
-        const std::string &img_path, const std::string &notes);
-  
- public:
+   
+  public:
 
+  Media(const std::string &title = "", int release = std::numeric_limits<int>::max(), const std::string &language = "",
+          bool favourite = false, const std::vector<std::string> &genres = {},
+          const std::string &img_path = "", const std::string &notes = "");
+
+    virtual bool operator==(const Media &other) const;
+  
   void accept(IConstMediaVisitor &) const override;
   bool open() override;
 
@@ -38,6 +43,8 @@ class Media : IMedia{
   const std::vector<std::string> &getGenres() const;
   const std::string &getImgPath() const;
   const std::string &getNotes() const;
-};
+
+  std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Media>> &media) const;
+}; 
 }  // namespace media
 #endif

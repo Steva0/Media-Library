@@ -14,11 +14,14 @@ class Series : public Movie {
          bool favourite, const std::vector<std::string> &genres,
          const std::string &img_path, const std::string &notes,
          const std::vector<std::string> &cast, unsigned int length,
-         const std::string &universe, unsigned int episodes,
-         unsigned int seasons, bool ended);
+         const std::string &universe, unsigned int episodes = std::numeric_limits<unsigned int>::max(),
+         unsigned int seasons = std::numeric_limits<unsigned int>::max(), bool ended = false);
+  bool operator==(const Media &other) const override;
   unsigned int getEpisodes() const;
   unsigned int getSeasons() const;
   bool isEnded() const;
+
+  std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Series>>& input) const;
 };
-}  // namespace media
-#endif
+}  
+#endif  // MEDIA_SERIES_H

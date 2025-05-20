@@ -1,5 +1,5 @@
-#ifndef Romanzo_H
-#define Romanzo_H
+#ifndef MEDIA_ROMANZO_H
+#define MEDIA_ROMANZO_H
 
 #include "Media.h"
 
@@ -16,10 +16,10 @@ private:
 public:
     Novel(const std::string& title, int publicationYear, const std::string& language,
           bool favorite, const std::vector<std::string>& genres, const std::string& imagePath, const std::string& notes,
-          const std::string& author, const std::string& publisher,
-          unsigned int pages, const std::string& series, const std::string& isbn);
+          const std::string& author = "", const std::string& publisher = "",
+          unsigned int pages = std::numeric_limits<unsigned int>::max(), const std::string& series = "", const std::string& isbn = "");
 
-    void accept(IConstMediaVisitor& v) const override;
+    bool operator==(const Media& other) const override;
 
     // Getters
     std::string getAuthor() const;
@@ -34,6 +34,9 @@ public:
     void setPages(unsigned int pages);
     void setSeries(const std::string& series);
     void setIsbn(const std::string& isbn);
+
+    std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Novel>> &novel) const;
 };
+
 }
-#endif // Novel_H
+#endif // MEDIA_ROMANZO_H

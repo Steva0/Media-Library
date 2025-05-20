@@ -1,4 +1,8 @@
 #include "Media.h"
+#include <limits>
+#include <cctype>
+#include <locale>
+#include <algorithm>
 
 namespace media {
 Media::Media(const std::string &title, int release, const std::string &language,
@@ -14,11 +18,70 @@ Media::Media(const std::string &title, int release, const std::string &language,
 
 void Media::accept(IConstMediaVisitor &v) const {}
 
+bool Media::operator==(const Media &other) const {
+  return title_ == other.title_ && release_ == other.release_ &&
+         language_ == other.language_ && favourite_ == other.favourite_ &&
+         genres_ == other.genres_ && img_path_ == other.img_path_ &&
+         notes_ == other.notes_;
+}
+
 bool Media::open() {
   notes_ = "";
   std::cout<< "Media::open()" << std::endl;  
   return false;
 }
+
+std::vector<std::shared_ptr<Media>> Media::filter(const std::vector<std::shared_ptr<Media>>& input) const {
+    std::vector<std::shared_ptr<Media>> result;
+
+    for (const auto& mediaPtr : input) {
+        if (!mediaPtr) continue;
+
+        const Media& media = *mediaPtr;
+        bool match = true;
+
+        // Title (substring, case-insensitive)
+        if (!getTitle().empty() && !stringContainsIgnoreCase(media.getTitle(), getTitle()))
+            match = false;
+
+        // Release (confronto stretto)
+        if (getRelease() != std::numeric_limits<int>::min() &&
+            media.getRelease() != getRelease())
+            match = false;
+
+        // Language (substring, case-insensitive)
+        if (!getLanguage().empty() && media.getLanguage() != getLanguage())
+            match = false;
+
+        // Favourite (confronto booleano)
+        if (isFavourite() && media.isFavourite() != isFavourite())
+            match = false;
+
+        // Generi (match parziale case-insensitive su ogni genere richiesto)
+        if (!getGenres().empty()) {
+            const auto& mediaGenres = media.getGenres();
+            for (const auto& genreFilter : getGenres()) {
+                bool found = false;
+                for (const auto& g : mediaGenres) {
+                    if (stringContainsIgnoreCase(g, genreFilter)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    match = false;
+                    break;
+                }
+            }
+        }
+
+        if (match)
+            result.push_back(mediaPtr);
+    }
+
+    return result;
+}
+
 
 const std::string &Media::getTitle() const { return title_; }
 int Media::getRelease() const { return release_; }

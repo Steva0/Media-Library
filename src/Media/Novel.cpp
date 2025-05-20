@@ -9,9 +9,14 @@ Novel::Novel(const std::string& title, int publicationYear, const std::string& l
     : Media(title, publicationYear, language, favorite, genres, imagePath, notes),
       author_(author), publisher_(publisher), pages_(pages), series_(series), isbn_(isbn) {}
 
-// Visitor
-void Novel::accept(IConstMediaVisitor& v) const {
-    v.visit(*this);
+bool Novel::operator==(const Media& other) const {
+    const Novel* otherNovel = dynamic_cast<const Novel*>(&other);
+    if (otherNovel) {
+        return Media::operator==(*otherNovel) && author_ == otherNovel->author_ &&
+               publisher_ == otherNovel->publisher_ && pages_ == otherNovel->pages_ &&
+               series_ == otherNovel->series_ && isbn_ == otherNovel->isbn_;
+    }
+    return false;
 }
 
 // Getters
@@ -27,5 +32,47 @@ void Novel::setPublisher(const std::string& publisher) { publisher_ = publisher;
 void Novel::setPages(unsigned int pages) { pages_ = pages; }
 void Novel::setSeries(const std::string& series) { series_ = series; }
 void Novel::setIsbn(const std::string& isbn) { isbn_ = isbn; }
+
+
+std::vector<std::shared_ptr<Media>> Novel::filter(const std::vector<std::shared_ptr<Novel>>& input) const {
+    std::vector<std::shared_ptr<Media>> result;
+
+    // Riutilizzo del filtro base di Media
+    std::vector<std::shared_ptr<Media>> baseInput(input.begin(), input.end());
+    std::vector<std::shared_ptr<Media>> filteredBase = Media::filter(baseInput);
+
+    // Filtro specifico per Novel
+    for (const auto& mediaPtr : filteredBase) {
+        auto novelPtr = std::dynamic_pointer_cast<Novel>(mediaPtr);
+        if (!novelPtr) continue;
+
+        bool match = true;
+
+        // Autore
+        if (!author_.empty() && !stringContainsIgnoreCase(novelPtr->getAuthor(), author_))
+            match = false;
+
+        // Editore
+        if (!publisher_.empty() && !stringContainsIgnoreCase(novelPtr->getPublisher(), publisher_))
+            match = false;
+
+        // Serie
+        if (!series_.empty() && !stringContainsIgnoreCase(novelPtr->getSeries(), series_))
+            match = false;
+
+        // ISBN
+        if (!isbn_.empty() && !stringContainsIgnoreCase(novelPtr->getIsbn(), isbn_))
+            match = false;
+
+        // Pagine (confronto stretto)
+        if (pages_ > 0 && novelPtr->getPages() != pages_)
+            match = false;
+
+        if (match)
+            result.push_back(novelPtr);
+    }
+
+    return result;
+}
 
 }
