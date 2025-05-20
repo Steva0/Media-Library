@@ -54,33 +54,36 @@ const std::vector<media::Media>& MediaContainer::getByIndex(int idx) const {
     return data_[idx];
 }
 
-const std::vector<media::Media>& MediaContainer::getByIndex(int idx) const {
-    return data_[idx];
-}
-
 std::vector<const media::Media*> MediaContainer::getByGroupIndex(int idx) const {
     std::vector<const media::Media*> result;
 
+    auto appendGroup = [&](int groupIndex) {
+        for (const auto& media : data_[groupIndex]) {
+            result.push_back(&media);
+        }
+    };
+
     switch (idx) {
         case INDEX_NOVEL:
-            result.insert(result.end(), data_[INDEX_NOVEL].begin(), data_[INDEX_NOVEL].end());
-            result.insert(result.end(), data_[INDEX_EBOOK].begin(), data_[INDEX_EBOOK].end());
-            result.insert(result.end(), data_[INDEX_AUDIOBOOK].begin(), data_[INDEX_AUDIOBOOK].end());
+            appendGroup(INDEX_NOVEL);
+            appendGroup(INDEX_EBOOK);
+            appendGroup(INDEX_AUDIOBOOK);
             break;
         case INDEX_MOVIE:
-            result.insert(result.end(), data_[INDEX_MOVIE].begin(), data_[INDEX_MOVIE].end());
-            result.insert(result.end(), data_[INDEX_SERIES].begin(), data_[INDEX_SERIES].end());
+            appendGroup(INDEX_MOVIE);
+            appendGroup(INDEX_SERIES);
             break;
         case INDEX_ALL:
-            result.insert(result.end(), data_[INDEX_ALL].begin(), data_[INDEX_ALL].end());
+            appendGroup(INDEX_ALL);
             break;
         default:
-            result.insert(result.end(), data_[idx].begin(), data_[idx].end());
+            appendGroup(idx);
             break;
     }
 
     return result;
 }
+
 
 std::vector<const media::Media*> MediaContainer::filter(const media::Media& media) const {
     std::vector<const media::Media*> results;
