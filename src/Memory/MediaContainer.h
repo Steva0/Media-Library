@@ -17,20 +17,23 @@
 namespace memory {
 
 class MediaContainer {
+public:
+    enum class Type {
+        All = 0,
+        Novel,
+        Album,
+        Movie,
+        Ebook,
+        AudioBook,
+        Series,
+        TypeCount
+    };
+
 private:
-    static constexpr int INDEX_ALL = 0;
-    static constexpr int INDEX_NOVEL = 1;
-    static constexpr int INDEX_ALBUM = 2;
-    static constexpr int INDEX_MOVIE = 3;
-    static constexpr int INDEX_EBOOK = 4;
-    static constexpr int INDEX_AUDIOBOOK = 5;
-    static constexpr int INDEX_SERIES = 6;
-    static constexpr int TYPE_COUNT = 7;
+    std::array<std::vector<media::Media>, static_cast<int>(Type::TypeCount)> data_;
 
-    std::array<std::vector<media::Media>, TYPE_COUNT> data_;
-
-    int detectIndex(const media::Media& media) const;
-    std::vector<const media::Media*> MediaContainer::getByGroupIndex(int idx) const;
+    Type detectType(const media::Media& media) const;
+    std::vector<const media::Media*> getByGroup(Type type) const;
 
 public:
     void addMedia(const media::Media& media);
@@ -40,7 +43,7 @@ public:
     std::vector<const media::Media*> filter(const media::Media& media) const;
 
     const std::vector<media::Media>& getAll() const;
-    const std::vector<media::Media>& getByIndex(int idx) const;
+    const std::vector<media::Media>& getByType(Type type) const;
 
     int serialize(QSaveFile& file) const;
 };

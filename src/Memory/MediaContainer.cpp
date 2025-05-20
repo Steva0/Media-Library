@@ -4,31 +4,35 @@
 
 namespace memory {
 
-void MediaContainer::addMedia(const media::Media& media) { 
-    data_[INDEX_ALL].push_back(media);  
+void MediaContainer::addMedia(const media::Media& media) {
+    data_[static_cast<size_t>(Type::All)].push_back(media);
 
-    if (detectIndex(media) == INDEX_ALL) {
-        return; // Media already exists in the container
-    } else {
-        data_[detectIndex(media)].push_back(media);
+    Type t = detectType(media);
+    if (t != Type::All) {
+        data_[static_cast<size_t>(t)].push_back(media);
     }
 }
 
-int MediaContainer::detectIndex(const media::Media& media) const {
+MediaContainer::Type MediaContainer::detectType(const media::Media& media) const {
     if (dynamic_cast<const media::Series*>(&media)) {
-        return INDEX_SERIES;
-    } else if (dynamic_cast<const media::AudioBook*>(&media)) {
-        return INDEX_AUDIOBOOK;
-    } else if (dynamic_cast<const media::Ebook*>(&media)) {
-        return INDEX_EBOOK;
-    } else if (dynamic_cast<const media::Movie*>(&media)) {
-        return INDEX_MOVIE;
-    } else if (dynamic_cast<const media::Album*>(&media)) {
-        return INDEX_ALBUM;
-    } else if (dynamic_cast<const media::Novel*>(&media)) {
-        return INDEX_NOVEL;
+        return Type::Series;
     }
-    return INDEX_ALL; // Default case
+    if (dynamic_cast<const media::AudioBook*>(&media)) {
+        return Type::AudioBook;
+    }
+    if (dynamic_cast<const media::Ebook*>(&media)) {
+        return Type::Ebook;
+    }
+    if (dynamic_cast<const media::Movie*>(&media)) {
+        return Type::Movie;
+    }
+    if (dynamic_cast<const media::Album*>(&media)) {
+        return Type::Album;
+    }
+    if (dynamic_cast<const media::Novel*>(&media)) {
+        return Type::Novel;
+    }
+    return Type::All;
 }
 
 void MediaContainer::removeMedia(const media::Media& media) {
@@ -47,51 +51,50 @@ void MediaContainer::clear() {
 }
 
 const std::vector<media::Media>& MediaContainer::getAll() const {
-    return data_[INDEX_ALL];
+    return data_[static_cast<size_t>(Type::All)];
 }
 
-const std::vector<media::Media>& MediaContainer::getByIndex(int idx) const {
-    return data_[idx];
+const std::vector<media::Media>& MediaContainer::getByType(Type type) const {
+    return data_[static_cast<size_t>(type)];
 }
 
-const std::vector<media::Media>& MediaContainer::getByIndex(int idx) const {
-    return data_[idx];
-}
-
-std::vector<const media::Media*> MediaContainer::getByGroupIndex(int idx) const {
+std::vector<const media::Media*> MediaContainer::getByGroup(Type type) const {
     std::vector<const media::Media*> result;
 
-    auto appendGroup = [&](int groupIndex) {
-        for (const auto& media : data_[groupIndex]) {
+    auto appendGroup = [&](Type t) {
+        for (const auto& media : data_[static_cast<size_t>(t)]) {
             result.push_back(&media);
         }
     };
 
-    switch (idx) {
-        case INDEX_NOVEL:
-            appendGroup(INDEX_NOVEL);
-            appendGroup(INDEX_EBOOK);
-            appendGroup(INDEX_AUDIOBOOK);
-            break;
-        case INDEX_MOVIE:
-            appendGroup(INDEX_MOVIE);
-            appendGroup(INDEX_SERIES);
-            break;
-        case INDEX_ALL:
-            appendGroup(INDEX_ALL);
-            break;
-        default:
-            appendGroup(idx);
-            break;
+    switch (type) {
+    case Type::Novel:
+        appendGroup(Type::Novel);
+        appendGroup(Type::Ebook);
+        appendGroup(Type::AudioBook);
+        break;
+
+    case Type::Movie:
+        appendGroup(Type::Movie);
+        appendGroup(Type::Series);
+        break;
+
+    case Type::All:
+        appendGroup(Type::All);
+        break;
+
+    default:
+        appendGroup(type);
+        break;
     }
 
     return result;
 }
 
-
 std::vector<const media::Media*> MediaContainer::filter(const media::Media& media) const {
     std::vector<const media::Media*> results;
-    for (const media::Media* m : getByGroupIndex(detectIndex(media))) {
+    Type t = detectType(media);
+    for (const media::Media* m : getByGroup(t)) {
         if (media.filter(*m)) {
             results.push_back(m);
         }
@@ -100,7 +103,7 @@ std::vector<const media::Media*> MediaContainer::filter(const media::Media& medi
 }
 
 int MediaContainer::serialize(QSaveFile& file) const {
-    return Serializer::Serialize(data_[INDEX_ALL], file);
+    return Serializer::Serialize(data_[static_cast<size_t>(Type::All)], file);
 }
 
 } // namespace memory
