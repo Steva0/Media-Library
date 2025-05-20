@@ -32,24 +32,22 @@ bool Media::open() {
 }
 
 bool Media::filter(const Media& media) const {
-    bool match = true;
-
-    // Title (substring, case-insensitive)
+        // Title (substring, case-insensitive)
     if (!getTitle().empty() && !stringContainsIgnoreCase(media.getTitle(), getTitle()))
-        match = false;
+        return false;
 
     // Release (confronto stretto)
     if (getRelease() != std::numeric_limits<int>::min() &&
         media.getRelease() != getRelease())
-        match = false;
+        return false;
 
     // Language (substring, case-insensitive)
     if (!getLanguage().empty() && media.getLanguage() != getLanguage())
-        match = false;
+        return false;
 
     // Favourite (confronto booleano)
     if (isFavourite() && media.isFavourite() != isFavourite())
-        match = false;
+        return false;
 
     // Generi (match parziale case-insensitive su ogni genere richiesto)
     if (!getGenres().empty()) {
@@ -63,13 +61,12 @@ bool Media::filter(const Media& media) const {
                 }
             }
             if (!found) {
-                match = false;
-                break;
+                return false;
             }
         }
     }   
 
-    return match;
+    return true;
 }
 
 
