@@ -44,7 +44,7 @@ class Media : IMedia{
   const std::string &getImgPath() const;
   const std::string &getNotes() const;
 
-  virtual std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Media>> &media) const;
+  std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Media>> &media) const;
 }; 
 }  // namespace media
 #endif
