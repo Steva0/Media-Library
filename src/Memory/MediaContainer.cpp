@@ -82,6 +82,13 @@ std::vector<std::shared_ptr<media::Media>> MediaContainer::filter(const std::sha
 }
 
 std::vector<std::shared_ptr<media::Novel>> MediaContainer::filter(const std::shared_ptr<media::Novel>& novel) const{
-    auto allNovel= getByTypeAndSubtype(MediaType::Novel);
+    auto media= getByTypeAndSubtype(MediaType::Novel);
+    std::vector<std::shared_ptr<media::Novel>> allNovel;
+    for (const auto& mediaPtr : media) {
+        auto novelPtr = std::dynamic_pointer_cast<media::Novel>(mediaPtr);
+        if (novelPtr) {
+            allNovel.push_back(novelPtr);
+        }
+    }
     return novel->filter(allNovel);
 }
