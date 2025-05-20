@@ -17,7 +17,7 @@
 namespace memory {
 
 class MediaContainer {
-public:
+private:
     enum class Type {
         All = 0,
         Novel,
@@ -29,12 +29,12 @@ public:
         TypeCount
     };
 
-private:
     std::array<std::vector<media::Media>, static_cast<int>(Type::TypeCount)> data_;
 
     Type detectType(const media::Media& media) const;
+    const std::vector<media::Media>& getByType(Type type) const;
     std::vector<const media::Media*> getByGroup(Type type) const;
-
+    
 public:
     void addMedia(const media::Media& media);
     void removeMedia(const media::Media& media);
@@ -43,7 +43,6 @@ public:
     std::vector<const media::Media*> filter(const media::Media& media) const;
 
     const std::vector<media::Media>& getAll() const;
-    const std::vector<media::Media>& getByType(Type type) const;
 
     int serialize(QSaveFile& file) const;
 };
