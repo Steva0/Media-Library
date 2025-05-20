@@ -23,6 +23,8 @@ class Movie : public Media {
   const std::vector<std::string> &getCast() const;
   unsigned int getLength() const;
   const std::string &getUniverse() const;
+
+  std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Movie>>& input) const;
 };
 }  // namespace media
 #endif

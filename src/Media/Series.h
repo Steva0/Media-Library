@@ -20,6 +20,8 @@ class Series : public Movie {
   unsigned int getEpisodes() const;
   unsigned int getSeasons() const;
   bool isEnded() const;
+
+  std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Series>>& input) const;
 };
 }  // namespace media
 #endif

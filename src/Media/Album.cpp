@@ -26,4 +26,64 @@ bool Album::operator==(const Media &other) const {
   return false;
 }
 
+std::vector<std::shared_ptr<Media>> Album::filter(const std::vector<std::shared_ptr<Album>>& input) const {
+    std::vector<std::shared_ptr<Media>> result;
+
+    // Riutilizzo filtro base di Media
+    std::vector<std::shared_ptr<Media>> baseInput(input.begin(), input.end());
+    std::vector<std::shared_ptr<Media>> filteredBase = Media::filter(baseInput);
+
+    // Filtro specifico per Album
+    for (const auto& mediaPtr : filteredBase) {
+        auto albumPtr = std::dynamic_pointer_cast<Album>(mediaPtr);
+        if (!albumPtr) continue;
+
+        bool match = true;
+
+        // Band
+        if (!band_.empty() && !stringContainsIgnoreCase(albumPtr->getBand(), band_))
+            match = false;
+
+        // Band members (ogni membro richiesto deve matchare almeno uno esistente)
+        if (!band_members_.empty()) {
+            for (const auto& memberFilter : band_members_) {
+                bool found = false;
+                for (const auto& m : albumPtr->getBandMembers()) {
+                    if (stringContainsIgnoreCase(m, memberFilter)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    match = false;
+                    break;
+                }
+            }
+        }
+
+        // Songs (ogni canzone richiesta deve matchare almeno una esistente)
+        if (!songs_.empty()) {
+            for (const auto& songFilter : songs_) {
+                bool found = false;
+                for (const auto& s : albumPtr->getSongs()) {
+                    if (stringContainsIgnoreCase(s, songFilter)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    match = false;
+                    break;
+                }
+            }
+        }
+
+        if (match)
+            result.push_back(albumPtr);
+    }
+
+    return result;
+}
+
+
 }  // namespace media

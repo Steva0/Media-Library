@@ -24,6 +24,9 @@ public:
 
     void setFileSizeBytes(unsigned int size);
     void setDrm(bool drm);
+
+    std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Ebook>>& input) const;
+
 };
 
 }

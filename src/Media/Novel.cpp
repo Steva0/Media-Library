@@ -34,8 +34,8 @@ void Novel::setSeries(const std::string& series) { series_ = series; }
 void Novel::setIsbn(const std::string& isbn) { isbn_ = isbn; }
 
 
-std::vector<std::shared_ptr<Novel>> Novel::filter(const std::vector<std::shared_ptr<Novel>>& input) const {
-    std::vector<std::shared_ptr<Novel>> result;
+std::vector<std::shared_ptr<Media>> Novel::filter(const std::vector<std::shared_ptr<Novel>>& input) const {
+    std::vector<std::shared_ptr<Media>> result;
 
     // Riutilizzo del filtro base di Media
     std::vector<std::shared_ptr<Media>> baseInput(input.begin(), input.end());
