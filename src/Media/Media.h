@@ -21,14 +21,14 @@ class Media : IMedia{
   std::string img_path_;
   std::string notes_;
 
-  protected:
-  Media(const std::string &title = "", int release = std::numeric_limits<int>::max(), const std::string &language = "",
-        bool favourite = false, const std::vector<std::string> &genres = {},
-        const std::string &img_path = "", const std::string &notes = "");
-  
- public:
+   
+  public:
 
-  virtual bool operator==(const Media &other) const;
+  Media(const std::string &title = "", int release = std::numeric_limits<int>::max(), const std::string &language = "",
+          bool favourite = false, const std::vector<std::string> &genres = {},
+          const std::string &img_path = "", const std::string &notes = "");
+
+    virtual bool operator==(const Media &other) const;
   
   void accept(IConstMediaVisitor &) const override;
   bool open() override;

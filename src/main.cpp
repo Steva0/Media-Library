@@ -2,7 +2,7 @@
 #include <memory>
 #include <vector>
 #include <limits>
-#include "Media.h"  // Include il tuo header
+#include "Media/Media.h"  // Include il tuo header
 
 int main() {
     // Crea alcuni media
@@ -10,24 +10,24 @@ int main() {
         "House of Cards",
         2013,
         "English",
-        std::vector<std::string>{"Drama", "Politics"},
-        true
+        true,
+        std::vector<std::string>{"Drama", "Politics"}
     );
 
     auto media2 = std::make_shared<media::Media>(
         "The Crown",
         2016,
         "English",
-        std::vector<std::string>{"History", "Drama"},
-        false
+        false,
+        std::vector<std::string>{"History", "Drama"}
     );
 
     auto media3 = std::make_shared<media::Media>(
         "Breaking Bad",
         2008,
         "English",
-        std::vector<std::string>{"Crime", "Thriller"},
-        false
+        false,
+        std::vector<std::string>{"Crime", "Thriller"}
     );
 
     // Inserisci i media in un vettore
@@ -36,14 +36,13 @@ int main() {
     // Crea un oggetto Media come filtro
     auto filterMedia = std::make_shared<media::Media>(
         "Ho",
-        std::numeric_limits<int>::min(), 
-        "dra"
+        std::numeric_limits<int>::min()
     );
     
     // Filtra
     std::vector<std::shared_ptr<media::Media>> filtered = filterMedia->filter(inputList);
 
-    // Stampa i risultati
+    //Stampa i risultati
     std::cout << "Media che passano il filtro:\n";
     for (const auto& m : filtered) {
         std::cout << "- " << m->getTitle() << "\n";
