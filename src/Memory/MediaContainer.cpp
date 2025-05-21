@@ -51,12 +51,12 @@ void MediaContainer::clear() {
 }
 
 const std::vector<media::Media>& MediaContainer::getAll() const {
-    return data_[static_cast<size_t>(Type::All)];
+    return data_[static_cast<int>(Type::All)];
 }
 
 std::vector<const media::Media*> MediaContainer::getByType(Type type) const {
     std::vector<const media::Media*> result;
-    for (const auto& media : data_[static_cast<size_t>(type)]) {
+    for (const auto& media : data_[static_cast<int>(type)]) {
         result.push_back(&media);
     }
     return result;
@@ -67,7 +67,7 @@ std::vector<const media::Media*> MediaContainer::getByGroup(Type type) const {
     std::vector<const media::Media*> result;
 
     auto appendGroup = [&](Type t) {
-        for (const auto& media : data_[static_cast<size_t>(t)]) {
+        for (const auto& media : data_[static_cast<int>(t)]) {
             result.push_back(&media);
         }
     };
