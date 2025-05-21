@@ -3,6 +3,7 @@
 
 namespace media {
 
+class Media;
 class Album;
 class Movie;
 class Series;
@@ -13,6 +14,7 @@ class Ebook;
 class IConstMediaVisitor {
 
  public:
+  virtual void visit(const Media &) = 0;
   virtual void visit(const Album &) = 0;
   virtual void visit(const Movie &) = 0;
   virtual void visit(const Series &) = 0;
