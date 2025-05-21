@@ -1,4 +1,5 @@
 #include "Series.h"
+#include "Media/IConstMediaVisitor.h"
 
 namespace media {
 Series::Series(const std::string &title, int release,
@@ -28,7 +29,7 @@ std::unique_ptr<Media> Series::clone() const {
 
 unsigned int Series::getEpisodes() const { return episodes_; }
 unsigned int Series::getSeasons() const { return seasons_; }
-bool Series::isEnded() const { return ended_; }
+bool Series::hasEnded() const { return ended_; }
 
 bool Series::filter(const Media& input) const {
      if (!Movie::filter(input))
@@ -47,10 +48,12 @@ bool Series::filter(const Media& input) const {
         return false;
 
     // Ended (confronto booleano)
-    if (ended_ && ended_ != seriesPtr->isEnded())
+    if (ended_ && ended_ != seriesPtr->hasEnded())
         return false;
 
     return true;
 }
+
+void Series::accept(IConstMediaVisitor &v) const { v.visit(*this); }
 
 }  // namespace media

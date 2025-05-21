@@ -1,4 +1,5 @@
 #include "Movie.h"
+#include "Media/IConstMediaVisitor.h"
 
 namespace media {
 Movie::Movie(const std::string &title, int release, const std::string &language,
@@ -63,6 +64,8 @@ bool Movie::filter(const Media& movie) const {
     
     return true;
 }
+
+void Movie::accept(IConstMediaVisitor &v) const { v.visit(*this); }
 
 
 }  // namespace media

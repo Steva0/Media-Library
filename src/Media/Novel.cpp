@@ -71,4 +71,6 @@ bool Novel::filter(const Media& input) const {
     return true;
 }
 
+void Novel::accept(IConstMediaVisitor &v) const { v.visit(*this); }
+
 }

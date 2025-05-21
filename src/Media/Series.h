@@ -1,5 +1,6 @@
 #ifndef MEDIA_SERIES_H
 #define MEDIA_SERIES_H
+#include "Media/IConstMediaVisitor.h"
 #include "Movie.h"
 
 namespace media {
@@ -19,11 +20,13 @@ class Series : public Movie {
   bool operator==(const Media &other) const override;
   unsigned int getEpisodes() const;
   unsigned int getSeasons() const;
-  bool isEnded() const;
+  bool hasEnded() const;
   
   std::unique_ptr<Media> clone() const override;
 
   bool filter(const Media& input) const override;
+
+  void accept(IConstMediaVisitor &) const override;
 };
 }  
 #endif  // MEDIA_SERIES_H

@@ -1,4 +1,5 @@
 #include "Ebook.h"
+#include "Media/IConstMediaVisitor.h"
 
 namespace media {
 
@@ -59,5 +60,7 @@ bool Ebook::filter(const Media& input) const {
 
     return true;
 }
+
+void Ebook::accept(IConstMediaVisitor &v) const { v.visit(*this); }
 
 }

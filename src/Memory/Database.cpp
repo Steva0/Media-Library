@@ -13,7 +13,7 @@ bool Database::open(const QString &path) {
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
     return false;
   }
-  media_container_.addMedia(Deserializer::deserialize(file));
+  // media_container_.addMedia(Deserializer::deserialize(file));
   file.close();
   return true;
 }
@@ -39,7 +39,8 @@ bool Database::save() {
 
 std::vector<std::shared_ptr<media::Media>> Database::filterMedia(
     const media::Media &media_as_filter) {
-  return media_container_.filter(media_as_filter);
+  // return media_container_.filter(media_as_filter);
+  assert(false);
 }
 
 }  // namespace memory

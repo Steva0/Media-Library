@@ -16,7 +16,9 @@ Media::Media(const std::string &title, int release, const std::string &language,
       img_path_(img_path),
       notes_(notes) {}
 
-void Media::accept(IConstMediaVisitor &v) const {}
+void Media::accept(IConstMediaVisitor &v) const {
+    v.visit(*this);
+}
 
 std::unique_ptr<media::Media> media::Media::clone() const {
     return std::make_unique<media::Media>(*this);

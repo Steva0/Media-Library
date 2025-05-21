@@ -1,6 +1,7 @@
 #ifndef MEDIA_AUDIOBOOK_H
 #define MEDIA_AUDIOBOOK_H
 
+#include "Media/IConstMediaVisitor.h"
 #include "Novel.h"
 
 namespace media {
@@ -29,6 +30,8 @@ public:
     std::unique_ptr<Media> clone() const override;
 
     bool filter(const Media& audiobook) const override;
+
+    void accept(IConstMediaVisitor &) const override;
 };
 
 }

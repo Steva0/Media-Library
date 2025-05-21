@@ -2,6 +2,7 @@
 #define MEDIA_ROMANZO_H
 
 #include "Media.h"
+#include "Media/IConstMediaVisitor.h"
 
 namespace media {
 
@@ -38,6 +39,8 @@ public:
     std::unique_ptr<Media> clone() const override;
 
     bool filter(const Media &novel) const override;
+
+    void accept(IConstMediaVisitor &) const override;
 };
 
 }

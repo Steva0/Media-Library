@@ -2,6 +2,7 @@
 #define MEDIA_ALBUM_H
 
 #include "Media.h"
+#include "IConstMediaVisitor.h"
 namespace media {
 class Album : public Media {
  private:
@@ -23,6 +24,7 @@ class Album : public Media {
   std::unique_ptr<Media> clone() const override;
 
   bool filter(const Media& album) const override;
+  void accept(IConstMediaVisitor &) const override;
 
 };
 }  // namespace media

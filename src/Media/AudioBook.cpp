@@ -1,4 +1,5 @@
 #include "AudioBook.h"
+#include "Media/IConstMediaVisitor.h"
 
 namespace media {
 
@@ -57,5 +58,7 @@ bool AudioBook::filter(const Media& input) const {
 
     return true;
 }
+
+void AudioBook::accept(IConstMediaVisitor &v) const { v.visit(*this); }
 
 }

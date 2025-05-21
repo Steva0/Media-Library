@@ -1,6 +1,7 @@
 #ifndef MEDIA_EBOOK_H
 #define MEDIA_EBOOK_H
 
+#include "Media/IConstMediaVisitor.h"
 #include "Novel.h"
 
 namespace media {
@@ -28,6 +29,8 @@ public:
     std::unique_ptr<Media> clone() const override;
 
     bool filter(const Media& ebook) const override;
+
+    void accept(IConstMediaVisitor &) const override;
 
 };
 

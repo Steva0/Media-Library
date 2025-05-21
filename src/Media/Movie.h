@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Media.h"
+#include "Media/IConstMediaVisitor.h"
 
 namespace media {
 class Movie : public Media {
@@ -27,6 +28,8 @@ class Movie : public Media {
   std::unique_ptr<Media> clone() const override;
 
   bool filter(const Media& movie) const override;
+
+  void accept(IConstMediaVisitor &) const override;
 };
 }  // namespace media
 #endif

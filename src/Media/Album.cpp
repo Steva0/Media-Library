@@ -1,4 +1,5 @@
 #include "Album.h"
+#include "Media/IConstMediaVisitor.h"
 
 namespace media {
 Album::Album(const std::string &title, int release, const std::string &language,
@@ -78,5 +79,7 @@ bool Album::filter(const Media& album) const {
     }
     return true;
 }
+
+void Album::accept(IConstMediaVisitor & v) const { v.visit(*this); }
 
 }  // namespace media

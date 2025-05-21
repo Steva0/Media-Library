@@ -7,11 +7,11 @@
 namespace memory {
 class Deserializer {
  private:
-  static std::vector<std::shared_ptr<media::Media>>& XMLtoVec(const QFile &){}
-  static std::vector<std::shared_ptr<media::Media>>& JSONtoVec(const QFile &){}
+  static std::vector<std::shared_ptr<media::Media>>& XMLtoVec(const QFile &){assert(false);}
+  static std::vector<std::shared_ptr<media::Media>>& JSONtoVec(const QFile &){assert(false);}
 
  public:
-  static std::vector<std::shared_ptr<media::Media>>& deserialize(const QFile &){}
+  static std::vector<std::shared_ptr<media::Media>>& deserialize(const QFile &){assert(false);}
 };
 }  // namespace memory
 #endif
