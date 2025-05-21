@@ -1,10 +1,10 @@
 #ifndef MEMORY_MEDIACONTAINER_H
 #define MEMORY_MEDIACONTAINER_H
 
-#include <array>
-#include <vector>
-#include <memory>
 #include <QSaveFile>
+#include <array>
+#include <memory>
+#include <vector>
 
 #include "../Media/Media.h"
 #include "../Media/Novel.h"
@@ -49,6 +49,6 @@ public:
     int serialize(QSaveFile& file) const;
 };
 
-} // namespace memory
+}  // namespace memory
 
-#endif // MEMORY_MEDIACONTAINER_H
+#endif  // MEMORY_MEDIACONTAINER_H
