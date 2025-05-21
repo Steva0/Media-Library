@@ -18,6 +18,11 @@ bool Movie::operator==(const Media &other) const {
     }
     return false;
 }
+
+std::unique_ptr<Media> Movie::clone() const {
+    return std::make_unique<Movie>(*this);
+}
+
 const std::vector<std::string> &Movie::getCast() const { return cast_; }
 unsigned int Movie::getLength() const { return length_; }
 const std::string &Movie::getUniverse() const { return universe_; }

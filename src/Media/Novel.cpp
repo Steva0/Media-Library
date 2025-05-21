@@ -19,6 +19,10 @@ bool Novel::operator==(const Media& other) const {
     return false;
 }
 
+std::unique_ptr<Media> Novel::clone() const {
+    return std::make_unique<Novel>(*this);
+}
+
 // Getters
 std::string Novel::getAuthor() const { return author_; }
 std::string Novel::getPublisher() const { return publisher_; }

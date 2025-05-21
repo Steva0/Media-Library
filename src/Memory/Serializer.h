@@ -11,7 +11,7 @@ class Serializer {
   static int vecToXML(const media::Media&, QSaveFile &){}
 
  public:
-  static int Serialize(const std::vector<media::Media>&, QSaveFile &){}
+  static int Serialize(std::vector<const media::Media*>, QSaveFile &){}
 };
 }  // namespace memory
 #endif

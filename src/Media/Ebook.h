@@ -25,6 +25,8 @@ public:
     void setFileSizeBytes(unsigned int size);
     void setDrm(bool drm);
 
+    std::unique_ptr<Media> clone() const override;
+
     bool filter(const Media& ebook) const override;
 
 };

@@ -44,6 +44,9 @@ class Media : IMedia{
   const std::string &getImgPath() const;
   const std::string &getNotes() const;
 
+  virtual std::unique_ptr<Media> clone() const;
+
+
   virtual bool filter(const Media &media) const;
 }; 
 }  // namespace media

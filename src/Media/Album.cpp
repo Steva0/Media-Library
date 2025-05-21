@@ -26,6 +26,11 @@ bool Album::operator==(const Media &other) const {
   return false;
 }
 
+std::unique_ptr<Media> Album::clone() const {
+    return std::make_unique<Album>(*this);
+}
+
+
 bool Album::filter(const Media& album) const {
     // Riutilizzo filtro base di Media
     if (!Media::filter(album))

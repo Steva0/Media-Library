@@ -36,6 +36,10 @@ void Ebook::setDrm(bool drm) {
     drm_ = drm;
 }
 
+std::unique_ptr<Media> Ebook::clone() const {
+    return std::make_unique<Ebook>(*this);
+}
+
 bool Ebook::filter(const Media& input) const {
     // Riutilizzo filtro base di Novel
     if (!Novel::filter(input))

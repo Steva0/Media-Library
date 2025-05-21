@@ -26,6 +26,8 @@ public:
     void setNarrator(const std::string& narrator);
     void setStreamingService(const std::string& service);
 
+    std::unique_ptr<Media> clone() const override;
+
     bool filter(const Media& audiobook) const override;
 };
 

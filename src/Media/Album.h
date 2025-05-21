@@ -20,6 +20,8 @@ class Album : public Media {
   const std::vector<std::string> &getSongs() const;
   bool operator==(const Media &other) const override;
 
+  std::unique_ptr<Media> clone() const override;
+
   bool filter(const Media& album) const override;
 
 };

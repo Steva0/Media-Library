@@ -20,6 +20,8 @@ class Series : public Movie {
   unsigned int getEpisodes() const;
   unsigned int getSeasons() const;
   bool isEnded() const;
+  
+  std::unique_ptr<Media> clone() const override;
 
   bool filter(const Media& input) const override;
 };

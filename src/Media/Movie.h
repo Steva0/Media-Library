@@ -24,6 +24,8 @@ class Movie : public Media {
   unsigned int getLength() const;
   const std::string &getUniverse() const;
 
+  std::unique_ptr<Media> clone() const override;
+
   bool filter(const Media& movie) const override;
 };
 }  // namespace media

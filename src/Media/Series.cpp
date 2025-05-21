@@ -21,6 +21,11 @@ bool Series::operator==(const Media &other) const {
     }
     return false;
 }
+
+std::unique_ptr<Media> Series::clone() const {
+    return std::make_unique<Series>(*this);
+}
+
 unsigned int Series::getEpisodes() const { return episodes_; }
 unsigned int Series::getSeasons() const { return seasons_; }
 bool Series::isEnded() const { return ended_; }

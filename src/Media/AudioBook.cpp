@@ -21,6 +21,10 @@ bool AudioBook::operator==(const Media& other) const {
     return false;
 }
 
+std::unique_ptr<Media> AudioBook::clone() const {
+    return std::make_unique<AudioBook>(*this);
+}
+
 std::string AudioBook::getNarrator() const {
     return narrator_;
 }

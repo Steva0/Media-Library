@@ -18,6 +18,11 @@ Media::Media(const std::string &title, int release, const std::string &language,
 
 void Media::accept(IConstMediaVisitor &v) const {}
 
+std::unique_ptr<media::Media> media::Media::clone() const {
+    return std::make_unique<media::Media>(*this);
+}
+
+
 bool Media::operator==(const Media &other) const {
   return title_ == other.title_ && release_ == other.release_ &&
          language_ == other.language_ && favourite_ == other.favourite_ &&

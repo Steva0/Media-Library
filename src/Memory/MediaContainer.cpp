@@ -5,41 +5,33 @@
 namespace memory {
 
 void MediaContainer::addMedia(const media::Media& media) {
-    data_[static_cast<size_t>(Type::All)].push_back(media);
+    std::unique_ptr<media::Media> clone = media.clone();
+    Type t = detectType(*clone);
 
-    Type t = detectType(media);
+    // Inserisci nel contenitore "All"
+    data_[static_cast<size_t>(Type::All)].push_back(media.clone());
+
+    // Inserisci anche nel tipo specifico
     if (t != Type::All) {
-        data_[static_cast<size_t>(t)].push_back(media);
+        data_[static_cast<size_t>(t)].push_back(std::move(clone));
     }
 }
 
 MediaContainer::Type MediaContainer::detectType(const media::Media& media) const {
-    if (dynamic_cast<const media::Series*>(&media)) {
-        return Type::Series;
-    }
-    if (dynamic_cast<const media::AudioBook*>(&media)) {
-        return Type::AudioBook;
-    }
-    if (dynamic_cast<const media::Ebook*>(&media)) {
-        return Type::Ebook;
-    }
-    if (dynamic_cast<const media::Movie*>(&media)) {
-        return Type::Movie;
-    }
-    if (dynamic_cast<const media::Album*>(&media)) {
-        return Type::Album;
-    }
-    if (dynamic_cast<const media::Novel*>(&media)) {
-        return Type::Novel;
-    }
+    if (dynamic_cast<const media::Series*>(&media))      return Type::Series;
+    if (dynamic_cast<const media::AudioBook*>(&media))   return Type::AudioBook;
+    if (dynamic_cast<const media::Ebook*>(&media))       return Type::Ebook;
+    if (dynamic_cast<const media::Movie*>(&media))       return Type::Movie;
+    if (dynamic_cast<const media::Album*>(&media))       return Type::Album;
+    if (dynamic_cast<const media::Novel*>(&media))       return Type::Novel;
     return Type::All;
 }
 
 void MediaContainer::removeMedia(const media::Media& media) {
     for (auto& vec : data_) {
         vec.erase(std::remove_if(vec.begin(), vec.end(),
-            [&](const media::Media& m) {
-                return typeid(m) == typeid(media) && m == media;
+            [&](const std::unique_ptr<media::Media>& m) {
+                return typeid(*m) == typeid(media) && *m == media;
             }), vec.end());
     }
 }
@@ -50,47 +42,43 @@ void MediaContainer::clear() {
     }
 }
 
-const std::vector<media::Media>& MediaContainer::getAll() const {
-    return data_[static_cast<int>(Type::All)];
+std::vector<const media::Media*> MediaContainer::getAll() const {
+    return getByType(Type::All);
 }
 
 std::vector<const media::Media*> MediaContainer::getByType(Type type) const {
     std::vector<const media::Media*> result;
-    for (const auto& media : data_[static_cast<int>(type)]) {
-        result.push_back(&media);
+    for (const auto& ptr : data_[static_cast<size_t>(type)]) {
+        result.push_back(ptr.get());
     }
     return result;
 }
-
 
 std::vector<const media::Media*> MediaContainer::getByGroup(Type type) const {
     std::vector<const media::Media*> result;
 
     auto appendGroup = [&](Type t) {
-        for (const auto& media : data_[static_cast<int>(t)]) {
-            result.push_back(&media);
+        for (const auto& ptr : data_[static_cast<size_t>(t)]) {
+            result.push_back(ptr.get());
         }
     };
 
     switch (type) {
-    case Type::Novel:
-        appendGroup(Type::Novel);
-        appendGroup(Type::Ebook);
-        appendGroup(Type::AudioBook);
-        break;
-
-    case Type::Movie:
-        appendGroup(Type::Movie);
-        appendGroup(Type::Series);
-        break;
-
-    case Type::All:
-        appendGroup(Type::All);
-        break;
-
-    default:
-        appendGroup(type);
-        break;
+        case Type::Novel:
+            appendGroup(Type::Novel);
+            appendGroup(Type::Ebook);
+            appendGroup(Type::AudioBook);
+            break;
+        case Type::Movie:
+            appendGroup(Type::Movie);
+            appendGroup(Type::Series);
+            break;
+        case Type::All:
+            appendGroup(Type::All);
+            break;
+        default:
+            appendGroup(type);
+            break;
     }
 
     return result;
@@ -108,7 +96,11 @@ std::vector<const media::Media*> MediaContainer::filter(const media::Media& medi
 }
 
 int MediaContainer::serialize(QSaveFile& file) const {
-    return Serializer::Serialize(data_[static_cast<size_t>(Type::All)], file);
+    std::vector<const media::Media*> rawAll;
+    for (const auto& ptr : data_[static_cast<size_t>(Type::All)]) {
+        rawAll.push_back(ptr.get());
+    }
+    return Serializer::Serialize(rawAll, file);
 }
 
 } // namespace memory

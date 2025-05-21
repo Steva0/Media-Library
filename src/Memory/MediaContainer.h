@@ -3,6 +3,7 @@
 
 #include <array>
 #include <vector>
+#include <memory>
 #include <QSaveFile>
 
 #include "../Media/Media.h"
@@ -29,12 +30,13 @@ private:
         TypeCount
     };
 
-    std::array<std::vector<media::Media>, static_cast<int>(Type::TypeCount)> data_;
+    std::array<std::vector<std::unique_ptr<media::Media>>, static_cast<size_t>(Type::TypeCount)> data_;
 
     Type detectType(const media::Media& media) const;
+
     std::vector<const media::Media*> getByType(Type type) const;
     std::vector<const media::Media*> getByGroup(Type type) const;
-    
+
 public:
     void addMedia(const media::Media& media);
     void removeMedia(const media::Media& media);
@@ -42,7 +44,7 @@ public:
 
     std::vector<const media::Media*> filter(const media::Media& media) const;
 
-    const std::vector<media::Media>& getAll() const;
+    std::vector<const media::Media*> getAll() const;
 
     int serialize(QSaveFile& file) const;
 };
