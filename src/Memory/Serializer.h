@@ -5,12 +5,13 @@
 
 namespace memory {
 class Serializer {
+
  private:
-  static int vecToJSON(const std::vector<std::shared_ptr<media::Media>> &, QSaveFile &);
-  static int vecToXML(const std::vector<std::shared_ptr<media::Media>> &, QSaveFile &);
+  static int vecToJSON(const media::Media &, QSaveFile &){}
+  static int vecToXML(const media::Media&, QSaveFile &){}
 
  public:
-  static int Serialize(const std::vector<std::shared_ptr<media::Media>> &, QSaveFile &);
+  static int Serialize(std::vector<const media::Media*>, QSaveFile &){}
 };
 }  // namespace memory
 #endif

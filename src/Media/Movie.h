@@ -24,7 +24,10 @@ class Movie : public Media {
   unsigned int getLength() const;
   const std::string &getUniverse() const;
 
-  std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Movie>>& input) const;
+  std::unique_ptr<Media> clone() const override;
+
+  bool filter(const Media& movie) const override;
 };
 }  // namespace media
 #endif
+

@@ -35,7 +35,9 @@ public:
     void setSeries(const std::string& series);
     void setIsbn(const std::string& isbn);
 
-    std::vector<std::shared_ptr<Media>> filter(const std::vector<std::shared_ptr<Novel>> &novel) const;
+    std::unique_ptr<Media> clone() const override;
+
+    bool filter(const Media &novel) const override;
 };
 
 }

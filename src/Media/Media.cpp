@@ -18,6 +18,11 @@ Media::Media(const std::string &title, int release, const std::string &language,
 
 void Media::accept(IConstMediaVisitor &v) const {}
 
+std::unique_ptr<media::Media> media::Media::clone() const {
+    return std::make_unique<media::Media>(*this);
+}
+
+
 bool Media::operator==(const Media &other) const {
   return title_ == other.title_ && release_ == other.release_ &&
          language_ == other.language_ && favourite_ == other.favourite_ &&
@@ -31,55 +36,42 @@ bool Media::open() {
   return false;
 }
 
-std::vector<std::shared_ptr<Media>> Media::filter(const std::vector<std::shared_ptr<Media>>& input) const {
-    std::vector<std::shared_ptr<Media>> result;
-
-    for (const auto& mediaPtr : input) {
-        if (!mediaPtr) continue;
-
-        const Media& media = *mediaPtr;
-        bool match = true;
-
+bool Media::filter(const Media& media) const {
         // Title (substring, case-insensitive)
-        if (!getTitle().empty() && !stringContainsIgnoreCase(media.getTitle(), getTitle()))
-            match = false;
+    if (!getTitle().empty() && !stringContainsIgnoreCase(media.getTitle(), getTitle()))
+        return false;
 
-        // Release (confronto stretto)
-        if (getRelease() != std::numeric_limits<int>::min() &&
-            media.getRelease() != getRelease())
-            match = false;
+    // Release (confronto stretto)
+    if (getRelease() != std::numeric_limits<int>::min() &&
+        media.getRelease() != getRelease())
+        return false;
 
-        // Language (substring, case-insensitive)
-        if (!getLanguage().empty() && media.getLanguage() != getLanguage())
-            match = false;
+    // Language (substring, case-insensitive)
+    if (!getLanguage().empty() && media.getLanguage() != getLanguage())
+        return false;
 
-        // Favourite (confronto booleano)
-        if (isFavourite() && media.isFavourite() != isFavourite())
-            match = false;
+    // Favourite (confronto booleano)
+    if (isFavourite() && media.isFavourite() != isFavourite())
+        return false;
 
-        // Generi (match parziale case-insensitive su ogni genere richiesto)
-        if (!getGenres().empty()) {
-            const auto& mediaGenres = media.getGenres();
-            for (const auto& genreFilter : getGenres()) {
-                bool found = false;
-                for (const auto& g : mediaGenres) {
-                    if (stringContainsIgnoreCase(g, genreFilter)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    match = false;
+    // Generi (match parziale case-insensitive su ogni genere richiesto)
+    if (!getGenres().empty()) {
+        const auto& mediaGenres = media.getGenres();
+        for (const auto& genreFilter : getGenres()) {
+            bool found = false;
+            for (const auto& g : mediaGenres) {
+                if (stringContainsIgnoreCase(g, genreFilter)) {
+                    found = true;
                     break;
                 }
             }
+            if (!found) {
+                return false;
+            }
         }
+    }   
 
-        if (match)
-            result.push_back(mediaPtr);
-    }
-
-    return result;
+    return true;
 }
 
 
