@@ -37,10 +37,9 @@ bool Database::save() {
   return true;
 }
 
-std::vector<std::shared_ptr<media::Media>> Database::filterMedia(
+std::vector<const media::Media*> Database::filterMedia(
     const media::Media &media_as_filter) {
-  // return media_container_.filter(media_as_filter);
-  assert(false);
+  return media_container_.filter(media_as_filter);
 }
 
 }  // namespace memory

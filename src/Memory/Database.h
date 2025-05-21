@@ -18,7 +18,7 @@ class Database {
   bool close(bool save);
   bool save();
 
-  std::vector<std::shared_ptr<media::Media>> filterMedia(const media::Media &);
+  std::vector<const media::Media*> filterMedia(const media::Media &);
 };
 }  // namespace memory
 #endif
