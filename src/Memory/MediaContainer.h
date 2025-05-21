@@ -32,7 +32,7 @@ private:
     std::array<std::vector<media::Media>, static_cast<int>(Type::TypeCount)> data_;
 
     Type detectType(const media::Media& media) const;
-    const std::vector<media::Media>& getByType(Type type) const;
+    std::vector<const media::Media*> getByType(Type type) const;
     std::vector<const media::Media*> getByGroup(Type type) const;
     
 public:
