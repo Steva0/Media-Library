@@ -1,64 +1,36 @@
 #ifndef MEMORY_MEDIACONTAINER_H
 #define MEMORY_MEDIACONTAINER_H
 
-#include <array>
-#include <vector>
-#include <memory>
-#include <string>
-#include <algorithm>
 #include <QSaveFile>
+#include <array>
+#include <memory>
+#include <vector>
 
-#include "Media.h"
-#include "Novel.h"
-#include "Album.h"
-#include "Movie.h"
-#include "Ebook.h"
-#include "AudioBook.h"
-#include "Series.h"
-#include "Serializer.h"
+#include "../Media/Album.h"
+#include "../Media/AudioBook.h"
+#include "../Media/Ebook.h"
+#include "../Media/Movie.h"
+#include "../Media/Novel.h"
+#include "../Media/Series.h"
 
 namespace memory {
 
-enum class MediaType {
-    All = 0,
-    Novel,
-    Album,
-    Movie,
-    EBook,
-    AudioBook,
-    Series,
-    Count
-};
-
 class MediaContainer {
-private:
-    std::array<std::vector<std::shared_ptr<media::Media>>, static_cast<size_t>(MediaType::Count)> data_;
+ private:
 
-    MediaType determineType(const std::shared_ptr<media::Media>& media) const;
+ public:
+  void addMedia(const media::Media& media);
+  void addMedia(const std::vector<media::Media>&);  // placeholder
+  void removeMedia(const media::Media& media);
+  void clear();
 
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Media>& media) const;
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Novel>& novel) const;
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Album>& album) const;
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Movie>& movie) const;
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Ebook>& ebook) const;
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::AudioBook>& audiobook) const;
-    std::vector<std::shared_ptr<media::Media>> filters(const std::shared_ptr<media::Series>& series) const;
+  // Filtri
+  std::vector<std::shared_ptr<media::Media>> filter(
+      const media::Media& media) const;
 
-    const std::vector<std::shared_ptr<media::Media>>& getAll() const;
-    const std::vector<std::shared_ptr<media::Media>>& getByType(MediaType type) const;
-    const std::vector<std::shared_ptr<media::Media>>& getByTypeAndSubtype(MediaType type) const;
-
-public:
-    void addMedia(const std::shared_ptr<media::Media>& media);
-    void removeMedia(const std::shared_ptr<media::Media>& media);
-    void clear();
- 
-    // Filtri
-    std::vector<std::shared_ptr<media::Media>> filter(const media::Media& media) const;
-
-    int serialize(QSaveFile& file) const;
+  int serialize(QSaveFile& file) const;
 };
 
-} // namespace memory
+}  // namespace memory
 
-#endif // MEMORY_MEDIACONTAINER_H
+#endif  // MEMORY_MEDIACONTAINER_H

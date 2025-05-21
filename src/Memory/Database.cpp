@@ -1,51 +1,44 @@
 #include "Database.h"
 
+#include <QFile>
+#include <memory>
+
+#include "Deserializer.h"
 namespace memory {
-DataBase::~DataBase() {
-  // può darsi che se ne occupi il distruttore di QFile
-  // comportamento di default: per ora metto che non vengono salvati i
-  // cambiamenti
-  close(false);
+Database::~Database() {
+  close(false); // di default non salvare eventuali cambiamenti
 }
-int DataBase::open(const QString &path) {
-  // QFile.close() non lancia errori se il file non è stato aperto
-  // file_.commit();
-  file_.setFileName(path);
-  if (!file_.open(QIODevice::ReadOnly | QIODevice::Text)) {
-    // TODO(alessandro): possiamo creare una qualche enum per i codici di errore
-    return 1;
+bool Database::open(const QString &path) {
+  QFile file(path);
+  if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    return false;
   }
-  return 0;
+  media_container_.addMedia(Deserializer::deserialize(file));
+  file.close();
+  return true;
 }
-int DataBase::close(bool save_on_exit) {
+bool Database::close(bool save_on_exit) {
   if (save_on_exit) {
-    // ritorna false se c'è stato un errore. Possiamo voler cambiare il tipo di
-    // ritorno del metodo.
-    file_.commit();
-  } else {
-    // void cancelWriting()
-    file_.cancelWriting();
+    return file_.commit(); // false <=> errore
   }
-  return 0;
+  file_.cancelWriting();
+  return true;
 }
 
-int DataBase::save() {
-  // ritorna false in caso di fallimento
+bool Database::save() {
   if (!file_.commit()) {
     // errore in scrittura
-    return -1;
+    return false;
   }
-  // riapri il file dopo averlo chiuso
-  // ritorna false in caso di fallimento
+  
   if (!file_.open(QIODevice::ReadOnly | QIODevice::Text)) {
-    return 1;
+    return false;
   }
-  return 0;
+  return true;
 }
 
-// qua possiamo volendo utilizzare riferimenti costanti al posto di puntatori
-std::vector<media::Media *> DataBase::filterMedia(
-    const media::Media *media_as_filter) {
+std::vector<std::shared_ptr<media::Media>> Database::filterMedia(
+    const media::Media &media_as_filter) {
   return media_container_.filter(media_as_filter);
 }
 

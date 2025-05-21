@@ -3,24 +3,22 @@
 #include <QSaveFile>
 
 #include "./MediaContainer.h"
+#include <memory>
 
 namespace memory {
-class DataBase {
+class Database {
  private:
   MediaContainer media_container_;
   QSaveFile file_;
 
-  // possiamo mettere open, close e save privati e poi usare un tipo di observer
-  // pattern per chiamare le funzioni.
  public:
-  DataBase() = default;
-  ~DataBase();
-  int open(const QString &path);
-  int close(bool save);
-  int save();
-  // TODO(alessandro): smart pointer
-  // possiamo cambiarlo a riferimenti costanti
-  std::vector<media::Media *> filterMedia(const media::Media *);
+  ~Database();
+
+  bool open(const QString &path);
+  bool close(bool save);
+  bool save();
+
+  std::vector<std::shared_ptr<media::Media>> filterMedia(const media::Media &);
 };
 }  // namespace memory
 #endif
