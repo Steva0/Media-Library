@@ -6,16 +6,18 @@ namespace memory {
 
 void MediaContainer::addMedia(const media::Media& media) {
     std::unique_ptr<media::Media> clone = media.clone();
+    media::Media* rawPtr = clone.get();
+
+    // Inserisce rawPtr nel vettore "All" copiando il puntatore (non l’oggetto!)
+    data_[static_cast<int>(Type::All)].push_back(std::unique_ptr<media::Media>(clone->clone()));
+
+    // Inserisco anche nel tipo specifico
     Type t = detectType(*clone);
-
-    // Inserisci nel contenitore "All"
-    data_[static_cast<size_t>(Type::All)].push_back(media.clone());
-
-    // Inserisci anche nel tipo specifico
     if (t != Type::All) {
-        data_[static_cast<size_t>(t)].push_back(std::move(clone));
+        data_[static_cast<int>(t)].push_back(std::move(clone));
     }
 }
+
 
 MediaContainer::Type MediaContainer::detectType(const media::Media& media) const {
     if (dynamic_cast<const media::Series*>(&media))      return Type::Series;
@@ -48,7 +50,7 @@ std::vector<const media::Media*> MediaContainer::getAll() const {
 
 std::vector<const media::Media*> MediaContainer::getByType(Type type) const {
     std::vector<const media::Media*> result;
-    for (const auto& ptr : data_[static_cast<size_t>(type)]) {
+    for (const auto& ptr : data_[static_cast<int>(type)]) {
         result.push_back(ptr.get());
     }
     return result;
@@ -58,7 +60,7 @@ std::vector<const media::Media*> MediaContainer::getByGroup(Type type) const {
     std::vector<const media::Media*> result;
 
     auto appendGroup = [&](Type t) {
-        for (const auto& ptr : data_[static_cast<size_t>(t)]) {
+        for (const auto& ptr : data_[static_cast<int>(t)]) {
             result.push_back(ptr.get());
         }
     };
@@ -97,7 +99,7 @@ std::vector<const media::Media*> MediaContainer::filter(const media::Media& medi
 
 int MediaContainer::serialize(QSaveFile& file) const {
     std::vector<const media::Media*> rawAll;
-    for (const auto& ptr : data_[static_cast<size_t>(Type::All)]) {
+    for (const auto& ptr : data_[static_cast<int>(Type::All)]) {
         rawAll.push_back(ptr.get());
     }
     return Serializer::Serialize(rawAll, file);

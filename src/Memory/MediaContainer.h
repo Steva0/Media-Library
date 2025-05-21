@@ -30,7 +30,7 @@ private:
         TypeCount
     };
 
-    std::array<std::vector<std::unique_ptr<media::Media>>, static_cast<size_t>(Type::TypeCount)> data_;
+    std::array<std::vector<std::unique_ptr<media::Media>>, static_cast<int>(Type::TypeCount)> data_;
 
     Type detectType(const media::Media& media) const;
 
