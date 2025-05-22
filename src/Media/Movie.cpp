@@ -1,5 +1,4 @@
 #include "Movie.h"
-#include "Media/IConstMediaVisitor.h"
 
 namespace media {
 Movie::Movie(const std::string &title, int release, const std::string &language,
@@ -65,7 +64,20 @@ bool Movie::filter(const Media& movie) const {
     return true;
 }
 
-void Movie::accept(IConstMediaVisitor &v) const { v.visit(*this); }
+void Movie::accept(IConstMediaVisitor &v) const {
+    // Dynamic cast per MediaJSONVisitor
+    if (auto* jsonVisitor = dynamic_cast<memory::MediaJSONVisitor*>(&v)) {
+        jsonVisitor->visit(*this);
+        return;
+    }
+    // Dynamic cast per MediaXMLVisitor
+    if (auto* xmlVisitor = dynamic_cast<memory::MediaXMLVisitor*>(&v)) {
+        xmlVisitor->visit(*this);
+        return;
+    }
+    // Fallback: chiama il visit generico
+    return;
+}
 
 
 }  // namespace media

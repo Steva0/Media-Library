@@ -2,6 +2,8 @@
 #define MEDIA_IMedia_H
 
 #include "IConstMediaVisitor.h"
+#include "../Memory/MediaJSONVisitor.h"
+#include "../Memory/MediaXMLVisitor.h"
 
 namespace media {
 

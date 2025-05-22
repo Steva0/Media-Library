@@ -7,7 +7,6 @@
 #include <limits>
 
 #include "IMedia.h"
-#include "IConstMediaVisitor.h"
 #include "StringUtils.h"
 
 namespace media {

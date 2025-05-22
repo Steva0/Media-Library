@@ -1,6 +1,5 @@
 #ifndef MEDIA_SERIES_H
 #define MEDIA_SERIES_H
-#include "Media/IConstMediaVisitor.h"
 #include "Movie.h"
 
 namespace media {

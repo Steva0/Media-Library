@@ -1,5 +1,4 @@
 #include "AudioBook.h"
-#include "Media/IConstMediaVisitor.h"
 
 namespace media {
 
@@ -59,6 +58,19 @@ bool AudioBook::filter(const Media& input) const {
     return true;
 }
 
-void AudioBook::accept(IConstMediaVisitor &v) const { v.visit(*this); }
+void AudioBook::accept(IConstMediaVisitor &v) const {
+    // Dynamic cast per MediaJSONVisitor
+    if (auto* jsonVisitor = dynamic_cast<memory::MediaJSONVisitor*>(&v)) {
+        jsonVisitor->visit(*this);
+        return;
+    }
+    // Dynamic cast per MediaXMLVisitor
+    if (auto* xmlVisitor = dynamic_cast<memory::MediaXMLVisitor*>(&v)) {
+        xmlVisitor->visit(*this);
+        return;
+    }
+    // Fallback: chiama il visit generico
+    return;
+}
 
 }

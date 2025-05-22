@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "Media.h"
-#include "Media/IConstMediaVisitor.h"
 
 namespace media {
 class Movie : public Media {

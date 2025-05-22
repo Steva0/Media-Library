@@ -1,39 +1,52 @@
-#include <QFile>
+#include <QCoreApplication>
+#include <QSaveFile>
 #include <iostream>
-#include <limits>
-#include <memory>
-#include <vector>
 
+#include "Memory/MediaContainer.h"
+#include "Memory/Serializer.h"
+#include "Media/Movie.h"
+#include "Media/Series.h"
 #include "Media/Album.h"
-#include "Media/Media.h"  // Include il tuo header
-#include "Media/Ebook.h"
-#include "Memory/MediaXMLVisitor.h"
-using namespace memory;
-using namespace media;
 
-int main() {
-    QFile f("album");
+int main(int argc, char *argv[]) {
+    QCoreApplication app(argc, argv);
 
-    f.open(QIODevice::Text | QIODevice::WriteOnly);
-  {
-    MediaXMLVisitor v;
-    Album album("Titolo", 2077, "IT", false, {"OMG"}, "./", "Ohoihiohoi");
-    album.accept(v);
+    // Step 1: Crea media
+    media::Album album("Titolo", 2077, "IT", false, {"OMG"}, "./", "Ohoihiohoi");
+    media::Ebook ebook(
+            "TitoloEbook", 123123, "O.O", true,
+            {"Genere1", "Genere2", "Genere3"},
+            "Dobbiamo ricordarci di filtrare caratteri",
+            "Notaio", "Notatu", "ZaPaburishaa", 666,
+            "Ho finito le idee", "ISBNNN", -1, true);
 
-    f.write(v.getDocument().toByteArray());
-  }
-  {
-    MediaXMLVisitor v;
-    Media media("NomeMedia");
-    media.accept(v);
 
-    f.write(v.getDocument().toByteArray());
-  }
-  {
-    MediaXMLVisitor v;
-    Ebook ebook("TitoloEbook", 123123, "O.O", true, {"Genere1", "Genere2", "Genere3"}, "Dobbiamo ricordarci di filtrare caratteri", "Notaio", "Notatu", "ZaPaburishaa", 666, "Ho finito le idee", "ISBNNN", -1, true);
-    ebook.accept(v);
-    f.write(v.getDocument().toByteArray());
-  }
-    f.close();
+    // Step 2: Inserisci nel container
+    memory::MediaContainer container;
+    container.addMedia(ebook);
+    container.addMedia(album);
+
+    // Step 3: Serializza in JSON
+    {
+        QSaveFile jsonFile("output.json");
+        int res = container.serialize(jsonFile);
+        if (res == 0)
+            std::cout << "Serializzazione JSON riuscita\n";
+        else
+            std::cerr << "Errore serializzazione JSON: " << res << "\n";
+    }
+
+    // Step 4: Serializza in XML
+    {
+        QSaveFile xmlFile("output.xml");
+        // Sovrascrivo momentaneamente Format in Serializer.cpp per usare XML
+        int res = container.serialize(xmlFile);
+        if (res == 0)
+            std::cout << "Serializzazione XML riuscita\n";
+        else
+            std::cerr << "Errore serializzazione XML: " << res << "\n";
+    }
+
+    return 0;
 }
+

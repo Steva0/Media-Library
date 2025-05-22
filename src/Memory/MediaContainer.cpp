@@ -101,7 +101,7 @@ int MediaContainer::serialize(QSaveFile& file) const {
     for (const auto& ptr : data_[static_cast<int>(Type::All)]) {
         rawAll.push_back(ptr.get());
     }
-    return Serializer::Serialize(rawAll, file);
+    return Serializer::serialize(rawAll, file);
 }
 
 } // namespace memory

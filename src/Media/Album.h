@@ -2,7 +2,7 @@
 #define MEDIA_ALBUM_H
 
 #include "Media.h"
-#include "IConstMediaVisitor.h"
+
 namespace media {
 class Album : public Media {
  private:

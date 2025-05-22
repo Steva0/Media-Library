@@ -2,7 +2,6 @@
 #define MEDIA_ROMANZO_H
 
 #include "Media.h"
-#include "Media/IConstMediaVisitor.h"
 
 namespace media {
 

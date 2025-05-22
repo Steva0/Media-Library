@@ -1,7 +1,6 @@
 #ifndef MEDIA_AUDIOBOOK_H
 #define MEDIA_AUDIOBOOK_H
 
-#include "Media/IConstMediaVisitor.h"
 #include "Novel.h"
 
 namespace media {
