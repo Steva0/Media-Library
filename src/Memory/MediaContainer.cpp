@@ -5,17 +5,16 @@
 namespace memory {
 
 void MediaContainer::addMedia(const media::Media& media) {
-    std::unique_ptr<media::Media> clone = media.clone();
-    media::Media* rawPtr = clone.get();
-
-    // Inserisce rawPtr nel vettore "All" copiando il puntatore (non l’oggetto!)
-    data_[static_cast<int>(Type::All)].push_back(std::unique_ptr<media::Media>(clone->clone()));
-
-    // Inserisco anche nel tipo specifico
-    Type t = detectType(*clone);
-    if (t != Type::All) {
-        data_[static_cast<int>(t)].push_back(std::move(clone));
+    Type t = detectType(media);
+    if (t == Type::All) {
+        return;
     }
+
+    // Inserisce una copia in "All"
+    data_[static_cast<int>(Type::All)].push_back(media.clone());
+
+    // Inserisce una copia nel tipo specifico
+    data_[static_cast<int>(t)].push_back(media.clone());
 }
 
 
