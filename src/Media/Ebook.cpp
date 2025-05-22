@@ -6,8 +6,8 @@ namespace media {
 Ebook::Ebook(const std::string& title, int publicationYear, const std::string& language,
              bool favorite, const std::vector<std::string>& genres, const std::string& imagePath, const std::string& notes,
              const std::string& author, const std::string& publisher,
-             unsigned int pages, const std::string& series, const std::string& isbn,
-             unsigned int fileSizeBytes, bool drm)
+             int pages, const std::string& series, const std::string& isbn,
+             int fileSizeBytes, bool drm)
     : Novel(title, publicationYear, language, favorite, genres, imagePath, notes,
             author, publisher, pages, series, isbn),
       fileSizeBytes_(fileSizeBytes), drm_(drm) {}
@@ -21,7 +21,7 @@ bool Ebook::operator==(const Media& other) const {
     return false;
 }   
 
-unsigned int Ebook::getFileSizeBytes() const {
+int Ebook::getFileSizeBytes() const {
     return fileSizeBytes_;
 }
 
@@ -29,7 +29,7 @@ bool Ebook::hasDrm() const {
     return drm_;
 }
 
-void Ebook::setFileSizeBytes(unsigned int size) {
+void Ebook::setFileSizeBytes(int size) {
     fileSizeBytes_ = size;
 }
 
@@ -51,7 +51,7 @@ bool Ebook::filter(const Media& input) const {
         return false;
 
     // File size filter
-    if (fileSizeBytes_ > 0 && ebookPtr->getFileSizeBytes() != fileSizeBytes_)
+    if (fileSizeBytes_ != -1 && ebookPtr->getFileSizeBytes() != fileSizeBytes_)
         return false;
 
     // DRM filter

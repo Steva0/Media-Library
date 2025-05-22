@@ -6,9 +6,9 @@ Series::Series(const std::string &title, int release,
                const std::string &language, bool favourite,
                const std::vector<std::string> &genres,
                const std::string &img_path, const std::string &notes,
-               const std::vector<std::string> &cast, unsigned int length,
-               const std::string &universe, unsigned int episodes,
-               unsigned int seasons, bool ended)
+               const std::vector<std::string> &cast, int length,
+               const std::string &universe, int episodes,
+               int seasons, bool ended)
     : Movie(title, release, language, favourite, genres, img_path, notes, cast,
             length, universe),
       episodes_(episodes),
@@ -27,8 +27,8 @@ std::unique_ptr<Media> Series::clone() const {
     return std::make_unique<Series>(*this);
 }
 
-unsigned int Series::getEpisodes() const { return episodes_; }
-unsigned int Series::getSeasons() const { return seasons_; }
+int Series::getEpisodes() const { return episodes_; }
+int Series::getSeasons() const { return seasons_; }
 bool Series::hasEnded() const { return ended_; }
 
 bool Series::filter(const Media& input) const {
@@ -40,11 +40,11 @@ bool Series::filter(const Media& input) const {
         return false; // Protegge da cast fallito
 
     // Episodes (confronto stretto)
-    if (episodes_ != std::numeric_limits<unsigned int>::max() && seriesPtr->getEpisodes() != episodes_)
+    if (episodes_ != -1 && seriesPtr->getEpisodes() != episodes_)
         return false;
 
     // Seasons (confronto stretto)
-    if (seasons_ != std::numeric_limits<unsigned int>::max() && seriesPtr->getSeasons() != seasons_)
+    if (seasons_ != -1 && seriesPtr->getSeasons() != seasons_)
         return false;
 
     // Ended (confronto booleano)

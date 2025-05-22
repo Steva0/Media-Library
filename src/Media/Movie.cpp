@@ -5,7 +5,7 @@ namespace media {
 Movie::Movie(const std::string &title, int release, const std::string &language,
              bool favourite, const std::vector<std::string> &genres,
              const std::string &img_path, const std::string &notes,
-             const std::vector<std::string> &cast, unsigned int length,
+             const std::vector<std::string> &cast, int length,
              const std::string &universe)
     : Media(title, release, language, favourite, genres, img_path, notes),
       cast_(cast),
@@ -25,7 +25,7 @@ std::unique_ptr<Media> Movie::clone() const {
 }
 
 const std::vector<std::string> &Movie::getCast() const { return cast_; }
-unsigned int Movie::getLength() const { return length_; }
+int Movie::getLength() const { return length_; }
 const std::string &Movie::getUniverse() const { return universe_; }
 
 bool Movie::filter(const Media& movie) const {
@@ -55,7 +55,7 @@ bool Movie::filter(const Media& movie) const {
     }
 
     // Length (confronto stretto)
-    if (length_ != std::numeric_limits<unsigned int>::max() && moviePtr->getLength() != length_)
+    if (length_ != -1 && moviePtr->getLength() != length_)
         return false;
 
     // Universe (match parziale, case-insensitive)

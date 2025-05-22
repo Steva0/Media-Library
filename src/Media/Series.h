@@ -6,20 +6,20 @@
 namespace media {
 class Series : public Movie {
  private:
-  unsigned int episodes_;
-  unsigned int seasons_;
+  int episodes_;
+  int seasons_;
   bool ended_;
 
  public:
   Series(const std::string &title, int release, const std::string &language,
          bool favourite, const std::vector<std::string> &genres,
          const std::string &img_path, const std::string &notes,
-         const std::vector<std::string> &cast, unsigned int length,
-         const std::string &universe, unsigned int episodes = std::numeric_limits<unsigned int>::max(),
-         unsigned int seasons = std::numeric_limits<unsigned int>::max(), bool ended = false);
+         const std::vector<std::string> &cast, int length,
+         const std::string &universe, int episodes = -1,
+         int seasons = -1, bool ended = false);
   bool operator==(const Media &other) const override;
-  unsigned int getEpisodes() const;
-  unsigned int getSeasons() const;
+  int getEpisodes() const;
+  int getSeasons() const;
   bool hasEnded() const;
   
   std::unique_ptr<Media> clone() const override;
