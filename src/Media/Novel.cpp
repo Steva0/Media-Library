@@ -64,9 +64,7 @@ bool Novel::filter(const Media& input) const {
     if (!isbn_.empty() && !stringContainsIgnoreCase(novelPtr->getIsbn(), isbn_))
         return false;
 
-    // Pagine (confronto stretto)
-    if (pages_ != -1 && novelPtr->getPages() != pages_)
-        return false;
+    // Pagine (non fa il confronto)
 
     return true;
 }

@@ -53,9 +53,7 @@ bool Movie::filter(const Media& movie) const {
         }
     }
 
-    // Length (confronto stretto)
-    if (length_ != -1 && moviePtr->getLength() != length_)
-        return false;
+    // Length (non confronto)
 
     // Universe (match parziale, case-insensitive)
     if (!universe_.empty() && !stringContainsIgnoreCase(moviePtr->getUniverse(), universe_))
