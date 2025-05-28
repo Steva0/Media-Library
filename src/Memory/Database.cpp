@@ -16,16 +16,23 @@ Database::Database(const QString &path) : file_(path) {
 }
 
 bool Database::open(const QString &path) {
+  if (path == file_.fileName()) { //da vedere come sono scritti i nomi dei file, se con o senza percorso se il file finisce in .tmp non funziona esempio
+    // il file è già aperto
+    return true;
+  }
   QFile file(path);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
     return false;
   }
+  media_container_.clear(); // svuota il database corrente
   // media_container_.addMedia(Deserializer::deserialize(file));
   file.close();
   return true;
 }
+
 bool Database::close(bool save_on_exit) {
   if (save_on_exit) {
+    media_container_.serialize(file_);
     return file_.commit(); // false <=> errore
   }
   file_.cancelWriting();
@@ -33,6 +40,7 @@ bool Database::close(bool save_on_exit) {
 }
 
 bool Database::save() {
+  media_container_.serialize(file_);
   if (!file_.commit()) {
     // errore in scrittura
     return false;

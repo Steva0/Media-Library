@@ -17,6 +17,12 @@ void MediaContainer::addMedia(const media::Media& media) {
     data_[static_cast<int>(t)].push_back(media.clone());
 }
 
+void MediaContainer::addMedia(const std::vector<media::Media>& listaMedia) {
+    for (const auto& media : listaMedia) {
+        addMedia(media);
+    }
+}
+
 
 MediaContainer::Type MediaContainer::detectType(const media::Media& media) const {
     if (dynamic_cast<const media::Series*>(&media))      return Type::Series;

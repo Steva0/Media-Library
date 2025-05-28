@@ -21,7 +21,7 @@ class Database {
   };
 
  public:
-  Database(){};   //costruttore vuoto
+  Database()= default;   //costruttore vuoto
   Database(const QString &path);  //costruttore partendo da un file
 
   ~Database();

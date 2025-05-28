@@ -39,6 +39,7 @@ private:
 
 public:
     void addMedia(const media::Media& media);
+    void addMedia(const std::vector<media::Media>& listaMedia);
     void removeMedia(const media::Media& media);
     void clear();
 
