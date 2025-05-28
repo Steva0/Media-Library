@@ -1,7 +1,7 @@
 #ifndef MEMORY_SERIALIZER_H
 #define MEMORY_SERIALIZER_H
 
-#include <QSaveFile>
+#include <QFile>
 #include <vector>
 
 namespace media {
@@ -16,7 +16,7 @@ public:
     //  0  -> successo
     // -1 -> errore apertura file
     // -2 -> errore scrittura file
-    static int serialize(const std::vector<const media::Media*>& mediaList, QSaveFile& file);
+    static int serialize(const std::vector<const media::Media*>& mediaList, QFile& file);
 };
 
 } // namespace memory

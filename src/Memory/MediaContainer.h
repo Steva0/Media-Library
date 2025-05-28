@@ -1,7 +1,7 @@
 #ifndef MEMORY_MEDIACONTAINER_H
 #define MEMORY_MEDIACONTAINER_H
 
-#include <QSaveFile>
+#include <QFile>
 #include <array>
 #include <memory>
 #include <vector>
@@ -33,7 +33,6 @@ private:
     std::array<std::vector<std::unique_ptr<media::Media>>, static_cast<int>(Type::TypeCount)> data_;
 
     Type detectType(const media::Media& media) const;
-
     std::vector<const media::Media*> getByType(Type type) const;
     std::vector<const media::Media*> getByGroup(Type type) const;
 
@@ -44,10 +43,9 @@ public:
     void clear();
 
     std::vector<const media::Media*> filter(const media::Media& media) const;
-
     std::vector<const media::Media*> getAll() const;
 
-    int serialize(QSaveFile& file) const;
+    int serialize(QFile& file) const;
 };
 
 }  // namespace memory

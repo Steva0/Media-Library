@@ -1,41 +1,50 @@
 #ifndef MEMORY_DATABASE_H
 #define MEMORY_DATABASE_H
-#include <QSaveFile>
 
 #include "./MediaContainer.h"
+#include <QString>
 #include <memory>
+#include <vector>
+
+class QFile;
+
+namespace media {
+class Media;
+}
 
 namespace memory {
+
 class Database {
- private:
-  MediaContainer media_container_;
-  QSaveFile file_;
+private:
+    MediaContainer media_container_;
+    QString file_path_;
 
-  class Deserializer {
+    class Deserializer {
     private:
-     static std::vector<media::Media> fromJson(QFile &file);
-     static std::vector<media::Media> fromXML(QFile &file);
-    
-   public:
-    static std::vector<media::Media> deserialize(QFile &file);
-  };
+        static std::vector<media::Media> fromJson(QFile& file);
+        static std::vector<media::Media> fromXml(QFile& file);
 
- public:
-  Database()= default;   //costruttore vuoto
-  Database(const QString &path);  //costruttore partendo da un file
+    public:
+        static std::vector<media::Media> deserialize(QFile& file);
+    };
 
-  ~Database();
+public:
+    Database() = default;
+    explicit Database(const QString& path);
+    ~Database();
 
-  bool open(const QString &path);   //fa un clear e apre il file passato e lo assegna all'attributo file_
-  bool close(bool save);  //se save == true, salva il database su file_ altrimenti fa solo un clear
-  bool save();      //serializza il database su file_
+    bool open(const QString& path);
+    bool close(bool save); // salva se `save == true`
+    bool save();
 
-  void addMedia(const media::Media &media); //aggiunge un media al database
-  void removeMedia(const media::Media &media);  //rimuove un media dal database
-  std::vector<const media::Media*> getAll() const;  //restituisce tutti i media del database
-  void clear(); //svuota il database
+    void addMedia(const media::Media& media);
+    void removeMedia(const media::Media& media);
+    void clear();
 
-  std::vector<const media::Media*> filterMedia(const media::Media &) const; //filtra i media del database in base al filtro passato come parametro
-}; 
-}  // namespace memory
-#endif
+    std::vector<const media::Media*> getAll() const;
+    std::vector<const media::Media*> filterMedia(const media::Media& filter) const;
+};
+
+} // namespace memory
+
+#endif // MEMORY_DATABASE_H

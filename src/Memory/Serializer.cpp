@@ -9,7 +9,7 @@
 
 namespace memory {
 
-namespace { // Dettagli interni (visibilità solo a questo file)
+namespace { // Dettagli interni (visibilità limitata a questo file)
 
 enum class Format { JSON, XML };
 
@@ -19,11 +19,11 @@ Format detectFormat(const QString& fileName) {
     return Format::XML;
 }
 
-bool openFileForWrite(QSaveFile& file) {
-    return file.open(QIODevice::WriteOnly | QIODevice::Text);
+bool openFileForWrite(QFile& file) {
+    return file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate);
 }
 
-int writeJsonFile(const std::vector<const media::Media*>& mediaList, QSaveFile& file) {
+int writeJsonFile(const std::vector<const media::Media*>& mediaList, QFile& file) {
     QJsonArray jsonArray;
 
     for (const auto* media : mediaList) {
@@ -37,11 +37,11 @@ int writeJsonFile(const std::vector<const media::Media*>& mediaList, QSaveFile& 
 
     if (!openFileForWrite(file)) return -1;
 
-    file.write(doc.toJson(QJsonDocument::Indented));
-    return file.commit() ? 0 : -2;
+    qint64 written = file.write(doc.toJson(QJsonDocument::Indented));
+    return (written > 0) ? 0 : -2;
 }
 
-int writeXmlFile(const std::vector<const media::Media*>& mediaList, QSaveFile& file) {
+int writeXmlFile(const std::vector<const media::Media*>& mediaList, QFile& file) {
     QDomDocument doc("MediaCollection");
     QDomElement root = doc.createElement("MediaList");
     doc.appendChild(root);
@@ -58,12 +58,12 @@ int writeXmlFile(const std::vector<const media::Media*>& mediaList, QSaveFile& f
 
     QTextStream stream(&file);
     doc.save(stream, 2);
-    return file.commit() ? 0 : -2;
+    return 0;
 }
 
-} // namespace anonimo
+} // anonymous namespace
 
-int Serializer::serialize(const std::vector<const media::Media*>& mediaList, QSaveFile& file) {
+int Serializer::serialize(const std::vector<const media::Media*>& mediaList, QFile& file) {
     const Format format = detectFormat(file.fileName());
     return (format == Format::JSON) ? writeJsonFile(mediaList, file)
                                     : writeXmlFile(mediaList, file);

@@ -1,75 +1,101 @@
 #include "Database.h"
+#include "Serializer.h"
+
+#include "../Media/Media.h"
+
 
 #include <QFile>
-#include <memory>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QDomDocument>
+#include <QTextStream>
 
 namespace memory {
+
 Database::~Database() {
-  close(false); // di default non salvare eventuali cambiamenti
-}
-Database::Database(const QString &path) : file_(path) {
-  if (!file_.open(QIODevice::ReadWrite | QIODevice::Text)) {
-    // errore apertura file
-    return;
-  }
-  // media_container_.addMedia(Deserializer::deserialize(file_));
+    close(false);
 }
 
-bool Database::open(const QString &path) {
-  if (path == file_.fileName()) { //da vedere come sono scritti i nomi dei file, se con o senza percorso se il file finisce in .tmp non funziona esempio
-    // il file è già aperto
+Database::Database(const QString& path) {
+    open(path);
+}
+
+bool Database::open(const QString& path) {
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return false;
+
+    media_container_.clear();
+    const auto list = Deserializer::deserialize(file);
+    for (const auto& media : list) {
+        media_container_.addMedia(media);
+    }
+
+    file_path_ = path;
     return true;
-  }
-  QFile file(path);
-  if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-    return false;
-  }
-  media_container_.clear(); // svuota il database corrente
-  // media_container_.addMedia(Deserializer::deserialize(file));
-  file.close();
-  return true;
 }
 
 bool Database::close(bool save_on_exit) {
-  if (save_on_exit) {
-    media_container_.serialize(file_);
-    return file_.commit(); // false <=> errore
-  }
-  file_.cancelWriting();
-  return true;
+    if (save_on_exit)
+        return save();
+
+    media_container_.clear();
+    file_path_.clear();
+    return true;
 }
 
 bool Database::save() {
-  media_container_.serialize(file_);
-  if (!file_.commit()) {
-    // errore in scrittura
-    return false;
-  }
-  
-  if (!file_.open(QIODevice::ReadOnly | QIODevice::Text)) {
-    return false;
-  }
-  return true;
-}
+    if (file_path_.isEmpty())
+        return false;
 
-std::vector<const media::Media*> Database::filterMedia(
-    const media::Media &media_as_filter) const {
-  return media_container_.filter(media_as_filter);
-}
+    QFile file(file_path_);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+        return false;
 
-void Database::addMedia(const media::Media &media) {
-    media_container_.addMedia(media);
-}
-
-void Database::removeMedia(const media::Media &media) {
-  media_container_.removeMedia(media);
-}
-
-void Database::clear(){
-  media_container_.clear();
+    const int result = Serializer::serialize(media_container_.getAll(), file);
+    file.close();
+    return result == 0;
 }
 
 std::vector<const media::Media*> Database::getAll() const {
-  return media_container_.getAll();
+    return media_container_.getAll();
 }
-}  // namespace memory
+
+std::vector<const media::Media*> Database::filterMedia(const media::Media& filter) const {
+    return media_container_.filter(filter);
+}
+
+void Database::addMedia(const media::Media& media) {
+    media_container_.addMedia(media);
+}
+
+void Database::removeMedia(const media::Media& media) {
+    media_container_.removeMedia(media);
+}
+
+void Database::clear() {
+    media_container_.clear();
+}
+
+std::vector<media::Media> Database::Deserializer::deserialize(QFile& file) {
+    QString fileName = file.fileName().toLower();
+    if (fileName.endsWith(".json")) {
+        return fromJson(file);
+    } else {
+        return fromXml(file);
+    }
+}
+
+std::vector<media::Media> Database::Deserializer::fromJson(QFile& file) {
+    std::vector<media::Media> result;
+
+    return result;
+}
+
+std::vector<media::Media> Database::Deserializer::fromXml(QFile& file) {
+    std::vector<media::Media> result;
+
+    return result;
+}
+
+} // namespace memory

@@ -102,12 +102,13 @@ std::vector<const media::Media*> MediaContainer::filter(const media::Media& medi
     return results;
 }
 
-int MediaContainer::serialize(QSaveFile& file) const {
+int MediaContainer::serialize(QFile& file) const {
     std::vector<const media::Media*> rawAll;
     for (const auto& ptr : data_[static_cast<int>(Type::All)]) {
         rawAll.push_back(ptr.get());
     }
     return Serializer::serialize(rawAll, file);
 }
+
 
 } // namespace memory
