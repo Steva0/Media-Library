@@ -26,6 +26,7 @@ bool openFileForWrite(QFile& file) {
 int writeJsonFile(const std::vector<const media::Media*>& mediaList, QFile& file) {
     QJsonArray jsonArray;
 
+
     for (const auto* media : mediaList) {
         if (!media) continue;
         MediaJSONVisitor visitor;
@@ -36,7 +37,7 @@ int writeJsonFile(const std::vector<const media::Media*>& mediaList, QFile& file
     QJsonDocument doc(jsonArray);
 
     if (!openFileForWrite(file)) return -1;
-
+    
     qint64 written = file.write(doc.toJson(QJsonDocument::Indented));
     return (written > 0) ? 0 : -2;
 }
@@ -48,18 +49,20 @@ int writeXmlFile(const std::vector<const media::Media*>& mediaList, QFile& file)
 
     for (const auto* media : mediaList) {
         if (!media) continue;
+
         MediaXMLVisitor visitor;
         media->accept(visitor);
-        QDomNode imported = doc.importNode(visitor.getDocument().documentElement(), true);
-        root.appendChild(imported);
+        root.appendChild(doc.importNode(visitor.getDocument().documentElement(), true));
     }
 
     if (!openFileForWrite(file)) return -1;
 
     QTextStream stream(&file);
-    doc.save(stream, 2);
+    doc.save(stream, 2);  // Indentazione a 2 spazi, come JSON
+
     return 0;
 }
+
 
 } // anonymous namespace
 

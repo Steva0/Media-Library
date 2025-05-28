@@ -115,7 +115,7 @@ void MediaXMLVisitor::visit(const media::AudioBook &audioBook) {
 }
 void MediaXMLVisitor::visit(const media::Ebook &ebook) {
   visit(static_cast<const media::Novel &>(ebook));
-  document_.childNodes().at(0).toElement().setTagName("eBook");
+  document_.childNodes().at(0).toElement().setTagName("Ebook");
   document_.childNodes().at(0).toElement().appendChild(
       elementFrom("Bytes", ebook.getFileSizeBytes()));
   if (ebook.hasDrm())

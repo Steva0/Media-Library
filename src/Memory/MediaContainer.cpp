@@ -10,6 +10,9 @@ void MediaContainer::addMedia(const media::Media& media) {
         return;
     }
 
+    // Rimuove eventuali duplicati prima di inserire
+    removeMedia(media);
+
     // Inserisce una copia in "All"
     data_[static_cast<int>(Type::All)].push_back(media.clone());
 

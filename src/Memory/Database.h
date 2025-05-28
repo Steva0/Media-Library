@@ -19,14 +19,9 @@ private:
     MediaContainer media_container_;
     QString file_path_;
 
-    class Deserializer {
-    private:
-        static std::vector<media::Media> fromJson(QFile& file);
-        static std::vector<media::Media> fromXml(QFile& file);
+    void fromJson(QFile& file);
+    void fromXml(QFile& file);
 
-    public:
-        static std::vector<media::Media> deserialize(QFile& file);
-    };
 
 public:
     Database() = default;
@@ -35,7 +30,7 @@ public:
 
     bool open(const QString& path);
     bool close(bool save); // salva se `save == true`
-    bool save();
+    bool save(const QString& path = QString());
 
     void addMedia(const media::Media& media);
     void removeMedia(const media::Media& media);

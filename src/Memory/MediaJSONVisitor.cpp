@@ -92,7 +92,7 @@ void MediaJSONVisitor::visit(const media::AudioBook &audioBook) {
 
 void MediaJSONVisitor::visit(const media::Ebook &ebook) {
   visit(static_cast<const media::Novel &>(ebook));
-  root_["type"] = "eBook";
+  root_["type"] = "Ebook";
   addValue(root_, "Bytes", ebook.getFileSizeBytes());
   if (ebook.hasDrm())
     addFlag(root_, "DRM");

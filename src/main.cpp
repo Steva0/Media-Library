@@ -1,52 +1,91 @@
 #include <QCoreApplication>
-#include <QSaveFile>
+#include <QFile>
 #include <iostream>
 
-#include "Memory/MediaContainer.h"
-#include "Memory/Serializer.h"
+#include "Memory/Database.h"
 #include "Media/Movie.h"
 #include "Media/Series.h"
 #include "Media/Album.h"
+#include "Media/Ebook.h"
 
 int main(int argc, char *argv[]) {
     QCoreApplication app(argc, argv);
 
-    // Step 1: Crea media
-    media::Album album("Titolo", 2077, "IT", false, {"OMG"}, "./", "Ohoihiohoi");
+    // Step 1: Crea alcuni media
+    media::Album album(
+        "TitoloAlbum", 2077, "IT", false,
+        {"Rock", "Synthwave"}, "./img_album.jpg", "Band pazza",
+        "CyberBand", {"Membro1", "Membro2"}, {"Track1", "Track2"}
+    );
+
+    media::Album album2(
+        "TitoloAlbum2", 2077, "IT", false,
+        {"Rock", "Synthwave"}, "./img_album.jpg", "Band pazza",
+        "CyberBand", {"Membro1", "Membro2"}, {"Track1", "Track2"}
+    );
+
     media::Ebook ebook(
-            "TitoloEbook", 123123, "O.O", true,
-            {"Genere1", "Genere2", "Genere3"},
-            "Dobbiamo ricordarci di filtrare caratteri",
-            "Notaio", "Notatu", "ZaPaburishaa", 666,
-            "Ho finito le idee", "ISBNNN", -1, true);
+        "TitoloEbook", 2025, "EN", true,
+        {"Fantasy", "Adventure"}, "Note random",
+        "Autore Immaginario", "Editore Finto", "Saga Fittizia",
+        300, "copertina.jpg", "ISBN12345", 1234567, true
+    );
 
+    media::Ebook ebook2(
+        "TitoloEbook2", 2025, "EN", true,
+        {"Fantasy", "Adventure"}, "Note random",
+        "Autore Immaginario", "Editore Finto", "Saga Fittizia",
+        300, "copertina.jpg", "ISBN12345", 1234567, true
+    );
 
-    // Step 2: Inserisci nel container
-    memory::MediaContainer container;
-    container.addMedia(ebook);
-    container.addMedia(album);
+    // Step 2: Crea istanze dei database
+    memory::Database dbJson;
+    memory::Database dbXml;
 
-    // Step 3: Serializza in JSON
-    {
-        QSaveFile jsonFile("output.json");
-        int res = container.serialize(jsonFile);
-        if (res == 0)
-            std::cout << "Serializzazione JSON riuscita\n";
-        else
-            std::cerr << "Errore serializzazione JSON: " << res << "\n";
+    // Step 3: Apri file
+    if (!dbJson.open("output.json")) {
+        std::cerr << "Errore apertura output.json\n";
+        return 1;
+    } else {
+        std::cout << "Apertura output.json riuscita\n";
+
+        const auto& all = dbJson.getAll();
+        std::cout << "Numero elementi caricati: " << all.size() << "\n";
     }
 
-    // Step 4: Serializza in XML
-    {
-        QSaveFile xmlFile("output.xml");
-        // Sovrascrivo momentaneamente Format in Serializer.cpp per usare XML
-        int res = container.serialize(xmlFile);
-        if (res == 0)
-            std::cout << "Serializzazione XML riuscita\n";
-        else
-            std::cerr << "Errore serializzazione XML: " << res << "\n";
+    // Step 3: Apri file
+    if (!dbXml.open("output.xml")) {
+        std::cerr << "Errore apertura output.json\n";
+        return 1;
+    } else {
+        std::cout << "Apertura output.xml riuscita\n";
+
+        const auto& all = dbXml.getAll();
+        std::cout << "Numero elementi caricati: " << all.size() << "\n";
     }
+
+    
+    // Step 4: Aggiungi media
+    dbJson.addMedia(ebook);
+    dbJson.addMedia(album);
+    dbJson.addMedia(ebook2);
+    dbJson.addMedia(album2);
+    
+
+    // Step 5: Salva in JSON
+    if (dbJson.save())
+        std::cout << "Serializzazione JSON riuscita\n";
+    else
+        std::cerr << "Errore serializzazione JSON\n";
+
+    // Step 6: Salva in XML
+    if (dbXml.save())
+        std::cout << "Serializzazione XML riuscita\n";
+    else
+        std::cerr << "Errore serializzazione XML\n";
+
+
+    std::cout << "Chiusura dei file completata.\n";
 
     return 0;
 }
-
