@@ -14,8 +14,8 @@ int main(int argc, char *argv[]) {
     // Step 1: Crea alcuni media
     media::Album album(
         "TitoloAlbum", 2077, "IT", false,
-        {"Rock", "Synthwave"}, "./img_album.jpg", "Band pazza",
-        "CyberBand", {"Membro1", "Membro2"}, {"Track1", "Track2"}
+        {"Rock", "Synthwave"}, "", "Band pazza",
+        "CyberBand", {"Membro1", "Membro2"}, {}
     );
 
     media::Album album2(
@@ -26,16 +26,11 @@ int main(int argc, char *argv[]) {
 
     media::Ebook ebook(
         "TitoloEbook", 2025, "EN", true,
-        {"Fantasy", "Adventure"}, "Note random",
-        "Autore Immaginario", "Editore Finto", "Saga Fittizia",
-        300, "copertina.jpg", "ISBN12345", 1234567, true
+        {"Fantasy", "Adventure"}
     );
 
     media::Ebook ebook2(
-        "TitoloEbook2", 2025, "EN", true,
-        {"Fantasy", "Adventure"}, "Note random",
-        "Autore Immaginario", "Editore Finto", "Saga Fittizia",
-        300, "copertina.jpg", "ISBN12345", 1234567, true
+        "TitoloEbook2"
     );
 
     // Step 2: Crea istanze dei database
@@ -70,6 +65,11 @@ int main(int argc, char *argv[]) {
     dbJson.addMedia(album);
     dbJson.addMedia(ebook2);
     dbJson.addMedia(album2);
+    dbXml.addMedia(ebook);
+    dbXml.addMedia(ebook2);
+    dbXml.addMedia(album);
+    dbXml.addMedia(album2);
+
     
 
     // Step 5: Salva in JSON
