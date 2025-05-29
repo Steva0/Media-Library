@@ -120,7 +120,7 @@ void Database::fromJson(QFile& file) {
     for (const auto& value : array) {
         if (!value.isObject()) continue;
         QJsonObject obj = value.toObject();
-        if (!obj.contains("type")) continue;
+        if (!obj.contains("type") || !obj.contains("Title")) continue;
 
         QString type = obj["type"].toString();
 
@@ -128,60 +128,60 @@ void Database::fromJson(QFile& file) {
 
         // Campi comuni 
         std::string title = obj["Title"].toString().toStdString();
-        int release = obj["Release"].toInt();
-        std::string language = obj["Language"].toString().toStdString();
-        std::vector<std::string> genres = readStringArray(obj, "Genres");
-        std::string imagePath = obj["ImagePath"].toString().toStdString();
-        std::string notes = obj["Notes"].toString().toStdString();
-        bool favourite = obj.contains("Favourite") && obj["Favourite"].toBool();
+        int release = obj.contains("Release") ? obj["Release"].toInt() : std::numeric_limits<int>::min();
+        std::string language = obj.contains("Language") ? obj["Language"].toString().toStdString() : "";
+        std::vector<std::string> genres = obj.contains("Genres") ? readStringArray(obj, "Genres") : std::vector<std::string>();
+        std::string imagePath = obj.contains("ImagePath") ? obj["ImagePath"].toString().toStdString() : "";
+        std::string notes = obj.contains("Notes") ? obj["Notes"].toString().toStdString() : "";
+        bool favourite = obj.contains("Favourite") ? obj["Favourite"].toBool() : false;
 
         if (type == "Album") {
-            std::string band = obj["Band"].toString().toStdString();
-            auto bandMembers = readStringArray(obj, "BandMembers");
-            auto songs = readStringArray(obj, "Songs");
+            std::string band = obj.contains("Band") ? obj["Band"].toString().toStdString() : "";
+            auto bandMembers = obj.contains("BandMembers") ? readStringArray(obj, "BandMembers") : std::vector<std::string>();
+            auto songs = obj.contains("Songs") ? readStringArray(obj, "Songs") : std::vector<std::string>();
             media = std::make_unique<media::Album>(title, release, language, favourite, genres, imagePath, notes, band, bandMembers, songs);
         }
         else if (type == "Movie") {
-            auto cast = readStringArray(obj, "Cast");
-            int length = obj["Length"].toInt();
-            std::string universe = obj["Universe"].toString().toStdString();
+            auto cast = obj.contains("Cast") ? readStringArray(obj, "Cast") : std::vector<std::string>();
+            int length = obj.contains("Length") ? obj["Length"].toInt() : std::numeric_limits<int>::min();
+            std::string universe = obj.contains("Universe") ? obj["Universe"].toString().toStdString() : "";
             media = std::make_unique<media::Movie>(title, release, language, favourite, genres, imagePath, notes, cast, length, universe);
         }
         else if (type == "Series") {
-            auto cast = readStringArray(obj, "Cast");
-            int length = obj["Length"].toInt();
-            std::string universe = obj["Universe"].toString().toStdString();
-            int episodes = obj["Episodes"].toInt();
-            int seasons = obj["Seasons"].toInt();
-            bool ended = obj.contains("Ended") && obj["Ended"].toBool();
+            auto cast = obj.contains("Cast") ? readStringArray(obj, "Cast") : std::vector<std::string>();
+            int length = obj.contains("Length") ? obj["Length"].toInt() : std::numeric_limits<int>::min();
+            std::string universe = obj.contains("Universe") ? obj["Universe"].toString().toStdString() : "";
+            int episodes = obj.contains("Episodes") ? obj["Episodes"].toInt() : std::numeric_limits<int>::min();
+            int seasons = obj.contains("Seasons") ? obj["Seasons"].toInt() : std::numeric_limits<int>::min();
+            bool ended = obj.contains("Ended") ? obj["Ended"].toBool() : false;
             media = std::make_unique<media::Series>(title, release, language, favourite, genres, imagePath, notes, cast, length, universe, episodes, seasons, ended);
         }
         else if (type == "Novel") {
-            std::string author = obj["Author"].toString().toStdString();
-            std::string publisher = obj["Publisher"].toString().toStdString();
-            int pages = obj["Pages"].toInt();
-            std::string series = obj["Series"].toString().toStdString();
-            std::string isbn = obj["ISBN"].toString().toStdString();
+            std::string author = obj.contains("Author") ? obj["Author"].toString().toStdString() : "";
+            std::string publisher = obj.contains("Publisher") ? obj["Publisher"].toString().toStdString() : "";
+            int pages = obj.contains("Pages") ? obj["Pages"].toInt() : std::numeric_limits<int>::min();
+            std::string series = obj.contains("Series") ? obj["Series"].toString().toStdString() : "";
+            std::string isbn = obj.contains("ISBN") ? obj["ISBN"].toString().toStdString() : "";
             media = std::make_unique<media::Novel>(title, release, language, favourite, genres, imagePath, notes, author, publisher, pages, series, isbn);
         }
         else if (type == "AudioBook") {
-            std::string author = obj["Author"].toString().toStdString();
-            std::string publisher = obj["Publisher"].toString().toStdString();
-            int pages = obj["Pages"].toInt();
-            std::string series = obj["Series"].toString().toStdString();
-            std::string isbn = obj["ISBN"].toString().toStdString();
-            std::string narrator = obj["Narrator"].toString().toStdString();
-            std::string service = obj["Service"].toString().toStdString();
+            std::string author = obj.contains("Author") ? obj["Author"].toString().toStdString() : "";
+            std::string publisher = obj.contains("Publisher") ? obj["Publisher"].toString().toStdString() : "";
+            int pages = obj.contains("Pages") ? obj["Pages"].toInt() : std::numeric_limits<int>::min();
+            std::string series = obj.contains("Series") ? obj["Series"].toString().toStdString() : "";
+            std::string isbn = obj.contains("ISBN") ? obj["ISBN"].toString().toStdString() : "";
+            std::string narrator = obj.contains("Narrator") ? obj["Narrator"].toString().toStdString() : "";
+            std::string service = obj.contains("Service") ? obj["Service"].toString().toStdString() : "";
             media = std::make_unique<media::AudioBook>(title, release, language, favourite, genres, imagePath, notes, author, publisher, pages, series, isbn, narrator, service);
         }
         else if (type == "Ebook") {
-            std::string author = obj["Author"].toString().toStdString();
-            std::string publisher = obj["Publisher"].toString().toStdString();
-            int pages = obj["Pages"].toInt();
-            std::string series = obj["Series"].toString().toStdString();
-            std::string isbn = obj["ISBN"].toString().toStdString();
-            int bytes = obj["Bytes"].toInt();
-            bool drm = obj.contains("DRM") && obj["DRM"].toBool();
+            std::string author = obj.contains("Author") ? obj["Author"].toString().toStdString() : "";
+            std::string publisher = obj.contains("Publisher") ? obj["Publisher"].toString().toStdString() : "";
+            int pages = obj.contains("Pages") ? obj["Pages"].toInt() : std::numeric_limits<int>::min();
+            std::string series = obj.contains("Series") ? obj["Series"].toString().toStdString() : "";
+            std::string isbn = obj.contains("ISBN") ? obj["ISBN"].toString().toStdString() : "";
+            int bytes = obj.contains("Bytes") ? obj["Bytes"].toInt() : std::numeric_limits<int>::min();
+            bool drm = obj.contains("DRM") ? obj["DRM"].toBool() : false;
             media = std::make_unique<media::Ebook>(title, release, language, favourite, genres, imagePath, notes, author, publisher, pages, series, isbn, bytes, drm);
         }
         else {
