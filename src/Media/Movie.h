@@ -14,9 +14,9 @@ class Movie : public Media {
   std::string universe_;
 
  public:
-  Movie(const std::string &title, int release, const std::string &language,
-        bool favourite, const std::vector<std::string> &genres,
-        const std::string &img_path, const std::string &notes,
+  Movie(const std::string &title, int release = std::numeric_limits<int>::min(), const std::string &language = "",
+        bool favourite = false, const std::vector<std::string> &genres = {},
+        const std::string &img_path = "", const std::string &notes = "",
         const std::vector<std::string> &cast = {}, int length = std::numeric_limits<int>::min(),
         const std::string &universe = "");
   bool operator==(const Media &other) const override;

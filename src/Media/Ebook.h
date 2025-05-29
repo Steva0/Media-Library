@@ -11,10 +11,10 @@ private:
     bool drm_;
 
 public:
-    Ebook(const std::string& title, int publicationYear, const std::string& language,
-          bool favorite, const std::vector<std::string>& genres, const std::string& imagePath, const std::string& notes,
-          const std::string& author, const std::string& publisher,
-          int pages, const std::string& series, const std::string& isbn,
+    Ebook(const std::string& title, int publicationYear std::numeric_limits<int>::min(), const std::string& language = "",
+          bool favorite = false, const std::vector<std::string>& genres = {}, const std::string& imagePath ="", const std::string& notes = "",
+          const std::string& author = "", const std::string& publisher = "",
+          int pages = std::numeric_limits<int>::min(), const std::string& series = "", const std::string& isbn = "",
           int fileSizeBytes = std::numeric_limits<int>::min(), bool drm = false);
 
     bool operator==(const Media& other) const override;

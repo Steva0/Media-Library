@@ -12,10 +12,10 @@ private:
 
 public:
     //durata è in minuti e usa il campo dati pagine di Novel
-    AudioBook(const std::string& title, int publicationYear, const std::string& language,
-              bool favorite, const std::vector<std::string>& genres, const std::string& imagePath, const std::string& notes,
-              const std::string& author, const std::string& publisher,
-              int duration, const std::string& series, const std::string& isbn,
+    AudioBook(const std::string& title, int publicationYear std::numeric_limits<int>::min(), const std::string& language = "",
+              bool favorite = false, const std::vector<std::string>& genres = {}, const std::string& imagePath ="", const std::string& notes = "",
+              const std::string& author = "", const std::string& publisher = "",
+              int pages = std::numeric_limits<int>::min(), const std::string& series = "", const std::string& isbn = "",
               const std::string& narrator = "", const std::string& streamingService = "");
 
     bool operator==(const Media& other) const override;
