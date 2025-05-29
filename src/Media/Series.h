@@ -14,8 +14,8 @@ class Series : public Movie {
          bool favourite, const std::vector<std::string> &genres,
          const std::string &img_path, const std::string &notes,
          const std::vector<std::string> &cast, int length,
-         const std::string &universe, int episodes = -1,
-         int seasons = -1, bool ended = false);
+         const std::string &universe, int episodes = std::numeric_limits<int>::min(),
+         int seasons = std::numeric_limits<int>::min(), bool ended = false);
   bool operator==(const Media &other) const override;
   int getEpisodes() const;
   int getSeasons() const;

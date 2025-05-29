@@ -7,7 +7,7 @@ Novel::Novel(const std::string& title, int publicationYear, const std::string& l
              const std::string& author, const std::string& publisher,
              int pages, const std::string& series, const std::string& isbn)
     : Media(title, publicationYear, language, favorite, genres, imagePath, notes),
-      author_(author), publisher_(publisher), pages_(pages), series_(series), isbn_(isbn) {}
+      author_(author), publisher_(publisher), pages_(pages > 0 ? pages : std::numeric_limits<int>::min()), series_(series), isbn_(isbn) {}
 
 bool Novel::operator==(const Media& other) const {
     const Novel* otherNovel = dynamic_cast<const Novel*>(&other);

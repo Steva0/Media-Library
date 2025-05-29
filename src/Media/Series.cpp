@@ -10,8 +10,8 @@ Series::Series(const std::string &title, int release,
                int seasons, bool ended)
     : Movie(title, release, language, favourite, genres, img_path, notes, cast,
             length, universe),
-      episodes_(episodes),
-      seasons_(seasons),
+      episodes_(episodes > 0 ? episodes : std::numeric_limits<int>::min()), // Default to min if episodes is invalid
+      seasons_(seasons > 0 ? seasons : std::numeric_limits<int>::min()), // Default to min if seasons is invalid
       ended_(ended) {}
 bool Series::operator==(const Media &other) const {
     const Series *otherSeries = dynamic_cast<const Series *>(&other);
@@ -39,11 +39,11 @@ bool Series::filter(const Media& input) const {
         return false; // Protegge da cast fallito
 
     // Episodes (confronto stretto)
-    if (episodes_ != -1 && seriesPtr->getEpisodes() != episodes_)
+    if (episodes_ != std::numeric_limits<int>::min() && seriesPtr->getEpisodes() != episodes_)
         return false;
 
     // Seasons (confronto stretto)
-    if (seasons_ != -1 && seriesPtr->getSeasons() != seasons_)
+    if (seasons_ != std::numeric_limits<int>::min() && seriesPtr->getSeasons() != seasons_)
         return false;
 
     // Ended (confronto booleano)

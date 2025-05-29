@@ -9,7 +9,7 @@ Ebook::Ebook(const std::string& title, int publicationYear, const std::string& l
              int fileSizeBytes, bool drm)
     : Novel(title, publicationYear, language, favorite, genres, imagePath, notes,
             author, publisher, pages, series, isbn),
-      fileSizeBytes_(fileSizeBytes), drm_(drm) {}
+      fileSizeBytes_(fileSizeBytes > 0 ? fileSizeBytes : std::numeric_limits<int>::min()), drm_(drm) {}
 
 bool Ebook::operator==(const Media& other) const {
     const Ebook* otherEbook = dynamic_cast<const Ebook*>(&other);
@@ -50,7 +50,7 @@ bool Ebook::filter(const Media& input) const {
         return false;
 
     // File size filter
-    if (fileSizeBytes_ != -1 && ebookPtr->getFileSizeBytes() != fileSizeBytes_)
+    if (fileSizeBytes_ != std::numeric_limits<int>::min() && ebookPtr->getFileSizeBytes() != fileSizeBytes_)
         return false;
 
     // DRM filter

@@ -15,7 +15,7 @@ public:
           bool favorite, const std::vector<std::string>& genres, const std::string& imagePath, const std::string& notes,
           const std::string& author, const std::string& publisher,
           int pages, const std::string& series, const std::string& isbn,
-          int fileSizeBytes = -1, bool drm = false);
+          int fileSizeBytes = std::numeric_limits<int>::min(), bool drm = false);
 
     bool operator==(const Media& other) const override;
 

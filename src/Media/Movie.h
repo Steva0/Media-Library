@@ -17,7 +17,7 @@ class Movie : public Media {
   Movie(const std::string &title, int release, const std::string &language,
         bool favourite, const std::vector<std::string> &genres,
         const std::string &img_path, const std::string &notes,
-        const std::vector<std::string> &cast = {}, int length = -1,
+        const std::vector<std::string> &cast = {}, int length = std::numeric_limits<int>::min(),
         const std::string &universe = "");
   bool operator==(const Media &other) const override;
   const std::vector<std::string> &getCast() const;

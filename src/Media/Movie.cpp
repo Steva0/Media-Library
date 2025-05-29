@@ -8,7 +8,7 @@ Movie::Movie(const std::string &title, int release, const std::string &language,
              const std::string &universe)
     : Media(title, release, language, favourite, genres, img_path, notes),
       cast_(cast),
-      length_(length),
+      length_(length> 0 ? length : std::numeric_limits<int>::min()), // Default to min if length is invalid
       universe_(universe) {}
 bool Movie::operator==(const Media &other) const {
     const Movie *otherMovie = dynamic_cast<const Movie *>(&other);
