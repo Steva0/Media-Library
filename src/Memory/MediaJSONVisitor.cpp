@@ -116,7 +116,7 @@ void MediaJSONVisitor::visit(const media::AudioBook &audioBook) {
 void MediaJSONVisitor::visit(const media::Ebook &ebook) {
   visit(static_cast<const media::Novel &>(ebook));
   root_["type"] = "Ebook";
-  if (ebook.getFileSizeBytes() != std::numeric_limits<unsigned int>::min())
+  if (ebook.getFileSizeBytes() != std::numeric_limits<int>::min())
     addValue(root_, "Bytes", ebook.getFileSizeBytes());
   if (ebook.hasDrm())
     addFlag(root_, "DRM");
