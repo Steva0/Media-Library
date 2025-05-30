@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
 
     // Step 3: Apri file
     if (!dbXml.open("output.xml")) {
-        std::cerr << "Errore apertura output.json\n";
+        std::cerr << "Errore apertura output.xml\n";
         return 1;
     } else {
         std::cout << "Apertura output.xml riuscita\n";
@@ -63,12 +63,13 @@ int main(int argc, char *argv[]) {
     // Step 4: Aggiungi media
     dbJson.addMedia(ebook);
     dbJson.addMedia(album);
-    dbJson.addMedia(ebook2);
-    dbJson.addMedia(album2);
-    dbXml.addMedia(ebook);
-    dbXml.addMedia(ebook2);
-    dbXml.addMedia(album);
-    dbXml.addMedia(album2);
+    dbJson.removeMedia(ebook2);
+    dbJson.removeMedia(album2);
+    //dbXml.addMedia(ebook);
+    dbXml.removeMedia(ebook2);
+    //dbXml.addMedia(album);
+    dbXml.removeMedia(album2);
+
 
     
 

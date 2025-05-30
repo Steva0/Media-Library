@@ -16,6 +16,9 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonParseError>
+#include <QDomElement>
+#include <QDomNodeList>
+
 
 
 namespace memory {
@@ -193,8 +196,99 @@ void Database::fromJson(QFile& file) {
     }
 }
 
-void Database::fromXml(QFile& file) {
+void Database::fromXml(QFile &file) {
+    QDomDocument doc;
+    if (!doc.setContent(&file)) {
+        file.close();
+        return;
+    }
+    file.close();
+
+    QDomElement root = doc.documentElement();
+    QDomNodeList mediaNodes = root.childNodes();
+
+    for (int i = 0; i < mediaNodes.count(); ++i) {
+        QDomElement el = mediaNodes.at(i).toElement();
+        if (el.isNull()) continue;
+
+        QString type = el.tagName();
+
+        std::string title = el.firstChildElement("Title").text().toStdString();
+        if (title.empty()) continue;
+
+        int release = el.firstChildElement("Release").isNull() ? std::numeric_limits<int>::min() : el.firstChildElement("Release").text().toInt();
+        std::string language = el.firstChildElement("Language").text().toStdString();
+        std::string imagePath = el.firstChildElement("ImagePath").text().toStdString();
+        std::string notes = el.firstChildElement("Notes").text().toStdString();
+        bool favourite = !el.firstChildElement("Favourite").isNull();
+
+        std::vector<std::string> genres;
+        QDomElement genresEl = el.firstChildElement("Genres");
+        for (QDomElement genre = genresEl.firstChildElement("Genre"); !genre.isNull(); genre = genre.nextSiblingElement("Genre"))
+            genres.push_back(genre.text().toStdString());
+
+        std::unique_ptr<media::Media> media;
+
+        if (type == "Album") {
+            std::string band = el.firstChildElement("Band").text().toStdString();
+            std::vector<std::string> members;
+            QDomElement membersEl = el.firstChildElement("BandMembers");
+            for (QDomElement m = membersEl.firstChildElement("Member"); !m.isNull(); m = m.nextSiblingElement("Member"))
+                members.push_back(m.text().toStdString());
+
+            std::vector<std::string> songs;
+            QDomElement songsEl = el.firstChildElement("Songs");
+            for (QDomElement s = songsEl.firstChildElement("Song"); !s.isNull(); s = s.nextSiblingElement("Song"))
+                songs.push_back(s.text().toStdString());
+
+            media = std::make_unique<media::Album>(title, release, language, favourite, genres, imagePath, notes, band, members, songs);
+        } else if (type == "Movie" || type == "Series") {
+            std::vector<std::string> cast;
+            QDomElement castEl = el.firstChildElement("Cast");
+            for (QDomElement a = castEl.firstChildElement("Act"); !a.isNull(); a = a.nextSiblingElement("Act"))
+                cast.push_back(a.text().toStdString());
+
+            int length = el.firstChildElement("Length").isNull() ? std::numeric_limits<int>::min() : el.firstChildElement("Length").text().toInt();
+            std::string universe = el.firstChildElement("Universe").text().toStdString();
+
+            if (type == "Series") {
+                int episodes = el.firstChildElement("Episodes").isNull() ? std::numeric_limits<int>::min() : el.firstChildElement("Episodes").text().toInt();
+                int seasons = el.firstChildElement("Seasons").isNull() ? std::numeric_limits<int>::min() : el.firstChildElement("Seasons").text().toInt();
+                bool ended = !el.firstChildElement("Ended").isNull();
+
+                media = std::make_unique<media::Series>(title, release, language, favourite, genres, imagePath, notes, cast, length, universe, episodes, seasons, ended);
+            } else {
+                media = std::make_unique<media::Movie>(title, release, language, favourite, genres, imagePath, notes, cast, length, universe);
+            }
+        } else if (type == "Novel" || type == "AudioBook" || type == "Ebook") {
+            std::string author = el.firstChildElement("Author").text().toStdString();
+            std::string publisher = el.firstChildElement("Publisher").text().toStdString();
+            int pages = el.firstChildElement("Pages").isNull() ? std::numeric_limits<int>::min() : el.firstChildElement("Pages").text().toInt();
+            std::string series = el.firstChildElement("Series").text().toStdString();
+            std::string isbn = el.firstChildElement("ISBN").text().toStdString();
+
+            if (type == "AudioBook") {
+                std::string narrator = el.firstChildElement("Narrator").text().toStdString();
+                std::string service = el.firstChildElement("Service").text().toStdString();
+
+                media = std::make_unique<media::AudioBook>(title, release, language, favourite, genres, imagePath, notes, author, publisher, pages, series, isbn, narrator, service);
+            } else if (type == "Ebook") {
+                int bytes = el.firstChildElement("Bytes").isNull() ? std::numeric_limits<int>::min() : el.firstChildElement("Bytes").text().toInt();
+                bool drm = !el.firstChildElement("DRM").isNull();
+
+                media = std::make_unique<media::Ebook>(title, release, language, favourite, genres, imagePath, notes, author, publisher, pages, series, isbn, bytes, drm);
+            } else {
+                media = std::make_unique<media::Novel>(title, release, language, favourite, genres, imagePath, notes, author, publisher, pages, series, isbn);
+            }
+        } else {
+            continue;  // tipo sconosciuto
+        }
+
+        if (media)
+            media_container_.addMedia(*media);
+    }
 }
+
 
 
 } // namespace memory
