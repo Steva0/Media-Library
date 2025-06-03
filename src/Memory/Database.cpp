@@ -58,13 +58,16 @@ bool Database::open(const QString& path) {
 }
 
 bool Database::close(bool save_on_exit) {
-    bool ok = true;
+    bool done = true;
     if (save_on_exit)
-        ok = save();
+        done = save();
+
+    if (!done)
+        return done;
 
     media_container_.clear();
     file_path_.clear();
-    return ok;
+    return done;
 }
 
 bool Database::save(const QString& path) {

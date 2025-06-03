@@ -90,7 +90,6 @@ void Album::accept(IConstMediaVisitor &v) const {
         xmlVisitor->visit(*this);
         return;
     }
-    // Fallback: chiama il visit generico
     return;
 }
 
