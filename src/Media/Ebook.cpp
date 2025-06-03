@@ -36,7 +36,7 @@ void Ebook::setDrm(bool drm) {
     drm_ = drm;
 }
 
-std::unique_ptr<Media> Ebook::clone() const {
+std::unique_ptr<Media> Ebook::makePtr() const {
     return std::make_unique<Ebook>(*this);
 }
 

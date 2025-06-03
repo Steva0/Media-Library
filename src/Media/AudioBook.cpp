@@ -21,7 +21,7 @@ bool AudioBook::operator==(const Media& other) const {
     return false;
 }
 
-std::unique_ptr<Media> AudioBook::clone() const {
+std::unique_ptr<Media> AudioBook::makePtr() const {
     return std::make_unique<AudioBook>(*this);
 }
 

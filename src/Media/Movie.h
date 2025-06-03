@@ -24,7 +24,7 @@ class Movie : public Media {
   int getLength() const;
   const std::string &getUniverse() const;
 
-  std::unique_ptr<Media> clone() const override;
+  std::unique_ptr<Media> makePtr() const override;
 
   bool filter(const Media& movie) const override;
 

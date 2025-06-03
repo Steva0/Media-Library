@@ -14,10 +14,10 @@ void MediaContainer::addMedia(const media::Media& media) {
     removeMedia(media);
 
     // Inserisce una copia in "All"
-    data_[static_cast<int>(Type::All)].push_back(media.clone());
+    data_[static_cast<int>(Type::All)].push_back(media.makePtr());
 
     // Inserisce una copia nel tipo specifico
-    data_[static_cast<int>(t)].push_back(media.clone());
+    data_[static_cast<int>(t)].push_back(media.makePtr());
 }
 
 void MediaContainer::addMedia(const std::vector<media::Media>& listaMedia) {

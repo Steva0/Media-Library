@@ -26,7 +26,7 @@ bool Album::operator==(const Media &other) const {
   return false;
 }
 
-std::unique_ptr<Media> Album::clone() const {
+std::unique_ptr<Media> Album::makePtr() const {
     return std::make_unique<Album>(*this);
 }
 

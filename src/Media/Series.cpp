@@ -22,7 +22,7 @@ bool Series::operator==(const Media &other) const {
     return false;
 }
 
-std::unique_ptr<Media> Series::clone() const {
+std::unique_ptr<Media> Series::makePtr() const {
     return std::make_unique<Series>(*this);
 }
 

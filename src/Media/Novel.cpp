@@ -19,7 +19,7 @@ bool Novel::operator==(const Media& other) const {
     return false;
 }
 
-std::unique_ptr<Media> Novel::clone() const {
+std::unique_ptr<Media> Novel::makePtr() const {
     return std::make_unique<Novel>(*this);
 }
 

@@ -20,7 +20,7 @@ void Media::accept(IConstMediaVisitor &v) const {
     v.visit(*this);
 }
 
-std::unique_ptr<media::Media> media::Media::clone() const {
+std::unique_ptr<media::Media> media::Media::makePtr() const {
     return std::make_unique<media::Media>(*this);
 }
 

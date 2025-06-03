@@ -19,7 +19,7 @@ bool Movie::operator==(const Media &other) const {
     return false;
 }
 
-std::unique_ptr<Media> Movie::clone() const {
+std::unique_ptr<Media> Movie::makePtr() const {
     return std::make_unique<Movie>(*this);
 }
 
