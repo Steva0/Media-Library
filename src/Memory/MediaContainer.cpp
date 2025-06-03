@@ -39,10 +39,11 @@ MediaContainer::Type MediaContainer::detectType(const media::Media& media) const
 
 void MediaContainer::removeMedia(const media::Media& media) {
     for (auto& vec : data_) {
-        vec.erase(std::remove_if(vec.begin(), vec.end(),
-            [&](const std::unique_ptr<media::Media>& m) {
-                return typeid(*m) == typeid(media) && *m == media;
-            }), vec.end());
+        for (auto& m : vec) {
+            if (!m->getTitle().empty() && typeid(*m) == typeid(media) && *m == media) {
+                m->setTitle(""); // Marca come "rimossa"
+            }
+        }
     }
 }
 
@@ -59,7 +60,9 @@ std::vector<const media::Media*> MediaContainer::getAll() const {
 std::vector<const media::Media*> MediaContainer::getByType(Type type) const {
     std::vector<const media::Media*> result;
     for (const auto& ptr : data_[static_cast<int>(type)]) {
-        result.push_back(ptr.get());
+        if (!ptr->getTitle().empty()) { // Ignora media senza titolo
+            result.push_back(ptr.get());
+        }
     }
     return result;
 }
@@ -69,7 +72,9 @@ std::vector<const media::Media*> MediaContainer::getByGroup(Type type) const {
 
     auto appendGroup = [&](Type t) {
         for (const auto& ptr : data_[static_cast<int>(t)]) {
-            result.push_back(ptr.get());
+            if (!ptr->getTitle().empty()) { // Ignora media senza titolo
+                result.push_back(ptr.get());
+            }
         }
     };
 
@@ -98,7 +103,7 @@ std::vector<const media::Media*> MediaContainer::filter(const media::Media& medi
     std::vector<const media::Media*> results;
     Type t = detectType(media);
     for (const media::Media* m : getByGroup(t)) {
-        if (media.filter(*m)) {
+        if (!m->getTitle().empty() && media.filter(*m)) { // Ignora media senza titolo
             results.push_back(m);
         }
     }
@@ -108,7 +113,9 @@ std::vector<const media::Media*> MediaContainer::filter(const media::Media& medi
 int MediaContainer::serialize(QFile& file) const {
     std::vector<const media::Media*> rawAll;
     for (const auto& ptr : data_[static_cast<int>(Type::All)]) {
-        rawAll.push_back(ptr.get());
+        if (!ptr->getTitle().empty()) { // Ignora media senza titolo
+            rawAll.push_back(ptr.get());
+        }
     }
     return Serializer::serialize(rawAll, file);
 }

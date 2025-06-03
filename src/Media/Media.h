@@ -44,6 +44,8 @@ class Media : IMedia{
   const std::string &getImgPath() const;
   const std::string &getNotes() const;
 
+  void setTitle(const std::string &title);
+
   virtual std::unique_ptr<Media> makePtr() const;
 
 

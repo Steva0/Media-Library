@@ -34,10 +34,12 @@ void MediaJSONVisitor::addStringArray(QJsonObject &obj, const QString &key, cons
 }
 
 void MediaJSONVisitor::visit(const media::Media &media) {
+  if (media.getTitle().empty()) {
+    return;
+  }
   root_ = QJsonObject();
   root_.insert("type", "Media");
 
-  // Title is always required
   addValue(root_, "Title", media.getTitle());
 
   // Only add if not empty
@@ -57,6 +59,9 @@ void MediaJSONVisitor::visit(const media::Media &media) {
 }
 
 void MediaJSONVisitor::visit(const media::Album &album) {
+  if (album.getTitle().empty()) {
+    return;
+  }
   visit(static_cast<const media::Media &>(album));
   root_["type"] = "Album";
   if (album.getBand() != "")
@@ -68,6 +73,9 @@ void MediaJSONVisitor::visit(const media::Album &album) {
 }
 
 void MediaJSONVisitor::visit(const media::Movie &movie) {
+  if (movie.getTitle().empty()) {
+    return;
+  }
   visit(static_cast<const media::Media &>(movie));
   root_["type"] = "Movie";
   if (!movie.getCast().empty())
@@ -79,6 +87,9 @@ void MediaJSONVisitor::visit(const media::Movie &movie) {
 }
 
 void MediaJSONVisitor::visit(const media::Series &series) {
+  if (series.getTitle().empty()) {
+    return;
+  }
   visit(static_cast<const media::Movie &>(series));
   root_["type"] = "Series";
   if (series.getEpisodes() != std::numeric_limits<int>::min())
@@ -90,6 +101,9 @@ void MediaJSONVisitor::visit(const media::Series &series) {
 }
 
 void MediaJSONVisitor::visit(const media::Novel &novel) {
+  if (novel.getTitle().empty()) {
+    return;
+  }
   visit(static_cast<const media::Media &>(novel));
   root_["type"] = "Novel";
   if (novel.getAuthor() != "")
@@ -105,6 +119,9 @@ void MediaJSONVisitor::visit(const media::Novel &novel) {
 }
 
 void MediaJSONVisitor::visit(const media::AudioBook &audioBook) {
+  if (audioBook.getTitle().empty()) {
+    return;
+  }
   visit(static_cast<const media::Novel &>(audioBook));
   root_["type"] = "AudioBook";
   if (audioBook.getNarrator() != "")
@@ -114,6 +131,9 @@ void MediaJSONVisitor::visit(const media::AudioBook &audioBook) {
 }
 
 void MediaJSONVisitor::visit(const media::Ebook &ebook) {
+  if (ebook.getTitle().empty()) {
+    return;
+  }
   visit(static_cast<const media::Novel &>(ebook));
   root_["type"] = "Ebook";
   if (ebook.getFileSizeBytes() != std::numeric_limits<int>::min())

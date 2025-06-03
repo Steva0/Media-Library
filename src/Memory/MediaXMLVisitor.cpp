@@ -33,6 +33,9 @@ QDomElement MediaXMLVisitor::elementFrom(const std::string &empty) {
   return el;
 }
 void MediaXMLVisitor::visit(const media::Media &media) {
+  if (media.getTitle().empty()) {
+    return;
+  }
   QDomElement base = document_.createElement("Media");
   QDomElement el;
 
@@ -62,6 +65,9 @@ void MediaXMLVisitor::visit(const media::Media &media) {
 }
 
 void MediaXMLVisitor::visit(const media::Album &album) {
+  if (album.getTitle().empty()) {
+    return;
+  }
   visit(static_cast<const media::Media &>(album));
   document_.childNodes().at(0).toElement().setTagName("Album");
   if (album.getBand() != "")
@@ -84,6 +90,9 @@ void MediaXMLVisitor::visit(const media::Album &album) {
 }
 
 void MediaXMLVisitor::visit(const media::Movie &movie) {
+  if (movie.getTitle().empty()) {
+    return;
+  }
   visit(static_cast<const media::Media &>(movie));
   document_.childNodes().at(0).toElement().setTagName("Movie");
   if (!movie.getCast().empty()) {
@@ -102,6 +111,9 @@ void MediaXMLVisitor::visit(const media::Movie &movie) {
 }
 
 void MediaXMLVisitor::visit(const media::Series &series) {
+  if (series.getTitle().empty()) {
+    return;
+  }
   visit(static_cast<const media::Movie &>(series));
   document_.childNodes().at(0).toElement().setTagName("Series");
   if (series.getEpisodes() != std::numeric_limits<int>::min())
@@ -115,6 +127,9 @@ void MediaXMLVisitor::visit(const media::Series &series) {
 }
 
 void MediaXMLVisitor::visit(const media::Novel &novel) {
+  if (novel.getTitle().empty()) {
+    return;
+  }
   visit(static_cast<const media::Media &>(novel));
   document_.childNodes().at(0).toElement().setTagName("Novel");
 
@@ -136,6 +151,9 @@ void MediaXMLVisitor::visit(const media::Novel &novel) {
 }
 
 void MediaXMLVisitor::visit(const media::AudioBook &audioBook) {
+  if (audioBook.getTitle().empty()) {
+    return;
+  }
   visit(static_cast<const media::Novel &>(audioBook));
   document_.childNodes().at(0).toElement().setTagName("AudioBook");
   if (audioBook.getNarrator() != "")
@@ -147,6 +165,9 @@ void MediaXMLVisitor::visit(const media::AudioBook &audioBook) {
 }
 
 void MediaXMLVisitor::visit(const media::Ebook &ebook) {
+  if (ebook.getTitle().empty()) {
+    return;
+  }
   visit(static_cast<const media::Novel &>(ebook));
   document_.childNodes().at(0).toElement().setTagName("Ebook");
   if (ebook.getFileSizeBytes() != std::numeric_limits<int>::min())

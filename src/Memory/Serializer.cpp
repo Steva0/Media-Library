@@ -28,7 +28,7 @@ int writeJsonFile(const std::vector<const media::Media*>& mediaList, QFile& file
 
 
     for (const auto* media : mediaList) {
-        if (!media) continue;
+        if (!media || media->getTitle().empty()) continue;
         MediaJSONVisitor visitor;
         media->accept(visitor);
         jsonArray.append(visitor.getDocument().object());
@@ -48,7 +48,7 @@ int writeXmlFile(const std::vector<const media::Media*>& mediaList, QFile& file)
     doc.appendChild(root);
 
     for (const auto* media : mediaList) {
-        if (!media) continue;
+        if (!media || media->getTitle().empty()) continue;
 
         MediaXMLVisitor visitor;
         media->accept(visitor);

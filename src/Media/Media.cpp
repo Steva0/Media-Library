@@ -38,6 +38,10 @@ bool Media::open() {
   return false;
 }
 
+void Media::setTitle(const std::string &title) {
+    title_ = title;
+}
+
 bool Media::filter(const Media& media) const {
         // Title (substring, case-insensitive)
     if (!getTitle().empty() && !stringContainsIgnoreCase(media.getTitle(), getTitle()))
