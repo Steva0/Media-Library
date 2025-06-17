@@ -61,6 +61,10 @@ DatabaseSelectionWidget::DatabaseSelectionWidget(MainWindow *main_window)
     connect(recently_opened_[i], &QAbstractButton::pressed,
             [&, i]() { emit onPressRecent(i); });
   }
+  connect(open_other_, &QAbstractButton::pressed, this,
+          &DatabaseSelectionWidget::onPressOpen);
+  connect(create_new_, &QAbstractButton::pressed, this,
+          &DatabaseSelectionWidget::onPressNew);
 }
 
 QToolButton *DatabaseSelectionWidget::makeToolButton(const QString &name,

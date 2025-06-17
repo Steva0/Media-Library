@@ -34,6 +34,8 @@ class DatabaseSelectionWidget : public QWidget {
 
  signals:
   void onPressRecent(size_t);
+  void onPressNew(); // ?
+  void onPressOpen(); // ?
 };
 }  // namespace gui
 #endif
