@@ -3,6 +3,8 @@
 #include "../Memory/Database.h"
 #include "SlidingStackedWidget.h"
 #include <QMainWindow>
+#include <QStatusBar>
+#include <QFrame>
 
 namespace gui {
 class MainWindow : public QMainWindow {
@@ -10,6 +12,8 @@ class MainWindow : public QMainWindow {
 private:
   memory::Database &database_;
   SlidingStackedWidget stacked_widget_;
+  QFrame central_widget_;
+  QStatusBar status_bar_;
 
 public:
   explicit MainWindow(memory::Database &database, QWidget *parent = nullptr,

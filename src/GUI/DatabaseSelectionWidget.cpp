@@ -11,7 +11,7 @@ DatabaseSelectionWidget::DatabaseSelectionWidget(QWidget *parent)
   // preprocessing...
 
   //
-  QFrame *recent_wrapper = new QFrame(this);
+  auto *recent_wrapper = new QFrame(this);
   recent_wrapper->setLayout(new QHBoxLayout);
   recent_wrapper->setFrameStyle(QFrame::NoFrame);
   recent_wrapper->setLineWidth(1);
@@ -56,7 +56,7 @@ DatabaseSelectionWidget::DatabaseSelectionWidget(QWidget *parent)
 
 QToolButton *DatabaseSelectionWidget::makeToolButton(const QString &name,
                                                        const QPixmap &image) {
-  QToolButton *new_button = new QToolButton(this);
+  auto *new_button = new QToolButton(this);
   new_button->setText(name);
   new_button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
   new_button->setIcon(QIcon(image));
@@ -66,7 +66,7 @@ QToolButton *DatabaseSelectionWidget::makeToolButton(const QString &name,
 }
 
 QFrame *DatabaseSelectionWidget::makeVLine() {
-    QFrame *frame = new QFrame(this);
+    auto *frame = new QFrame(this);
     frame->setFrameShape(QFrame::VLine);
     frame->setLineWidth(1);
     return frame;
