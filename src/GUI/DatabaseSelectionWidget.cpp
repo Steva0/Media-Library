@@ -8,9 +8,9 @@ namespace gui {
 DatabaseSelectionWidget::DatabaseSelectionWidget(MainWindow *main_window)
     : QWidget(main_window),
       main_window_(*main_window),
+      recent_amount_(0),
       tool_style_sheet_("font-size: 20px;"),
       button_size_(128, 128) {
-
   auto *recent_wrapper = new QFrame(this);
   recent_wrapper->setLayout(new QHBoxLayout);
   recent_wrapper->setFrameStyle(QFrame::NoFrame);
@@ -27,6 +27,7 @@ DatabaseSelectionWidget::DatabaseSelectionWidget(MainWindow *main_window)
                          QPixmap(":/assets/profilo.png"), recent_wrapper);
       recent_wrapper->layout()->addWidget(recently_opened_[i]);
       recent_wrapper->setMaximumSize(recent_wrapper->minimumSizeHint());
+      ++recent_amount_;
     }
   }
 
@@ -54,6 +55,12 @@ DatabaseSelectionWidget::DatabaseSelectionWidget(MainWindow *main_window)
   layout->addWidget(frame_wrapper);
 
   setLayout(layout);
+
+  for (size_t i = 0; i < recent_amount_; ++i) {
+    // devo prendere per valore `i` altrimenti ho undefined behaviour
+    connect(recently_opened_[i], &QAbstractButton::pressed,
+            [&, i]() { emit onPressRecent(i); });
+  }
 }
 
 QToolButton *DatabaseSelectionWidget::makeToolButton(const QString &name,

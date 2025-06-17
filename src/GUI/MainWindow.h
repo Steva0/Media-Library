@@ -30,9 +30,10 @@ class MainWindow : public QMainWindow {
   // (e.g. se richiedo il terzo file ma ne è presente solamente uno tra quelli
   // recenti) oppure se viene dato un indice troppo alto
   QString getRecentFilename(size_t number) const;
-  // come sopra, ma il valore in caso di fallimento è `false`
-  bool openRecent(size_t number) const;
-  bool closeDatabase(bool save) const;
+
+ private slots:
+  void closeDatabase(bool save) const;
+  void openRecent(size_t number) const;
 };
 }  // namespace gui
 #endif

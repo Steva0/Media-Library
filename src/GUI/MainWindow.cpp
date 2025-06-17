@@ -28,7 +28,10 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent,
     }
   }
 
-  stacked_widget_.addWidget(new DatabaseSelectionWidget(this));
+  // fatta variabile a parte solo per rendere più comprensibile la parte della
+  // connessione con segnali
+  auto *db_selection_widget = new DatabaseSelectionWidget(this);
+  stacked_widget_.addWidget(db_selection_widget);
   stacked_widget_.setAnimation(QEasingCurve::Type::OutQuart);
   stacked_widget_.setSpeed(450);
 
@@ -39,6 +42,9 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent,
   layout->addWidget(&status_bar_);
 
   setCentralWidget(&central_widget_);
+
+  connect(db_selection_widget, &DatabaseSelectionWidget::onPressRecent, this,
+          &MainWindow::openRecent);
 }
 
 QString MainWindow::getRecentFilename(size_t number) const {
@@ -48,14 +54,19 @@ QString MainWindow::getRecentFilename(size_t number) const {
   return "";
 }
 
-bool MainWindow::openRecent(size_t number) const {
-  if (number < recently_opened_->size()) {
-    return database_.open(recently_opened_->at(number));
+void MainWindow::openRecent(size_t number) const {
+  std::cout << "Sto aprendo: " << number << '\n';
+
+  if (number < recently_opened_->size() &&
+      database_.open(recently_opened_->at(number))) {
+    std::cerr << "Mostrare risultati apertura database\n";
+  } else {
+    std::cerr << "Errore di apertura oppure di implementazione in `number`\n";
   }
-  return false;
 }
 
-bool MainWindow::closeDatabase(bool save) const {
-  return database_.close(save);
+void MainWindow::closeDatabase(bool save) const {
+  // bisogna aggiornare status line in base allo stato di chiusura del database
+  database_.close(save);
 }
 }  // namespace gui
