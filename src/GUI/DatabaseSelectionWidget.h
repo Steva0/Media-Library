@@ -26,7 +26,7 @@ private:
 
   QToolButton *makeToolButton(const QString &name, const QPixmap &image,
                               QWidget *parent);
-  QFrame *makeVLine(QWidget *parent);
+  static QFrame *makeVLine(QWidget *parent);
 
 
 public:
