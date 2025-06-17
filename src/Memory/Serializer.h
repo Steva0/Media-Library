@@ -1,17 +1,24 @@
 #ifndef MEMORY_SERIALIZER_H
 #define MEMORY_SERIALIZER_H
-#include <QFile>
 
-#include "../Media/Media.h"
+#include <QFile>
+#include <vector>
+
+namespace media {
+class Media;
+}
 
 namespace memory {
-class Serializer {
- private:
-  static std::vector<media::Media *>& XMLtoVec(const QFile &);
-  static std::vector<media::Media *>& JSONtoVec(const QFile &);
 
- public:
-  static std::vector<media::Media *>& serialize(const QFile &);
+class Serializer {
+public:
+    // Restituisce:
+    //  0  -> successo
+    // -1 -> errore apertura file
+    // -2 -> errore scrittura file
+    static int serialize(const std::vector<const media::Media*>& mediaList, QFile& file);
 };
-}  // namespace memory
-#endif
+
+} // namespace memory
+
+#endif // MEMORY_SERIALIZER_H

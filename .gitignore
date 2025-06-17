@@ -1,3 +1,7 @@
+.cache
+.qmake.stash
+./src
+
 # C++ objects and libs
 *.slo
 *.lo
@@ -9,6 +13,10 @@
 *.so.*
 *.dll
 *.dylib
+Build
+checks.json
+.vscode
+build
 
 # Qt-es
 object_script.*.Release
@@ -16,6 +24,7 @@ object_script.*.Debug
 *_plugin_import.cpp
 /.qmake.cache
 /.qmake.stash
+src/*.qmake.stash
 *.pro.user
 *.pro.user.*
 *.qbs.user
