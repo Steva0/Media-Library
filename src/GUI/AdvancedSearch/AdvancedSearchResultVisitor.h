@@ -14,7 +14,7 @@ class AdvancedSearchResultVisitor : public media::IConstMediaVisitor {
   QGridLayout *grid_;
   // result_ sarà una composizione di immagine a sinistra e dati a destra
   QWidget *data_;
-  QPixmap *img_;
+  QLabel *img_;
   // le voglio sempre in fondo quindi faccio un widget a parte
   // potrebbe valer la pena fare un widget a parte per gestire meglio l'ordine di visualizzazione
   // qualcosa come un `header_` e un `footer_`
@@ -27,7 +27,7 @@ class AdvancedSearchResultVisitor : public media::IConstMediaVisitor {
 
  public:
   // copy-on-write
-  QWidget getResult() const;
+  QWidget *getResult();
 
   void visit(const media::Media &) override;
   void visit(const media::Album &) override;

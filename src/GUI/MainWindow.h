@@ -22,6 +22,8 @@ class MainWindow : public QMainWindow {
   static const QString kDatabaseDirectory;
   std::unique_ptr<std::array<QString, 3>> recently_opened_;
 
+  void debug_visitor_advanced_search();
+
  public:
   explicit MainWindow(memory::Database &database, QWidget *parent = nullptr,
                       Qt::WindowFlags flags = Qt::WindowFlags());
@@ -30,6 +32,7 @@ class MainWindow : public QMainWindow {
   // (e.g. se richiedo il terzo file ma ne è presente solamente uno tra quelli
   // recenti) oppure se viene dato un indice troppo alto
   QString getRecentFilename(size_t number) const;
+  std::vector<const media::Media*> filter(const media::Media &) const;
 
  private slots:
   void closeDatabase(bool save) const;

@@ -16,8 +16,23 @@
 
 namespace gui {
 namespace advanced_search {
+QWidget *AdvancedSearchResultVisitor::getResult() {
+  auto *result = new QWidget;
+  auto *wrapper = new QFrame(result);
+  wrapper->setFrameShape(QFrame::Box);
+  auto *wrapper_layout = new QHBoxLayout(wrapper);
+
+  wrapper_layout->addWidget(img_);
+  wrapper_layout->addWidget(data_);
+
+  auto *layout = new QHBoxLayout(result);
+  layout->addWidget(wrapper);
+
+  return result;
+}
 void AdvancedSearchResultVisitor::visit(const media::Media &media) {
-  img_ = new QPixmap(QString::fromStdString(media.getImgPath()));
+  img_ = new QLabel;
+  img_->setPixmap(*new QPixmap(QString::fromStdString(media.getImgPath())));
 
   data_ = new QWidget;
   grid_ = new QGridLayout(data_);
@@ -77,22 +92,31 @@ void AdvancedSearchResultVisitor::addRow(const std::string &key,
                                           const std::string &value) {
   grid_->addWidget(new QLabel(QString::fromStdString(key) + ":"),
                    grid_->rowCount(), 0);
-  grid_->addWidget(new QLabel(QString::fromStdString(value)), grid_->rowCount(),
+  // l'aggiunta del widget sopra aumenta di uno il numero di righe
+  grid_->addWidget(new QLabel(QString::fromStdString(value)), grid_->rowCount() - 1,
                    1);
 }
 void AdvancedSearchResultVisitor::addRow(const std::string &key, int value) {
   grid_->addWidget(new QLabel(QString::fromStdString(key) + ":"),
                     grid_->rowCount(), 0);
-  grid_->addWidget(new QLabel(QString::number(value)), grid_->rowCount(), 1);
+  grid_->addWidget(new QLabel(QString::number(value)), grid_->rowCount() - 1, 1);
 }
 void AdvancedSearchResultVisitor::addRow(
     const std::string &key, const std::vector<std::string> &value) {
   grid_->addWidget(new QLabel(QString::fromStdString(key) + ":"),
-                    grid_->rowCount(), 0);
-  for (const std::string &v : value) {
-    grid_->addWidget(new QLabel(QString::fromStdString(v)), grid_->rowCount(),
-                      1);
-  }
+                   grid_->rowCount(), 0);
+
+  grid_->addWidget(new QLabel(QString::fromStdString(
+                                std::accumulate(
+                                                value.cbegin(),
+                                                value.cend(),
+                                                value[0],
+                                                [](const std::string &left, const std::string &right) { return left + "\n" + right; }
+                              ))), grid_->rowCount() - 1, 1);
+  // for (const std::string &v : value) {
+  //   grid_->addWidget(new QLabel(QString::fromStdString(v)),
+  //                    grid_->rowCount() - 1, 1);
+  // }
 }
 void AdvancedSearchResultVisitor::addRow(const std::string &only_key) {
   addRow(only_key, "");

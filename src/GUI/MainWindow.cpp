@@ -5,6 +5,9 @@
 
 #include "DatabaseSelectionWidget.h"
 
+//debug
+#include "AdvancedSearch/AdvancedSearchResultVisitor.h"
+
 namespace gui {
 const QString MainWindow::kConfigFileName = "config.txt";
 const QString MainWindow::kDatabaseDirectory = "Database";
@@ -43,6 +46,8 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent,
 
   setCentralWidget(&central_widget_);
 
+  debug_visitor_advanced_search();
+
   connect(db_selection_widget, &DatabaseSelectionWidget::onPressRecent, this,
           &MainWindow::openRecent);
 }
@@ -57,6 +62,8 @@ QString MainWindow::getRecentFilename(size_t number) const {
 void MainWindow::openRecent(size_t number) const {
   std::cout << "Sto aprendo: " << number << '\n';
 
+  // qua viene creato un file anche se non esiste effettivamente
+  // si tiene?
   if (number < recently_opened_->size() &&
       database_.open(recently_opened_->at(number))) {
     std::cerr << "Mostrare risultati apertura database\n";
@@ -69,4 +76,22 @@ void MainWindow::closeDatabase(bool save) const {
   // bisogna aggiornare status line in base allo stato di chiusura del database
   database_.close(save);
 }
+std::vector<const media::Media *> MainWindow::filter(
+    const media::Media &filter) const {
+  return database_.filterMedia(filter);
+}
+
+void MainWindow::debug_visitor_advanced_search() {
+  auto *media = new media::Album
+  ("Nome Album", 2010, "IT",
+        false, {"NomeGenere1", "Genere2"},
+        ":/assets/matita.jpg", "Non dovrebbe essere visualizzato",
+        "Nome band", {"Membro 1", "Membro 2", "Membro 3"},
+        {"Canzone 1", "Canzone 2", "Canzone 3", "Canzone 4"});
+  advanced_search::AdvancedSearchResultVisitor v;
+  v.visit(*media);
+  stacked_widget_.addWidget(v.getResult());
+  stacked_widget_.setCurrentIndex(1);
+}
+
 }  // namespace gui
