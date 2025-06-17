@@ -5,12 +5,14 @@
 #include <QToolButton>
 #include <QWidget>
 #include <QFrame>
+#include "MainWindow.h"
 
 namespace gui {
 class DatabaseSelectionWidget : public QWidget {
   Q_OBJECT
 
 private:
+  MainWindow &main_window_;
   QToolButton *open_other_;
   QToolButton *recently_opened_[3];
   QToolButton *create_new_;
@@ -22,11 +24,13 @@ private:
                       // posizione (poi da gestire transazione da database
                       // aperto a questa schermata eventuale)
 
-  QToolButton *makeToolButton(const QString &name, const QPixmap &image);
-  QFrame *makeVLine();
+  QToolButton *makeToolButton(const QString &name, const QPixmap &image,
+                              QWidget *parent);
+  QFrame *makeVLine(QWidget *parent);
+
 
 public:
-  DatabaseSelectionWidget(QWidget *parent);
+  explicit DatabaseSelectionWidget(MainWindow *main_window);
 
 signals:
   void set_profile(int);
