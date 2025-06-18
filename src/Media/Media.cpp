@@ -34,7 +34,6 @@ bool Media::operator==(const Media &other) const {
 
 bool Media::open() {
   notes_ = "";
-  std::cout<< "Media::open()" << std::endl;  
   return false;
 }
 

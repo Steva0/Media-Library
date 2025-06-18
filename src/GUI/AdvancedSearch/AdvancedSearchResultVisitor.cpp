@@ -75,7 +75,6 @@ void AdvancedSearchResultVisitor::visit(const media::Novel &novel) {
   addRow("Serie", novel.getSeries());
   addRow("Pagine", novel.getPages());
   addRow("ISBN", novel.getIsbn());
-  
 }
 void AdvancedSearchResultVisitor::visit(const media::AudioBook &audio_book) {
   visit(static_cast<const media::Media &>(audio_book));
@@ -84,35 +83,38 @@ void AdvancedSearchResultVisitor::visit(const media::AudioBook &audio_book) {
 }
 void AdvancedSearchResultVisitor::visit(const media::Ebook &ebook) {
   visit(static_cast<const media::Media &>(ebook));
-  if (ebook.hasDrm())
-    addRow("DRM");
+  if (ebook.hasDrm()) addRow("DRM");
 }
 
 void AdvancedSearchResultVisitor::addRow(const std::string &key,
-                                          const std::string &value) {
+                                         const std::string &value) {
   grid_->addWidget(new QLabel(QString::fromStdString(key) + ":"),
                    grid_->rowCount(), 0);
   // l'aggiunta del widget sopra aumenta di uno il numero di righe
-  grid_->addWidget(new QLabel(QString::fromStdString(value)), grid_->rowCount() - 1,
-                   1);
+  grid_->addWidget(new QLabel(QString::fromStdString(value)),
+                   grid_->rowCount() - 1, 1);
 }
 void AdvancedSearchResultVisitor::addRow(const std::string &key, int value) {
   grid_->addWidget(new QLabel(QString::fromStdString(key) + ":"),
-                    grid_->rowCount(), 0);
-  grid_->addWidget(new QLabel(QString::number(value)), grid_->rowCount() - 1, 1);
+                   grid_->rowCount(), 0);
+  grid_->addWidget(new QLabel(QString::number(value)), grid_->rowCount() - 1,
+                   1);
 }
 void AdvancedSearchResultVisitor::addRow(
     const std::string &key, const std::vector<std::string> &value) {
+  if (value.size() == 0) {
+    addRow(key, "");
+    return;
+  }
   grid_->addWidget(new QLabel(QString::fromStdString(key) + ":"),
                    grid_->rowCount(), 0);
 
-  grid_->addWidget(new QLabel(QString::fromStdString(
-                                std::accumulate(
-                                                value.cbegin(),
-                                                value.cend(),
-                                                value[0],
-                                                [](const std::string &left, const std::string &right) { return left + "\n" + right; }
-                              ))), grid_->rowCount() - 1, 1);
+  grid_->addWidget(new QLabel(QString::fromStdString(std::accumulate(
+                       value.cbegin(), value.cend(), value[0],
+                       [](const std::string &left, const std::string &right) {
+                         return left + "\n" + right;
+                       }))),
+                   grid_->rowCount() - 1, 1);
   // for (const std::string &v : value) {
   //   grid_->addWidget(new QLabel(QString::fromStdString(v)),
   //                    grid_->rowCount() - 1, 1);

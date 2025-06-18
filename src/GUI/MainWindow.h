@@ -22,7 +22,8 @@ class MainWindow : public QMainWindow {
   static const QString kDatabaseDirectory;
   std::unique_ptr<std::array<QString, 3>> recently_opened_;
 
-  void debug_visitor_advanced_search();
+  void debugVisitorAdvancedSearch();
+  void debugShowAdvancedSearchResults();
 
  public:
   explicit MainWindow(memory::Database &database, QWidget *parent = nullptr,

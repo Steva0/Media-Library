@@ -47,7 +47,8 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent,
 
   setCentralWidget(central_widget_);
 
-  // debug_visitor_advanced_search();
+  // debugVisitorAdvancedSearch();
+  debugShowAdvancedSearchResults();
 
   connect(db_selection_widget, &DatabaseSelectionWidget::onPressRecent, this,
           &MainWindow::openRecent);
@@ -82,7 +83,7 @@ std::vector<const media::Media *> MainWindow::filter(
   return database_.filterMedia(filter);
 }
 
-void MainWindow::debug_visitor_advanced_search() {
+void MainWindow::debugVisitorAdvancedSearch() {
   auto *media = new media::Album
   ("Nome Album", 2010, "IT",
         false, {"NomeGenere1", "Genere2"},
@@ -92,6 +93,12 @@ void MainWindow::debug_visitor_advanced_search() {
   advanced_search::AdvancedSearchResultVisitor v;
   v.visit(*media);
   stacked_widget_->addWidget(v.getResult());
+  stacked_widget_->setCurrentIndex(1);
+}
+void MainWindow::debugShowAdvancedSearchResults() {
+  auto *results_widget = new advanced_search::AdvancedSearchResultsWidget(this);
+  stacked_widget_->addWidget(results_widget);
+  results_widget->search(media::Media(""));
   stacked_widget_->setCurrentIndex(1);
 }
 }  // namespace gui

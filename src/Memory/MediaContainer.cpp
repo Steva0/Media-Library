@@ -70,7 +70,7 @@ std::vector<const media::Media*> MediaContainer::getByType(Type type) const {
 std::vector<const media::Media*> MediaContainer::getByGroup(Type type) const {
     std::vector<const media::Media*> result;
 
-    auto appendGroup = [&](Type t) {
+    auto append_group = [&](Type t) {
         for (const auto& ptr : data_[static_cast<int>(t)]) {
             if (!ptr->getTitle().empty()) { // Ignora media senza titolo
                 result.push_back(ptr.get());
@@ -80,19 +80,19 @@ std::vector<const media::Media*> MediaContainer::getByGroup(Type type) const {
 
     switch (type) {
         case Type::Novel:
-            appendGroup(Type::Novel);
-            appendGroup(Type::Ebook);
-            appendGroup(Type::AudioBook);
+            append_group(Type::Novel);
+            append_group(Type::Ebook);
+            append_group(Type::AudioBook);
             break;
         case Type::Movie:
-            appendGroup(Type::Movie);
-            appendGroup(Type::Series);
+            append_group(Type::Movie);
+            append_group(Type::Series);
             break;
         case Type::All:
-            appendGroup(Type::All);
+            append_group(Type::All);
             break;
         default:
-            appendGroup(type);
+            append_group(type);
             break;
     }
 
@@ -111,13 +111,13 @@ std::vector<const media::Media*> MediaContainer::filter(const media::Media& medi
 }
 
 int MediaContainer::serialize(QFile& file) const {
-    std::vector<const media::Media*> rawAll;
+    std::vector<const media::Media*> raw_all;
     for (const auto& ptr : data_[static_cast<int>(Type::All)]) {
         if (!ptr->getTitle().empty()) { // Ignora media senza titolo
-            rawAll.push_back(ptr.get());
+            raw_all.push_back(ptr.get());
         }
     }
-    return Serializer::serialize(rawAll, file);
+    return Serializer::serialize(raw_all, file);
 }
 
 
