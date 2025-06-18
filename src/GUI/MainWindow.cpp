@@ -7,6 +7,8 @@
 
 //debug
 #include "AdvancedSearch/AdvancedSearchResultVisitor.h"
+#include "AdvancedSearch/AdvancedSearchResultsWidget.h"
+#include "GUI/SlidingStackedWidget.h"
 
 namespace gui {
 const QString MainWindow::kConfigFileName = "config.txt";
@@ -16,9 +18,9 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent,
                        Qt::WindowFlags flags)
     : QMainWindow(parent, flags),
       database_(database),
-      stacked_widget_(this),
+      stacked_widget_(new SlidingStackedWidget(this)),
       central_widget_(new QFrame(this)),
-      status_bar_(QStatusBar(this)) {
+      status_bar_(new QStatusBar(this)) {
   recently_opened_ = std::make_unique<std::array<QString, 3>>();
 
   // leggi file contenente ultimi database aperti
@@ -34,17 +36,16 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent,
   // fatta variabile a parte solo per rendere più comprensibile la parte della
   // connessione con segnali
   auto *db_selection_widget = new DatabaseSelectionWidget(this);
-  stacked_widget_.addWidget(db_selection_widget);
-  stacked_widget_.setAnimation(QEasingCurve::Type::OutQuart);
-  stacked_widget_.setSpeed(450);
+  stacked_widget_->addWidget(db_selection_widget);
+  stacked_widget_->setAnimation(QEasingCurve::Type::OutQuart);
+  stacked_widget_->setSpeed(450);
 
-  auto *layout = new QVBoxLayout;
-  central_widget_.setLayout(layout);
+  auto *layout = new QVBoxLayout(central_widget_);
 
-  layout->addWidget(&stacked_widget_);
-  layout->addWidget(&status_bar_);
+  layout->addWidget(stacked_widget_);
+  layout->addWidget(status_bar_);
 
-  setCentralWidget(&central_widget_);
+  setCentralWidget(central_widget_);
 
   debug_visitor_advanced_search();
 
@@ -90,8 +91,7 @@ void MainWindow::debug_visitor_advanced_search() {
         {"Canzone 1", "Canzone 2", "Canzone 3", "Canzone 4"});
   advanced_search::AdvancedSearchResultVisitor v;
   v.visit(*media);
-  stacked_widget_.addWidget(v.getResult());
-  stacked_widget_.setCurrentIndex(1);
+  stacked_widget_->addWidget(v.getResult());
+  stacked_widget_->setCurrentIndex(1);
 }
-
 }  // namespace gui

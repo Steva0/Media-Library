@@ -14,9 +14,9 @@ class MainWindow : public QMainWindow {
  private:
   memory::Database &database_;
 
-  SlidingStackedWidget stacked_widget_;
-  QFrame central_widget_;
-  QStatusBar status_bar_;
+  SlidingStackedWidget *stacked_widget_;
+  QFrame *central_widget_;
+  QStatusBar *status_bar_;
 
   static const QString kConfigFileName;
   static const QString kDatabaseDirectory;
