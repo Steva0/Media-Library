@@ -47,7 +47,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent,
 
   setCentralWidget(central_widget_);
 
-  debug_visitor_advanced_search();
+  // debug_visitor_advanced_search();
 
   connect(db_selection_widget, &DatabaseSelectionWidget::onPressRecent, this,
           &MainWindow::openRecent);

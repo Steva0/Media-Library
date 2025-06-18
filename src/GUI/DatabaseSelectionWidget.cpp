@@ -49,10 +49,11 @@ DatabaseSelectionWidget::DatabaseSelectionWidget(MainWindow *main_window)
   frame_wrapper->layout()->addWidget(create_new_);
   frame_wrapper->layout()->setContentsMargins(45, 45, 45, 45);
   frame_wrapper->layout()->setSpacing(45);
-  frame_wrapper->setMaximumSize(frame_wrapper->minimumSizeHint());
 
-  auto *layout = new QHBoxLayout;
-  layout->addWidget(frame_wrapper);
+  auto *layout = new QGridLayout;
+  layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding), 0, 0);
+  layout->addWidget(frame_wrapper, 1, 1);
+  layout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding), 2, 2);
 
   setLayout(layout);
 
