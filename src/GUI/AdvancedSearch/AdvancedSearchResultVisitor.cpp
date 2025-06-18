@@ -32,7 +32,8 @@ QWidget *AdvancedSearchResultVisitor::getResult() {
 }
 void AdvancedSearchResultVisitor::visit(const media::Media &media) {
   img_ = new QLabel;
-  img_->setPixmap(*new QPixmap(QString::fromStdString(media.getImgPath())));
+  // img_->setPixmap(*new QPixmap(QString::fromStdString(media.getImgPath())));
+  img_->setPixmap(*new QPixmap(":/assets/matita.jpg")); // debug
 
   data_ = new QWidget;
   grid_ = new QGridLayout(data_);
@@ -42,7 +43,7 @@ void AdvancedSearchResultVisitor::visit(const media::Media &media) {
   addRow("Lingua", media.getLanguage());
   addRow("Data", media.getRelease());
   addRow("Genere", media.getGenres());
-  // come mettiamo il preferito?
+  // come mettiamo il preferito? stella?
   notes_ = new QLabel(QString::fromStdString(media.getNotes()));
 }
 void AdvancedSearchResultVisitor::visit(const media::Album &album) {

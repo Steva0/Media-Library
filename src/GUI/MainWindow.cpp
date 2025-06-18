@@ -78,6 +78,7 @@ void MainWindow::closeDatabase(bool save) const {
   // bisogna aggiornare status line in base allo stato di chiusura del database
   database_.close(save);
 }
+
 std::vector<const media::Media *> MainWindow::filter(
     const media::Media &filter) const {
   return database_.filterMedia(filter);

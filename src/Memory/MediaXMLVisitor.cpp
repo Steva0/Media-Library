@@ -28,8 +28,7 @@ QDomElement MediaXMLVisitor::elementFrom(const std::string &key,
   return el;
 }
 QDomElement MediaXMLVisitor::elementFrom(const std::string &empty) {
-  QDomElement el;
-  el.setTagName(QString::fromStdString(empty));
+  QDomElement el = document_.createElement(QString::fromStdString(empty));
   return el;
 }
 void MediaXMLVisitor::visit(const media::Media &media) {

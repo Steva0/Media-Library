@@ -10,7 +10,6 @@ namespace gui {
 namespace advanced_search {
 class AdvancedSearchResultVisitor : public media::IConstMediaVisitor {
  private:
-  // sembra facilitare le cose
   QGridLayout *grid_;
   // result_ sarà una composizione di immagine a sinistra e dati a destra
   QWidget *data_;
