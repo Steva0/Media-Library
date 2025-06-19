@@ -12,8 +12,7 @@ AdvancedSearchResultsWidget::AdvancedSearchResultsWidget(
     MainWindow *main_window)
     : QWidget(main_window), main_window_(*main_window) {}
 
-void AdvancedSearchResultsWidget::search(const media::Media &filter) {
-  filter_ = std::make_unique<media::Media>(filter);
+void AdvancedSearchResultsWidget::finalizeSearch() {
   results_ = main_window_.filter(*filter_);
 
   scroll_area_ = new QScrollArea(this);
@@ -24,12 +23,15 @@ void AdvancedSearchResultsWidget::search(const media::Media &filter) {
 
   for (auto &result : results_) {
     AdvancedSearchResultVisitor v;
-    v.visit(*result);
+    result->accept(v);
     grid->addWidget(v.getResult(), pos / 2, pos % 2);
     ++pos;
   }
 
+
   scroll_area_->setWidget(results_widget_);
+  scroll_area_->setMinimumWidth(results_widget_->width());
 }
+
 }  // namespace advanced_search
 }  // namespace gui

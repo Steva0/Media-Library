@@ -5,7 +5,7 @@
 
 #include "../../Media/Media.h"
 #include "../MainWindow.h"
-#include "AdvancedSearchResultVisitor.h"
+
 namespace gui {
 namespace advanced_search {
 class AdvancedSearchResultsWidget : public QWidget {
@@ -15,14 +15,21 @@ class AdvancedSearchResultsWidget : public QWidget {
 
   QWidget *results_widget_;
   QScrollArea *scroll_area_;
-  // per rifare facilmente query
-  // puntatore per polimorfismo
+  
   std::unique_ptr<media::Media> filter_;
   std::vector<const media::Media *> results_;
 
+  void finalizeSearch();
+
  public:
   explicit AdvancedSearchResultsWidget(MainWindow *main_window);
-  void search(const media::Media &);
+
+  // se ci serve dyn dispatch facciamo una versione per derivazione di Media
+  template <typename T>
+  void search(const T &filter) {
+    filter_ = std::make_unique<T>(filter);
+    finalizeSearch();
+  }
 };
 }  // namespace advanced_search
 }  // namespace gui

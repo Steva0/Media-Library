@@ -80,17 +80,7 @@ bool Album::filter(const Media& album) const {
 }
 
 void Album::accept(IConstMediaVisitor &v) const {
-    // Dynamic cast per MediaJSONVisitor
-    if (auto* jsonVisitor = dynamic_cast<memory::MediaJSONVisitor*>(&v)) {
-        jsonVisitor->visit(*this);
-        return;
-    }
-    // Dynamic cast per MediaXMLVisitor
-    if (auto* xmlVisitor = dynamic_cast<memory::MediaXMLVisitor*>(&v)) {
-        xmlVisitor->visit(*this);
-        return;
-    }
-    return;
+    v.visit(*this);
 }
 
 }  // namespace media

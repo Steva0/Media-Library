@@ -102,6 +102,7 @@ std::vector<const media::Media*> MediaContainer::getByGroup(Type type) const {
 std::vector<const media::Media*> MediaContainer::filter(const media::Media& media) const {
     std::vector<const media::Media*> results;
     Type t = detectType(media);
+
     for (const media::Media* m : getByGroup(t)) {
         if (!m->getTitle().empty() && media.filter(*m)) { // Ignora media senza titolo
             results.push_back(m);

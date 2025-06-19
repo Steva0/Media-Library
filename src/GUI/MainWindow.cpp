@@ -99,7 +99,8 @@ void MainWindow::debugVisitorAdvancedSearch() {
 void MainWindow::debugShowAdvancedSearchResults() {
   auto *results_widget = new advanced_search::AdvancedSearchResultsWidget(this);
   stacked_widget_->addWidget(results_widget);
-  results_widget->search(media::Media(""));
+  // results_widget->search<media::Media>(media::Media(""));
+  results_widget->search(media::Novel(""));
   stacked_widget_->setCurrentIndex(1);
 }
 }  // namespace gui

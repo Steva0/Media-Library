@@ -83,7 +83,7 @@ void AdvancedSearchResultVisitor::visit(const media::AudioBook &audio_book) {
   addRow("Servizio Streaming", audio_book.getStreamingService());
 }
 void AdvancedSearchResultVisitor::visit(const media::Ebook &ebook) {
-  visit(static_cast<const media::Media &>(ebook));
+  visit(static_cast<const media::Novel &>(ebook));
   if (ebook.hasDrm()) addRow("DRM");
 }
 
