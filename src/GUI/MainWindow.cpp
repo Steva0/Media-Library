@@ -8,6 +8,7 @@
 //debug
 #include "AdvancedSearch/AdvancedSearchResultVisitor.h"
 #include "AdvancedSearch/AdvancedSearchResultsWidget.h"
+#include "AdvancedSearch/AdvancedSearchInputWidget.h"
 #include "GUI/SlidingStackedWidget.h"
 
 namespace gui {
@@ -48,7 +49,8 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent,
   setCentralWidget(central_widget_);
 
   // debugVisitorAdvancedSearch();
-  debugShowAdvancedSearchResults();
+  // debugShowAdvancedSearchResults();
+  debugShowAdvancedSearchInput();
 
   connect(db_selection_widget, &DatabaseSelectionWidget::onPressRecent, this,
           &MainWindow::openRecent);
@@ -101,6 +103,12 @@ void MainWindow::debugShowAdvancedSearchResults() {
   stacked_widget_->addWidget(results_widget);
   // results_widget->search<media::Media>(media::Media(""));
   results_widget->search(media::Novel(""));
+  stacked_widget_->setCurrentIndex(1);
+}
+
+void MainWindow::debugShowAdvancedSearchInput() {
+  auto *input_widget = new advanced_search::AdvancedSearchInputWidget(this);
+  stacked_widget_->addWidget(input_widget);
   stacked_widget_->setCurrentIndex(1);
 }
 }  // namespace gui
