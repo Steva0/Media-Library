@@ -19,19 +19,10 @@ class InputWidget : public QWidget {
 
   MediaInputWidget *media_filter_;
 
-  QGridLayout *media_left_layout_;
-  QGridLayout *media_right_layout_;
-
   std::vector<QLineEdit *> genres_edit_vector_;
-
-  // QWidget *newTextEntry(const QString &label);
-  // QWidget *newVectorEntry(const QString& label);
 
  public:
   explicit InputWidget(QWidget *parent);
-
-  // private slots:
-  //   void addGenre();
 };
 }  // namespace advanced_search
 }  // namespace gui
