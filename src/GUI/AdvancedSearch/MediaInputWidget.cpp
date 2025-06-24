@@ -3,11 +3,11 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
-#include <iostream>
 
 namespace gui {
 namespace advanced_search {
 const int MediaInputWidget::kColumnAmount = 6;
+const size_t MediaInputWidget::kMaxGenres = 3;
 
 MediaInputWidget::MediaInputWidget(QWidget *parent) : QWidget(parent) {
   layout_ = new QGridLayout(this);
@@ -49,6 +49,13 @@ MediaInputWidget::MediaInputWidget(QWidget *parent) : QWidget(parent) {
 }
 
 void MediaInputWidget::addGenre() {
+  if (genre_input_->text() == "") return;
+  if (genres_.size() == kMaxGenres) { return; }
+  if (std::find_if(genres_.begin(), genres_.end(),
+                   [&](QLineEdit *genre) { return genre_input_->text() == genre->text(); }) != genres_.end()) {
+    genre_input_->clear(); // feedback visivo
+    return;
+  }
   auto *new_genre = new QLineEdit(genre_input_->text(), this);
   new_genre->setEnabled(false);
   genre_input_->clear();
@@ -60,9 +67,8 @@ void MediaInputWidget::addGenre() {
 
   genres_.push_back(new_genre);
 
-  connect(remove_button, &QAbstractButton::pressed, this, [this, new_genre, remove_button]() {
-    removeGenre(new_genre, remove_button);
-  });
+  connect(remove_button, &QAbstractButton::pressed, this,
+          [this, new_genre, remove_button]() { removeGenre(new_genre, remove_button); });
 }
 
 void MediaInputWidget::removeGenre(QLineEdit *genre, QPushButton *button) {

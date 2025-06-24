@@ -21,6 +21,7 @@ class MediaInputWidget : public QWidget {
   std::vector<QLineEdit *> genres_;
 
   static const int kColumnAmount;
+  static const size_t kMaxGenres;
 
  public:
   explicit MediaInputWidget(QWidget *parent);
