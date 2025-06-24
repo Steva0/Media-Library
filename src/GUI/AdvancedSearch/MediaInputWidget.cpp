@@ -3,6 +3,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <iostream>
 
 namespace gui {
 namespace advanced_search {
@@ -43,7 +44,50 @@ MediaInputWidget::MediaInputWidget(QWidget *parent) : QWidget(parent) {
   layout_->addWidget(genre_label);
   layout_->addWidget(genre_input_, layout_->rowCount() - 1, 1, 1, kColumnAmount - 2);
   layout_->addWidget(add_genre);
+
+  connect(add_genre, &QAbstractButton::pressed, this, &MediaInputWidget::addGenre);
 }
 
+void MediaInputWidget::addGenre() {
+  auto *new_genre = new QLineEdit(genre_input_->text(), this);
+  new_genre->setEnabled(false);
+  genre_input_->clear();
+
+  auto *remove_button = new QPushButton("-", this);
+
+  layout_->addWidget(new_genre, layout_->rowCount(), 1, 1, kColumnAmount - 2);
+  layout_->addWidget(remove_button);
+
+  genres_.push_back(new_genre);
+
+  connect(remove_button, &QAbstractButton::pressed, this, [this, new_genre, remove_button]() {
+    removeGenre(new_genre, remove_button);
+  });
+}
+
+void MediaInputWidget::removeGenre(QLineEdit *genre, QPushButton *button) {
+  auto it = std::find(genres_.begin(), genres_.end(), genre);
+  layout_->removeWidget(*it);
+  (*it)->deleteLater();
+  genres_.erase(it);
+  layout_->removeWidget(button);
+  button->deleteLater();
+}
+
+QString MediaInputWidget::getTitle() const { return title_->text(); }
+
+int MediaInputWidget::getRelease() const { return release_->text().toInt(); }
+
+QString MediaInputWidget::getLanguage() const { return language_->text(); }
+
+bool MediaInputWidget::getFavourite() const { return favourite_->isChecked(); }
+
+std::vector<QString> MediaInputWidget::getGenres() const {
+  std::vector<QString> genres;
+  for (auto *genre : genres_) {
+    genres.push_back(genre->text());
+  }
+  return genres;
+}
 }  // namespace advanced_search
 }  // namespace gui

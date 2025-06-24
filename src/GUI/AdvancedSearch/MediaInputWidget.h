@@ -4,6 +4,8 @@
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QSpinBox>
+#include <QLabel>
+#include <QPushButton>
 
 namespace gui {
 namespace advanced_search {
@@ -23,12 +25,15 @@ class MediaInputWidget : public QWidget {
  public:
   explicit MediaInputWidget(QWidget *parent);
 
- signals:
-  void setTitle(QString);
-  void setRelease(QString);
-  void setLanguage(QString);
-  void addGenre(QString);
-  void removeGenre(QString);
+  QString getTitle() const;
+  int getRelease() const;
+  QString getLanguage() const;
+  bool getFavourite() const;
+  std::vector<QString> getGenres() const;
+
+  private slots:
+   void addGenre();
+   void removeGenre(QLineEdit *genre, QPushButton *button);
 };
 }  // namespace advanced_search
 }  // namespace gui
