@@ -32,6 +32,7 @@ class MediaContainer {
 
 
   static std::string typeToString(Type);
+  static std::string typeToString(size_t);
 
  private:
   // per assicurare una a compile time una corrispondenza 1 a 1 tra stringhe e valori enum

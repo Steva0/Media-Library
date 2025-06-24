@@ -1,4 +1,4 @@
-#include "AdvancedSearchResultVisitor.h"
+#include "ResultVisitor.h"
 
 #include <QLabel>
 #include <QPixmap>
@@ -16,7 +16,8 @@
 
 namespace gui {
 namespace advanced_search {
-QWidget *AdvancedSearchResultVisitor::getResult() {
+QWidget *ResultVisitor::getResult() {
+  // todo result -> wrapper
   auto *result = new QWidget;
   auto *wrapper = new QFrame(result);
   wrapper->setFrameShape(QFrame::Box);
@@ -30,7 +31,7 @@ QWidget *AdvancedSearchResultVisitor::getResult() {
 
   return result;
 }
-void AdvancedSearchResultVisitor::visit(const media::Media &media) {
+void ResultVisitor::visit(const media::Media &media) {
   img_ = new QLabel;
   // img_->setPixmap(*new QPixmap(QString::fromStdString(media.getImgPath())));
   img_->setPixmap(*new QPixmap(":/assets/matita.jpg"));  // debug
@@ -52,20 +53,20 @@ void AdvancedSearchResultVisitor::visit(const media::Media &media) {
   // come mettiamo il preferito? stella?
   notes_ = new QLabel(QString::fromStdString(media.getNotes()));
 }
-void AdvancedSearchResultVisitor::visit(const media::Album &album) {
+void ResultVisitor::visit(const media::Album &album) {
   visit(static_cast<const media::Media &>(album));
   addRow("Band", album.getBand());
   addRow("Members", album.getBandMembers());
   // tutta 'sta roba?
   addRow("Songs", album.getSongs());
 }
-void AdvancedSearchResultVisitor::visit(const media::Movie &movie) {
+void ResultVisitor::visit(const media::Movie &movie) {
   visit(static_cast<const media::Media &>(movie));
   addRow("Durata", movie.getLength());
   addRow("Universo", movie.getUniverse());
   addRow("Cast", movie.getCast());
 }
-void AdvancedSearchResultVisitor::visit(const media::Series &series) {
+void ResultVisitor::visit(const media::Series &series) {
   visit(static_cast<const media::Movie &>(series));
   addRow("Stagioni", series.getSeasons());
   addRow("Episodi", series.getEpisodes());
@@ -75,7 +76,7 @@ void AdvancedSearchResultVisitor::visit(const media::Series &series) {
     addRow("Non terminato");
   }
 }
-void AdvancedSearchResultVisitor::visit(const media::Novel &novel) {
+void ResultVisitor::visit(const media::Novel &novel) {
   visit(static_cast<const media::Media &>(novel));
   addRow("Autore", novel.getAuthor());
   addRow("Editore", novel.getPublisher());
@@ -83,17 +84,17 @@ void AdvancedSearchResultVisitor::visit(const media::Novel &novel) {
   addRow("Pagine", novel.getPages());
   addRow("ISBN", novel.getIsbn());
 }
-void AdvancedSearchResultVisitor::visit(const media::AudioBook &audio_book) {
+void ResultVisitor::visit(const media::AudioBook &audio_book) {
   visit(static_cast<const media::Media &>(audio_book));
   addRow("Voce", audio_book.getNarrator());
   addRow("Servizio Streaming", audio_book.getStreamingService());
 }
-void AdvancedSearchResultVisitor::visit(const media::Ebook &ebook) {
+void ResultVisitor::visit(const media::Ebook &ebook) {
   visit(static_cast<const media::Novel &>(ebook));
   if (ebook.hasDrm()) addRow("DRM");
 }
 
-void AdvancedSearchResultVisitor::addRow(const std::string &key,
+void ResultVisitor::addRow(const std::string &key,
                                          const std::string &value) {
   grid_->addWidget(new QLabel(QString::fromStdString(key) + ":"),
                    grid_->rowCount(), 0);
@@ -103,13 +104,13 @@ void AdvancedSearchResultVisitor::addRow(const std::string &key,
                    grid_->rowCount() - 1, 1);
 
 }
-void AdvancedSearchResultVisitor::addRow(const std::string &key, int value) {
+void ResultVisitor::addRow(const std::string &key, int value) {
   grid_->addWidget(new QLabel(QString::fromStdString(key) + ":"),
                    grid_->rowCount(), 0);
   grid_->addWidget(new QLabel(QString::number(value)), grid_->rowCount() - 1,
                    1);
 }
-void AdvancedSearchResultVisitor::addRow(
+void ResultVisitor::addRow(
     const std::string &key, const std::vector<std::string> &value) {
   if (value.size() == 0) {
     addRow(key, "");
@@ -125,7 +126,7 @@ void AdvancedSearchResultVisitor::addRow(
                        }))),
                    grid_->rowCount() - 1, 1);
 }
-void AdvancedSearchResultVisitor::addRow(const std::string &only_key) {
+void ResultVisitor::addRow(const std::string &only_key) {
   addRow(only_key, "");
 }
 

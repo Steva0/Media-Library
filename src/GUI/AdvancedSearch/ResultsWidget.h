@@ -8,7 +8,7 @@
 
 namespace gui {
 namespace advanced_search {
-class AdvancedSearchResultsWidget : public QWidget {
+class ResultsWidget : public QWidget {
   Q_OBJECT
  private:
   MainWindow &main_window_;
@@ -22,7 +22,7 @@ class AdvancedSearchResultsWidget : public QWidget {
   void finalizeSearch();
 
  public:
-  explicit AdvancedSearchResultsWidget(MainWindow *main_window);
+  explicit ResultsWidget(MainWindow *main_window);
 
   // se ci serve dyn dispatch facciamo una versione per derivazione di Media
   template <typename T>

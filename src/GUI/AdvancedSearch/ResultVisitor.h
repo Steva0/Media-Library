@@ -8,7 +8,7 @@
 #include "qgridlayout.h"
 namespace gui {
 namespace advanced_search {
-class AdvancedSearchResultVisitor : public media::IConstMediaVisitor {
+class ResultVisitor : public media::IConstMediaVisitor {
  private:
   QGridLayout *grid_;
   // result_ sarà una composizione di immagine a sinistra e dati a destra

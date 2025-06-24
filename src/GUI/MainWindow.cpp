@@ -6,9 +6,9 @@
 #include "DatabaseSelectionWidget.h"
 
 //debug
-#include "AdvancedSearch/AdvancedSearchResultVisitor.h"
-#include "AdvancedSearch/AdvancedSearchResultsWidget.h"
-#include "AdvancedSearch/AdvancedSearchInputWidget.h"
+#include "AdvancedSearch/ResultVisitor.h"
+#include "AdvancedSearch/ResultsWidget.h"
+#include "AdvancedSearch/InputWidget.h"
 #include "GUI/SlidingStackedWidget.h"
 
 namespace gui {
@@ -93,13 +93,13 @@ void MainWindow::debugVisitorAdvancedSearch() {
         ":/assets/matita.jpg", "Non dovrebbe essere visualizzato",
         "Nome band", {"Membro 1", "Membro 2", "Membro 3"},
         {"Canzone 1", "Canzone 2", "Canzone 3", "Canzone 4"});
-  advanced_search::AdvancedSearchResultVisitor v;
+  advanced_search::ResultVisitor v;
   v.visit(*media);
   stacked_widget_->addWidget(v.getResult());
   stacked_widget_->setCurrentIndex(1);
 }
 void MainWindow::debugShowAdvancedSearchResults() {
-  auto *results_widget = new advanced_search::AdvancedSearchResultsWidget(this);
+  auto *results_widget = new advanced_search::ResultsWidget(this);
   stacked_widget_->addWidget(results_widget);
   // results_widget->search<media::Media>(media::Media(""));
   results_widget->search(media::Novel(""));
@@ -107,7 +107,7 @@ void MainWindow::debugShowAdvancedSearchResults() {
 }
 
 void MainWindow::debugShowAdvancedSearchInput() {
-  auto *input_widget = new advanced_search::AdvancedSearchInputWidget(this);
+  auto *input_widget = new advanced_search::InputWidget(this);
   stacked_widget_->addWidget(input_widget);
   stacked_widget_->setCurrentIndex(1);
 }

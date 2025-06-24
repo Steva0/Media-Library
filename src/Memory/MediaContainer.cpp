@@ -2,22 +2,17 @@
 
 #include <algorithm>
 #include <string_view>
-#define ASSERT_TYPE_STRING(VALUE)                        \
-  static_assert(kResult[static_cast<size_t>(Type::VALUE)] == #VALUE);
+#define ASSERT_TYPE_STRING(VALUE) static_assert(kResult[static_cast<size_t>(Type::VALUE)] == #VALUE);
 
 namespace memory {
 
-constexpr std::array<std::string_view,
-                     static_cast<size_t>(MediaContainer::Type::TypeCount)>
+constexpr std::array<std::string_view, static_cast<size_t>(MediaContainer::Type::TypeCount)>
 MediaContainer::typeStrings() {
   using Type = MediaContainer::Type;
 
-  constexpr std::array<std::string_view,
-                       static_cast<size_t>(MediaContainer::Type::TypeCount)>
-      kResult{"All",   "Novel",     "Album", "Movie",
-                 "Ebook", "AudioBook", "Series"};
-  static_assert(kResult.size() ==
-                static_cast<size_t>(MediaContainer::Type::TypeCount));
+  constexpr std::array<std::string_view, static_cast<size_t>(MediaContainer::Type::TypeCount)> kResult{
+      "All", "Novel", "Album", "Movie", "Ebook", "AudioBook", "Series"};
+  static_assert(kResult.size() == static_cast<size_t>(MediaContainer::Type::TypeCount));
 
   ASSERT_TYPE_STRING(All);
   ASSERT_TYPE_STRING(Novel);
@@ -29,9 +24,8 @@ MediaContainer::typeStrings() {
   return kResult;
 }
 
-std::string MediaContainer::typeToString(Type type) {
-  return std::string(typeStrings()[static_cast<size_t>(type)]);
-}
+std::string MediaContainer::typeToString(Type type) { return std::string(typeStrings()[static_cast<size_t>(type)]); }
+std::string MediaContainer::typeToString(size_t type) { return std::string(typeStrings()[type]); }
 
 void MediaContainer::addMedia(const media::Media& media) {
   Type t = detectType(media);
@@ -55,8 +49,7 @@ void MediaContainer::addMedia(const std::vector<media::Media>& listaMedia) {
   }
 }
 
-MediaContainer::Type MediaContainer::detectType(
-    const media::Media& media) const {
+MediaContainer::Type MediaContainer::detectType(const media::Media& media) const {
   if (dynamic_cast<const media::Series*>(&media)) return Type::Series;
   if (dynamic_cast<const media::AudioBook*>(&media)) return Type::AudioBook;
   if (dynamic_cast<const media::Ebook*>(&media)) return Type::Ebook;
@@ -69,8 +62,7 @@ MediaContainer::Type MediaContainer::detectType(
 void MediaContainer::removeMedia(const media::Media& media) {
   for (auto& vec : data_) {
     for (auto& m : vec) {
-      if (!m->getTitle().empty() && typeid(*m) == typeid(media) &&
-          *m == media) {
+      if (!m->getTitle().empty() && typeid(*m) == typeid(media) && *m == media) {
         m->setTitle("");  // Marca come "rimossa"
       }
     }
@@ -83,9 +75,7 @@ void MediaContainer::clear() {
   }
 }
 
-std::vector<const media::Media*> MediaContainer::getAll() const {
-  return getByType(Type::All);
-}
+std::vector<const media::Media*> MediaContainer::getAll() const { return getByType(Type::All); }
 
 std::vector<const media::Media*> MediaContainer::getByType(Type type) const {
   std::vector<const media::Media*> result;
@@ -129,14 +119,12 @@ std::vector<const media::Media*> MediaContainer::getByGroup(Type type) const {
   return result;
 }
 
-std::vector<const media::Media*> MediaContainer::filter(
-    const media::Media& media) const {
+std::vector<const media::Media*> MediaContainer::filter(const media::Media& media) const {
   std::vector<const media::Media*> results;
   Type t = detectType(media);
 
   for (const media::Media* m : getByGroup(t)) {
-    if (!m->getTitle().empty() &&
-        media.filter(*m)) {  // Ignora media senza titolo
+    if (!m->getTitle().empty() && media.filter(*m)) {  // Ignora media senza titolo
       results.push_back(m);
     }
   }
