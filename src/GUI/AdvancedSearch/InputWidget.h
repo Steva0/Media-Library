@@ -1,10 +1,7 @@
 #ifndef GUI_ADVANCED_SEARCH_INPUT_WIDGET_H
 #define GUI_ADVANCED_SEARCH_INPUT_WIDGET_H
-#include <QCheckBox>
-#include <QGridLayout>
 #include <QLineEdit>
-#include <QSpinBox>
-#include <QWidget>
+#include <QStackedWidget>
 
 #include "MediaInputWidget.h"
 #include "TypeSelector.h"
@@ -18,11 +15,16 @@ class InputWidget : public QWidget {
   TypeSelector *type_selection_;
 
   MediaInputWidget *media_filter_;
-
-  std::vector<QLineEdit *> genres_edit_vector_;
+  QStackedWidget *type_filter_;
 
  public:
-  explicit InputWidget(QWidget *parent);
+  explicit InputWidget(QWidget *parent = nullptr);
+
+ private slots:
+  void showTypeInput(int);
+
+ signals:
+  // void filter(const media::Media *); ??
 };
 }  // namespace advanced_search
 }  // namespace gui

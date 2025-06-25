@@ -2,15 +2,17 @@
 #define GUI_ADVANCED_SEARCH_MEDIA_WIDGET
 #include <QCheckBox>
 #include <QGridLayout>
-#include <QLineEdit>
-#include <QSpinBox>
 #include <QLabel>
+#include <QLineEdit>
 #include <QPushButton>
+#include <QSpinBox>
 
 namespace gui {
 namespace advanced_search {
 class MediaInputWidget : public QWidget {
   Q_OBJECT
+  protected:
+  void addWidget(QWidget *, QWidget *, bool half = false);
  private:
   QGridLayout *layout_;
   QLineEdit *title_;
@@ -32,9 +34,9 @@ class MediaInputWidget : public QWidget {
   bool getFavourite() const;
   std::vector<QString> getGenres() const;
 
-  private slots:
-   void addGenre();
-   void removeGenre(QLineEdit *genre, QPushButton *button);
+ private slots:
+  void addGenre();
+  void removeGenre(QLineEdit *genre, QPushButton *button);
 };
 }  // namespace advanced_search
 }  // namespace gui

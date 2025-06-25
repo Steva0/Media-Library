@@ -16,7 +16,7 @@ class TypeSelector : public QWidget {
   std::array<QPushButton *, static_cast<size_t>(memory::MediaContainer::Type::TypeCount)> types_;
 
  public:
-  explicit TypeSelector(QWidget *parent);
+  explicit TypeSelector(QWidget *parent = nullptr);
 
  signals:
   void selectType(int);

@@ -22,6 +22,7 @@ TypeSelector::TypeSelector(QWidget *parent) : QWidget(parent) {
     max_width = std::max(max_width, types_[type]->sizeHint().width());
     layout->addWidget(types_[type]);
     container_->addButton(types_[type]);
+    container_->setId(types_[type], type);
   }
 
   for (auto &type : types_) {

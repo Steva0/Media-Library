@@ -9,6 +9,13 @@ namespace advanced_search {
 const int MediaInputWidget::kColumnAmount = 6;
 const size_t MediaInputWidget::kMaxGenres = 3;
 
+void MediaInputWidget::addWidget(QWidget *left, QWidget *right, bool half_size) {
+  int span = (kColumnAmount - 1);
+  if (half_size) span /= 2;
+  layout_->addWidget(left);
+  layout_->addWidget(right, layout_->rowCount() - 1, 1, 1, span);
+}
+
 MediaInputWidget::MediaInputWidget(QWidget *parent) : QWidget(parent) {
   layout_ = new QGridLayout(this);
 

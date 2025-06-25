@@ -25,7 +25,6 @@ class ResultVisitor : public media::IConstMediaVisitor {
   void addRow(const std::string &);
 
  public:
-  // copy-on-write
   QWidget *getResult();
 
   void visit(const media::Media &) override;
