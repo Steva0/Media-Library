@@ -33,7 +33,6 @@ InputWidget::InputWidget(QWidget *parent) : QWidget(parent) {
   layout->addWidget(type_selection_);
   layout->addWidget(media_filter_);
   layout->addWidget(type_filter_);
-  layout->addStretch();
 
   // init
   showTypeInput(0);

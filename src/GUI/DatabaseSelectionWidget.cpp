@@ -1,15 +1,14 @@
 #include "DatabaseSelectionWidget.h"
 
+#include <QFileDialog>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <iostream>
 
 namespace gui {
 DatabaseSelectionWidget::DatabaseSelectionWidget(MainWindow *main_window)
-    : QWidget(main_window),
-      main_window_(*main_window),
-      tool_style_sheet_("font-size: 20px;"),
-      button_size_(128, 128) {
+    : QWidget(main_window), main_window_(*main_window), tool_style_sheet_("font-size: 20px;"), button_size_(128, 128) {
   open_db_ = makeToolButton("Apri", QPixmap(":/assets/wifi.jpeg"), this);
   create_db_ = makeToolButton("Nuovo", QPixmap(":/assets/matita.jpg"), this);
 
@@ -21,8 +20,35 @@ DatabaseSelectionWidget::DatabaseSelectionWidget(MainWindow *main_window)
 
   layout->setSpacing(20);
 
-  connect(open_db_, &QAbstractButton::pressed, this, &DatabaseSelectionWidget::onPressOpen);
-  connect(create_db_, &QAbstractButton::pressed, this, &DatabaseSelectionWidget::onPressNew);
+  connect(open_db_, &QAbstractButton::clicked, this, &DatabaseSelectionWidget::openDatabase);
+  connect(create_db_, &QAbstractButton::clicked, this, &DatabaseSelectionWidget::createDatabase);
+}
+
+void DatabaseSelectionWidget::openDatabase() {
+  // todo decidere quale usare
+  QString path = QFileDialog::getOpenFileName(nullptr, "Open Database", ".", "XML files (*.xml);;JSON files (*.json)");
+  if (path == "") return; // "cancel"
+  emit onSelectDatabase(path);
+}
+
+void DatabaseSelectionWidget::createDatabase() {
+  QString filter;
+  QString path = QFileDialog::getSaveFileName(this, "New Database", ".", "XML files(*.xml);;JSON files (*.json)", &filter);
+  if (path == "") return;
+
+  std::cout << "Filter: " << filter.toStdString() << '\n';
+  
+  if (filter.contains("xml"))
+    filter = ".xml";
+  else
+    filter = ".json";
+
+  std::cout << "Filter: " << filter.toStdString() << '\n';
+
+  if (!path.endsWith(filter)) path += filter;
+  std::cout << "Path: " << path.toStdString() << '\n';
+
+  emit onSelectDatabase(path);
 }
 
 QToolButton *DatabaseSelectionWidget::makeToolButton(const QString &name, const QPixmap &image, QWidget *parent) {

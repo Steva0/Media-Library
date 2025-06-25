@@ -29,10 +29,12 @@ class DatabaseSelectionWidget : public QWidget {
  public:
   explicit DatabaseSelectionWidget(MainWindow *main_window);
 
+ private slots:
+  void createDatabase();
+  void openDatabase();
+
  signals:
-  void onPressRecent(size_t);
-  void onPressNew(); // ?
-  void onPressOpen(); // ?
+  void onSelectDatabase(const QString &);
 };
 }  // namespace gui
 #endif

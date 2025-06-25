@@ -53,6 +53,7 @@ bool Database::open(const QString& path) {
     }
 
     file_path_ = path;
+    std::cout << "Ho aperto: " << file_path_.toStdString() << '\n';
     file.close();
     return true;
 }

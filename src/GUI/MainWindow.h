@@ -3,7 +3,6 @@
 #include <QFrame>
 #include <QMainWindow>
 #include <QStatusBar>
-#include <memory>
 
 #include "../Memory/Database.h"
 #include "SlidingStackedWidget.h"
@@ -22,6 +21,7 @@ class MainWindow : public QMainWindow {
   void debugVisitorAdvancedSearch();
   void debugShowAdvancedSearchResults();
   void debugShowAdvancedSearchInput();
+  void debugShowAdvancedSearchMainWidget();
 
  public:
   explicit MainWindow(memory::Database &database, QWidget *parent = nullptr,
@@ -30,7 +30,7 @@ class MainWindow : public QMainWindow {
   std::vector<const media::Media*> filter(const media::Media &) const;
 
  private slots:
-  void openDatabase(const QString &path) const;
+  void accessDatabase(const QString &path) const;
   void closeDatabase(bool save) const;
 
   // void advancedSearch(const media::Media *);
