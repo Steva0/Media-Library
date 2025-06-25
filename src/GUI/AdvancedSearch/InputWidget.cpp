@@ -21,9 +21,7 @@ InputWidget::InputWidget(QWidget *parent) : QWidget(parent) {
 
   type_filter_ = new QStackedWidget(this);
   type_filter_->addWidget(
-      new QWidget(this));  // widget vuoto per quando non viene fatta una ricerca su un sottotipo
-  // bisogna gestire errore grandezza
-  // bisognerà chiamare un hide() quando idx = 0
+      new QWidget(this));  // widget vuoto per quando non viene fatta una ricerca su un sottotipo (non strettamente necessario)
   type_filter_->addWidget(new NovelInputWidget(this)); // novel
   type_filter_->addWidget(new AlbumInputWidget(this));
   type_filter_->addWidget(new MovieInputWidget(this)); // movie
@@ -37,11 +35,11 @@ InputWidget::InputWidget(QWidget *parent) : QWidget(parent) {
   layout->addWidget(type_filter_);
   layout->addStretch();
 
+  // init
   showTypeInput(0);
 
   // todo riempire in connect
-  // todo aggiungere in modo dinamico valori ad array
-  // todo generare media a mo' di visitor in modo che possa essere ottenuto dopo emit signal
+  // todo generare media filtro che può essere ottenuto con signal
   connect(type_selection_, &TypeSelector::selectType, type_filter_, &QStackedWidget::setCurrentIndex);
   connect(type_selection_, &TypeSelector::selectType, this, &InputWidget::showTypeInput);
 }
@@ -53,8 +51,7 @@ void InputWidget::showTypeInput(int idx) {
     return;
   }
   type_filter_->show();
-  // type_filter_->setFixedHeight(type_filter_->currentWidget()->sizeHint().height());
-  // type_filter_->resize(type_filter_->currentWidget()->width(), type_filter_->currentWidget()->sizeHint().height());
+  // workaround per gestire lo scaling in altezza del QStackedWidget
   type_filter_->setFixedHeight(type_filter_->currentWidget()->sizeHint().height());
 }
 }  // namespace advanced_search

@@ -14,10 +14,8 @@ class DatabaseSelectionWidget : public QWidget {
 
  private:
   MainWindow &main_window_;
-  QToolButton *open_other_;
-  QToolButton *recently_opened_[3];
-  QToolButton *create_new_;
-  size_t recent_amount_;  // grandezza recenty_opened_
+  QToolButton *open_db_;
+  QToolButton *create_db_;
 
   const QString tool_style_sheet_;
   QSize button_size_;  // da dinamicizzare? oppure potremmo rendere fissa /
@@ -27,7 +25,6 @@ class DatabaseSelectionWidget : public QWidget {
 
   QToolButton *makeToolButton(const QString &name, const QPixmap &image,
                               QWidget *parent);
-  static QFrame *makeVLine(QWidget *parent);
 
  public:
   explicit DatabaseSelectionWidget(MainWindow *main_window);

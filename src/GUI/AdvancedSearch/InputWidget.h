@@ -20,11 +20,13 @@ class InputWidget : public QWidget {
  public:
   explicit InputWidget(QWidget *parent = nullptr);
 
+  media::Media *makeFilter() const;
+
  private slots:
   void showTypeInput(int);
 
  signals:
-  // void filter(const media::Media *); ??
+  // void filter(const media::Media *); ?
 };
 }  // namespace advanced_search
 }  // namespace gui

@@ -5,41 +5,28 @@
 
 #include "DatabaseSelectionWidget.h"
 
-//debug
+// debug
+#include "AdvancedSearch/InputWidget.h"
 #include "AdvancedSearch/ResultVisitor.h"
 #include "AdvancedSearch/ResultsWidget.h"
-#include "AdvancedSearch/InputWidget.h"
+#include "AdvancedSearch/MainWidget.h"
 #include "GUI/SlidingStackedWidget.h"
 
 namespace gui {
-const QString MainWindow::kConfigFileName = "config.txt";
-const QString MainWindow::kDatabaseDirectory = "Database";
-
-MainWindow::MainWindow(memory::Database &database, QWidget *parent,
-                       Qt::WindowFlags flags)
+MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFlags flags)
     : QMainWindow(parent, flags),
       database_(database),
       stacked_widget_(new SlidingStackedWidget(this)),
       central_widget_(new QFrame(this)),
       status_bar_(new QStatusBar(this)) {
-  recently_opened_ = std::make_unique<std::array<QString, 3>>();
-
-  // leggi file contenente ultimi database aperti
-  QFile recent_db(kConfigFileName);
-  if (recent_db.open(QIODevice::Text | QFile::ReadOnly)) {
-    QTextStream text_stream(&recent_db);
-
-    for (size_t line = 0; line < 3; ++line) {
-      if (!text_stream.readLineInto(&recently_opened_->at(line))) break;
-    }
-  }
-
-  // fatta variabile a parte solo per rendere più comprensibile la parte della
-  // connessione con segnali
-  auto *db_selection_widget = new DatabaseSelectionWidget(this);
-  stacked_widget_->addWidget(db_selection_widget);
   stacked_widget_->setAnimation(QEasingCurve::Type::OutQuart);
   stacked_widget_->setSpeed(450);
+
+  auto *db_selection_widget = new DatabaseSelectionWidget(this);
+  stacked_widget_->addWidget(db_selection_widget);
+
+  // auto *advanced_search_widget = new advanced_search::MainWidget(this);
+  // stacked_widget_->addWidget(advanced_search_widget);
 
   auto *layout = new QVBoxLayout(central_widget_);
 
@@ -50,30 +37,11 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent,
 
   // debugVisitorAdvancedSearch();
   // debugShowAdvancedSearchResults();
-  debugShowAdvancedSearchInput();
-
-  connect(db_selection_widget, &DatabaseSelectionWidget::onPressRecent, this,
-          &MainWindow::openRecent);
+  // debugShowAdvancedSearchInput();
 }
 
-QString MainWindow::getRecentFilename(size_t number) const {
-  if (number < recently_opened_->size()) {
-    return recently_opened_->at(number);
-  }
-  return "";
-}
-
-void MainWindow::openRecent(size_t number) const {
-  std::cout << "Sto aprendo: " << number << '\n';
-
-  // qua viene creato un file anche se non esiste effettivamente
-  // si tiene?
-  if (number < recently_opened_->size() &&
-      database_.open(recently_opened_->at(number))) {
-    std::cerr << "Mostrare risultati apertura database\n";
-  } else {
-    std::cerr << "Errore di apertura oppure di implementazione in `number`\n";
-  }
+void MainWindow::openDatabase(const QString &path) const {
+  database_.open(path);
 }
 
 void MainWindow::closeDatabase(bool save) const {
@@ -81,18 +49,14 @@ void MainWindow::closeDatabase(bool save) const {
   database_.close(save);
 }
 
-std::vector<const media::Media *> MainWindow::filter(
-    const media::Media &filter) const {
+std::vector<const media::Media *> MainWindow::filter(const media::Media &filter) const {
   return database_.filterMedia(filter);
 }
 
 void MainWindow::debugVisitorAdvancedSearch() {
-  auto *media = new media::Album
-  ("Nome Album", 2010, "IT",
-        false, {"NomeGenere1", "Genere2"},
-        ":/assets/matita.jpg", "Non dovrebbe essere visualizzato",
-        "Nome band", {"Membro 1", "Membro 2", "Membro 3"},
-        {"Canzone 1", "Canzone 2", "Canzone 3", "Canzone 4"});
+  auto *media = new media::Album("Nome Album", 2010, "IT", false, {"NomeGenere1", "Genere2"}, ":/assets/matita.jpg",
+                                 "Non dovrebbe essere visualizzato", "Nome band", {"Membro 1", "Membro 2", "Membro 3"},
+                                 {"Canzone 1", "Canzone 2", "Canzone 3", "Canzone 4"});
   advanced_search::ResultVisitor v;
   v.visit(*media);
   stacked_widget_->addWidget(v.getResult());

@@ -12,7 +12,7 @@ ResultsWidget::ResultsWidget(
     MainWindow *main_window)
     : QWidget(main_window), main_window_(*main_window) {}
 
-void ResultsWidget::finalizeSearch() {
+void ResultsWidget::finalizeSearch(/* const std::vector<const media::Media *> &results */) {
   results_ = main_window_.filter(*filter_);
 
   // todo rimuovere results_widget_ che è ridondante

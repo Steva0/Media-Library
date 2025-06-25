@@ -18,10 +18,6 @@ class MainWindow : public QMainWindow {
   QFrame *central_widget_;
   QStatusBar *status_bar_;
 
-  static const QString kConfigFileName;
-  static const QString kDatabaseDirectory;
-  std::unique_ptr<std::array<QString, 3>> recently_opened_;
-
   // debug
   void debugVisitorAdvancedSearch();
   void debugShowAdvancedSearchResults();
@@ -31,15 +27,13 @@ class MainWindow : public QMainWindow {
   explicit MainWindow(memory::Database &database, QWidget *parent = nullptr,
                       Qt::WindowFlags flags = Qt::WindowFlags());
 
-  // ritorna "" se non è presente il file numero `number` nell'array
-  // (e.g. se richiedo il terzo file ma ne è presente solamente uno tra quelli
-  // recenti) oppure se viene dato un indice troppo alto
-  QString getRecentFilename(size_t number) const;
   std::vector<const media::Media*> filter(const media::Media &) const;
 
  private slots:
+  void openDatabase(const QString &path) const;
   void closeDatabase(bool save) const;
-  void openRecent(size_t number) const;
+
+  // void advancedSearch(const media::Media *);
 };
 }  // namespace gui
 #endif

@@ -32,8 +32,7 @@ class Media : IMedia{
   bool open() override;
 
   // Possiamo scegliere noi se utilizzare un riferimento costante o fare una copia
-  // Potenziali problemi possono verosimilmente essere la vita delle variabili
-  // Ignoro potenziali problemi di incapsulamento dovuti al const_cast
+  // Fare attenzione a vita delle variabili
   const std::string &getTitle() const;
   int getRelease() const;
   const std::string &getLanguage() const;

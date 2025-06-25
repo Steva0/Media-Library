@@ -9,7 +9,6 @@ const QStringList AudioBookInputWidget::kStreamingServices{
     "Audible", "Audiobooks.com", "B&N Audiobooks", "Libro.fm", "Everand", "Spotify", "Libby", "Hoopla", "Chirp"};
 
 AudioBookInputWidget::AudioBookInputWidget(QWidget *parent) : NovelInputWidget(parent) {
-
   narrator_ = new QLineEdit(this);
   streaming_service_ = new QComboBox(this);
   streaming_service_->addItems(kStreamingServices);
