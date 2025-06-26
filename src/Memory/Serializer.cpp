@@ -12,8 +12,6 @@ namespace memory {
 
 namespace {  // Dettagli interni (visibilità limitata a questo file)
 
-enum class Format { JSON, XML };
-
 bool openFileForWrite(QFile& file) {
   return file.open(QIODevice::WriteOnly | QIODevice::Text |
                    QIODevice::Truncate);
@@ -65,10 +63,10 @@ int writeXmlFile(const std::vector<const media::Media*>& mediaList,
 
 int Serializer::serialize(const std::vector<const media::Media*>& mediaList,
                           QFile& file) {
-  Format format = Format::XML;  // Default format
-  if (file.fileName().toLower().endsWith(".json")) format = Format::JSON;
-  return (format == Format::JSON) ? writeJsonFile(mediaList, file)
-                                  : writeXmlFile(mediaList, file);
+  if (file.fileName().toLower().endsWith(".json")) {
+    return writeJsonFile(mediaList, file);
+  }
+  return writeXmlFile(mediaList, file);
 }
 
 }  // namespace memory
