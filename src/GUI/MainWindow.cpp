@@ -44,12 +44,23 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   status_bar_->showMessage("Status bar.");
 
-  // debugVisitorAdvancedSearch();
-  // debugShowAdvancedSearchResults();
-  // debugShowAdvancedSearchInput();
-  // debugShowAdvancedSearchMainWidget();
+  debugVisitorAdvancedSearch();
+  debugShowAdvancedSearchResults();
+  debugShowAdvancedSearchInput();
+  debugShowAdvancedSearchMainWidget();
 
   connect(db_selection_widget, &DatabaseSelectionWidget::onSelectDatabase, this, &MainWindow::accessDatabase);
+
+  // debug
+  auto *next = new QPushButton("Next", this);
+  auto *prev = new QPushButton("prev", this);
+
+  layout->addWidget(next);
+  layout->addWidget(prev);
+ connect(next, &QAbstractButton::clicked,
+          [&]() { stacked_widget_->setCurrentIndex(stacked_widget_->currentIndex() + 1); });
+  connect(prev, &QAbstractButton::clicked,
+          [&]() { stacked_widget_->setCurrentIndex(stacked_widget_->currentIndex() - 1); });
 }
 
 void MainWindow::accessDatabase(const QString &path) const {
