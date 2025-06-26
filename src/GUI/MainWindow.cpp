@@ -9,7 +9,7 @@
 #include "AdvancedSearch/MainWidget.h"
 #include "AdvancedSearch/ResultVisitor.h"
 #include "AdvancedSearch/ResultsWidget.h"
-#include "GUI/SlidingStackedWidget.h"
+#include "SlidingStackedWidget.h"
 
 namespace gui {
 MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFlags flags)
@@ -47,7 +47,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   // debugVisitorAdvancedSearch();
   // debugShowAdvancedSearchResults();
   // debugShowAdvancedSearchInput();
-  debugShowAdvancedSearchMainWidget();
+  // debugShowAdvancedSearchMainWidget();
 
   connect(db_selection_widget, &DatabaseSelectionWidget::onSelectDatabase, this, &MainWindow::accessDatabase);
 }

@@ -1,4 +1,0 @@
-unique_ptr del clone()
-album.accept() return fallback (?)
-rivedere apertura file in scrittura nel database.open()
-database.close() resetta tutto se fallisce il salvataggio
