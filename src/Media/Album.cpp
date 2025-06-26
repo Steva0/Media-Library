@@ -1,23 +1,17 @@
 #include "Album.h"
 
 namespace media {
-Album::Album(const std::string &title, int release, const std::string &language,
-             bool favourite, const std::vector<std::string> &genres,
-             const std::string &img_path, const std::string &notes,
-             const std::string &band,
-             const std::vector<std::string> &band_members,
+Album::Album(const std::string &title, int release, const std::string &language, bool favourite,
+             const std::vector<std::string> &genres, const std::string &img_path, const std::string &notes,
+             const std::string &band, const std::vector<std::string> &band_members,
              const std::vector<std::string> &songs)
     : Media(title, release, language, favourite, genres, img_path, notes),
       band_(band),
       band_members_(band_members),
       songs_(songs) {}
-const std::string &Album::getBand() const { return band_; }
-const std::vector<std::string> &Album::getBandMembers() const {
-  return band_members_;
-}
-const std::vector<std::string> &Album::getSongs() const { return songs_; }
+
 bool Album::operator==(const Media &other) const {
-  const Album *other_album = dynamic_cast<const Album *>(&other);
+  const auto *other_album = dynamic_cast<const Album *>(&other);
   if (other_album) {
     return Media::operator==(*other_album) && band_ == other_album->band_ &&
            band_members_ == other_album->band_members_ &&
@@ -26,13 +20,31 @@ bool Album::operator==(const Media &other) const {
   return false;
 }
 
-std::unique_ptr<Media> Album::makePtr() const {
-    return std::make_unique<Album>(*this);
+const std::string &Album::getBand() const { return band_; }
+const std::vector<std::string> &Album::getBandMembers() const { return band_members_; }
+const std::vector<std::string> &Album::getSongs() const { return songs_; }
+
+void Album::setBand(const std::string &name) { band_ = name; }
+void Album::addMember(const std::string &member) {
+  if (std::find(band_members_.begin(), band_members_.end(), member) == band_members_.end())
+    band_members_.push_back(member);
+}
+void Album::removeMember(const std::string &member) {
+  auto it = std::find(band_members_.begin(), band_members_.end(), member);
+  if (it != band_members_.end()) band_members_.erase(it);
+}
+void Album::addSong(const std::string &song) {
+  if (std::find(songs_.begin(), songs_.end(), song) == songs_.end()) songs_.push_back(song);
+}
+void Album::removeSong(const std::string &song) {
+  auto it = std::find(songs_.begin(), songs_.end(), song);
+  if (it != songs_.end()) songs_.erase(it);
 }
 
+std::unique_ptr<Media> Album::makePtr() const { return std::make_unique<Album>(*this); }
 
-bool Album::filter(const Media& album) const {
-    // Riutilizzo filtro base di Media
+bool Album::filter(const Media &album) const {
+  // Riutilizzo filtro base di Media
     if (!Media::filter(album))
         return false;
 
@@ -79,8 +91,6 @@ bool Album::filter(const Media& album) const {
     return true;
 }
 
-void Album::accept(IConstMediaVisitor &v) const {
-    v.visit(*this);
-}
+void Album::accept(IConstMediaVisitor &v) const { v.visit(*this); }
 
 }  // namespace media

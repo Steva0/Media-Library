@@ -1,13 +1,12 @@
 #include "Media.h"
-#include <limits>
+
 #include <cctype>
-#include <locale>
-#include <algorithm>
+#include <iostream>
+#include <limits>
 
 namespace media {
-Media::Media(const std::string &title, int release, const std::string &language,
-             bool favourite, const std::vector<std::string> &genres,
-             const std::string &img_path, const std::string &notes)
+Media::Media(const std::string &title, int release, const std::string &language, bool favourite,
+             const std::vector<std::string> &genres, const std::string &img_path, const std::string &notes)
     : title_(title),
       release_(release),
       language_(language),
@@ -16,14 +15,7 @@ Media::Media(const std::string &title, int release, const std::string &language,
       img_path_(img_path),
       notes_(notes) {}
 
-void Media::accept(IConstMediaVisitor &v) const {
-    v.visit(*this);
-}
-
-std::unique_ptr<media::Media> media::Media::makePtr() const {
-    return std::make_unique<media::Media>(*this);
-}
-
+void Media::accept(IConstMediaVisitor &v) const { v.visit(*this); }
 
 bool Media::operator==(const Media &other) const {
   return title_ == other.title_ && release_ == other.release_ &&
@@ -32,14 +24,21 @@ bool Media::operator==(const Media &other) const {
          notes_ == other.notes_;
 }
 
+std::unique_ptr<media::Media> media::Media::makePtr() const { return std::make_unique<media::Media>(*this); }
+
 bool Media::open() {
   notes_ = "";
   return false;
 }
 
-void Media::setTitle(const std::string &title) {
-    title_ = title;
-}
+void Media::setTitle(const std::string &title) { title_ = title; }
+void Media::setRelease(int value) { release_ = value; }
+void Media::setLanguage(const std::string &value) { language_ = value; }
+void Media::setFavourite(bool value) { favourite_ = value; }
+void Media::addGenre(const std::string &value) { genres_.push_back(value); }
+void Media::clearGenres() { genres_.clear(); }
+void Media::setImgPath(const std::string &value) { img_path_ = value; }
+void Media::setNotes(const std::string &value) { notes_ = value; }
 
 bool Media::filter(const Media& media) const {
         // Title (substring, case-insensitive)
@@ -78,7 +77,6 @@ bool Media::filter(const Media& media) const {
 
     return true;
 }
-
 
 const std::string &Media::getTitle() const { return title_; }
 int Media::getRelease() const { return release_; }
