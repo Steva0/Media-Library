@@ -14,12 +14,6 @@ namespace {  // Dettagli interni (visibilità limitata a questo file)
 
 enum class Format { JSON, XML };
 
-Format detectFormat(const QString& fileName) {
-  const QString lower = fileName.toLower();
-  if (lower.endsWith(".json")) return Format::JSON;
-  return Format::XML;
-}
-
 bool openFileForWrite(QFile& file) {
   return file.open(QIODevice::WriteOnly | QIODevice::Text |
                    QIODevice::Truncate);
@@ -71,7 +65,8 @@ int writeXmlFile(const std::vector<const media::Media*>& mediaList,
 
 int Serializer::serialize(const std::vector<const media::Media*>& mediaList,
                           QFile& file) {
-  const Format format = detectFormat(file.fileName());
+  Format format = Format::XML;  // Default format
+  if (file.fileName().toLower().endsWith(".json")) format = Format::JSON;
   return (format == Format::JSON) ? writeJsonFile(mediaList, file)
                                   : writeXmlFile(mediaList, file);
 }
