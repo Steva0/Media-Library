@@ -2,7 +2,7 @@
 
 #include <QHBoxLayout>
 
-#include "Memory/MediaContainer.h"
+#include "../../Memory/MediaContainer.h"
 
 namespace gui {
 namespace advanced_search {

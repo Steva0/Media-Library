@@ -8,7 +8,7 @@
 #include "EbookInputWidget.h"
 #include "MovieInputWidget.h"
 #include "SeriesInputWidget.h"
-#include "GUI/AdvancedSearch/MediaInputWidget.h"
+#include "MediaInputWidget.h"
 
 namespace gui {
 namespace advanced_search {
