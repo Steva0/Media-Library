@@ -29,11 +29,11 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   stacked_widget_->setAnimation(QEasingCurve::Type::OutQuart);
   stacked_widget_->setSpeed(450);
 
-  auto *db_selection_widget = new DatabaseSelectionWidget(this);
-  stacked_widget_->addWidget(db_selection_widget);
+  db_selection_widget_ = new DatabaseSelectionWidget(this);
+  stacked_widget_->addWidget(db_selection_widget_);
 
-  auto *advanced_search_widget = new advanced_search::MainWidget(this);
-  stacked_widget_->addWidget(advanced_search_widget);
+  advanced_search_widget_ = new advanced_search::MainWidget(this);
+  stacked_widget_->addWidget(advanced_search_widget_);
 
   auto *layout = new QVBoxLayout(central_widget_);
 
@@ -44,12 +44,16 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   status_bar_->showMessage("Status bar.");
 
-  debugVisitorAdvancedSearch();
-  debugShowAdvancedSearchResults();
-  debugShowAdvancedSearchInput();
-  debugShowAdvancedSearchMainWidget();
+  // debugVisitorAdvancedSearch();
+  // debugShowAdvancedSearchResults();
+  // debugShowAdvancedSearchInput();
+  // debugShowAdvancedSearchMainWidget();
 
-  connect(db_selection_widget, &DatabaseSelectionWidget::onSelectDatabase, this, &MainWindow::accessDatabase);
+  connect(db_selection_widget_, &DatabaseSelectionWidget::onSelectDatabase, this, &MainWindow::accessDatabase);
+  connect(advanced_search_widget_, &advanced_search::MainWidget::requestResults, this,
+          &MainWindow::applyFilterAdvanced);
+  // connect(this, &MainWindow::onQueryResults, advanced_search_widget,
+  // &advanced_search::MainWidget::onGetSearchResults);
 
   // debug
   auto *next = new QPushButton("Next", this);
@@ -57,25 +61,26 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   layout->addWidget(next);
   layout->addWidget(prev);
- connect(next, &QAbstractButton::clicked,
+  connect(next, &QAbstractButton::clicked,
           [&]() { stacked_widget_->setCurrentIndex(stacked_widget_->currentIndex() + 1); });
   connect(prev, &QAbstractButton::clicked,
           [&]() { stacked_widget_->setCurrentIndex(stacked_widget_->currentIndex() - 1); });
 }
 
-void MainWindow::accessDatabase(const QString &path) const {
+void MainWindow::accessDatabase(const QString &path) {
   database_.open(path);
   // temp
   stacked_widget_->setCurrentIndex(1);
 }
 
-void MainWindow::closeDatabase(bool save) const {
+void MainWindow::closeDatabase(bool save) {
   // bisogna aggiornare status line in base allo stato di chiusura del database
   database_.close(save);
 }
 
-std::vector<const media::Media *> MainWindow::filter(const media::Media &filter) const {
-  return database_.filterMedia(filter);
+void MainWindow::applyFilterAdvanced(const media::Media *filter) {
+  advanced_search_widget_->updateResults(database_.filterMedia(*filter));
+  delete filter;
 }
 
 void MainWindow::debugVisitorAdvancedSearch() {
@@ -91,7 +96,7 @@ void MainWindow::debugShowAdvancedSearchResults() {
   auto *results_widget = new advanced_search::ResultsWidget(this);
   stacked_widget_->addWidget(results_widget);
   // results_widget->search<media::Media>(media::Media(""));
-  results_widget->search(media::Novel(""));
+  // results_widget->search(media::Novel(""));
   stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
 }
 

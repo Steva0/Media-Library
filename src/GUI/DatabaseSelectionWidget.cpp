@@ -1,4 +1,5 @@
 #include "DatabaseSelectionWidget.h"
+#include "MainWindow.h"
 
 #include <QFileDialog>
 #include <QFrame>
@@ -36,8 +37,6 @@ void DatabaseSelectionWidget::createDatabase() {
   QString path = QFileDialog::getSaveFileName(this, "New Database", ".", "XML files(*.xml);;JSON files (*.json)", &filter);
   if (path == "") return;
 
-  std::cout << "Filter: " << filter.toStdString() << '\n';
-  
   if (filter.contains("xml"))
     filter = ".xml";
   else

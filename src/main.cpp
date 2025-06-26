@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
   memory::Database database;
   debugDatabaseFileCreation(database);
+  database.open("database_test.xml");
   gui::MainWindow main_window(database);
   main_window.show();
   app.setActiveWindow(&main_window);

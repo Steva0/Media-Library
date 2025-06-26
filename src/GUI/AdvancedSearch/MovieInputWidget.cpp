@@ -1,10 +1,13 @@
 #include "MovieInputWidget.h"
 
 #include <QLabel>
+#include <limits>
+
+#include "../../Media/Movie.h"
 
 namespace gui {
 namespace advanced_search {
-MovieInputWidget::MovieInputWidget(QWidget *parent) : QWidget(parent) {
+MovieInputWidget::MovieInputWidget(QWidget *parent) : IMediaInputWidget(parent) {
   actor_ = new QLineEdit(this);
   universe_ = new QLineEdit(this);
 
@@ -15,6 +18,11 @@ MovieInputWidget::MovieInputWidget(QWidget *parent) : QWidget(parent) {
 
   layout_->addWidget(new QLabel("Universe:", this), 0, 2);
   layout_->addWidget(universe_, 0, 3);
+}
+media::Movie *MovieInputWidget::getFilter(const media::Media &base) const {
+  return new media::Movie(base.getTitle(), base.getRelease(), base.getLanguage(), base.isFavourite(), base.getGenres(),
+                          "", "", {actor_->text().toStdString()}, std::numeric_limits<int>::min(),
+                          universe_->text().toStdString());
 }
 }  // namespace advanced_search
 }  // namespace gui

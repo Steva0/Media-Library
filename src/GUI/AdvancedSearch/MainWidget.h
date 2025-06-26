@@ -14,12 +14,18 @@ class MainWidget : public QWidget {
   ResultsWidget *results_;
   QPushButton *search_;
 
+  std::shared_ptr<media::Media> filter_;
+
  public:
   explicit MainWidget(QWidget *parent = nullptr);
 
-signals:
-  void backPressed();
-  void searchPressed(const media::Media *);
+  void updateResults(const std::vector<const media::Media *> &new_results);
+
+ private slots:
+  void performSearch();
+
+ signals:
+  void requestResults(const media::Media *filter);
 };
 }  // namespace advanced_search
 }  // namespace gui

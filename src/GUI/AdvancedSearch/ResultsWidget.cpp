@@ -1,38 +1,45 @@
 #include "ResultsWidget.h"
 
-#include <memory>
-
 #include "ResultVisitor.h"
-#include "qgridlayout.h"
-#include "qscrollarea.h"
 
 namespace gui {
 namespace advanced_search {
-ResultsWidget::ResultsWidget(
-    MainWindow *main_window)
-    : QWidget(main_window), main_window_(*main_window) {}
+ResultsWidget::ResultsWidget(QWidget *parent) : QWidget(parent), grid_(new QGridLayout(this)) {}
 
-void ResultsWidget::finalizeSearch(/* const std::vector<const media::Media *> &results */) {
-  results_ = main_window_.filter(*filter_);
+void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_results) {
+  results_ = new_results;
 
-  // todo rimuovere results_widget_ che è ridondante
-  scroll_area_ = new QScrollArea(this);
-  results_widget_ = new QWidget(this);
-  auto *grid = new QGridLayout(results_widget_);
+  // clear
+  while (grid_->count()) {
+    QWidget *widget = grid_->takeAt(0)->widget();
+    grid_->removeWidget(widget);
+    delete widget;
+  }
 
   size_t pos = 0;
+
+  int last_height = -1;
+  QWidget *last_widget;
 
   for (auto &result : results_) {
     ResultVisitor v;
     result->accept(v);
-    grid->addWidget(v.getResult(), pos / 2, pos % 2);
+    auto *widget = v.getResult();
+    widget->setParent(this);
+    if (last_height == -1) {
+      last_height = widget->sizeHint().height();
+      last_widget = widget;
+      widget->setFixedHeight(last_height);
+    } else {
+      last_height = std::max(last_height, widget->sizeHint().height());
+      last_widget->setFixedHeight(last_height);
+      widget->setFixedHeight(last_height);
+      last_height = -1;
+      last_widget = nullptr;
+    }
+    grid_->addWidget(widget, pos / 2, pos % 2);
     ++pos;
   }
-
-
-  scroll_area_->setWidget(results_widget_);
-  scroll_area_->setMinimumWidth(results_widget_->width());
 }
-
 }  // namespace advanced_search
 }  // namespace gui

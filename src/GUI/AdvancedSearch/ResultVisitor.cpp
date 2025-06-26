@@ -12,7 +12,6 @@
 #include "../../Media/Movie.h"
 #include "../../Media/Novel.h"
 #include "../../Media/Series.h"
-#include "qgridlayout.h"
 
 namespace gui {
 namespace advanced_search {
@@ -26,6 +25,8 @@ QWidget *ResultVisitor::getResult() {
   wrapper_layout->addWidget(img_);
   wrapper_layout->addWidget(data_);
 
+  img_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
   auto *layout = new QHBoxLayout(result);
   layout->addWidget(wrapper);
 
@@ -34,7 +35,7 @@ QWidget *ResultVisitor::getResult() {
 void ResultVisitor::visit(const media::Media &media) {
   img_ = new QLabel;
   // img_->setPixmap(*new QPixmap(QString::fromStdString(media.getImgPath())));
-  img_->setPixmap(*new QPixmap(":/assets/matita.jpg"));  // debug
+  img_->setPixmap(*new QPixmap((QPixmap(":/assets/matita.jpg").scaled(128, 128))));  // debug
 
   data_ = new QWidget;
   grid_ = new QGridLayout(data_);

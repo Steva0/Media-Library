@@ -9,15 +9,8 @@ namespace advanced_search {
 const int MediaInputWidget::kColumnAmount = 6;
 const size_t MediaInputWidget::kMaxGenres = 3;
 
-void MediaInputWidget::addWidget(QWidget *left, QWidget *right, bool half_size) {
-  int span = (kColumnAmount - 1);
-  if (half_size) span /= 2;
-  layout_->addWidget(left);
-  layout_->addWidget(right, layout_->rowCount() - 1, 1, 1, span);
-}
-
 MediaInputWidget::MediaInputWidget(QWidget *parent) : QWidget(parent) {
-  layout_ = new QGridLayout(this);
+  media_layout_ = new QGridLayout(this);
 
   title_ = new QLineEdit(this);
   title_->setPlaceholderText("Title");
@@ -37,30 +30,32 @@ MediaInputWidget::MediaInputWidget(QWidget *parent) : QWidget(parent) {
   genre_input_ = new QLineEdit(this);
   auto *add_genre = new QPushButton("+", this);
 
-  layout_->addWidget(title_, 0, 0, 1, kColumnAmount);
+  media_layout_->addWidget(title_, 0, 0, 1, kColumnAmount);
 
-  layout_->addWidget(release_label);
-  layout_->addWidget(release_);
+  media_layout_->addWidget(release_label);
+  media_layout_->addWidget(release_);
 
-  layout_->addWidget(language_label);
-  layout_->addWidget(language_);
+  media_layout_->addWidget(language_label);
+  media_layout_->addWidget(language_);
 
-  layout_->addWidget(favourite_label);
-  layout_->addWidget(favourite_);
+  media_layout_->addWidget(favourite_label);
+  media_layout_->addWidget(favourite_);
 
-  layout_->addWidget(genre_label);
-  layout_->addWidget(genre_input_, layout_->rowCount() - 1, 1, 1, kColumnAmount - 2);
-  layout_->addWidget(add_genre);
+  media_layout_->addWidget(genre_label);
+  media_layout_->addWidget(genre_input_, media_layout_->rowCount() - 1, 1, 1, kColumnAmount - 2);
+  media_layout_->addWidget(add_genre);
 
   connect(add_genre, &QAbstractButton::pressed, this, &MediaInputWidget::addGenre);
 }
 
 void MediaInputWidget::addGenre() {
   if (genre_input_->text() == "") return;
-  if (genres_.size() == kMaxGenres) { return; }
+  if (genres_.size() == kMaxGenres) {
+    return;
+  }
   if (std::find_if(genres_.begin(), genres_.end(),
                    [&](QLineEdit *genre) { return genre_input_->text() == genre->text(); }) != genres_.end()) {
-    genre_input_->clear(); // feedback visivo
+    genre_input_->clear();  // feedback visivo
     return;
   }
   auto *new_genre = new QLineEdit(genre_input_->text(), this);
@@ -69,8 +64,8 @@ void MediaInputWidget::addGenre() {
 
   auto *remove_button = new QPushButton("-", this);
 
-  layout_->addWidget(new_genre, layout_->rowCount(), 1, 1, kColumnAmount - 2);
-  layout_->addWidget(remove_button);
+  media_layout_->addWidget(new_genre, media_layout_->rowCount(), 1, 1, kColumnAmount - 2);
+  media_layout_->addWidget(remove_button);
 
   genres_.push_back(new_genre);
 
@@ -80,10 +75,10 @@ void MediaInputWidget::addGenre() {
 
 void MediaInputWidget::removeGenre(QLineEdit *genre, QPushButton *button) {
   auto it = std::find(genres_.begin(), genres_.end(), genre);
-  layout_->removeWidget(*it);
+  media_layout_->removeWidget(*it);
   (*it)->deleteLater();
   genres_.erase(it);
-  layout_->removeWidget(button);
+  media_layout_->removeWidget(button);
   button->deleteLater();
 }
 
@@ -95,12 +90,17 @@ QString MediaInputWidget::getLanguage() const { return language_->text(); }
 
 bool MediaInputWidget::getFavourite() const { return favourite_->isChecked(); }
 
-std::vector<QString> MediaInputWidget::getGenres() const {
-  std::vector<QString> genres;
+std::vector<std::string> MediaInputWidget::getGenresRaw() const {
+  std::vector<std::string> genres;
   for (auto *genre : genres_) {
-    genres.push_back(genre->text());
+    genres.push_back(genre->text().toStdString());
   }
   return genres;
+}
+
+media::Media MediaInputWidget::getFilter() const {
+  return media::Media(getTitle().toStdString()/* , getRelease(), getLanguage().toStdString(), getFavourite(),
+                      getGenresRaw() */);
 }
 }  // namespace advanced_search
 }  // namespace gui

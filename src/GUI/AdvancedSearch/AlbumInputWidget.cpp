@@ -1,10 +1,11 @@
 #include "AlbumInputWidget.h"
 #include <QGridLayout>
 #include <QLabel>
+#include "../../Media/Album.h"
 
 namespace gui {
 namespace advanced_search {
-AlbumInputWidget::AlbumInputWidget(QWidget *parent) : QWidget(parent) {
+AlbumInputWidget::AlbumInputWidget(QWidget *parent) : IMediaInputWidget(parent) {
   band_name_ = new QLineEdit(this);
   band_member_ = new QLineEdit(this);
   song_ = new QLineEdit(this);
@@ -19,6 +20,12 @@ AlbumInputWidget::AlbumInputWidget(QWidget *parent) : QWidget(parent) {
 
   layout->addWidget(new QLabel("Song:", this), 2, 0);
   layout->addWidget(song_, 2, 1);
+}
+
+media::Album *AlbumInputWidget::getFilter(const media::Media &base) const {
+  return new media::Album(base.getTitle(), base.getRelease(), base.getLanguage(), base.isFavourite(), base.getGenres(),
+                          "", "", band_name_->text().toStdString(), {band_member_->text().toStdString()},
+                         {song_->text().toStdString()});
 }
 }  // namespace advanced_search
 }  // namespace gui

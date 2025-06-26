@@ -1,5 +1,5 @@
 #include "AudioBookInputWidget.h"
-
+#include "../../Media/AudioBook.h"
 #include <QGridLayout>
 #include <QLabel>
 
@@ -18,6 +18,9 @@ AudioBookInputWidget::AudioBookInputWidget(QWidget *parent) : NovelInputWidget(p
 
   layout_->addWidget(new QLabel("Streaming:", this), layout_->rowCount() - 1, 2);
   layout_->addWidget(streaming_service_, layout_->rowCount() - 1, 3);
+}
+media::AudioBook *AudioBookInputWidget::getFilter(const media::Media &base) const {
+  return new media::AudioBook("");
 }
 }  // namespace advanced_search
 }  // namespace gui

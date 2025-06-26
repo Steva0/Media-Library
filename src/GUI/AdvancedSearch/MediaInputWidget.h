@@ -6,15 +6,14 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSpinBox>
+#include "../../Media/Media.h"
 
 namespace gui {
 namespace advanced_search {
 class MediaInputWidget : public QWidget {
   Q_OBJECT
-  protected:
-  void addWidget(QWidget *, QWidget *, bool half = false);
- private:
-  QGridLayout *layout_;
+  private:
+  QGridLayout *media_layout_;
   QLineEdit *title_;
   QLineEdit *release_;
   QLineEdit *language_;
@@ -32,7 +31,9 @@ class MediaInputWidget : public QWidget {
   int getRelease() const;
   QString getLanguage() const;
   bool getFavourite() const;
-  std::vector<QString> getGenres() const;
+  std::vector<std::string> getGenresRaw() const;
+
+  media::Media getFilter() const;
 
  private slots:
   void addGenre();

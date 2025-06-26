@@ -2,6 +2,7 @@
 #define GUI_ADVANCED_SEARCH_AUDIOBOOK_INPUT_WIDGET_H
 #include <QComboBox>
 #include "NovelInputWidget.h"
+#include "../../Media/AudioBook.h"
 #include <QLineEdit>
 namespace gui {
 namespace advanced_search {
@@ -15,6 +16,7 @@ class AudioBookInputWidget : public NovelInputWidget {
 
  public:
   explicit AudioBookInputWidget(QWidget *parent = nullptr);
+  media::AudioBook *getFilter(const media::Media &base) const override;
 };
 }  // namespace advanced_search
 }  // namespace gui

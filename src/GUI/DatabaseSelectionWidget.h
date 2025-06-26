@@ -6,9 +6,13 @@
 #include <QToolButton>
 #include <QWidget>
 
-#include "MainWindow.h"
+// #include "MainWindow.h"
+// todocambiare
 
 namespace gui {
+
+class MainWindow;
+
 class DatabaseSelectionWidget : public QWidget {
   Q_OBJECT
 

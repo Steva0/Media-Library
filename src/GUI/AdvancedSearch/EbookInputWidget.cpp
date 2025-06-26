@@ -1,4 +1,6 @@
 #include "EbookInputWidget.h"
+#include <QLabel>
+#include "../../Media/Ebook.h"
 
 #include <iostream>
 
@@ -20,6 +22,9 @@ EbookInputWidget::EbookInputWidget(QWidget *parent) : NovelInputWidget(parent) {
   layout_->addItem(last_item, row, col, row_span, col_span + 2);
   layout_->addWidget(new QLabel("DRM:", this), layout_->rowCount() - 1, 4);
   layout_->addWidget(drm_, layout_->rowCount() - 1, 5);
+}
+media::Ebook *EbookInputWidget::getFilter(const media::Media &base) const {
+  return new media::Ebook("");
 }
 }  // namespace advanced_search
 }  // namespace gui

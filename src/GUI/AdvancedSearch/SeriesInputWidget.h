@@ -2,6 +2,7 @@
 #define GUI_ADVANCED_SEARCH_SERIES_INPUT_WIDGET_H
 #include <QCheckBox>
 
+#include "../../Media/Series.h"
 #include "MovieInputWidget.h"
 
 namespace gui {
@@ -13,6 +14,8 @@ class SeriesInputWidget : public MovieInputWidget {
 
  public:
   explicit SeriesInputWidget(QWidget *parent = nullptr);
+
+  media::Series *getFilter(const media::Media &base) const override;
 };
 }  // namespace advanced_search
 }  // namespace gui

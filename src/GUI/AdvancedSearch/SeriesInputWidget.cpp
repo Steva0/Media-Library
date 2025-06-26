@@ -9,5 +9,8 @@ SeriesInputWidget::SeriesInputWidget(QWidget *parent) : MovieInputWidget(parent)
   layout_->addWidget(new QLabel("Ended:", this), 0, layout_->columnCount());
   layout_->addWidget(ended_, 0, layout_->columnCount());
 }
+media::Series *SeriesInputWidget::getFilter(const media::Media &base) const {
+  return new media::Series("");
+}
 }  // namespace advanced_search
 }  // namespace gui

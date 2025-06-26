@@ -8,9 +8,11 @@
 namespace media {
 
 class IMedia {
+public:
     virtual void accept(IConstMediaVisitor &) const = 0;
     virtual bool open() = 0;
     virtual std::unique_ptr<Media> makePtr() const = 0;
+    virtual ~IMedia() = default;
 };
 
 }
