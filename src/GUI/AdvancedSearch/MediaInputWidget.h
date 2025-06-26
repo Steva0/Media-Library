@@ -6,13 +6,14 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSpinBox>
+
 #include "../../Media/Media.h"
 
 namespace gui {
 namespace advanced_search {
 class MediaInputWidget : public QWidget {
   Q_OBJECT
-  private:
+ private:
   QGridLayout *media_layout_;
   QLineEdit *title_;
   QLineEdit *release_;

@@ -20,7 +20,7 @@ class Novel : public Media {
                  const std::string& publisher = "", int pages = std::numeric_limits<int>::min(),
                  const std::string& series = "", const std::string& isbn = "");
 
-  bool operator==(const Media &) const override;
+  bool operator==(const Media&) const override;
   const std::string& getAuthor() const;
   const std::string& getPublisher() const;
   int getPages() const;

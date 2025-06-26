@@ -1,13 +1,14 @@
 #ifndef GUI_ADVANCED_SEARCH_NOVEL_INPUT_WIDGET_H
 #define GUI_ADVANCED_SEARCH_NOVEL_INPUT_WIDGET_H
-#include "IMediaInputWidget.h"
-#include "../../Media/Novel.h"
-#include <QLineEdit>
 #include <QGridLayout>
+#include <QLineEdit>
+
+#include "../../Media/Novel.h"
+#include "IMediaInputWidget.h"
 
 namespace gui {
 namespace advanced_search {
-class NovelInputWidget :  public IMediaInputWidget {
+class NovelInputWidget : public IMediaInputWidget {
   Q_OBJECT
  private:
   QLineEdit *author_;
@@ -15,10 +16,10 @@ class NovelInputWidget :  public IMediaInputWidget {
   QLineEdit *series_;
   QLineEdit *isbn_;
 
-protected:
+ protected:
   QGridLayout *layout_;
 
-public:
+ public:
   explicit NovelInputWidget(QWidget *parent);
 
   media::Novel *getFilter(const media::Media &base) const override;

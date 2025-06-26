@@ -11,7 +11,7 @@ class IMediaInputWidget : public QWidget {
  public:
   virtual media::Media *getFilter(const media::Media &base) const = 0;
   explicit IMediaInputWidget(QWidget *parent = nullptr) : QWidget(parent) {}
-   ~IMediaInputWidget() override = default;
+  ~IMediaInputWidget() override = default;
 };
 }  // namespace advanced_search
 }  // namespace gui

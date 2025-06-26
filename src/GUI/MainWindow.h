@@ -5,9 +5,9 @@
 #include <QStatusBar>
 
 #include "../Memory/Database.h"
-#include "SlidingStackedWidget.h"
-#include "DatabaseSelectionWidget.h"
 #include "AdvancedSearch/MainWidget.h"
+#include "DatabaseSelectionWidget.h"
+#include "SlidingStackedWidget.h"
 
 namespace gui {
 class MainWindow : public QMainWindow {

@@ -27,8 +27,7 @@ class DatabaseSelectionWidget : public QWidget {
                        // questa posizione (poi da gestire transazione da
                        // database aperto a questa schermata eventuale)
 
-  QToolButton *makeToolButton(const QString &name, const QPixmap &image,
-                              QWidget *parent);
+  QToolButton *makeToolButton(const QString &name, const QPixmap &image, QWidget *parent);
 
  public:
   explicit DatabaseSelectionWidget(MainWindow *main_window);

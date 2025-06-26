@@ -1,8 +1,9 @@
 #ifndef GUI_ADVANCED_SEARCH_ALBUM_INPUT_WIDGET_H
 #define GUI_ADVANCED_SEARCH_ALBUM_INPUT_WIDGET_H
-#include "IMediaInputWidget.h"
-#include "../../Media/Album.h"
 #include <QLineEdit>
+
+#include "../../Media/Album.h"
+#include "IMediaInputWidget.h"
 
 namespace gui {
 namespace advanced_search {
@@ -13,7 +14,7 @@ class AlbumInputWidget : public IMediaInputWidget {
   QLineEdit *band_member_;
   QLineEdit *song_;
 
-public:
+ public:
   explicit AlbumInputWidget(QWidget *parent = nullptr);
 
   media::Album *getFilter(const media::Media &base) const override;

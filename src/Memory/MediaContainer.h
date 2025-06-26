@@ -19,17 +19,7 @@ namespace memory {
 
 class MediaContainer {
  public:
-  enum class Type {
-    All = 0,
-    Novel,
-    Album,
-    Movie,
-    Ebook,
-    AudioBook,
-    Series,
-    TypeCount
-  };
-
+  enum class Type { All = 0, Novel, Album, Movie, Ebook, AudioBook, Series, TypeCount };
 
   static std::string typeToString(Type);
   static std::string typeToString(size_t);
@@ -38,9 +28,7 @@ class MediaContainer {
   // per assicurare una a compile time una corrispondenza 1 a 1 tra stringhe e valori enum
   static constexpr std::array<std::string_view, static_cast<size_t>(Type::TypeCount)> typeStrings();
 
-  std::array<std::vector<std::unique_ptr<media::Media>>,
-             static_cast<int>(Type::TypeCount)>
-      data_;
+  std::array<std::vector<std::unique_ptr<media::Media>>, static_cast<int>(Type::TypeCount)> data_;
 
   Type detectType(const media::Media& media) const;
   std::vector<const media::Media*> getByType(Type type) const;

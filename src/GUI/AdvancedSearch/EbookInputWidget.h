@@ -1,17 +1,18 @@
 #ifndef GUI_ADVANCED_SEARCH_EBOOK_INPUT_WIDGET_H
 #define GUI_ADVANCED_SEARCH_EBOOK_INPUT_WIDGET_H
 #include <QCheckBox>
-#include "NovelInputWidget.h"
+
 #include "../../Media/Ebook.h"
+#include "NovelInputWidget.h"
 
 namespace gui {
 namespace advanced_search {
 class EbookInputWidget : public NovelInputWidget {
   Q_OBJECT
  private:
- QCheckBox *drm_;
+  QCheckBox *drm_;
 
-public:
+ public:
   explicit EbookInputWidget(QWidget *parent = nullptr);
   media::Ebook *getFilter(const media::Media &base) const override;
 };

@@ -11,14 +11,14 @@ class Media;
 namespace memory {
 
 class Serializer {
-public:
-    // Restituisce:
-    //  0  -> successo
-    // -1 -> errore apertura file
-    // -2 -> errore scrittura file
-    static int serialize(const std::vector<const media::Media*>& mediaList, QFile& file);
+ public:
+  // Restituisce:
+  //  0  -> successo
+  // -1 -> errore apertura file
+  // -2 -> errore scrittura file
+  static int serialize(const std::vector<const media::Media*>& mediaList, QFile& file);
 };
 
-} // namespace memory
+}  // namespace memory
 
-#endif // MEMORY_SERIALIZER_H
+#endif  // MEMORY_SERIALIZER_H

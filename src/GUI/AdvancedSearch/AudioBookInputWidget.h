@@ -1,9 +1,10 @@
 #ifndef GUI_ADVANCED_SEARCH_AUDIOBOOK_INPUT_WIDGET_H
 #define GUI_ADVANCED_SEARCH_AUDIOBOOK_INPUT_WIDGET_H
 #include <QComboBox>
-#include "NovelInputWidget.h"
-#include "../../Media/AudioBook.h"
 #include <QLineEdit>
+
+#include "../../Media/AudioBook.h"
+#include "NovelInputWidget.h"
 namespace gui {
 namespace advanced_search {
 class AudioBookInputWidget : public NovelInputWidget {

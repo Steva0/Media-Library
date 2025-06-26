@@ -1,9 +1,9 @@
 #ifndef MEMORY_JSON_VISITOR_H
 #define MEMORY_JSON_VISITOR_H
 
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
 
 #include "../Media/IConstMediaVisitor.h"
 

@@ -20,7 +20,7 @@ class AudioBook : public Novel {
                      const std::string& isbn = "", const std::string& narrator = "",
                      const std::string& streamingService = "");
 
-  bool operator==(const Media &) const override;
+  bool operator==(const Media&) const override;
   const std::string& getNarrator() const;
   const std::string& getStreamingService() const;
 

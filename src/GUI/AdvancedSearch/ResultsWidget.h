@@ -1,7 +1,7 @@
 #ifndef GUI_ADVANCED_SEARCH_RESULTS_WIDGET
 #define GUI_ADVANCED_SEARCH_RESULTS_WIDGET
-#include <QScrollArea>
 #include <QGridLayout>
+#include <QScrollArea>
 
 #include "../../Media/Media.h"
 
@@ -11,14 +11,14 @@ class ResultsWidget : public QWidget {
   Q_OBJECT
  private:
   QGridLayout *grid_;
-  
+
   std::vector<const media::Media *> results_;
 
  public:
   explicit ResultsWidget(QWidget *parent);
 
-    void updateResults(const std::vector<const media::Media *> &);
-  };
+  void updateResults(const std::vector<const media::Media *> &);
+};
 }  // namespace advanced_search
 }  // namespace gui
 #endif

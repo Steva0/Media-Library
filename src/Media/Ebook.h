@@ -17,8 +17,8 @@ class Ebook : public Novel {
                  const std::string& publisher = "", int pages = std::numeric_limits<int>::min(),
                  const std::string& series = "", const std::string& isbn = "",
                  int fileSizeBytes = std::numeric_limits<int>::min(), bool drm = false);
-  bool operator==(const Media &) const override;
-  
+  bool operator==(const Media&) const override;
+
   int getFileSizeBytes() const;
   bool hasDrm() const;
 

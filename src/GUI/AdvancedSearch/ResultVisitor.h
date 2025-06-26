@@ -1,8 +1,8 @@
 #ifndef GUI_ADVANCED_SEARCH_RESULT_VISITOR_H
 #define GUI_ADVANCED_SEARCH_RESULT_VISITOR_H
-#include <QWidget>
 #include <QGridLayout>
 #include <QLabel>
+#include <QWidget>
 
 #include "../../Media/IConstMediaVisitor.h"
 #include "qgridlayout.h"
