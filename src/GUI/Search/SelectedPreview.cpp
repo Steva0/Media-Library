@@ -42,7 +42,7 @@ void SelectedPreview::display(const media::Media *media) {
 
   PreviewVisitor v;
   media->accept(v);
-  displayed_result_ = v.getResult();
+  displayed_result_ = v.getWidget();
   layout_->insertWidget(0, displayed_result_);
 }
 

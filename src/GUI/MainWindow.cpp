@@ -98,7 +98,7 @@ void MainWindow::debugVisitorNormalSearch() {
                                  "Non dovrebbe essere visualizzato", "Nome band", {"Membro 1", "Membro 2", "Membro 3"},
                                  {"Canzone 1", "Canzone 2", "Canzone 3", "Canzone 4"});
   album->accept(v);
-  QWidget *widget = v.getResult();
+  QWidget *widget = v.getWidget();
   widget->setParent(this);
   stacked_widget_->addWidget(widget);
   stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);

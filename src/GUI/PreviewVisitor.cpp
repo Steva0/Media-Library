@@ -12,7 +12,7 @@
 #include "../Media/Series.h"
 
 namespace gui {
-QWidget *PreviewVisitor::getResult() const { return result_; }
+QWidget *PreviewVisitor::getWidget() const { return result_; }
 void PreviewVisitor::visit(const media::Media &media) {
   // result_ = new QFrame;
   result_ = new QWidget;

@@ -14,7 +14,7 @@
 
 namespace gui {
 namespace search {
-QWidget *SimpleResultVisitor::getResult() const { return result_; }
+QWidget *SimpleResultVisitor::getWidget() const { return result_; }
 void SimpleResultVisitor::visit(const media::Media &media) {
   result_ = new QWidget;
   auto *layout = new QVBoxLayout(result_);

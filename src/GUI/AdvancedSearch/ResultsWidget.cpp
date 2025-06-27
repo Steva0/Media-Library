@@ -33,7 +33,7 @@ void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_r
 
     PreviewVisitor v;
     result->accept(v);
-    auto *widget = v.getResult();
+    auto *widget = v.getWidget();
     
     widget->setParent(wrapper);
     layout->addWidget(widget);

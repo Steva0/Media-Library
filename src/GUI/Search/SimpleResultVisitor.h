@@ -1,18 +1,20 @@
 #ifndef GUI_SEARCH_SIMPLE_RESULT_VISITOR_H
 #define GUI_SEARCH_SIMPLE_RESULT_VISITOR_H
-#include "../../Media/IConstMediaVisitor.h"
 #include <QWidget>
+
+#include "../IMediaWidgetVisitor.h"
 
 namespace gui {
 namespace search {
-class SimpleResultVisitor : public media::IConstMediaVisitor {
+class SimpleResultVisitor : public IMediaWidgetVisitor {
  private:
   QWidget *result_;
   QString type_;
 
   void visit(const media::Media &) override;
+
  public:
-  QWidget *getResult() const;
+  QWidget *getWidget() const override;
 
   void visit(const media::Album &) override;
   void visit(const media::Movie &) override;

@@ -23,7 +23,7 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
 
     SimpleResultVisitor v;
     media->accept(v);
-    QWidget *result = v.getResult();
+    QWidget *result = v.getWidget();
 
     result->setParent(wrapper);
     layout->addWidget(result);

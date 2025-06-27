@@ -4,13 +4,12 @@
 #include <QHBoxLayout>
 #include <QFrame>
 
-#include "../Media/IConstMediaVisitor.h"
+#include "IMediaWidgetVisitor.h"
 
 namespace gui {
-class PreviewVisitor : public media::IConstMediaVisitor {
+class PreviewVisitor : public IMediaWidgetVisitor {
  private:
   QString type_;
-  // QFrame *result_;
   QWidget *result_;
   QGridLayout *data_;
 
@@ -18,7 +17,7 @@ class PreviewVisitor : public media::IConstMediaVisitor {
   void addRow(const std::string &key, const std::string &value);
   void addRow(const std::string &key, int value);
  public:
-   QWidget *getResult() const;
+   QWidget *getWidget() const override;
   
   void visit(const media::Media &) override;
   void visit(const media::Album &) override;
