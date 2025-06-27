@@ -1,4 +1,5 @@
 #include "SearchMain.h"
+#include <iostream>
 
 #include "GridResults.h"
 #include "SearchWidget.h"
@@ -42,6 +43,7 @@ SearchMain::SearchMain(QWidget *parent)
   connect(this, &SearchMain::acceptResults, results_, &GridResults::updateResults);
   connect(preview_, &SelectedPreview::editPressed, this, &SearchMain::requestEdit);
   connect(preview_, &SelectedPreview::deletePressed, this, &SearchMain::requestDelete);
+  connect(search_input_, &SearchWidget::searchByName, []() { std::cout << "Test\n";});
 }
 }  // namespace search
 }  // namespace gui
