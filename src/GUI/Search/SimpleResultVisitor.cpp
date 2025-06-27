@@ -1,0 +1,59 @@
+#include "SimpleResultVisitor.h"
+
+#include <QLabel>
+#include <QPixmap>
+#include <QVBoxLayout>
+
+#include "../../Media/Album.h"
+#include "../../Media/AudioBook.h"
+#include "../../Media/Ebook.h"
+#include "../../Media/Media.h"
+#include "../../Media/Movie.h"
+#include "../../Media/Novel.h"
+#include "../../Media/Series.h"
+
+namespace gui {
+namespace search {
+QWidget *SimpleResultVisitor::getResult() const { return result_; }
+void SimpleResultVisitor::visit(const media::Media &media) {
+  result_ = new QWidget;
+  auto *layout = new QVBoxLayout(result_);
+
+  auto *type = new QLabel(type_, result_);
+
+  auto *image = new QLabel(result_);
+  image->setPixmap(QPixmap(":/assets/matita.jpg").scaled(128, 128));
+
+  auto *title = new QLabel(QString::fromStdString(media.getTitle()), result_);
+
+  layout->addWidget(type);
+  layout->addWidget(image);
+  layout->addWidget(title);
+}
+void SimpleResultVisitor::visit(const media::Album &album) {
+  type_ = "ALBUM";
+  visit(static_cast<const media::Media &>(album));
+}
+void SimpleResultVisitor::visit(const media::Movie &movie) {
+  type_ = "MOVIE";
+  visit(static_cast<const media::Media &>(movie));
+}
+void SimpleResultVisitor::visit(const media::Series &series) {
+  type_ = "SERIES";
+  visit(static_cast<const media::Media &>(series));
+}
+void SimpleResultVisitor::visit(const media::Novel &novel) {
+  type_ = "NOVEL";
+  visit(static_cast<const media::Media &>(novel));
+}
+void SimpleResultVisitor::visit(const media::AudioBook &audiobook) {
+  type_ = "AUDIOBOOK";
+  visit(static_cast<const media::Media &>(audiobook));
+}
+void SimpleResultVisitor::visit(const media::Ebook &ebook) {
+  type_ = "EBOOK";
+  visit(static_cast<const media::Media &>(ebook));
+}
+
+}  // namespace search
+}  // namespace gui

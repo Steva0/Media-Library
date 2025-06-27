@@ -15,6 +15,9 @@ namespace gui {
 MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFlags flags)
     : QMainWindow(parent, flags),
       database_(database),
+      db_selection_widget_(new DatabaseSelectionWidget(this)),
+      advanced_search_widget_(new advanced_search::MainWidget(this)),
+      simple_search_widget_(new search::SearchMain(this)),
       stacked_widget_(new SlidingStackedWidget(this)),
       central_widget_(new QFrame(this)),
       status_bar_(new QStatusBar(this)) {
@@ -29,11 +32,13 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   stacked_widget_->setAnimation(QEasingCurve::Type::OutQuart);
   stacked_widget_->setSpeed(450);
 
-  db_selection_widget_ = new DatabaseSelectionWidget(this);
+  // db_selection_widget_ = new DatabaseSelectionWidget(this);
   stacked_widget_->addWidget(db_selection_widget_);
 
-  advanced_search_widget_ = new advanced_search::MainWidget(this);
+  // advanced_search_widget_ = new advanced_search::MainWidget(this);
   stacked_widget_->addWidget(advanced_search_widget_);
+
+  stacked_widget_->addWidget(simple_search_widget_);
 
   auto *layout = new QVBoxLayout(central_widget_);
 
@@ -44,13 +49,14 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   status_bar_->showMessage("Status bar.");
 
-  debugVisitorNormalSearch();
-  debugTimedEdit();
-  debugNormalSearch();
+  // debugVisitorNormalSearch();
+  // debugTimedEdit();
+  // debugNormalSearch();
 
   connect(db_selection_widget_, &DatabaseSelectionWidget::onSelectDatabase, this, &MainWindow::accessDatabase);
   connect(advanced_search_widget_, &advanced_search::MainWidget::requestResults, this,
           &MainWindow::applyFilterAdvanced);
+  connect(simple_search_widget_, &search::SearchMain::searchByName, this, &MainWindow::searchByName);
   // connect(this, &MainWindow::onQueryResults, advanced_search_widget,
   // &advanced_search::MainWidget::onGetSearchResults);
 
@@ -80,6 +86,10 @@ void MainWindow::closeDatabase(bool save) {
 void MainWindow::applyFilterAdvanced(const media::Media *filter) {
   advanced_search_widget_->updateResults(database_.filterMedia(*filter));
   delete filter;
+}
+
+void MainWindow::searchByName(const QString &title) {
+  simple_search_widget_->acceptResults(database_.filterMedia(media::Media(title.toStdString())));
 }
 
 void MainWindow::debugVisitorNormalSearch() {

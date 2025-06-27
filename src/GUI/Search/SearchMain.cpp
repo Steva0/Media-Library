@@ -43,7 +43,7 @@ SearchMain::SearchMain(QWidget *parent)
   connect(this, &SearchMain::acceptResults, results_, &GridResults::updateResults);
   connect(preview_, &SelectedPreview::editPressed, this, &SearchMain::requestEdit);
   connect(preview_, &SelectedPreview::deletePressed, this, &SearchMain::requestDelete);
-  connect(search_input_, &SearchWidget::searchByName, []() { std::cout << "Test\n";});
+  connect(search_input_, &SearchWidget::searchByName, this, &SearchMain::searchByName);
 }
 }  // namespace search
 }  // namespace gui

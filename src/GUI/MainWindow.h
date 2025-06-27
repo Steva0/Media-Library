@@ -7,6 +7,7 @@
 #include "../Memory/Database.h"
 #include "AdvancedSearch/MainWidget.h"
 #include "DatabaseSelectionWidget.h"
+#include "./Search/SearchMain.h"
 #include "SlidingStackedWidget.h"
 
 namespace gui {
@@ -17,6 +18,7 @@ class MainWindow : public QMainWindow {
 
   DatabaseSelectionWidget *db_selection_widget_;
   advanced_search::MainWidget *advanced_search_widget_;
+  search::SearchMain *simple_search_widget_;
 
   SlidingStackedWidget *stacked_widget_;
   QFrame *central_widget_;
@@ -35,6 +37,7 @@ class MainWindow : public QMainWindow {
   void closeDatabase(bool save);
 
   void applyFilterAdvanced(const media::Media *);
+  void searchByName(const QString &);
 };
 }  // namespace gui
 #endif
