@@ -12,7 +12,6 @@
 #include "../Media/Series.h"
 
 namespace gui {
-namespace search {
 QWidget *PreviewVisitor::getResult() const { return result_; }
 void PreviewVisitor::visit(const media::Media &media) {
   // result_ = new QFrame;
@@ -113,6 +112,4 @@ void PreviewVisitor::addRow(const std::string &key, int value) {
   data_->addWidget(new QLabel(QString::fromStdString(key), result_), data_->rowCount(), 0);
   data_->addWidget(new QLabel(QString::number(value), result_), data_->rowCount() - 1, 1);
 }
-
-}  // namespace search
 }  // namespace gui

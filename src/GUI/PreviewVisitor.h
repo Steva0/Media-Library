@@ -1,5 +1,5 @@
-#ifndef GUI_SEARCH_PREVIEW_VISITOR_H
-#define GUI_SEARCH_PREVIEW_VISITOR_H
+#ifndef GUI_PREVIEW_VISITOR_H
+#define GUI_PREVIEW_VISITOR_H
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QFrame>
@@ -7,7 +7,6 @@
 #include "../Media/IConstMediaVisitor.h"
 
 namespace gui {
-namespace search {
 class PreviewVisitor : public media::IConstMediaVisitor {
  private:
   QString type_;
@@ -29,7 +28,6 @@ class PreviewVisitor : public media::IConstMediaVisitor {
   void visit(const media::AudioBook &) override;
   void visit(const media::Ebook &) override;
 };
-}  // namespace search
 }  // namespace gui
 
 #endif

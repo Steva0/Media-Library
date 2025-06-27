@@ -1,14 +1,14 @@
 #include "MainWindow.h"
 
 #include <QVBoxLayout>
+#include <iostream>
 
 #include "DatabaseSelectionWidget.h"
 
 // debug
-#include "AdvancedSearch/InputWidget.h"
 #include "AdvancedSearch/MainWidget.h"
-#include "AdvancedSearch/ResultsWidget.h"
-#include "./PreviewVisitor.h"
+#include "Search/InputBar.h"
+#include "PreviewVisitor.h"
 #include "SlidingStackedWidget.h"
 
 namespace gui {
@@ -44,11 +44,8 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   status_bar_->showMessage("Status bar.");
 
-  // debugVisitorAdvancedSearch();
-  // debugShowAdvancedSearchResults();
-  // debugShowAdvancedSearchInput();
-  // debugShowAdvancedSearchMainWidget();
   debugVisitorNormalSearch();
+  debugTimedEdit();
 
   connect(db_selection_widget_, &DatabaseSelectionWidget::onSelectDatabase, this, &MainWindow::accessDatabase);
   connect(advanced_search_widget_, &advanced_search::MainWidget::requestResults, this,
@@ -85,7 +82,7 @@ void MainWindow::applyFilterAdvanced(const media::Media *filter) {
 }
 
 void MainWindow::debugVisitorNormalSearch() {
-  search::PreviewVisitor v;
+  PreviewVisitor v;
   auto *album = new media::Album("Nome Album", 2010, "IT", false, {"NomeGenere1", "Genere2"}, ":/assets/matita.jpg",
                                  "Non dovrebbe essere visualizzato", "Nome band", {"Membro 1", "Membro 2", "Membro 3"},
                                  {"Canzone 1", "Canzone 2", "Canzone 3", "Canzone 4"});
@@ -94,5 +91,11 @@ void MainWindow::debugVisitorNormalSearch() {
   widget->setParent(this);
   stacked_widget_->addWidget(widget);
   stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
+}
+void MainWindow::debugTimedEdit() {
+  auto *timed_line = new search::InputBar(this);
+  stacked_widget_->addWidget(timed_line);
+  stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
+  connect(timed_line, &search::InputBar::timedEdit, this, [](const QString &text){std::cout << text.toStdString() << '\n'; });
 }
 }  // namespace gui

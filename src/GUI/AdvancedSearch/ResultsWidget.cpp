@@ -31,7 +31,7 @@ void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_r
     wrapper->setLineWidth(1);
     auto *layout = new QHBoxLayout(wrapper);
 
-    search::PreviewVisitor v;
+    PreviewVisitor v;
     result->accept(v);
     auto *widget = v.getResult();
     
