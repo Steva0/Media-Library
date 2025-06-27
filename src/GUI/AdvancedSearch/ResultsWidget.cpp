@@ -1,10 +1,14 @@
 #include "ResultsWidget.h"
 
-#include "ResultVisitor.h"
+#include "../PreviewVisitor.h"
 
 namespace gui {
 namespace advanced_search {
-ResultsWidget::ResultsWidget(QWidget *parent) : QWidget(parent), grid_(new QGridLayout(this)) {}
+ResultsWidget::ResultsWidget(QWidget *parent) : QWidget(parent), grid_(new QGridLayout(this)) {
+  grid_->setSpacing(0);
+  grid_->setAlignment(Qt::AlignTop);
+  
+}
 
 void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_results) {
   results_ = new_results;
@@ -22,10 +26,18 @@ void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_r
   QWidget *last_widget;
 
   for (auto &result : results_) {
-    ResultVisitor v;
+    auto *wrapper = new QFrame(this);
+    wrapper->setFrameShape(QFrame::Box);
+    wrapper->setLineWidth(1);
+    auto *layout = new QHBoxLayout(wrapper);
+
+    search::PreviewVisitor v;
     result->accept(v);
     auto *widget = v.getResult();
-    widget->setParent(this);
+    
+    widget->setParent(wrapper);
+    layout->addWidget(widget);
+
     if (last_height == -1) {
       last_height = widget->sizeHint().height();
       last_widget = widget;
@@ -37,7 +49,8 @@ void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_r
       last_height = -1;
       last_widget = nullptr;
     }
-    grid_->addWidget(widget, pos / 2, pos % 2);
+
+    grid_->addWidget(wrapper, pos / 2, pos % 2);
     ++pos;
   }
 }

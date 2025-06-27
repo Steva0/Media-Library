@@ -7,8 +7,8 @@
 // debug
 #include "AdvancedSearch/InputWidget.h"
 #include "AdvancedSearch/MainWidget.h"
-#include "AdvancedSearch/ResultVisitor.h"
 #include "AdvancedSearch/ResultsWidget.h"
+#include "./PreviewVisitor.h"
 #include "SlidingStackedWidget.h"
 
 namespace gui {
@@ -48,6 +48,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   // debugShowAdvancedSearchResults();
   // debugShowAdvancedSearchInput();
   // debugShowAdvancedSearchMainWidget();
+  debugVisitorNormalSearch();
 
   connect(db_selection_widget_, &DatabaseSelectionWidget::onSelectDatabase, this, &MainWindow::accessDatabase);
   connect(advanced_search_widget_, &advanced_search::MainWidget::requestResults, this,
@@ -83,32 +84,15 @@ void MainWindow::applyFilterAdvanced(const media::Media *filter) {
   delete filter;
 }
 
-void MainWindow::debugVisitorAdvancedSearch() {
-  auto *media = new media::Album("Nome Album", 2010, "IT", false, {"NomeGenere1", "Genere2"}, ":/assets/matita.jpg",
+void MainWindow::debugVisitorNormalSearch() {
+  search::PreviewVisitor v;
+  auto *album = new media::Album("Nome Album", 2010, "IT", false, {"NomeGenere1", "Genere2"}, ":/assets/matita.jpg",
                                  "Non dovrebbe essere visualizzato", "Nome band", {"Membro 1", "Membro 2", "Membro 3"},
                                  {"Canzone 1", "Canzone 2", "Canzone 3", "Canzone 4"});
-  advanced_search::ResultVisitor v;
-  v.visit(*media);
-  stacked_widget_->addWidget(v.getResult());
-  stacked_widget_->setCurrentIndex(1);
-}
-void MainWindow::debugShowAdvancedSearchResults() {
-  auto *results_widget = new advanced_search::ResultsWidget(this);
-  stacked_widget_->addWidget(results_widget);
-  // results_widget->search<media::Media>(media::Media(""));
-  // results_widget->search(media::Novel(""));
-  stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
-}
-
-void MainWindow::debugShowAdvancedSearchInput() {
-  auto *input_widget = new advanced_search::InputWidget(this);
-  stacked_widget_->addWidget(input_widget);
-  stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
-}
-
-void MainWindow::debugShowAdvancedSearchMainWidget() {
-  auto *main_widget = new advanced_search::MainWidget(this);
-  stacked_widget_->addWidget(main_widget);
+  album->accept(v);
+  QWidget *widget = v.getResult();
+  widget->setParent(this);
+  stacked_widget_->addWidget(widget);
   stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
 }
 }  // namespace gui

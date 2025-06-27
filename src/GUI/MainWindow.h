@@ -23,10 +23,7 @@ class MainWindow : public QMainWindow {
   QStatusBar *status_bar_;
 
   // debug
-  void debugVisitorAdvancedSearch();
-  void debugShowAdvancedSearchResults();
-  void debugShowAdvancedSearchInput();
-  void debugShowAdvancedSearchMainWidget();
+  void debugVisitorNormalSearch();
 
  public:
   explicit MainWindow(memory::Database &database, QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
