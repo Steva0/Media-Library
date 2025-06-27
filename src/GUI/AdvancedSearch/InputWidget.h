@@ -3,6 +3,7 @@
 #include <QLineEdit>
 #include <QStackedWidget>
 
+#include "IMediaInputWidget.h"
 #include "MediaInputWidget.h"
 #include "TypeSelector.h"
 
@@ -11,16 +12,16 @@ namespace advanced_search {
 class InputWidget : public QWidget {
   Q_OBJECT
  private:
+  media::Media *current_filter_;
   // selezione del tipo di media cercato sulla base di enum in MediaContainer
   TypeSelector *type_selection_;
 
-  MediaInputWidget *media_filter_;
-  QStackedWidget *type_filter_;
+  IMediaInputWidget *filter_input_widget_;
 
  public:
   explicit InputWidget(QWidget *parent = nullptr);
 
-  media::Media *makeFilter();
+  const media::Media *makeFilter();
 
  private slots:
   void showTypeInput(int);

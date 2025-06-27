@@ -34,7 +34,7 @@ class MediaInputWidget : public QWidget {
   explicit MediaInputWidget(QWidget *parent);
 
 
-  media::Media getFilter() const;
+  media::Media makeFilter() const;
 
  private slots:
   void addGenre();

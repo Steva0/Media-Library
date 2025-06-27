@@ -8,7 +8,7 @@
 namespace gui {
 class IMediaWidgetVisitor : public media::IConstMediaVisitor {
  public:
-  virtual QWidget *getWidget() const = 0;
+  virtual QWidget *getWidget() = 0;
 };
 }  // namespace gui
 
