@@ -19,6 +19,8 @@ class Movie : public Media {
                  const std::string &img_path = "", const std::string &notes = "",
                  const std::vector<std::string> &cast = {}, int length = std::numeric_limits<int>::min(),
                  const std::string &universe = "");
+  explicit Movie(const Media &, const std::vector<std::string> &cast = {}, int length = std::numeric_limits<int>::min(),
+                 const std::string &universe = "");
 
   bool operator==(const Media &) const override;
   const std::vector<std::string> &getCast() const;

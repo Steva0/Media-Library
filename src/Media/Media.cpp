@@ -1,7 +1,6 @@
 #include "Media.h"
 
 #include <cctype>
-#include <iostream>
 #include <limits>
 
 namespace media {
@@ -18,9 +17,8 @@ Media::Media(const std::string &title, int release, const std::string &language,
 void Media::accept(IConstMediaVisitor &v) const { v.visit(*this); }
 
 bool Media::operator==(const Media &other) const {
-  return title_ == other.title_ && release_ == other.release_ &&
-         language_ == other.language_ && favourite_ == other.favourite_ &&
-         genres_ == other.genres_ && img_path_ == other.img_path_ &&
+  return title_ == other.title_ && release_ == other.release_ && language_ == other.language_ &&
+         favourite_ == other.favourite_ && genres_ == other.genres_ && img_path_ == other.img_path_ &&
          notes_ == other.notes_;
 }
 
@@ -32,50 +30,49 @@ bool Media::open() {
 }
 
 void Media::setTitle(const std::string &title) { title_ = title; }
-void Media::setRelease(int value) { release_ = value; }
-void Media::setLanguage(const std::string &value) { language_ = value; }
-void Media::setFavourite(bool value) { favourite_ = value; }
-void Media::addGenre(const std::string &value) { genres_.push_back(value); }
+void Media::setRelease(int release) { release_ = release; }
+void Media::setLanguage(const std::string &language) { language_ = language; }
+void Media::setFavourite(bool favourite) { favourite_ = favourite; }
+
+void Media::addGenre(const std::string &genre) {
+  if (genre == "") return;
+  if (std::find(genres_.begin(), genres_.end(), genre) == genres_.end()) genres_.push_back(genre);
+}
 void Media::clearGenres() { genres_.clear(); }
-void Media::setImgPath(const std::string &value) { img_path_ = value; }
-void Media::setNotes(const std::string &value) { notes_ = value; }
+void Media::setImgPath(const std::string &path) { img_path_ = path; }
+void Media::setNotes(const std::string &notes) { notes_ = notes; }
 
-bool Media::filter(const Media& media) const {
-        // Title (substring, case-insensitive)
-    if (!getTitle().empty() && !stringContainsIgnoreCase(media.getTitle(), getTitle()))
-        return false;
+bool Media::filter(const Media &media) const {
+  // Title (substring, case-insensitive)
+  if (!getTitle().empty() && !stringContainsIgnoreCase(media.getTitle(), getTitle())) return false;
 
-    // Release (confronto stretto)
-    if (getRelease() != std::numeric_limits<int>::min() &&
-        media.getRelease() != getRelease())
-        return false;
+  // Release (confronto stretto)
+  if (getRelease() != std::numeric_limits<int>::min() && media.getRelease() != getRelease()) return false;
 
-    // Language (substring, case-insensitive)
-    if (!getLanguage().empty() && media.getLanguage() != getLanguage())
-        return false;
+  // Language (substring, case-insensitive)
+  if (!getLanguage().empty() && media.getLanguage() != getLanguage()) return false;
 
-    // Favourite (confronto booleano)
-    if (isFavourite() && media.isFavourite() != isFavourite())
-        return false;
+  // Favourite (confronto booleano)
+  if (isFavourite() && media.isFavourite() != isFavourite()) return false;
 
-    // Generi (match parziale case-insensitive su ogni genere richiesto)
-    if (!getGenres().empty()) {
-        const auto& mediaGenres = media.getGenres();
-        for (const auto& genreFilter : getGenres()) {
-            bool found = false;
-            for (const auto& g : mediaGenres) {
-                if (stringContainsIgnoreCase(g, genreFilter)) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                return false;
-            }
+  // Generi (match parziale case-insensitive su ogni genere richiesto)
+  if (!getGenres().empty()) {
+    const auto &mediaGenres = media.getGenres();
+    for (const auto &genreFilter : getGenres()) {
+      bool found = false;
+      for (const auto &g : mediaGenres) {
+        if (stringContainsIgnoreCase(g, genreFilter)) {
+          found = true;
+          break;
         }
-    }   
+      }
+      if (!found) {
+        return false;
+      }
+    }
+  }
 
-    return true;
+  return true;
 }
 
 const std::string &Media::getTitle() const { return title_; }

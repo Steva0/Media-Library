@@ -19,6 +19,9 @@ class Novel : public Media {
                  const std::string& imagePath = "", const std::string& notes = "", const std::string& author = "",
                  const std::string& publisher = "", int pages = std::numeric_limits<int>::min(),
                  const std::string& series = "", const std::string& isbn = "");
+  explicit Novel(const Media&, const std::string& author = "", const std::string& publisher = "",
+                 int pages = std::numeric_limits<int>::min(), const std::string& series = "",
+                 const std::string& isbn = "");
 
   bool operator==(const Media&) const override;
   const std::string& getAuthor() const;

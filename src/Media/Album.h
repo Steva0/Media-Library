@@ -15,6 +15,9 @@ class Album : public Media {
                  const std::string &language = "", bool favourite = false, const std::vector<std::string> &genres = {},
                  const std::string &img_path = "", const std::string &notes = "", const std::string &band = "",
                  const std::vector<std::string> &band_members = {}, const std::vector<std::string> &songs = {});
+  explicit Album(const Media &, const std::string &band = "", const std::vector<std::string> &band_members = {},
+                 const std::vector<std::string> &songs = {});
+
   bool operator==(const Media &) const override;
 
   const std::string &getBand() const;

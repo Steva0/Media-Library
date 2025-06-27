@@ -19,6 +19,7 @@ class AudioBook : public Novel {
                      int pages = std::numeric_limits<int>::min(), const std::string& series = "",
                      const std::string& isbn = "", const std::string& narrator = "",
                      const std::string& streamingService = "");
+  explicit AudioBook(const Novel&, const std::string& narrator = "", const std::string& streamingService = "");
 
   bool operator==(const Media&) const override;
   const std::string& getNarrator() const;

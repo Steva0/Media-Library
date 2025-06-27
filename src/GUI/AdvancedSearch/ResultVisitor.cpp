@@ -41,17 +41,18 @@ void ResultVisitor::visit(const media::Media &media) {
   grid_ = new QGridLayout(data_);
 
   // bisogna sistemare i valori di default all'interno di addRow
-  addRow("Titolo", media.getTitle());
+  addRow("Title", media.getTitle());
   // titolo in grassetto
     static_cast<QLabel *>(grid_->itemAt(0)->widget())
         ->setStyleSheet("font: bold");
     static_cast<QLabel *>(grid_->itemAt(1)->widget())
         ->setStyleSheet("font: bold");
 
-  addRow("Lingua", media.getLanguage());
-  addRow("Data", media.getRelease());
-  addRow("Genere", media.getGenres());
+  addRow("Language", media.getLanguage());
+  addRow("Release", media.getRelease());
+  addRow("Genre", media.getGenres());
   // come mettiamo il preferito? stella?
+  if (media.isFavourite()) addRow("Favourite");
   notes_ = new QLabel(QString::fromStdString(media.getNotes()));
 }
 void ResultVisitor::visit(const media::Album &album) {
@@ -63,32 +64,30 @@ void ResultVisitor::visit(const media::Album &album) {
 }
 void ResultVisitor::visit(const media::Movie &movie) {
   visit(static_cast<const media::Media &>(movie));
-  addRow("Durata", movie.getLength());
-  addRow("Universo", movie.getUniverse());
+  addRow("Duration", movie.getLength());
+  addRow("Universe", movie.getUniverse());
   addRow("Cast", movie.getCast());
 }
 void ResultVisitor::visit(const media::Series &series) {
   visit(static_cast<const media::Movie &>(series));
-  addRow("Stagioni", series.getSeasons());
-  addRow("Episodi", series.getEpisodes());
+  addRow("Seasons", series.getSeasons());
+  addRow("Episodes", series.getEpisodes());
   if (series.hasEnded()) {
-    addRow("Terminato");
-  } else {
-    addRow("Non terminato");
+    addRow("Ended");
   }
 }
 void ResultVisitor::visit(const media::Novel &novel) {
   visit(static_cast<const media::Media &>(novel));
-  addRow("Autore", novel.getAuthor());
-  addRow("Editore", novel.getPublisher());
-  addRow("Serie", novel.getSeries());
-  addRow("Pagine", novel.getPages());
+  addRow("Author", novel.getAuthor());
+  addRow("Publisher", novel.getPublisher());
+  addRow("Series", novel.getSeries());
+  addRow("Pages", novel.getPages());
   addRow("ISBN", novel.getIsbn());
 }
 void ResultVisitor::visit(const media::AudioBook &audio_book) {
   visit(static_cast<const media::Media &>(audio_book));
-  addRow("Voce", audio_book.getNarrator());
-  addRow("Servizio Streaming", audio_book.getStreamingService());
+  addRow("Voice", audio_book.getNarrator());
+  addRow("Streaming service", audio_book.getStreamingService());
 }
 void ResultVisitor::visit(const media::Ebook &ebook) {
   visit(static_cast<const media::Novel &>(ebook));

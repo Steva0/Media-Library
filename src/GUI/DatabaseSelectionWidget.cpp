@@ -42,10 +42,8 @@ void DatabaseSelectionWidget::createDatabase() {
   else
     filter = ".json";
 
-  std::cout << "Filter: " << filter.toStdString() << '\n';
 
   if (!path.endsWith(filter)) path += filter;
-  std::cout << "Path: " << path.toStdString() << '\n';
 
   emit onSelectDatabase(path);
 }

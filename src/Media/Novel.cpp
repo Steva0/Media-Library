@@ -13,14 +13,18 @@ Novel::Novel(const std::string& title, int publicationYear, const std::string& l
       series_(series),
       isbn_(isbn) {}
 
+Novel::Novel(const Media& media, const std::string& author, const std::string& publisher, int pages,
+             const std::string& series, const std::string& isbn)
+    : Media(media), author_(author), publisher_(publisher), pages_(pages), series_(series), isbn_(isbn) {}
+
 bool Novel::operator==(const Media& other) const {
-    const auto* other_novel = dynamic_cast<const Novel*>(&other);
-    if (other_novel) {
-        return Media::operator==(*other_novel) && author_ == other_novel->author_ &&
-               publisher_ == other_novel->publisher_ && pages_ == other_novel->pages_ &&
-               series_ == other_novel->series_ && isbn_ == other_novel->isbn_;
-    }
-    return false;
+  const auto* other_novel = dynamic_cast<const Novel*>(&other);
+  if (other_novel) {
+    return Media::operator==(*other_novel) && author_ == other_novel->author_ &&
+           publisher_ == other_novel->publisher_ && pages_ == other_novel->pages_ && series_ == other_novel->series_ &&
+           isbn_ == other_novel->isbn_;
+  }
+  return false;
 }
 
 std::unique_ptr<Media> Novel::makePtr() const { return std::make_unique<Novel>(*this); }
@@ -35,39 +39,36 @@ const std::string& Novel::getIsbn() const { return isbn_; }
 // Setters
 void Novel::setAuthor(const std::string& author) { author_ = author; }
 void Novel::setPublisher(const std::string& publisher) { publisher_ = publisher; }
-void Novel::setPages(int pages) { pages_ = pages; if (pages <= 0) pages_ = std::numeric_limits<int>::min(); }
+void Novel::setPages(int pages) {
+  pages_ = pages;
+  if (pages <= 0) pages_ = std::numeric_limits<int>::min();
+}
 void Novel::setSeries(const std::string& series) { series_ = series; }
 void Novel::setIsbn(const std::string& isbn) { isbn_ = isbn; }
 
 bool Novel::filter(const Media& input) const {
-    // Riutilizzo filtro base di Media
-    if (!Media::filter(input))
-        return false;
-    // Cast to Novel to access Novel-specific members
-    const Novel* novelPtr = dynamic_cast<const Novel*>(&input);
-    if (!novelPtr)
-        return false;
+  // Riutilizzo filtro base di Media
+  if (!Media::filter(input)) return false;
+  // Cast to Novel to access Novel-specific members
+  const Novel* novelPtr = dynamic_cast<const Novel*>(&input);
+  if (!novelPtr) return false;
 
-    // Match fields
-    // Autore
-    if (!author_.empty() && !stringContainsIgnoreCase(novelPtr->getAuthor(), author_))
-        return false;
+  // Match fields
+  // Autore
+  if (!author_.empty() && !stringContainsIgnoreCase(novelPtr->getAuthor(), author_)) return false;
 
-    // Editore
-    if (!publisher_.empty() && !stringContainsIgnoreCase(novelPtr->getPublisher(), publisher_))
-        return false;
+  // Editore
+  if (!publisher_.empty() && !stringContainsIgnoreCase(novelPtr->getPublisher(), publisher_)) return false;
 
-    // Serie
-    if (!series_.empty() && !stringContainsIgnoreCase(novelPtr->getSeries(), series_))
-        return false;
+  // Serie
+  if (!series_.empty() && !stringContainsIgnoreCase(novelPtr->getSeries(), series_)) return false;
 
-    // ISBN
-    if (!isbn_.empty() && !stringContainsIgnoreCase(novelPtr->getIsbn(), isbn_))
-        return false;
+  // ISBN
+  if (!isbn_.empty() && !stringContainsIgnoreCase(novelPtr->getIsbn(), isbn_)) return false;
 
-    // Pagine (non fa il confronto)
+  // Pagine (non fa il confronto)
 
-    return true;
+  return true;
 }
 
 void Novel::accept(IConstMediaVisitor& v) const { v.visit(*this); }

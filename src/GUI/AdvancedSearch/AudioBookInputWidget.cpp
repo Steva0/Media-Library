@@ -6,7 +6,7 @@
 namespace gui {
 namespace advanced_search {
 const QStringList AudioBookInputWidget::kStreamingServices{
-    "Audible", "Audiobooks.com", "B&N Audiobooks", "Libro.fm", "Everand", "Spotify", "Libby", "Hoopla", "Chirp"};
+    "Any", "Audible", "Audiobooks.com", "B&N Audiobooks", "Libro.fm", "Everand", "Spotify", "Libby", "Hoopla", "Chirp"};
 
 AudioBookInputWidget::AudioBookInputWidget(QWidget *parent) : NovelInputWidget(parent) {
   narrator_ = new QLineEdit(this);
@@ -20,7 +20,14 @@ AudioBookInputWidget::AudioBookInputWidget(QWidget *parent) : NovelInputWidget(p
   layout_->addWidget(streaming_service_, layout_->rowCount() - 1, 3);
 }
 media::AudioBook *AudioBookInputWidget::getFilter(const media::Media &base) const {
-  return new media::AudioBook("");
+  auto *novel = NovelInputWidget::getFilter(base);
+  auto *audio_book = new media::AudioBook(*novel);
+  delete novel;
+
+  audio_book->setNarrator(narrator_->text().toStdString());
+  if (streaming_service_->currentText() != "Any")
+    audio_book->setStreamingService(streaming_service_->currentText().toStdString());
+  return audio_book;
 }
 }  // namespace advanced_search
 }  // namespace gui

@@ -10,6 +10,8 @@ AudioBook::AudioBook(const std::string& title, int publicationYear, const std::s
             isbn),
       narrator_(narrator),
       streamingService_(streamingService) {}
+AudioBook::AudioBook(const Novel& novel, const std::string& narrator, const std::string& streamingService)
+    : Novel(novel), narrator_(narrator), streamingService_(streamingService) {}
 
 bool AudioBook::operator==(const Media& other) const {
   const auto* other_audio_book = dynamic_cast<const AudioBook*>(&other);

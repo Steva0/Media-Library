@@ -1,5 +1,23 @@
 <!DOCTYPE MediaCollection>
 <MediaList>
+  <AudioBook>
+    <Title>AudioBook Test</Title>
+    <Release>10924</Release>
+    <Language>Lingua</Language>
+    <Favourite/>
+    <Genres>
+      <Genre>Genere1</Genre>
+      <Genre>Genere2</Genre>
+    </Genres>
+    <Notes>Note</Notes>
+    <Author>Nome Autore</Author>
+    <Publisher>Nome editore</Publisher>
+    <Pages>2048</Pages>
+    <Series>Nome serie</Series>
+    <ISBN>12345679857234-2</ISBN>
+    <Narrator>Nome voce</Narrator>
+    <Service>Servizio Streaming</Service>
+  </AudioBook>
   <Album>
     <Title>Album Test</Title>
   </Album>
@@ -22,7 +40,7 @@
   <AudioBook>
     <Title>AudioBook Test</Title>
     <Release>10924</Release>
-    <Language>Lingua</Language>
+    <Language>Li</Language>
     <Favourite/>
     <Genres>
       <Genre>Genere1</Genre>
@@ -35,7 +53,7 @@
     <Series>Nome serie</Series>
     <ISBN>12345679857234-2</ISBN>
     <Narrator>Nome voce</Narrator>
-    <Service>Nome Servizio streaming</Service>
+    <Service>Servizio Streaming</Service>
   </AudioBook>
   <Series>
     <Title>Series test</Title>

@@ -11,6 +11,9 @@ Movie::Movie(const std::string &title, int release, const std::string &language,
       length_(length > 0 ? length : std::numeric_limits<int>::min()),  // Default to min if length is invalid
       universe_(universe) {}
 
+Movie::Movie(const Media &media, const std::vector<std::string> &cast, int length, const std::string &universe)
+    : Media(media), cast_(cast), length_(length), universe_(universe) {}
+
 bool Movie::operator==(const Media &other) const {
   const auto *other_movie = dynamic_cast<const Movie *>(&other);
   if (other_movie) {
@@ -27,6 +30,7 @@ int Movie::getLength() const { return length_; }
 const std::string &Movie::getUniverse() const { return universe_; }
 
 void Movie::addActor(const std::string &name) {
+  if (name == "") return;
   if (std::find(cast_.begin(), cast_.end(), name) == cast_.end()) cast_.push_back(name);
 }
 void Movie::removeActor(const std::string &name) {

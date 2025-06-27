@@ -99,8 +99,18 @@ std::vector<std::string> MediaInputWidget::getGenresRaw() const {
 }
 
 media::Media MediaInputWidget::getFilter() const {
-  return media::Media(getTitle().toStdString()/* , getRelease(), getLanguage().toStdString(), getFavourite(),
-                      getGenresRaw() */);
+  media::Media media = media::Media(title_->text().toStdString());
+  if (release_->text() != "") {
+    media.setRelease(release_->text().toInt());
+  }
+  media.setLanguage(language_->text().toStdString());
+  media.setFavourite(favourite_->isChecked());
+
+  for (const auto *genre : genres_) {
+    media.addGenre(genre->text().toStdString());
+  }
+  
+  return media;
 }
 }  // namespace advanced_search
 }  // namespace gui

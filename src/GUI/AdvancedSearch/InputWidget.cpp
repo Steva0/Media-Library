@@ -29,19 +29,19 @@ InputWidget::InputWidget(QWidget *parent) : QWidget(parent) {
 
   type_filter_ = new QStackedWidget(this);
 
-  type_filter_->addWidget(new QWidget(
-      this));  // widget vuoto per quando non viene fatta una ricerca su un sottotipo (non strettamente necessario)
-  type_filter_->addWidget(novel_widget);  // novel
+  type_filter_->addWidget(new QWidget(this)); // "Type::All"
+  type_filter_->addWidget(novel_widget);
   type_filter_->addWidget(album_widget);
-  type_filter_->addWidget(movie_widget);  // movie
-  type_filter_->addWidget(ebook_widget);  // ebook
+  type_filter_->addWidget(movie_widget);
+  type_filter_->addWidget(ebook_widget);
   type_filter_->addWidget(audiobook_widget);
-  type_filter_->addWidget(series_widget);  // series
+  type_filter_->addWidget(series_widget);
 
   auto *layout = new QVBoxLayout(this);
   layout->addWidget(type_selection_);
   layout->addWidget(media_filter_);
   layout->addWidget(type_filter_);
+  layout->addStretch();
 
   // init
   showTypeInput(0);

@@ -30,9 +30,13 @@ NovelInputWidget::NovelInputWidget(QWidget *parent)
 }
 
 media::Novel *NovelInputWidget::getFilter(const media::Media &base) const {
-  return new media::Novel(base.getTitle(), base.getRelease(), base.getLanguage(), base.isFavourite(), base.getGenres(),
-                          "", "", author_->text().toStdString(), publisher_->text().toStdString(),
-                          std::numeric_limits<int>::min(), series_->text().toStdString(), isbn_->text().toStdString());
+  auto *novel = new media::Novel(base);
+  novel->setAuthor(author_->text().toStdString());
+  novel->setPublisher(publisher_->text().toStdString());
+  novel->setSeries(series_->text().toStdString());
+  novel->setIsbn(isbn_->text().toStdString());
+
+  return novel;
 }
 }  // namespace advanced_search
 }  // namespace gui

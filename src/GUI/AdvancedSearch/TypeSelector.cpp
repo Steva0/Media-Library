@@ -19,11 +19,13 @@ TypeSelector::TypeSelector(QWidget *parent) : QWidget(parent) {
   int max_width = -1;
   for (size_t type = 0; type < static_cast<size_t>(MediaType::TypeCount); ++type) {
     types_[type] = new QPushButton(QString::fromStdString(memory::MediaContainer::typeToString(type)), this);
+    types_[type]->setCheckable(true);
     max_width = std::max(max_width, types_[type]->sizeHint().width());
     layout->addWidget(types_[type]);
     container_->addButton(types_[type]);
     container_->setId(types_[type], type);
   }
+  types_[0]->setChecked(true);
 
   for (auto &type : types_) {
     type->setFixedWidth(max_width);

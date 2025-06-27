@@ -20,9 +20,11 @@ MovieInputWidget::MovieInputWidget(QWidget *parent) : IMediaInputWidget(parent) 
   layout_->addWidget(universe_, 0, 3);
 }
 media::Movie *MovieInputWidget::getFilter(const media::Media &base) const {
-  return new media::Movie(base.getTitle(), base.getRelease(), base.getLanguage(), base.isFavourite(), base.getGenres(),
-                          "", "", {actor_->text().toStdString()}, std::numeric_limits<int>::min(),
-                          universe_->text().toStdString());
+  auto *movie = new media::Movie(media::Movie(base));
+  movie->addActor(actor_->text().toStdString());
+  movie->setUniverse(universe_->text().toStdString());
+  
+  return movie;
 }
 }  // namespace advanced_search
 }  // namespace gui

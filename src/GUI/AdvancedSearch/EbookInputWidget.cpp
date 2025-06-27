@@ -24,7 +24,12 @@ EbookInputWidget::EbookInputWidget(QWidget *parent) : NovelInputWidget(parent) {
   layout_->addWidget(drm_, layout_->rowCount() - 1, 5);
 }
 media::Ebook *EbookInputWidget::getFilter(const media::Media &base) const {
-  return new media::Ebook("");
+  auto *novel = NovelInputWidget::getFilter(base);
+  auto *ebook = new media::Ebook(*novel);
+  delete novel;
+
+  ebook->setDrm(drm_->isChecked());
+  return ebook;
 }
 }  // namespace advanced_search
 }  // namespace gui

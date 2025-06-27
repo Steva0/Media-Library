@@ -24,15 +24,15 @@ class MediaInputWidget : public QWidget {
 
   static const int kColumnAmount;
   static const size_t kMaxGenres;
-
- public:
-  explicit MediaInputWidget(QWidget *parent);
-
   QString getTitle() const;
   int getRelease() const;
   QString getLanguage() const;
   bool getFavourite() const;
   std::vector<std::string> getGenresRaw() const;
+
+ public:
+  explicit MediaInputWidget(QWidget *parent);
+
 
   media::Media getFilter() const;
 

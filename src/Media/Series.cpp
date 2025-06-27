@@ -10,6 +10,9 @@ Series::Series(const std::string &title, int release, const std::string &languag
       seasons_(seasons > 0 ? seasons : std::numeric_limits<int>::min()),     // Default to min if seasons is invalid
       ended_(ended) {}
 
+Series::Series(const Movie &movie, int episodes, int seasons, bool ended)
+    : Movie(movie), episodes_(episodes), seasons_(seasons), ended_(ended) {}
+
 bool Series::operator==(const Media &other) const {
   const auto *other_series = dynamic_cast<const Series *>(&other);
   if (other_series) {
@@ -35,27 +38,22 @@ void Series::setSeasons(int seasons) {
 }
 void Series::setEnded(bool ended) { ended_ = ended; }
 
-bool Series::filter(const Media& input) const {
-     if (!Movie::filter(input))
-        return false;
+bool Series::filter(const Media &input) const {
+  if (!Movie::filter(input)) return false;
 
-    const Series* seriesPtr = dynamic_cast<const Series*>(&input);
-    if (!seriesPtr)
-        return false; // Protegge da cast fallito
+  const Series *seriesPtr = dynamic_cast<const Series *>(&input);
+  if (!seriesPtr) return false;  // Protegge da cast fallito
 
-    // Episodes (confronto stretto)
-    if (episodes_ != std::numeric_limits<int>::min() && seriesPtr->getEpisodes() != episodes_)
-        return false;
+  // Episodes (confronto stretto)
+  if (episodes_ != std::numeric_limits<int>::min() && seriesPtr->getEpisodes() != episodes_) return false;
 
-    // Seasons (confronto stretto)
-    if (seasons_ != std::numeric_limits<int>::min() && seriesPtr->getSeasons() != seasons_)
-        return false;
+  // Seasons (confronto stretto)
+  if (seasons_ != std::numeric_limits<int>::min() && seriesPtr->getSeasons() != seasons_) return false;
 
-    // Ended (confronto booleano)
-    if (ended_ && ended_ != seriesPtr->hasEnded())
-        return false;
+  // Ended (confronto booleano)
+  if (ended_ && ended_ != seriesPtr->hasEnded()) return false;
 
-    return true;
+  return true;
 }
 
 void Series::accept(IConstMediaVisitor &v) const { v.visit(*this); }

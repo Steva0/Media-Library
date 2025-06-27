@@ -23,9 +23,11 @@ AlbumInputWidget::AlbumInputWidget(QWidget *parent) : IMediaInputWidget(parent) 
 }
 
 media::Album *AlbumInputWidget::getFilter(const media::Media &base) const {
-  return new media::Album(base.getTitle(), base.getRelease(), base.getLanguage(), base.isFavourite(), base.getGenres(),
-                          "", "", band_name_->text().toStdString(), {band_member_->text().toStdString()},
-                         {song_->text().toStdString()});
+  auto *album = new media::Album(base);
+  album->setBand(band_name_->text().toStdString());
+  album->addMember(band_member_->text().toStdString());
+  album->addSong(song_->text().toStdString());
+  return album;
 }
 }  // namespace advanced_search
 }  // namespace gui

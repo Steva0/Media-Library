@@ -16,6 +16,8 @@ class Series : public Movie {
                   const std::vector<std::string> &cast = {}, int length = std::numeric_limits<int>::min(),
                   const std::string &universe = "", int episodes = std::numeric_limits<int>::min(),
                   int seasons = std::numeric_limits<int>::min(), bool ended = false);
+  explicit Series(const Movie &movie, int episodes = std::numeric_limits<int>::min(),
+                  int seasons = std::numeric_limits<int>::min(), bool ended = false);
 
   bool operator==(const Media &) const override;
   int getEpisodes() const;
