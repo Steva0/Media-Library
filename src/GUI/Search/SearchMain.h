@@ -17,8 +17,10 @@ class SearchMain : public QWidget {
   explicit SearchMain(QWidget *parent = nullptr);
 
  signals:
-  void requestByName(const QString &);
+  void searchByName(const QString &);
   void acceptResults(const std::vector<const media::Media *> &);
+  void requestEdit(const media::Media *);
+  void requestDelete(const media::Media *);
 };
 }  // namespace search
 }  // namespace gui

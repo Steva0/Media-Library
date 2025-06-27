@@ -7,7 +7,7 @@
 
 // debug
 #include "AdvancedSearch/MainWidget.h"
-#include "Search/InputBar.h"
+#include "Search/SearchMain.h"
 #include "PreviewVisitor.h"
 #include "SlidingStackedWidget.h"
 
@@ -46,6 +46,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   debugVisitorNormalSearch();
   debugTimedEdit();
+  debugNormalSearch();
 
   connect(db_selection_widget_, &DatabaseSelectionWidget::onSelectDatabase, this, &MainWindow::accessDatabase);
   connect(advanced_search_widget_, &advanced_search::MainWidget::requestResults, this,
@@ -97,5 +98,10 @@ void MainWindow::debugTimedEdit() {
   stacked_widget_->addWidget(timed_line);
   stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
   connect(timed_line, &search::InputBar::timedEdit, this, [](const QString &text){std::cout << text.toStdString() << '\n'; });
+}
+void MainWindow::debugNormalSearch() {
+  auto *search = new search::SearchMain(this);
+  stacked_widget_->addWidget(search);
+  stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
 }
 }  // namespace gui

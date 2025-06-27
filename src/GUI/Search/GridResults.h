@@ -2,12 +2,12 @@
 #define GUI_SEARCH_GRID_RESULTS_H
 
 #include <QGridLayout>
-#include <QWidget>
+#include <QFrame>
 
 #include "../../Media/Media.h"
 namespace gui {
 namespace search {
-class GridResults : public QWidget {
+class GridResults : public QFrame {
   Q_OBJECT
  private:
   QGridLayout *grid_;

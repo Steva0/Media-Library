@@ -25,6 +25,7 @@ class MainWindow : public QMainWindow {
   // debug
   void debugVisitorNormalSearch();
   void debugTimedEdit();
+  void debugNormalSearch();
 
  public:
   explicit MainWindow(memory::Database &database, QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());

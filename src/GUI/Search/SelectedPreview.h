@@ -12,19 +12,22 @@ class SelectedPreview : public QWidget {
  private:
   QHBoxLayout *layout_;
 
-  QPushButton *edit_;
-  QPushButton *delete_;
+  // QPushButton *edit_;
+  // QPushButton *delete_;
+  QWidget *buttons_;
   QWidget *displayed_result_;
+
+  const media::Media *selected_;
 
  public:
   explicit SelectedPreview(QWidget *parent = nullptr);
 
  signals:
-  void deletePressed(const media::Media &);
-  void editPressed(const media::Media &);
+  void deletePressed(const media::Media *);
+  void editPressed(const media::Media *);
 
  public slots:
-  void display(const media::Media &);
+  void display(const media::Media *);
   void clear();
 };
 }  // namespace search
