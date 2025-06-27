@@ -20,11 +20,13 @@ void SimpleResultVisitor::visit(const media::Media &media) {
   auto *layout = new QVBoxLayout(result_);
 
   auto *type = new QLabel(type_, result_);
+  type->setAlignment(Qt::AlignCenter);
 
   auto *image = new QLabel(result_);
   image->setPixmap(QPixmap(":/assets/matita.jpg").scaled(128, 128));
 
   auto *title = new QLabel(QString::fromStdString(media.getTitle()), result_);
+  title->setAlignment(Qt::AlignCenter);
 
   layout->addWidget(type);
   layout->addWidget(image);
