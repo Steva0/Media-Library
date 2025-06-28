@@ -12,6 +12,7 @@
 #include "SlidingStackedWidget.h"
 
 namespace gui {
+
 MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFlags flags)
     : QMainWindow(parent, flags),
       database_(database),
@@ -178,8 +179,8 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
 
   // Aggiorna ricerca semplice 
   simple_search_widget_->acceptResults(
-    database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
-  }
+  database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+
 }
 
 
