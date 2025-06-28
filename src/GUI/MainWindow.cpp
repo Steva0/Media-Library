@@ -186,9 +186,19 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
 
 void MainWindow::accessDatabase(const QString &path) {
   database_.open(path);
-  // temp
+
+  // Appena aperto il db, aggiorna i risultati di ricerca con tutti i media o con filtro vuoto
+  media::Media* empty_filter = new media::Media("");  // filtro vuoto = tutti i media
+  applyFilterAdvanced(empty_filter);
+
+  // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
+  last_simple_search_query_ = "";
+  simple_search_widget_->acceptResults(database_.filterMedia(media::Media("")));
+
+  // Naviga alla schermata principale di ricerca avanzata (o altra)
   navigateTo(advanced_search_widget_);
 }
+
 
 void MainWindow::closeDatabase(bool save) {
   // bisogna aggiornare status line in base allo stato di chiusura del database
