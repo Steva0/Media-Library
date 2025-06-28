@@ -163,12 +163,25 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
     onBackFromDetail();
     return;
   }
-  database_.removeMedia(*oldMedia);  // o un metodo update se ce l'hai
+
+  database_.removeMedia(*oldMedia);
   database_.addMedia(*newMedia);
-  onBackFromDetail();
-  media::Media* empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
+
+  //Aggiorna la pagina dettaglio con il nuovo media
+  media_detail_page_->setMedia(newMedia);
+
+  onBackFromDetail(); // Ora torna al dettaglio già aggiornato
+
+  //Aggiorna i risultati della ricerca (avanzata) per riflettere il cambiamento
+  media::Media* empty_filter = new media::Media("");
   applyFilterAdvanced(empty_filter);
+
+  // Aggiorna ricerca semplice 
+  simple_search_widget_->acceptResults(
+    database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+  }
 }
+
 
 void MainWindow::accessDatabase(const QString &path) {
   database_.open(path);
@@ -187,6 +200,7 @@ void MainWindow::applyFilterAdvanced(const media::Media *filter) {
 }
 
 void MainWindow::searchByName(const QString &title) {
+  last_simple_search_query_ = title;
   simple_search_widget_->acceptResults(database_.filterMedia(media::Media(title.toStdString())));
 }
 

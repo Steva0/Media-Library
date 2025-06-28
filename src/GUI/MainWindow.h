@@ -21,7 +21,7 @@ class MainWindow : public QMainWindow {
  private:
   memory::Database &database_;
   std::stack<QWidget*> navigation_stack_;
-
+  QString last_simple_search_query_;
 
   DatabaseSelectionWidget *db_selection_widget_;
   advanced_search::MainWidget *advanced_search_widget_;
