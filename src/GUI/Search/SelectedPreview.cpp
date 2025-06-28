@@ -5,7 +5,7 @@
 namespace gui {
 namespace search {
 SelectedPreview::SelectedPreview(QWidget *parent)
-    : QWidget(parent), layout_(new QHBoxLayout(this)), buttons_(new QWidget(this)), displayed_result_(nullptr) {
+    : QWidget(parent), layout_(new QHBoxLayout(this)), buttons_(new QWidget(this)), displayed_result_(new QWidget(this)) {
   auto *edit_button = new QPushButton("Edit", this);
   auto *delete_button = new QPushButton("Delete", this);
 
@@ -18,7 +18,8 @@ SelectedPreview::SelectedPreview(QWidget *parent)
   buttons_layout->addStretch();
   buttons_layout->addWidget(delete_button);
 
-  layout_->insertWidget(1, buttons_);
+  layout_->addWidget(displayed_result_);
+  layout_->addWidget(buttons_);
   buttons_->hide();
 
   connect(edit_button, &QAbstractButton::clicked, this, [&]() {
