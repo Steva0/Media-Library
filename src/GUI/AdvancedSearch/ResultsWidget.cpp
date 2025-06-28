@@ -1,5 +1,6 @@
 #include "ResultsWidget.h"
 
+#include "ClickableFrame.h"
 #include "../PreviewVisitor.h"
 
 namespace gui {
@@ -25,8 +26,10 @@ void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_r
   int last_height = -1;
   QWidget *last_widget;
 
+  using gui::ClickableFrame;
+
   for (auto &result : results_) {
-    auto *wrapper = new QFrame(this);
+    auto *wrapper = new ClickableFrame(this);  // Cambia QFrame -> ClickableFrame
     wrapper->setFrameShape(QFrame::Box);
     wrapper->setLineWidth(1);
     auto *layout = new QHBoxLayout(wrapper);
@@ -34,7 +37,7 @@ void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_r
     PreviewVisitor v;
     result->accept(v);
     auto *widget = v.getWidget();
-    
+
     widget->setParent(wrapper);
     layout->addWidget(widget);
 
@@ -51,8 +54,15 @@ void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_r
     }
 
     grid_->addWidget(wrapper, pos / 2, pos % 2);
+
+    // ⬇️ Connetti il doppio click al segnale da emettere
+    connect(wrapper, &ClickableFrame::doubleClicked, this, [this, result]() {
+      emit mediaDoubleClicked(result);
+    });
+
     ++pos;
   }
+
 }
 }  // namespace advanced_search
 }  // namespace gui

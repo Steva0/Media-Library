@@ -2,9 +2,13 @@
 #define GRAPHICS_MAIN_WINDOW_H
 #include <QFrame>
 #include <QMainWindow>
+#include <QScreen>
+#include <QApplication>
 #include <QStatusBar>
 
 #include "../Memory/Database.h"
+#include "DetailView/MediaDetailPage.h"
+#include "EditView/MediaEditPage.h"
 #include "AdvancedSearch/MainWidget.h"
 #include "DatabaseSelectionWidget.h"
 #include "./Search/SearchMain.h"
@@ -24,6 +28,9 @@ class MainWindow : public QMainWindow {
   QFrame *central_widget_;
   QStatusBar *status_bar_;
 
+  MediaDetailPage *media_detail_page_;
+  MediaEditPage *media_edit_page_;
+
   // debug
   void debugVisitorNormalSearch();
   void debugTimedEdit();
@@ -38,6 +45,12 @@ class MainWindow : public QMainWindow {
 
   void applyFilterAdvanced(const media::Media *);
   void searchByName(const QString &);
+
+  void onMediaDoubleClicked(const media::Media *media);
+  void onBackFromDetail();
+  void onRemoveMediaRequested(const media::Media *media);
+  void onEnterEditRequested(const media::Media *media);  //Da implementare il cambio di SlideStackedWidget
+  void onEditConfirmed(const media::Media *newMedia, const media::Media *oldMedia); //Da collegare Signal di MediaEditPage a questo dentro il costruttore di MainWindow
 };
 }  // namespace gui
 #endif

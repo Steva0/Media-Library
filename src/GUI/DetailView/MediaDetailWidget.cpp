@@ -1,0 +1,131 @@
+#include "MediaDetailWidget.h"
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QString>
+#include <QPixmap>
+#include <QResizeEvent>
+
+namespace gui {
+
+MediaDetailWidget::MediaDetailWidget(QWidget* parent) : IMediaDetailWidget(parent), coverPixmap_() {
+  auto* mainLayout = new QHBoxLayout(this);
+
+  leftWidget_ = new QWidget(this);
+  leftLayout_ = new QVBoxLayout(leftWidget_);
+  leftWidget_->setLayout(leftLayout_);
+
+  titleLabel_ = new QLabel("Title: ", this);
+  releaseLabel_ = new QLabel("Release year: ", this);
+  languageLabel_ = new QLabel("Language: ", this);
+  favouriteLabel_ = new QLabel("Favourite: ", this);
+  genresLabel_ = new QLabel("Genres: ", this);
+  notesLabel_ = new QLabel("Notes: ", this);
+
+  leftLayout_->addWidget(titleLabel_);
+  leftLayout_->addWidget(releaseLabel_);
+  leftLayout_->addWidget(languageLabel_);
+  leftLayout_->addWidget(favouriteLabel_);
+  leftLayout_->addWidget(genresLabel_);
+  leftLayout_->addWidget(notesLabel_);
+  
+  mainLayout->addWidget(leftWidget_, 2);
+
+  coverLabel_ = new QLabel(this);
+  coverLabel_->setAlignment(Qt::AlignCenter);
+  coverLabel_->setScaledContents(false); // facciamo scalare a mano noi
+  mainLayout->addWidget(coverLabel_, 1);
+}
+
+void MediaDetailWidget::setMedia(const media::Media* media) {
+  if (!media) {
+    clearFields();
+    return;
+  }
+
+  // Title: supponiamo non possa mai essere vuoto
+  titleLabel_->setText(QString("Title: %1").arg(QString::fromStdString(media->getTitle())));
+
+  // Release year: se uguale a valore base, campo vuoto
+  int releaseYear = media->getRelease();
+  if (releaseYear == std::numeric_limits<int>::min()) {
+    releaseLabel_->setText("Release year: ");
+  } else {
+    releaseLabel_->setText(QString("Release year: %1").arg(releaseYear));
+  }
+
+  // Language: se stringa vuota o solo spazi, campo vuoto
+  QString language = QString::fromStdString(media->getLanguage()).trimmed();
+  if (language.isEmpty()) {
+    languageLabel_->setText("Language: ");
+  } else {
+    languageLabel_->setText(QString("Language: %1").arg(language));
+  }
+
+  // Favourite: true/false, sempre visualizzato
+  favouriteLabel_->setText(QString("Favourite: %1").arg(media->isFavourite() ? "Yes" : "No"));
+
+  // Genres: se vuoto, campo vuoto
+  const auto& genres = media->getGenres();
+  if (genres.empty()) {
+    genresLabel_->setText("Genres: ");
+  } else {
+    QStringList genresList;
+    for (const auto& g : genres) {
+      genresList << QString::fromStdString(g);
+    }
+    genresLabel_->setText(QString("Genres: %1").arg(genresList.join(", ")));
+  }
+
+  // Notes: se vuoto o solo spazi, campo vuoto
+  QString notes = QString::fromStdString(media->getNotes()).trimmed();
+  if (notes.isEmpty()) {
+    notesLabel_->setText("Notes: ");
+  } else {
+    notesLabel_->setText(QString("Notes: %1").arg(notes));
+  }
+
+  // Carico immagine
+  QPixmap pixmap(QString::fromStdString(media->getImgPath()));
+  if (pixmap.isNull()) {
+    pixmap = QPixmap(":/assets/matita.jpg");
+  }
+  coverPixmap_ = pixmap;
+
+  updateCoverPixmap();
+}
+
+
+void MediaDetailWidget::clearFields() {
+  titleLabel_->setText("Title: ");
+  releaseLabel_->setText("Release year: ");
+  languageLabel_->setText("Language: ");
+  favouriteLabel_->setText("Favourite: ");
+  genresLabel_->setText("Genres: ");
+  notesLabel_->setText("Notes: ");
+
+  coverPixmap_ = QPixmap(":/assets/matita.jpg");
+  updateCoverPixmap();
+}
+
+void MediaDetailWidget::resizeEvent(QResizeEvent* event) {
+  IMediaDetailWidget::resizeEvent(event);
+  updateCoverPixmap();
+}
+
+void MediaDetailWidget::updateCoverPixmap() {
+  if (coverPixmap_.isNull()) {
+    coverLabel_->clear();
+    return;
+  }
+
+  // Calcolo la larghezza che la cover deve occupare (1/3 della larghezza del widget)
+  int targetWidth = width() / 3;
+
+  // Calcolo l'altezza mantenendo il rapporto d'aspetto
+  int targetHeight = coverPixmap_.height() * targetWidth / coverPixmap_.width();
+
+  // Ridimensiono e setto la pixmap
+  coverLabel_->setPixmap(coverPixmap_.scaled(targetWidth, targetHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
+}  // namespace gui

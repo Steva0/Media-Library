@@ -34,6 +34,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent) {
   layout->addWidget(results_wrapper);
   
   connect(search_, &QAbstractButton::clicked, this, &MainWidget::performSearch);
+  connect(results_, &ResultsWidget::mediaDoubleClicked, this, &MainWidget::mediaDoubleClicked);
 }
 
 void MainWidget::performSearch() {
