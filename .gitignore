@@ -15,6 +15,7 @@
 *.dylib
 checks.json
 .vscode
+/build
 
 # Qt-es
 object_script.*.Release
