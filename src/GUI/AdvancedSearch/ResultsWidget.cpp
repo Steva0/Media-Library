@@ -1,6 +1,6 @@
 #include "ResultsWidget.h"
 
-#include "../ClickableFrame.h"
+#include "ClickableFrame.h"
 #include "../PreviewVisitor.h"
 
 namespace gui {

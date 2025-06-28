@@ -4,22 +4,20 @@
 #include <QFrame>
 
 namespace gui {
+
 class ClickableFrame : public QFrame {
   Q_OBJECT
- public:
-  explicit ClickableFrame(QWidget *parent = nullptr) : QFrame(parent) {
-    setAttribute(Qt::WA_Hover);
-  }
 
- signals:
+public:
+  explicit ClickableFrame(QWidget* parent = nullptr);
+
+signals:
   void doubleClicked();
 
- protected:
-  void mouseDoubleClickEvent(QMouseEvent *event) override {
-    emit doubleClicked();
-    QFrame::mouseDoubleClickEvent(event);
-  }
+protected:
+  void mouseDoubleClickEvent(QMouseEvent* event) override;
 };
+
 }  // namespace gui
 
-#endif
+#endif  // GUI_CLICKABLE_FRAME_H
