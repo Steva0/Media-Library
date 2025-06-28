@@ -42,5 +42,16 @@ media::Novel *NovelInputWidget::getFilter() const {
   novel->setIsbn(isbn_->text().toStdString());
   return novel;
 }
+
+void NovelInputWidget::setFromMedia(const media::Media &media) {
+  MediaInputWidget::setFromMedia(media);
+  if (const auto *novel = dynamic_cast<const media::Novel *>(&media)) {
+    author_->setText(QString::fromStdString(novel->getAuthor()));
+    publisher_->setText(QString::fromStdString(novel->getPublisher()));
+    series_->setText(QString::fromStdString(novel->getSeries()));
+    isbn_->setText(QString::fromStdString(novel->getIsbn()));
+  }
+}
+
 }  // namespace advanced_search
 }  // namespace gui

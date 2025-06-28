@@ -38,6 +38,7 @@ class MediaInputWidget : public IMediaInputWidget {
   explicit MediaInputWidget(QWidget *parent);
 
   media::Media *getFilter() const override;
+  void setFromMedia(const media::Media &) override;
 
  private slots:
   void addGenre();

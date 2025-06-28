@@ -31,5 +31,12 @@ media::Ebook *EbookInputWidget::getFilter() const {
   ebook->setDrm(drm_->isChecked());
   return ebook;
 }
+ void EbookInputWidget::setFromMedia(const media::Media &media) {
+   NovelInputWidget::setFromMedia(media);
+   if (const auto *ebook = dynamic_cast<const media::Ebook *>(&media)) {
+     drm_->setChecked(ebook->hasDrm());
+   }
+ }
+
 }  // namespace advanced_search
 }  // namespace gui

@@ -21,6 +21,7 @@ class AlbumInputWidget : public MediaInputWidget {
    explicit AlbumInputWidget(QWidget *parent = nullptr);
 
    media::Album *getFilter() const override;
+  void setFromMedia(const media::Media &) override;
 };
 }  // namespace advanced_search
 }  // namespace gui

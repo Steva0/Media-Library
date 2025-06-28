@@ -29,8 +29,16 @@ media::Movie *MovieInputWidget::getFilter() const {
 
   movie->addActor(actor_->text().toStdString());
   movie->setUniverse(universe_->text().toStdString());
-  
+
   return movie;
 }
+void MovieInputWidget::setFromMedia(const media::Media &media) {
+  MediaInputWidget::setFromMedia(media);
+  if (const auto *movie = dynamic_cast<const media::Movie *>(&media)) {
+    if (movie->getCast().size() != 0) actor_->setText(QString::fromStdString(movie->getCast()[0]));
+    universe_->setText(QString::fromStdString(movie->getUniverse()));
+  }
+}
+
 }  // namespace advanced_search
 }  // namespace gui

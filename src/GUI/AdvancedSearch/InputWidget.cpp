@@ -64,6 +64,7 @@ void InputWidget::showTypeInput(int idx) {
     default:
       media_filter_ = new MediaInputWidget(this);
   }
+  media_filter_->setFromMedia(*old);
   delete old;
 
   layout_->insertWidget(1, media_filter_);

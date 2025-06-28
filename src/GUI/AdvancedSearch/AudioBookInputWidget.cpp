@@ -29,5 +29,12 @@ media::AudioBook *AudioBookInputWidget::getFilter() const {
     audio_book->setStreamingService(streaming_service_->currentText().toStdString());
   return audio_book;
 }
+void AudioBookInputWidget::setFromMedia(const media::Media &media) {
+  NovelInputWidget::setFromMedia(media);
+  if (const auto *audiobook = dynamic_cast<const media::AudioBook *>(&media)) {
+    narrator_->setText(QString::fromStdString(audiobook->getNarrator()));
+    streaming_service_->setEditText(QString::fromStdString(audiobook->getStreamingService()));
+  }
+}
 }  // namespace advanced_search
 }  // namespace gui

@@ -23,6 +23,7 @@ class NovelInputWidget : public MediaInputWidget {
    explicit NovelInputWidget(QWidget *parent);
 
    media::Novel *getFilter() const override;
+   void setFromMedia(const media::Media &) override;
 };
 }  // namespace advanced_search
 }  // namespace gui
