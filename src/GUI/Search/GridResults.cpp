@@ -47,11 +47,29 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     wrapper->setMaximumHeight(wrapper->sizeHint().height());
     wrapper->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-    connect(wrapper, &ClickableFrame::doubleClicked, this, [this, media=media]() {
-      emit mediaDoubleClicked(media);
-    });
+    // Usa un segnale intermedio per passare il puntatore media
+    connect(wrapper, &ClickableFrame::doubleClicked, this, &GridResults::onMediaDoubleClicked);
 
     ++count;
+  }
+}
+
+void GridResults::onMediaDoubleClicked() {
+  // Trova quale ClickableFrame ha emesso il segnale
+  ClickableFrame* senderFrame = qobject_cast<ClickableFrame*>(sender());
+  if (!senderFrame)
+    return;
+
+  // Trova l'indice del frame
+  int index = -1;
+  for (int i = 0; i < grid_->count(); ++i) {
+    if (grid_->itemAt(i)->widget() == senderFrame) {
+      index = i;
+      break;
+    }
+  }
+  if (index >= 0 && index < static_cast<int>(results_.size())) {
+    emit mediaDoubleClicked(results_[index]);
   }
 }
 

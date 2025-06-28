@@ -9,6 +9,7 @@
 
 namespace gui {
 namespace search {
+
 class GridResults : public QFrame {
   Q_OBJECT
  private:
@@ -16,6 +17,9 @@ class GridResults : public QFrame {
   std::vector<const media::Media *> results_;
 
   static const int kResultPerRow;
+
+  // Metodo privato per gestire il doppio click sul ClickableFrame
+  void onMediaDoubleClicked();
 
  public:
   explicit GridResults(QWidget *parent = nullptr);
@@ -26,6 +30,7 @@ class GridResults : public QFrame {
  signals:
   void mediaDoubleClicked(const media::Media *media);
 };
+
 }  // namespace search
 }  // namespace gui
 
