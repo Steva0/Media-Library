@@ -46,12 +46,17 @@ SearchMain::SearchMain(QWidget *parent)
   auto *layout = new QVBoxLayout(this);
   layout->addWidget(top_wrapper);
   layout->addWidget(results_wrapper);
-
+        
   connect(search_input_, &SearchWidget::searchByName, this, &SearchMain::searchByName);
   connect(this, &SearchMain::acceptResults, results_, &GridResults::updateResults);
+
+  // Pulsanti di preview (edit/delete)
   connect(preview_, &SelectedPreview::editPressed, this, &SearchMain::requestEdit);
   connect(preview_, &SelectedPreview::deletePressed, this, &SearchMain::requestDelete);
-  connect(search_input_, &SearchWidget::searchByName, this, &SearchMain::searchByName);
+
+  // Doppio click sui risultati
+  connect(results_, &GridResults::mediaDoubleClicked, this, &SearchMain::mediaDoubleClicked);
+
 }
 }  // namespace search
 }  // namespace gui

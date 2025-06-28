@@ -1,22 +1,36 @@
 #include "GridResults.h"
-
+#include "../AdvanceSearch/ClickableFrame.h"
 #include "SimpleResultVisitor.h"
-#include "qnamespace.h"
+
+#include <QVBoxLayout>
 
 namespace gui {
 namespace search {
-GridResults::GridResults(QWidget *parent) : QFrame(parent), grid_(new QGridLayout(this)) { grid_->setSpacing(0); }
+
+using gui::ClickableFrame;
+
+const int GridResults::kResultPerRow = 4;
+
+GridResults::GridResults(QWidget *parent)
+    : QFrame(parent), grid_(new QGridLayout(this)) {
+  grid_->setSpacing(0);
+}
+
 void GridResults::updateResults(const std::vector<const media::Media *> &results) {
+  // Pulisci il layout esistente
   while (QLayoutItem *item = grid_->takeAt(0)) {
-    QWidget *widget = item->widget();
-    grid_->removeWidget(widget);
-    widget->deleteLater();
-    delete widget;
+    if (QWidget *widget = item->widget()) {
+      grid_->removeWidget(widget);
+      widget->deleteLater();
+    }
+    delete item;
   }
 
+  results_ = results;  // salva internamente se serve
   int count = 0;
+
   for (const auto *media : results) {
-    auto *wrapper = new QFrame(this);
+    auto *wrapper = new ClickableFrame(this);
     wrapper->setFrameShape(QFrame::Box);
     auto *layout = new QVBoxLayout(wrapper);
     layout->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
@@ -28,11 +42,17 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     result->setParent(wrapper);
     layout->addWidget(result);
 
-    grid_->addWidget(wrapper, count / 4, count % 4);
+    grid_->addWidget(wrapper, count / kResultPerRow, count % kResultPerRow);
     wrapper->setMaximumHeight(wrapper->sizeHint().height());
     wrapper->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+
+    connect(wrapper, &ClickableFrame::doubleClicked, this, [this, media]() {
+      emit mediaDoubleClicked(media);
+    });
+
     ++count;
   }
 }
+
 }  // namespace search
 }  // namespace gui
