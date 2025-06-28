@@ -4,25 +4,25 @@
 #include <QLineEdit>
 
 #include "../../Media/Novel.h"
-#include "IMediaInputWidget.h"
+#include "MediaInputWidget.h"
 
 namespace gui {
 namespace advanced_search {
-class NovelInputWidget : public IMediaInputWidget {
+class NovelInputWidget : public MediaInputWidget {
   Q_OBJECT
- private:
-  QLineEdit *author_;
-  QLineEdit *publisher_;
-  QLineEdit *series_;
-  QLineEdit *isbn_;
+  private:
+   QLineEdit *author_;
+   QLineEdit *publisher_;
+   QLineEdit *series_;
+   QLineEdit *isbn_;
 
- protected:
-  QGridLayout *layout_;
+  protected:
+   QGridLayout *novel_layout_;
 
- public:
-  explicit NovelInputWidget(QWidget *parent);
+  public:
+   explicit NovelInputWidget(QWidget *parent);
 
-  media::Novel *getFilter(const media::Media &base) const override;
+   media::Novel *getFilter() const override;
 };
 }  // namespace advanced_search
 }  // namespace gui

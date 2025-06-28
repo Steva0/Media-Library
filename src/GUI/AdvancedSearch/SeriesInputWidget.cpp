@@ -7,11 +7,11 @@ namespace advanced_search {
 SeriesInputWidget::SeriesInputWidget(QWidget *parent) : MovieInputWidget(parent) {
   ended_ = new QCheckBox(this);
   
-  layout_->addWidget(new QLabel("Ended:", this), 0, layout_->columnCount());
-  layout_->addWidget(ended_, 0, layout_->columnCount());
+  movie_layout_->addWidget(new QLabel("Ended:", this), 0, movie_layout_->columnCount());
+  movie_layout_->addWidget(ended_, 0, movie_layout_->columnCount());
 }
-media::Series *SeriesInputWidget::getFilter(const media::Media &base) const {
-  auto *movie = MovieInputWidget::getFilter(base);
+media::Series *SeriesInputWidget::getFilter() const {
+  auto *movie = MovieInputWidget::getFilter();
   auto *series = new media::Series(*movie);
   delete movie;
 

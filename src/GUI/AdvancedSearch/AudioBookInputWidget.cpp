@@ -13,14 +13,14 @@ AudioBookInputWidget::AudioBookInputWidget(QWidget *parent) : NovelInputWidget(p
   streaming_service_ = new QComboBox(this);
   streaming_service_->addItems(kStreamingServices);
 
-  layout_->addWidget(new QLabel("Voice:", this), layout_->rowCount(), 0);
-  layout_->addWidget(narrator_, layout_->rowCount() - 1, 1);
+  novel_layout_->addWidget(new QLabel("Voice:", this), novel_layout_->rowCount(), 0);
+  novel_layout_->addWidget(narrator_, novel_layout_->rowCount() - 1, 1);
 
-  layout_->addWidget(new QLabel("Streaming:", this), layout_->rowCount() - 1, 2);
-  layout_->addWidget(streaming_service_, layout_->rowCount() - 1, 3);
+  novel_layout_->addWidget(new QLabel("Streaming:", this), novel_layout_->rowCount() - 1, 2);
+  novel_layout_->addWidget(streaming_service_, novel_layout_->rowCount() - 1, 3);
 }
-media::AudioBook *AudioBookInputWidget::getFilter(const media::Media &base) const {
-  auto *novel = NovelInputWidget::getFilter(base);
+media::AudioBook *AudioBookInputWidget::getFilter() const {
+  auto *novel = NovelInputWidget::getFilter();
   auto *audio_book = new media::AudioBook(*novel);
   delete novel;
 

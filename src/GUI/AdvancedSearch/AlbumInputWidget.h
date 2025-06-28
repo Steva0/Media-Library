@@ -3,21 +3,24 @@
 #include <QLineEdit>
 
 #include "../../Media/Album.h"
-#include "IMediaInputWidget.h"
+#include "MediaInputWidget.h"
 
 namespace gui {
 namespace advanced_search {
-class AlbumInputWidget : public IMediaInputWidget {
+class AlbumInputWidget : public MediaInputWidget {
   Q_OBJECT
- private:
-  QLineEdit *band_name_;
-  QLineEdit *band_member_;
-  QLineEdit *song_;
+  protected:
+   QGridLayout *album_layout_;
 
- public:
-  explicit AlbumInputWidget(QWidget *parent = nullptr);
+  private:
+   QLineEdit *band_name_;
+   QLineEdit *band_member_;
+   QLineEdit *song_;
 
-  media::Album *getFilter(const media::Media &base) const override;
+  public:
+   explicit AlbumInputWidget(QWidget *parent = nullptr);
+
+   media::Album *getFilter() const override;
 };
 }  // namespace advanced_search
 }  // namespace gui

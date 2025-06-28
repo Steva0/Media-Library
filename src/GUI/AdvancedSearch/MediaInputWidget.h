@@ -8,10 +8,11 @@
 #include <QSpinBox>
 
 #include "../../Media/Media.h"
+#include "IMediaInputWidget.h"
 
 namespace gui {
 namespace advanced_search {
-class MediaInputWidget : public QWidget {
+class MediaInputWidget : public IMediaInputWidget {
   Q_OBJECT
  private:
   QGridLayout *media_layout_;
@@ -30,11 +31,13 @@ class MediaInputWidget : public QWidget {
   bool getFavourite() const;
   std::vector<std::string> getGenresRaw() const;
 
+ protected:
+  QVBoxLayout *container_;
+
  public:
   explicit MediaInputWidget(QWidget *parent);
 
-
-  media::Media getFilter() const;
+  media::Media *getFilter() const override;
 
  private slots:
   void addGenre();

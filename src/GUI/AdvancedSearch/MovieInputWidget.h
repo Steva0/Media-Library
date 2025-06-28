@@ -4,14 +4,14 @@
 #include <QLineEdit>
 
 #include "../../Media/Movie.h"
-#include "IMediaInputWidget.h"
+#include "MediaInputWidget.h"
 
 namespace gui {
 namespace advanced_search {
-class MovieInputWidget : public IMediaInputWidget {
+class MovieInputWidget : public MediaInputWidget {
   Q_OBJECT
  protected:
-  QGridLayout *layout_;
+  QGridLayout *movie_layout_;
 
  private:
   QLineEdit *actor_;
@@ -20,7 +20,7 @@ class MovieInputWidget : public IMediaInputWidget {
  public:
   explicit MovieInputWidget(QWidget *parent = nullptr);
 
-  media::Movie *getFilter(const media::Media &base) const override;
+  media::Movie *getFilter() const override;
 };
 }  // namespace advanced_search
 }  // namespace gui

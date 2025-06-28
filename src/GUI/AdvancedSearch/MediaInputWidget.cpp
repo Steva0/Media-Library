@@ -9,8 +9,8 @@ namespace advanced_search {
 const int MediaInputWidget::kColumnAmount = 6;
 const size_t MediaInputWidget::kMaxGenres = 3;
 
-MediaInputWidget::MediaInputWidget(QWidget *parent) : QWidget(parent) {
-  media_layout_ = new QGridLayout(this);
+MediaInputWidget::MediaInputWidget(QWidget *parent) : IMediaInputWidget(parent), container_(new QVBoxLayout(this)){
+  media_layout_ = new QGridLayout;
 
   title_ = new QLineEdit(this);
   title_->setPlaceholderText("Title");
@@ -44,6 +44,8 @@ MediaInputWidget::MediaInputWidget(QWidget *parent) : QWidget(parent) {
   media_layout_->addWidget(genre_label);
   media_layout_->addWidget(genre_input_, media_layout_->rowCount() - 1, 1, 1, kColumnAmount - 2);
   media_layout_->addWidget(add_genre);
+
+  container_->addLayout(media_layout_);
 
   connect(add_genre, &QAbstractButton::pressed, this, &MediaInputWidget::addGenre);
 }
@@ -98,16 +100,30 @@ std::vector<std::string> MediaInputWidget::getGenresRaw() const {
   return genres;
 }
 
-media::Media MediaInputWidget::getFilter() const {
-  media::Media media = media::Media(title_->text().toStdString());
+// media::Media MediaInputWidget::getFilter() const {
+//   media::Media media = media::Media(title_->text().toStdString());
+//   if (release_->text() != "") {
+//     media.setRelease(release_->text().toInt());
+//   }
+//   media.setLanguage(language_->text().toStdString());
+//   media.setFavourite(favourite_->isChecked());
+
+//   for (const auto *genre : genres_) {
+//     media.addGenre(genre->text().toStdString());
+//   }
+  
+//   return media;
+// }
+media::Media *MediaInputWidget::getFilter() const {
+  auto *media = new media::Media(title_->text().toStdString());
   if (release_->text() != "") {
-    media.setRelease(release_->text().toInt());
+    media->setRelease(release_->text().toInt());
   }
-  media.setLanguage(language_->text().toStdString());
-  media.setFavourite(favourite_->isChecked());
+  media->setLanguage(language_->text().toStdString());
+  media->setFavourite(favourite_->isChecked());
 
   for (const auto *genre : genres_) {
-    media.addGenre(genre->text().toStdString());
+    media->addGenre(genre->text().toStdString());
   }
   
   return media;

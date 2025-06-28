@@ -17,7 +17,7 @@ class AudioBookInputWidget : public NovelInputWidget {
 
  public:
   explicit AudioBookInputWidget(QWidget *parent = nullptr);
-  media::AudioBook *getFilter(const media::Media &base) const override;
+  media::AudioBook *getFilter() const override;
 };
 }  // namespace advanced_search
 }  // namespace gui

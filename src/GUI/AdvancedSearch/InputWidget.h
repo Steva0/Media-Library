@@ -12,10 +12,10 @@ class InputWidget : public QWidget {
   Q_OBJECT
  private:
   // selezione del tipo di media cercato sulla base di enum in MediaContainer
+  QVBoxLayout *layout_;
   TypeSelector *type_selection_;
 
-  MediaInputWidget *media_filter_;
-  QStackedWidget *type_filter_;
+  IMediaInputWidget *media_filter_;
 
  public:
   explicit InputWidget(QWidget *parent = nullptr);
