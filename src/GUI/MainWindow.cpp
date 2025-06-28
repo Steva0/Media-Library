@@ -112,7 +112,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
           [&]() { stacked_widget_->setCurrentIndex(stacked_widget_->currentIndex() + 1); });
   connect(prev, &QAbstractButton::clicked,
           [&]() { stacked_widget_->setCurrentIndex(stacked_widget_->currentIndex() - 1); });
-  connect(simple_search_widget_, &search::SearchMain::requestAdvancedSearch,
+  connect(simple_search_widget_, &search::SearchMain::advancedClicked,
         this, [&]() {
             navigateTo(advanced_search_widget_);
         });
