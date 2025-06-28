@@ -18,9 +18,6 @@ class GridResults : public QFrame {
 
   static const int kResultPerRow;
 
-  // Metodo privato per gestire il doppio click sul ClickableFrame
-  void onMediaDoubleClicked();
-
  public:
   explicit GridResults(QWidget *parent = nullptr);
 
