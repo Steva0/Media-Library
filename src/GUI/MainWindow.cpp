@@ -82,6 +82,8 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   // void mediaDoubleClicked(const media::Media*);
   connect(advanced_search_widget_, &advanced_search::MainWidget::mediaDoubleClicked,
           this, &MainWindow::onMediaDoubleClicked);
+  connect(advanced_search_widget_, &advanced_search::MainWidget::backRequested,
+          this, [this]() { navigateTo(simple_search_widget_); });
 
   // 2) Segnali dal widget dettaglio per azioni
   connect(media_detail_page_, &MediaDetailPage::backRequested,
