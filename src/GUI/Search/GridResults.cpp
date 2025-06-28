@@ -47,7 +47,7 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     wrapper->setMaximumHeight(wrapper->sizeHint().height());
     wrapper->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-    connect(wrapper, &ClickableFrame::doubleClicked, this, [this, media]() {
+    connect(wrapper, &ClickableFrame::doubleClicked, this, [this, media=media]() {
       emit mediaDoubleClicked(media);
     });
 
