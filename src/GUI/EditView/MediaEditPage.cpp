@@ -129,13 +129,16 @@ void MediaEditPage::onBack() {
 
 void MediaEditPage::keyPressEvent(QKeyEvent* event) {
   if (event->key() == Qt::Key_Escape) {
-    emit backRequested();
+    onBack();
     event->accept();
   } else if (event->key() == Qt::Key_Delete) {
     if (current_media_) {
-      emit deleteRequested(current_media_);
+      onDelete();
       event->accept();
     }
+  } else if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
+    onConfirm();
+    event->accept();
   } else {
     QWidget::keyPressEvent(event);
   }

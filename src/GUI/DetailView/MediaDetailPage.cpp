@@ -97,7 +97,7 @@ void MediaDetailPage::keyPressEvent(QKeyEvent* event) {
     event->accept();
   } else if (event->key() == Qt::Key_Delete) {
     if (currentMedia_) {
-      emit removeMediaRequested(currentMedia_);
+      onRemoveClicked();
       event->accept();
     }
   } else {
