@@ -20,7 +20,7 @@ class NovelInputWidget : public MediaInputWidget {
    QGridLayout *novel_layout_;
 
   public:
-   explicit NovelInputWidget(QWidget *parent);
+   explicit NovelInputWidget(QWidget *parent = nullptr);
 
    media::Novel *getFilter() const override;
    void setFromMedia(const media::Media &) override;

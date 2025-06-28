@@ -16,6 +16,8 @@ SearchWidget::SearchWidget(QWidget *parent)
   layout->addWidget(advanced_search_);
   layout->addWidget(input_);
 
+  layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+
   connect(input_, &InputBar::timedEdit, this, &SearchWidget::searchByName);
   connect(advanced_search_, &QAbstractButton::clicked, this, &SearchWidget::openAdvancedSearch);
 }

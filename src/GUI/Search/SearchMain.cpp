@@ -29,9 +29,9 @@ SearchMain::SearchMain(QWidget *parent)
 
   search_input_->layout()->setAlignment(Qt::AlignTop);
 
-  top_layout->addWidget(search_input_);
+  top_layout->addWidget(search_input_, 1);
   top_layout->addWidget(top_separator);
-  top_layout->addWidget(preview_);
+  top_layout->addWidget(preview_, 3);
 
   top_wrapper->setMaximumHeight(top_wrapper->sizeHint().height());
 

@@ -35,7 +35,7 @@ class MediaInputWidget : public IMediaInputWidget {
   QVBoxLayout *container_;
 
  public:
-  explicit MediaInputWidget(QWidget *parent);
+  explicit MediaInputWidget(QWidget *parent = nullptr);
 
   media::Media *getFilter() const override;
   void setFromMedia(const media::Media &) override;
