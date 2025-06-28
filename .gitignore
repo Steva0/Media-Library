@@ -1,6 +1,7 @@
 .cache
 .qmake.stash
 ./src
+build/build
 
 # C++ objects and libs
 *.slo
