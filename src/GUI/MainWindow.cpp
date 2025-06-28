@@ -58,6 +58,8 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   // debugTimedEdit();
   // debugNormalSearch();
 
+  showMaximized();
+
   connect(db_selection_widget_, &DatabaseSelectionWidget::onSelectDatabase, this, &MainWindow::accessDatabase);
   connect(advanced_search_widget_, &advanced_search::MainWidget::requestResults, this,
           &MainWindow::applyFilterAdvanced);
