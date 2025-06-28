@@ -104,16 +104,6 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   connect(media_edit_page_, &MediaEditPage::deleteRequested,
           this, &MainWindow::onRemoveMediaRequested);
 
-  // debug
-  auto *next = new QPushButton("Next", this);
-  auto *prev = new QPushButton("prev", this);
-
-  layout->addWidget(next);
-  layout->addWidget(prev);
-  connect(next, &QAbstractButton::clicked,
-          [&]() { stacked_widget_->setCurrentIndex(stacked_widget_->currentIndex() + 1); });
-  connect(prev, &QAbstractButton::clicked,
-          [&]() { stacked_widget_->setCurrentIndex(stacked_widget_->currentIndex() - 1); });
   connect(simple_search_widget_, &search::SearchMain::advancedClicked,
         this, [&]() {
             navigateTo(advanced_search_widget_);
