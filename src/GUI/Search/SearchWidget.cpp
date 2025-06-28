@@ -20,6 +20,8 @@ SearchWidget::SearchWidget(QWidget *parent)
 
   connect(input_, &InputBar::timedEdit, this, &SearchWidget::searchByName);
   connect(advanced_search_, &QAbstractButton::clicked, this, &SearchWidget::openAdvancedSearch);
+  connect(advanced_button_, &QPushButton::clicked, this, &SearchWidget::advancedClicked);
+
 }
 }  // namespace search
 }  // namespace gui

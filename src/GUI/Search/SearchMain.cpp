@@ -56,7 +56,7 @@ SearchMain::SearchMain(QWidget *parent)
 
   // Doppio click sui risultati
   connect(results_, &GridResults::mediaDoubleClicked, this, &SearchMain::mediaDoubleClicked);
-
+  connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::advancedClicked);
 }
 }  // namespace search
 }  // namespace gui

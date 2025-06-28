@@ -112,6 +112,10 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
           [&]() { stacked_widget_->setCurrentIndex(stacked_widget_->currentIndex() + 1); });
   connect(prev, &QAbstractButton::clicked,
           [&]() { stacked_widget_->setCurrentIndex(stacked_widget_->currentIndex() - 1); });
+  connect(simple_search_widget_, &search::SearchMain::requestAdvancedSearch,
+        this, [&]() {
+            navigateTo(advanced_search_widget_);
+        });
 }
 
 void MainWindow::onMediaDoubleClicked(const media::Media *media) {
@@ -196,7 +200,7 @@ void MainWindow::accessDatabase(const QString &path) {
   simple_search_widget_->acceptResults(database_.filterMedia(media::Media("")));
 
   // Naviga alla schermata principale di ricerca avanzata (o altra)
-  navigateTo(advanced_search_widget_);
+  navigateTo(simple_search_widget_);
 }
 
 

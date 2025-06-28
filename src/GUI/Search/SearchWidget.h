@@ -16,6 +16,7 @@ class SearchWidget : public QWidget {
   explicit SearchWidget(QWidget *parent = nullptr);
 
  signals:
+  void advancedClicked();
   void searchByName(const QString &);
   void openAdvancedSearch();
 };

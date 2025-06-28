@@ -17,6 +17,7 @@ class SearchMain : public QWidget {
   explicit SearchMain(QWidget *parent = nullptr);
 
  signals:
+  void advancedClicked();
   void searchByName(const QString &);
   void acceptResults(const std::vector<const media::Media *> &);
   void mediaDoubleClicked(const media::Media *);
