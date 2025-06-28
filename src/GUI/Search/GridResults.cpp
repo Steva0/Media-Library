@@ -1,5 +1,5 @@
 #include "GridResults.h"
-#include "../AdvanceSearch/ClickableFrame.h"
+#include "../AdvancedSearch/ClickableFrame.h"
 #include "SimpleResultVisitor.h"
 
 #include <QVBoxLayout>
