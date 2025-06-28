@@ -141,6 +141,11 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
 
   media::Media* empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
   applyFilterAdvanced(empty_filter);
+
+  // Aggiorna ricerca semplice 
+  simple_search_widget_->acceptResults(
+  database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+
 }
 
 void MainWindow::onEnterEditRequested(const media::Media *Media) {
