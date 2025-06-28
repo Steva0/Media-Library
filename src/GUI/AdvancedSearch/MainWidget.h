@@ -27,6 +27,7 @@ class MainWidget : public QWidget {
  signals:
   void mediaDoubleClicked(const media::Media *media);
   void requestResults(const media::Media *filter);
+  void backRequested();
 };
 }  // namespace advanced_search
 }  // namespace gui
