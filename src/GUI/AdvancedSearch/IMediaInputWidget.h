@@ -6,11 +6,12 @@
 
 namespace gui {
 namespace advanced_search {
-class SubtypeInputWidget : public QWidget {
+class IMediaInputWidget : public QWidget {
   Q_OBJECT
  public:
-  virtual media::Media *getFilter(const media::Media &base) const { return nullptr; }
-  explicit SubtypeInputWidget(QWidget *parent = nullptr) : QWidget(parent) {}
+  virtual media::Media *getFilter(const media::Media &base) const = 0;
+  explicit IMediaInputWidget(QWidget *parent = nullptr) : QWidget(parent) {}
+  ~IMediaInputWidget() override = default;
 };
 }  // namespace advanced_search
 }  // namespace gui

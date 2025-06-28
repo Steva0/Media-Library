@@ -14,6 +14,8 @@ class MainWidget : public QWidget {
   ResultsWidget *results_;
   QPushButton *search_;
 
+  std::shared_ptr<media::Media> filter_;
+
  public:
   explicit MainWidget(QWidget *parent = nullptr);
 
