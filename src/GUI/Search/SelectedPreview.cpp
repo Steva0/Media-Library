@@ -33,7 +33,7 @@ void SelectedPreview::display(const media::Media *media) {
   if (displayed_result_) {
     layout_->removeWidget(displayed_result_);
     displayed_result_->deleteLater();
-    delete displayed_result_;
+    displayed_result_ = nullptr;
   }
   if (buttons_->isHidden()) buttons_->show();
 

@@ -3,8 +3,10 @@
 
 #include <QGridLayout>
 #include <QFrame>
+#include <vector>
 
 #include "../../Media/Media.h"
+
 namespace gui {
 namespace search {
 class GridResults : public QFrame {
@@ -20,6 +22,9 @@ class GridResults : public QFrame {
 
  public slots:
   void updateResults(const std::vector<const media::Media *> &results);
+
+ signals:
+  void mediaDoubleClicked(const media::Media *media);
 };
 }  // namespace search
 }  // namespace gui

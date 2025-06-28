@@ -12,6 +12,7 @@
 #include "SlidingStackedWidget.h"
 
 namespace gui {
+
 MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFlags flags)
     : QMainWindow(parent, flags),
       database_(database),
@@ -64,6 +65,13 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   connect(advanced_search_widget_, &advanced_search::MainWidget::requestResults, this,
           &MainWindow::applyFilterAdvanced);
   connect(simple_search_widget_, &search::SearchMain::searchByName, this, &MainWindow::searchByName);
+  connect(simple_search_widget_, &search::SearchMain::mediaDoubleClicked,
+          this, &MainWindow::onMediaDoubleClicked);
+  connect(simple_search_widget_, &search::SearchMain::requestEdit,
+          this, &MainWindow::onEnterEditRequested);
+  connect(simple_search_widget_, &search::SearchMain::requestDelete,
+          this, &MainWindow::onRemoveMediaRequested);
+
   // connect(this, &MainWindow::onQueryResults, advanced_search_widget,
   // &advanced_search::MainWidget::onGetSearchResults);
 
@@ -111,13 +119,18 @@ void MainWindow::onMediaDoubleClicked(const media::Media *media) {
     return;
 
   media_detail_page_->setMedia(media);
-  stacked_widget_->setCurrentWidget(media_detail_page_);
+  navigateTo(media_detail_page_);
 }
 
 // Slot per tornare indietro dalla pagina dettaglio
 void MainWindow::onBackFromDetail() {
-  stacked_widget_->setCurrentWidget(advanced_search_widget_);
+  if (!navigation_stack_.empty()) {
+    QWidget* previous = navigation_stack_.top();
+    navigation_stack_.pop();
+    stacked_widget_->setCurrentWidget(previous);
+  }
 }
+
 
 // Slot per rimuovere media, chiamato da widget dettaglio
 void MainWindow::onRemoveMediaRequested(const media::Media *media) {
@@ -141,7 +154,7 @@ void MainWindow::onEnterEditRequested(const media::Media *Media) {
   }
 
   media_edit_page_->setMediaToEdit(Media);
-  stacked_widget_->setCurrentWidget(media_edit_page_);
+  navigateTo(media_edit_page_);
 
 }
 
@@ -151,17 +164,30 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
     onBackFromDetail();
     return;
   }
-  database_.removeMedia(*oldMedia);  // o un metodo update se ce l'hai
+
+  database_.removeMedia(*oldMedia);
   database_.addMedia(*newMedia);
-  onBackFromDetail();
-  media::Media* empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
+
+  //Aggiorna la pagina dettaglio con il nuovo media
+  media_detail_page_->setMedia(newMedia);
+
+  onBackFromDetail(); // Ora torna al dettaglio già aggiornato
+
+  //Aggiorna i risultati della ricerca (avanzata) per riflettere il cambiamento
+  media::Media* empty_filter = new media::Media("");
   applyFilterAdvanced(empty_filter);
+
+  // Aggiorna ricerca semplice 
+  simple_search_widget_->acceptResults(
+  database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+
 }
+
 
 void MainWindow::accessDatabase(const QString &path) {
   database_.open(path);
   // temp
-  stacked_widget_->setCurrentIndex(1);
+  navigateTo(advanced_search_widget_);
 }
 
 void MainWindow::closeDatabase(bool save) {
@@ -175,6 +201,7 @@ void MainWindow::applyFilterAdvanced(const media::Media *filter) {
 }
 
 void MainWindow::searchByName(const QString &title) {
+  last_simple_search_query_ = title;
   simple_search_widget_->acceptResults(database_.filterMedia(media::Media(title.toStdString())));
 }
 
@@ -200,4 +227,12 @@ void MainWindow::debugNormalSearch() {
   stacked_widget_->addWidget(search);
   stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
 }
+void MainWindow::navigateTo(QWidget* next_page) {
+  QWidget* current = stacked_widget_->currentWidget();
+  if (current && current != next_page) {
+    navigation_stack_.push(current);
+  }
+  stacked_widget_->setCurrentWidget(next_page);
+}
+
 }  // namespace gui
