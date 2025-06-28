@@ -13,6 +13,7 @@ GridResults::GridResults(QWidget *parent)
     : QFrame(parent), grid_(new QGridLayout(this)) {
   grid_->setSpacing(0);
   updateResults(std::vector<const media::Media*>{});
+  std::cout << "!\n";
 }
 
 void GridResults::updateResults(const std::vector<const media::Media *> &results) {
@@ -25,9 +26,10 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     delete item;
   }
 
+  std::cout << "!\n";
   results_ = results;  // salva internamente se serve
   int count = 0;
-
+  std::cout << "!\n";
   for (const auto *media : results) {
     auto *wrapper = new ClickableFrame(this);
     wrapper->setFrameShape(QFrame::Box);
@@ -44,12 +46,12 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     grid_->addWidget(wrapper, count / kResultPerRow, count % kResultPerRow);
     wrapper->setMaximumHeight(wrapper->sizeHint().height());
     wrapper->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-
+    std::cout << "!\n";
     // Connetti con lambda che emette il media specifico
     connect(wrapper, &ClickableFrame::doubleClicked, this, [this, media]() {
       emit mediaDoubleClicked(media);
     });
-
+    std::cout << "!\n";
     ++count;
   }
 }
