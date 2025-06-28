@@ -14,6 +14,7 @@ const int GridResults::kResultPerRow = 4;
 GridResults::GridResults(QWidget *parent)
     : QFrame(parent), grid_(new QGridLayout(this)) {
   grid_->setSpacing(0);
+  updateResults(std::vector<const media::Media*>{});
 }
 
 void GridResults::updateResults(const std::vector<const media::Media *> &results) {
