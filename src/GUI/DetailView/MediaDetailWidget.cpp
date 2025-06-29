@@ -28,7 +28,7 @@ MediaDetailWidget::MediaDetailWidget(QWidget* parent) : IMediaDetailWidget(paren
   leftLayout_->addWidget(genresLabel_);
   leftLayout_->addWidget(notesLabel_);
   
-  mainLayout->addWidget(leftWidget_, 2);
+  mainLayout->addWidget(leftWidget_, 2, Qt::AlignTop);
 
   coverLabel_ = new QLabel(this);
   coverLabel_->setAlignment(Qt::AlignCenter);
