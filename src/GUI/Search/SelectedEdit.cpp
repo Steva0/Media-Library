@@ -54,7 +54,7 @@ SelectedEdit::SelectedEdit(QWidget *parent)
   connect(title_, &QLineEdit::textChanged, [this]() { title_->setStyleSheet("background-color: white;"); });
   connect(cancel_, &QAbstractButton::clicked, [this]() { emit undoChanges(); });
   connect(confirm_, &QAbstractButton::clicked, this, &SelectedEdit::makeMediaAndCommit);
-  connect(delete_, &QAbstractButton::clicked, [this]() { emit requestDelete(selected_); });
+  connect(delete_, &QAbstractButton::clicked, [this]() { emit requestDelete(selected_, 0); });
 }
 
 void SelectedEdit::display(const media::Media *media) {

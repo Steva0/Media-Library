@@ -26,7 +26,7 @@ class MediaDetailPage : public QWidget {
   void setMedia(const media::Media* media);
 
 signals:
-  void removeMediaRequested(const media::Media* media);
+  void removeMediaRequested(const media::Media* media, int num);
   void enterEditRequested(const media::Media* media);
   void backRequested();
   

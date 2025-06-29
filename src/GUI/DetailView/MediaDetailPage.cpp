@@ -83,7 +83,7 @@ void MediaDetailPage::createDetailWidgetForMedia(const media::Media* media) {
 
 void MediaDetailPage::onRemoveClicked() {
   if (currentMedia_) {
-    emit removeMediaRequested(currentMedia_);
+    emit removeMediaRequested(currentMedia_, 1);
   }
 }
 

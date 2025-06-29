@@ -119,7 +119,7 @@ void MediaEditPage::onConfirm() {
 
 void MediaEditPage::onDelete() {
   if (current_media_) {
-    emit deleteRequested(current_media_);
+    emit deleteRequested(current_media_, 2);
   }
 }
 

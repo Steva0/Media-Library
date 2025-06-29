@@ -29,7 +29,7 @@ class MediaEditPage : public QWidget {
 
 signals:
   void editConfirmed(const media::Media* newMedia, const media::Media* oldMedia);
-  void deleteRequested(const media::Media* media);
+  void deleteRequested(const media::Media* media, int num);
   void backRequested();
 
 private slots:

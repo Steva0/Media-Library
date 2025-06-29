@@ -24,7 +24,7 @@ class SelectedPreview : public QWidget {
   explicit SelectedPreview(QWidget *parent = nullptr);
 
  signals:
-  void deletePressed(const media::Media *);
+  void deletePressed(const media::Media *, int num);
   void editPressed(const media::Media *);
   void fastEditPressed(const media::Media *);
 

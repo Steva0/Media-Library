@@ -70,7 +70,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   connect(simple_search_widget_, &search::SearchMain::requestEdit,
           this, &MainWindow::onEnterEditRequested);
   connect(simple_search_widget_, &search::SearchMain::requestDelete,
-          this, &MainWindow::onRemoveMediaRequestedFromSearch);
+          this, &MainWindow::onRemoveMediaRequested);
 
   // connect(this, &MainWindow::onQueryResults, advanced_search_widget,
   // &advanced_search::MainWidget::onGetSearchResults);
@@ -87,7 +87,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   // 2) Segnali dal widget dettaglio per azioni
   connect(media_detail_page_, &MediaDetailPage::backRequested,
-          this, &MainWindow::onBackFromDetail);
+          this, &MainWindow::goBack);
 
   connect(media_detail_page_, &MediaDetailPage::removeMediaRequested,
           this, &MainWindow::onRemoveMediaRequested);
@@ -99,10 +99,10 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
           this, &MainWindow::onEditConfirmed);
 
   connect(media_edit_page_, &MediaEditPage::backRequested,
-          this, &MainWindow::onBackFromDetail);
+          this, &MainWindow::goBack);
   
   connect(media_edit_page_, &MediaEditPage::deleteRequested,
-          this, &MainWindow::onRemoveMediaRequestedFromEdit);
+          this, &MainWindow::onRemoveMediaRequested);
 
   connect(simple_search_widget_, &search::SearchMain::advancedClicked,
         this, [&]() {
@@ -119,7 +119,7 @@ void MainWindow::onMediaDoubleClicked(const media::Media *media) {
 }
 
 // Slot per tornare indietro dalla pagina dettaglio
-void MainWindow::onBackFromDetail() {
+void MainWindow::goBack() {
   if (!navigation_stack_.empty()) {
     QWidget* previous = navigation_stack_.top();
     navigation_stack_.pop();
@@ -129,53 +129,18 @@ void MainWindow::onBackFromDetail() {
 
 
 // Slot per rimuovere media, chiamato da widget dettaglio
-void MainWindow::onRemoveMediaRequested(const media::Media *media) {
+void MainWindow::onRemoveMediaRequested(const media::Media *media, int num) {
   if (!media) {
-    onBackFromDetail();
+    goBack();
     return;
   }
 
-  database_.removeMedia(*media);
-
-  onBackFromDetail();
-
-  media::Media* empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
-  applyFilterAdvanced(empty_filter);
-
-  // Aggiorna ricerca semplice 
-  simple_search_widget_->acceptResults(
-  database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
-
-}
-
-// Slot per rimuovere media, chiamato da widget dettaglio
-void MainWindow::onRemoveMediaRequestedFromSearch(const media::Media *media) {
-  if (!media) {
-    return;
+  for (int i = 0; i < num; ++i) {
+    goBack();  // Torna indietro il numero di volte specificato
   }
-
   database_.removeMedia(*media);
 
-  media::Media* empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
-  applyFilterAdvanced(empty_filter);
-
-  // Aggiorna ricerca semplice 
-  simple_search_widget_->acceptResults(
-  database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
-
-}
-
-void MainWindow::onRemoveMediaRequestedFromEdit(const media::Media *media) {
-  if (!media) {
-    onBackFromDetail();
-    onBackFromDetail();
-    return;
-  }
-
-  database_.removeMedia(*media);
-
-  onBackFromDetail();
-  onBackFromDetail();
+  
 
   media::Media* empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
   applyFilterAdvanced(empty_filter);
@@ -188,7 +153,7 @@ void MainWindow::onRemoveMediaRequestedFromEdit(const media::Media *media) {
 
 void MainWindow::onEnterEditRequested(const media::Media *Media) {
   if (!Media) {
-    onBackFromDetail();
+    goBack();
     return;
   }
 
@@ -200,7 +165,7 @@ void MainWindow::onEnterEditRequested(const media::Media *Media) {
 // Slot per modifica media, chiamato da widget dettaglio
 void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Media *oldMedia) {
   if (!newMedia || !oldMedia || *newMedia == *oldMedia) {
-    onBackFromDetail();
+    goBack();
     return;
   }
 
@@ -210,7 +175,7 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
   //Aggiorna la pagina dettaglio con il nuovo media
   media_detail_page_->setMedia(newMedia);
 
-  onBackFromDetail(); // Ora torna al dettaglio già aggiornato
+  goBack(); // Ora torna al dettaglio già aggiornato
 
   //Aggiorna i risultati della ricerca (avanzata) per riflettere il cambiamento
   media::Media* empty_filter = new media::Media("");

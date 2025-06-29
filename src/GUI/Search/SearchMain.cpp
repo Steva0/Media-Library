@@ -69,6 +69,8 @@ SearchMain::SearchMain(QWidget *parent)
   connect(results_, &GridResults::mediaDoubleClicked, this, &SearchMain::mediaDoubleClicked);
   connect(results_, &GridResults::mediaSingleClicked, this, &SearchMain::mediaSingleClicked);
   connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::advancedClicked);
+  connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::onClear);
+
 
   // todo display risultati per preview
 }
@@ -91,6 +93,10 @@ void SearchMain::fastEditClicked(const media::Media *media) {
 void SearchMain::hidePreview() {
   selected_->setCurrentWidget(preview_);
   preview_->clear();
+}
+
+void SearchMain::onClear() {
+  preview_->clear();  // svuota la preview
 }
 }  // namespace search
 }  // namespace gui
