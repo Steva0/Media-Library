@@ -70,7 +70,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   connect(simple_search_widget_, &search::SearchMain::requestEdit,
           this, &MainWindow::onEnterEditRequested);
   connect(simple_search_widget_, &search::SearchMain::requestDelete,
-          this, &MainWindow::onRemoveMediaRequested);
+          this, &MainWindow::onRemoveMediaRequestedFromSearch);
 
   // connect(this, &MainWindow::onQueryResults, advanced_search_widget,
   // &advanced_search::MainWidget::onGetSearchResults);
@@ -90,7 +90,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
           this, &MainWindow::onBackFromDetail);
 
   connect(media_detail_page_, &MediaDetailPage::removeMediaRequested,
-          this, &MainWindow::onRemoveMediaRequestedFromSearch);
+          this, &MainWindow::onRemoveMediaRequested);
 
   connect(media_detail_page_, &MediaDetailPage::enterEditRequested,
           this, &MainWindow::onEnterEditRequested);
