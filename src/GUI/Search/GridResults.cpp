@@ -51,6 +51,7 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     connect(wrapper, &ClickableFrame::doubleClicked, this, [this, media]() {
       emit mediaDoubleClicked(media);
     });
+    connect(wrapper, &ClickableFrame::singleClicked, [this, media]() { emit mediaSingleClicked(media); });
     
     ++count;
   }

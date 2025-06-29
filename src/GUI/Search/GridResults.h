@@ -26,6 +26,7 @@ class GridResults : public QFrame {
 
  signals:
   void mediaDoubleClicked(const media::Media *media);
+  void mediaSingleClicked(const media::Media *media);
 };
 
 }  // namespace search

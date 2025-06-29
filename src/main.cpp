@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <iostream>
 
 #include "./GUI/MainWindow.h"
 #include "./Memory/Database.h"
@@ -15,13 +16,14 @@ void debugDatabaseFileCreation(memory::Database &database) {
   database.addMedia(media::Movie("Movie test"));
   database.addMedia(media::Ebook("Ebook test"));
   database.save();
+  std::cout << "Creato dummy database `database_text.xml`\n";
 }
 
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
   memory::Database database;
   debugDatabaseFileCreation(database);
-  database.open("database_test.xml");
+  // database.open("database_test.xml");
   gui::MainWindow main_window(database);
   main_window.show();
   app.setActiveWindow(&main_window);

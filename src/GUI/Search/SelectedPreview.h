@@ -12,8 +12,9 @@ class SelectedPreview : public QWidget {
  private:
   QHBoxLayout *layout_;
 
-  // QPushButton *edit_;
-  // QPushButton *delete_;
+  QPushButton *edit_button_;
+  QPushButton *fast_edit_button_;
+  QPushButton *delete_button_;
   QWidget *buttons_;
   QWidget *displayed_result_;
 
@@ -25,6 +26,7 @@ class SelectedPreview : public QWidget {
  signals:
   void deletePressed(const media::Media *);
   void editPressed(const media::Media *);
+  void fastEditPressed(const media::Media *);
 
  public slots:
   void display(const media::Media *);

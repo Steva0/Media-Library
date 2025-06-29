@@ -13,9 +13,11 @@ public:
 
 signals:
   void doubleClicked();
+  void singleClicked();
 
 protected:
   void mouseDoubleClickEvent(QMouseEvent* event) override;
+  void mousePressEvent(QMouseEvent *event) override;
 };
 
 }  // namespace gui

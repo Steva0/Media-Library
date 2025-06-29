@@ -12,4 +12,10 @@ void ClickableFrame::mouseDoubleClickEvent(QMouseEvent* event) {
   QFrame::mouseDoubleClickEvent(event);
 }
 
+void ClickableFrame::mousePressEvent(QMouseEvent *event) {
+  if (event->button() == Qt::MouseButton::LeftButton)
+    emit singleClicked();
+  QFrame::mousePressEvent(event);
+}
+
 }  // namespace gui

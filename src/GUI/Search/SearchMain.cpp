@@ -1,5 +1,4 @@
 #include "SearchMain.h"
-#include <iostream>
 #include <QScrollArea>
 
 #include "GridResults.h"
@@ -14,10 +13,15 @@ SearchMain::SearchMain(QWidget *parent)
     : QWidget(parent),
       search_input_(new SearchWidget(this)),
       results_(new GridResults(this)),
-      preview_(new SelectedPreview(this)) {
+      selected_(new QStackedWidget(this)),
+      preview_(new SelectedPreview(this)),
+      edit_(new SelectedEdit(this)) {
   search_input_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   results_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  preview_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  // preview_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  selected_->addWidget(edit_);
+  selected_->addWidget(preview_);
+  selected_->setCurrentWidget(preview_);
   
   auto *top_wrapper = new QFrame(this);
   top_wrapper->setFrameShape(QFrame::Box);
@@ -31,7 +35,7 @@ SearchMain::SearchMain(QWidget *parent)
 
   top_layout->addWidget(search_input_, 1);
   top_layout->addWidget(top_separator);
-  top_layout->addWidget(preview_, 3);
+  top_layout->addWidget(selected_, 3);
 
   top_wrapper->setMaximumHeight(top_wrapper->sizeHint().height());
 
@@ -54,9 +58,32 @@ SearchMain::SearchMain(QWidget *parent)
   connect(preview_, &SelectedPreview::editPressed, this, &SearchMain::requestEdit);
   connect(preview_, &SelectedPreview::deletePressed, this, &SearchMain::requestDelete);
 
+  connect(preview_, &SelectedPreview::fastEditPressed, this, &SearchMain::fastEditClicked);
+  connect(edit_, &SelectedEdit::commitChanges, this, &SearchMain::commitEditChanges);
+  connect(edit_, &SelectedEdit::undoChanges, this, &SearchMain::undoEditChanges);
+  connect(edit_, &SelectedEdit::requestDelete, this, &SearchMain::requestDelete);
+
   // Doppio click sui risultati
   connect(results_, &GridResults::mediaDoubleClicked, this, &SearchMain::mediaDoubleClicked);
+  connect(results_, &GridResults::mediaSingleClicked, this, &SearchMain::mediaSingleClicked);
   connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::advancedClicked);
+
+  // todo display risultati per preview
+}
+
+void SearchMain::undoEditChanges() {
+  edit_->display(nullptr);
+  selected_->setCurrentWidget(preview_);
+}
+
+void SearchMain::mediaSingleClicked(const media::Media *media) {
+  preview_->display(media);
+  selected_->setCurrentWidget(preview_);
+}
+
+void SearchMain::fastEditClicked(const media::Media *media) {
+  edit_->display(media);
+  selected_->setCurrentWidget(edit_);
 }
 }  // namespace search
 }  // namespace gui
