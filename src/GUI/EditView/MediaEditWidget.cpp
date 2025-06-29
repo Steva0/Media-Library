@@ -189,7 +189,7 @@ void MediaEditWidget::setMedia(const media::Media* media) {
     favourite_checkbox_->setChecked(media->isFavourite());
 
     img_path_ = QString::fromStdString(media->getImgPath());
-    if (img_path_.isEmpty()) {
+    if (img_path_.isEmpty() || img_path_ == "(nessuna immagine selezionata)") {
       img_path_input_->setText("(nessuna immagine selezionata)");
       img_path_input_->setStyleSheet("font-style: italic; color: gray;");
       cover_pixmap_ = QPixmap(":/assets/matita.jpg");  // immagine di default
