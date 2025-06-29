@@ -21,11 +21,12 @@ MediaEditWidget::MediaEditWidget(QWidget *parent) : IMediaEditWidget(parent) {
     // Widget principale con layout verticale (form)
     auto* main_form_widget = new QWidget(this);
     main_layout_ = new QVBoxLayout(main_form_widget);
+    main_layout_->setAlignment(Qt::AlignTop);
     main_form_widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 
 
     // Aggiungo form a sinistra (2/3)
-    split_layout->addWidget(main_form_widget, 2);
+    split_layout->addWidget(main_form_widget, 2, Qt::AlignTop);
 
     // Label copertina a destra (1/3)
     cover_label_ = new QLabel(this);
