@@ -57,11 +57,13 @@ SearchMain::SearchMain(QWidget *parent)
   // Pulsanti di preview (edit/delete)
   connect(preview_, &SelectedPreview::editPressed, this, &SearchMain::requestEdit);
   connect(preview_, &SelectedPreview::deletePressed, this, &SearchMain::requestDelete);
+  connect(preview_, &SelectedPreview::deletePressed, this, &SearchMain::hidePreview);
 
   connect(preview_, &SelectedPreview::fastEditPressed, this, &SearchMain::fastEditClicked);
   connect(edit_, &SelectedEdit::commitChanges, this, &SearchMain::commitEditChanges);
   connect(edit_, &SelectedEdit::undoChanges, this, &SearchMain::undoEditChanges);
   connect(edit_, &SelectedEdit::requestDelete, this, &SearchMain::requestDelete);
+  connect(edit_, &SelectedEdit::requestDelete, this, &SearchMain::hidePreview);
 
   // Doppio click sui risultati
   connect(results_, &GridResults::mediaDoubleClicked, this, &SearchMain::mediaDoubleClicked);
@@ -84,6 +86,11 @@ void SearchMain::mediaSingleClicked(const media::Media *media) {
 void SearchMain::fastEditClicked(const media::Media *media) {
   edit_->display(media);
   selected_->setCurrentWidget(edit_);
+}
+
+void SearchMain::hidePreview() {
+  selected_->setCurrentWidget(preview_);
+  preview_->clear();
 }
 }  // namespace search
 }  // namespace gui

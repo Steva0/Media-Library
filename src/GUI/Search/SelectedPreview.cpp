@@ -55,7 +55,10 @@ void SelectedPreview::display(const media::Media *media) {
   layout_->insertWidget(0, displayed_result_);
 }
 
-void SelectedPreview::clear() { display(nullptr); }
+void SelectedPreview::clear() {
+  display(nullptr);
+  buttons_->hide();
+}
 
 }  // namespace search
 }  // namespace gui

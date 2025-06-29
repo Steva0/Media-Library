@@ -16,6 +16,7 @@ class SearchMain : public QWidget {
   QStackedWidget *selected_;
   SelectedPreview *preview_;
   SelectedEdit *edit_;
+  QWidget *placeholder_;
 
  public:
   explicit SearchMain(QWidget *parent = nullptr);
@@ -24,6 +25,7 @@ class SearchMain : public QWidget {
   void undoEditChanges();
   void mediaSingleClicked(const media::Media *);
   void fastEditClicked(const media::Media *);
+  void hidePreview();
 
  signals:
   void advancedClicked();
