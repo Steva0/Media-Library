@@ -14,22 +14,29 @@ class Movie : public Media {
   std::string universe_;
 
  public:
-  Movie(const std::string &title, int release = std::numeric_limits<int>::min(), const std::string &language = "",
-        bool favourite = false, const std::vector<std::string> &genres = {},
-        const std::string &img_path = "", const std::string &notes = "",
-        const std::vector<std::string> &cast = {}, int length = std::numeric_limits<int>::min(),
-        const std::string &universe = "");
-  bool operator==(const Media &other) const override;
+  explicit Movie(const std::string &title, int release = std::numeric_limits<int>::min(),
+                 const std::string &language = "", bool favourite = false, const std::vector<std::string> &genres = {},
+                 const std::string &img_path = "", const std::string &notes = "",
+                 const std::vector<std::string> &cast = {}, int length = std::numeric_limits<int>::min(),
+                 const std::string &universe = "");
+  explicit Movie(const Media &, const std::vector<std::string> &cast = {}, int length = std::numeric_limits<int>::min(),
+                 const std::string &universe = "");
+
+  bool operator==(const Media &) const override;
   const std::vector<std::string> &getCast() const;
   int getLength() const;
   const std::string &getUniverse() const;
 
+  void addActor(const std::string &name);
+  void removeActor(const std::string &name);
+  void setLength(int);
+  void setUniverse(const std::string &universe);
+
   std::unique_ptr<Media> makePtr() const override;
 
-  bool filter(const Media& movie) const override;
+  bool filter(const Media &movie) const override;
 
   void accept(IConstMediaVisitor &) const override;
 };
 }  // namespace media
 #endif
-

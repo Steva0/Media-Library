@@ -62,6 +62,7 @@ bool Database::close(bool save_on_exit) {
     if (save_on_exit)
         done = save();
 
+
     if (!done)
         return done;
 
@@ -227,9 +228,10 @@ void Database::fromXml(QFile &file) {
 
         std::vector<std::string> genres;
         QDomElement genresEl = el.firstChildElement("Genres");
-        for (QDomElement genre = genresEl.firstChildElement("Genre"); !genre.isNull(); genre = genre.nextSiblingElement("Genre"))
+        for (QDomElement genre = genresEl.firstChildElement("Genre"); !genre.isNull(); genre = genre.nextSiblingElement("Genre")) {
             genres.push_back(genre.text().toStdString());
-
+        }
+            
         std::unique_ptr<media::Media> media;
 
         if (type == "Album") {

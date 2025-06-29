@@ -12,7 +12,6 @@ class AudioBook;
 class Ebook;
 
 class IConstMediaVisitor {
-
  public:
   virtual void visit(const Media &) = 0;
   virtual void visit(const Album &) = 0;
@@ -25,4 +24,3 @@ class IConstMediaVisitor {
 
 }  // namespace media
 #endif
-

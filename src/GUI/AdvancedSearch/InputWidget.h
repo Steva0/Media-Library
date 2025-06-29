@@ -1,0 +1,34 @@
+#ifndef GUI_ADVANCED_SEARCH_INPUT_WIDGET_H
+#define GUI_ADVANCED_SEARCH_INPUT_WIDGET_H
+#include <QLineEdit>
+#include <QStackedWidget>
+
+#include "MediaInputWidget.h"
+#include "TypeSelector.h"
+
+namespace gui {
+namespace advanced_search {
+class InputWidget : public QWidget {
+  Q_OBJECT
+ private:
+  // selezione del tipo di media cercato sulla base di enum in MediaContainer
+  QVBoxLayout *layout_;
+  TypeSelector *type_selection_;
+
+  IMediaInputWidget *media_filter_;
+
+ public:
+  explicit InputWidget(QWidget *parent = nullptr);
+
+  media::Media *makeFilter();
+
+ private slots:
+  void showTypeInput(int);
+
+ signals:
+  void performSearch(const media::Media *filter);
+};
+}  // namespace advanced_search
+}  // namespace gui
+
+#endif

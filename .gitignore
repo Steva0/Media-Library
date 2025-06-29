@@ -1,6 +1,7 @@
 .cache
 .qmake.stash
 ./src
+build/build
 
 # C++ objects and libs
 *.slo
@@ -13,10 +14,8 @@
 *.so.*
 *.dll
 *.dylib
-Build
 checks.json
 .vscode
-build
 
 # Qt-es
 object_script.*.Release

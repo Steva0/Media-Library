@@ -1,16 +1,15 @@
 #ifndef MEDIA_MEDIA_H
 #define MEDIA_MEDIA_H
+#include <limits>
+#include <memory>
 #include <string>
 #include <vector>
-#include <iostream>
-#include <memory>
-#include <limits>
 
 #include "IMedia.h"
 #include "StringUtils.h"
 
 namespace media {
-class Media : IMedia{
+class Media : IMedia {
  private:
   std::string title_;
   int release_;
@@ -20,22 +19,18 @@ class Media : IMedia{
   std::string img_path_;
   std::string notes_;
 
-   
-  public:
+ public:
+  explicit Media(const std::string &title, int release = std::numeric_limits<int>::min(),
+                 const std::string &language = "", bool favourite = false, const std::vector<std::string> &genres = {},
+                 const std::string &img_path = "", const std::string &notes = "");
 
+  virtual bool operator==(const Media &) const;
 
-  Media(const std::string &title, int release = std::numeric_limits<int>::min(), const std::string &language = "",
-          bool favourite = false, const std::vector<std::string> &genres = {},
-          const std::string &img_path = "", const std::string &notes = "");
-
-    virtual bool operator==(const Media &other) const;
-  
   void accept(IConstMediaVisitor &) const override;
   bool open() override;
 
   // Possiamo scegliere noi se utilizzare un riferimento costante o fare una copia
-  // Potenziali problemi possono verosimilmente essere la vita delle variabili
-  // Ignoro potenziali problemi di incapsulamento dovuti al const_cast
+  // Fare attenzione a vita delle variabili
   const std::string &getTitle() const;
   int getRelease() const;
   const std::string &getLanguage() const;
@@ -44,12 +39,18 @@ class Media : IMedia{
   const std::string &getImgPath() const;
   const std::string &getNotes() const;
 
-  void setTitle(const std::string &title);
+  void setTitle(const std::string &);
+  void setRelease(int);
+  void setLanguage(const std::string &);
+  void setFavourite(bool);
+  void addGenre(const std::string &);
+  void clearGenres();
+  void setImgPath(const std::string &);
+  void setNotes(const std::string &);
 
-  virtual std::unique_ptr<Media> makePtr() const;
-
+  std::unique_ptr<Media> makePtr() const override;
 
   virtual bool filter(const Media &media) const;
-}; 
+};
 }  // namespace media
 #endif

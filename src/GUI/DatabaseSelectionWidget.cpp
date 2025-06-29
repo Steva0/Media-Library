@@ -1,62 +1,55 @@
 #include "DatabaseSelectionWidget.h"
+#include "MainWindow.h"
+
+#include <QFileDialog>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <iostream>
 
 namespace gui {
-DatabaseSelectionWidget::DatabaseSelectionWidget(QWidget *parent)
-    : QWidget(parent), tool_style_sheet_("font-size: 20px;"),
-      button_size_(128, 128) {
+DatabaseSelectionWidget::DatabaseSelectionWidget(MainWindow *main_window)
+    : QWidget(main_window), main_window_(*main_window), tool_style_sheet_("font-size: 20px;"), button_size_(128, 128) {
+  open_db_ = makeToolButton("Apri", QPixmap(":/assets/wifi.jpeg"), this);
+  create_db_ = makeToolButton("Nuovo", QPixmap(":/assets/matita.jpg"), this);
 
-  // preprocessing...
+  auto *layout = new QHBoxLayout(this);
+  layout->addStretch();
+  layout->addWidget(open_db_);
+  layout->addWidget(create_db_);
+  layout->addStretch();
 
-  //
-  QFrame *recent_wrapper = new QFrame(this);
-  recent_wrapper->setLayout(new QHBoxLayout);
-  recent_wrapper->setFrameStyle(QFrame::NoFrame);
-  recent_wrapper->setLineWidth(1);
+  layout->setSpacing(20);
 
-  open_other_ = makeToolButton("Apri", QPixmap(":/assets/wifi.jpeg"));
-  // placeholder
-  recently_opened_[0] =
-      makeToolButton("Database 1", QPixmap(":/assets/profilo.png"));
-  recently_opened_[1] =
-      makeToolButton("Database 2", QPixmap(":/assets/profilo.png"));
-  recently_opened_[2] =
-      makeToolButton("Database 3", QPixmap(":/assets/profilo.png"));
-  //
-  create_new_ = makeToolButton("Nuovo", QPixmap(":/assets/matita.jpg"));
-
-  recent_wrapper->layout()->addWidget(recently_opened_[0]);
-  recent_wrapper->layout()->addWidget(recently_opened_[1]);
-  recent_wrapper->layout()->addWidget(recently_opened_[2]);
-  recent_wrapper->setMaximumSize(recent_wrapper->minimumSizeHint());
-
-  QFrame *left_line = makeVLine();
-  QFrame *right_line = makeVLine();
-
-  auto *frame_wrapper = new QFrame(this);
-  frame_wrapper->setFrameStyle(QFrame::Box);
-  frame_wrapper->setLineWidth(2);
-  frame_wrapper->setLayout(new QHBoxLayout);
-  frame_wrapper->layout()->addWidget(open_other_);
-  frame_wrapper->layout()->addWidget(left_line);
-  frame_wrapper->layout()->addWidget(recent_wrapper);
-  frame_wrapper->layout()->addWidget(right_line);
-  frame_wrapper->layout()->addWidget(create_new_);
-  frame_wrapper->layout()->setContentsMargins(45, 45, 45, 45);
-  frame_wrapper->layout()->setSpacing(45);
-  frame_wrapper->setMaximumSize(frame_wrapper->minimumSizeHint());
-
-  auto *layout = new QHBoxLayout;
-  layout->addWidget(frame_wrapper);
-
-  setLayout(layout);
+  connect(open_db_, &QAbstractButton::clicked, this, &DatabaseSelectionWidget::openDatabase);
+  connect(create_db_, &QAbstractButton::clicked, this, &DatabaseSelectionWidget::createDatabase);
 }
 
-QToolButton *DatabaseSelectionWidget::makeToolButton(const QString &name,
-                                                       const QPixmap &image) {
-  QToolButton *new_button = new QToolButton(this);
+void DatabaseSelectionWidget::openDatabase() {
+  // todo decidere quale usare
+  QString path = QFileDialog::getOpenFileName(nullptr, "Open Database", ".", "XML files (*.xml);;JSON files (*.json)");
+  if (path == "") return; // "cancel"
+  emit onSelectDatabase(path);
+}
+
+void DatabaseSelectionWidget::createDatabase() {
+  QString filter;
+  QString path = QFileDialog::getSaveFileName(this, "New Database", ".", "XML files(*.xml);;JSON files (*.json)", &filter);
+  if (path == "") return;
+
+  if (filter.contains("xml"))
+    filter = ".xml";
+  else
+    filter = ".json";
+
+
+  if (!path.endsWith(filter)) path += filter;
+
+  emit onSelectDatabase(path);
+}
+
+QToolButton *DatabaseSelectionWidget::makeToolButton(const QString &name, const QPixmap &image, QWidget *parent) {
+  auto *new_button = new QToolButton(parent);
   new_button->setText(name);
   new_button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
   new_button->setIcon(QIcon(image));
@@ -64,11 +57,4 @@ QToolButton *DatabaseSelectionWidget::makeToolButton(const QString &name,
   new_button->setStyleSheet(tool_style_sheet_);
   return new_button;
 }
-
-QFrame *DatabaseSelectionWidget::makeVLine() {
-    QFrame *frame = new QFrame(this);
-    frame->setFrameShape(QFrame::VLine);
-    frame->setLineWidth(1);
-    return frame;
-}
-}
+}  // namespace gui
