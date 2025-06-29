@@ -11,6 +11,7 @@ class SearchWidget : public QWidget {
  private:
   InputBar *input_;
   QPushButton *advanced_search_;
+  QPushButton *add_new_;
 
  public:
   explicit SearchWidget(QWidget *parent = nullptr);
@@ -19,6 +20,7 @@ class SearchWidget : public QWidget {
   void advancedClicked();
   void searchByName(const QString &);
   void openAdvancedSearch();
+  void addNewMedia();
 };
 }  // namespace search
 }  // namespace gui
