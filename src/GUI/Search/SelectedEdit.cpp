@@ -86,7 +86,7 @@ void SelectedEdit::makeMediaAndCommit() {
   new_media->setRelease(release_->text().toInt());
   new_media->setLanguage(language_->text().toStdString());
   new_media->setFavourite(favourite_->isChecked());
-  emit commitChanges(selected_, new_media);
+  emit commitChanges(new_media, selected_);
 }
 
 void SelectedEdit::MediaTypeProbe::visit(const media::Media &) { type_ = "MEDIA"; }
