@@ -151,7 +151,6 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
 // Slot per rimuovere media, chiamato da widget dettaglio
 void MainWindow::onRemoveMediaRequestedFromSearch(const media::Media *media) {
   if (!media) {
-    onBackFromDetail();
     return;
   }
 
@@ -168,6 +167,7 @@ void MainWindow::onRemoveMediaRequestedFromSearch(const media::Media *media) {
 
 void MainWindow::onRemoveMediaRequestedFromEdit(const media::Media *media) {
   if (!media) {
+    onBackFromDetail();
     onBackFromDetail();
     return;
   }
