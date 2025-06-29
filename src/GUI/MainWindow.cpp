@@ -90,7 +90,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
           this, &MainWindow::onBackFromDetail);
 
   connect(media_detail_page_, &MediaDetailPage::removeMediaRequested,
-          this, &MainWindow::onRemoveMediaRequested);
+          this, &MainWindow::onRemoveMediaRequestedFromSearch);
 
   connect(media_detail_page_, &MediaDetailPage::enterEditRequested,
           this, &MainWindow::onEnterEditRequested);
@@ -138,6 +138,24 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
   database_.removeMedia(*media);
 
   onBackFromDetail();
+
+  media::Media* empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
+  applyFilterAdvanced(empty_filter);
+
+  // Aggiorna ricerca semplice 
+  simple_search_widget_->acceptResults(
+  database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+
+}
+
+// Slot per rimuovere media, chiamato da widget dettaglio
+void MainWindow::onRemoveMediaRequestedFromSearch(const media::Media *media) {
+  if (!media) {
+    onBackFromDetail();
+    return;
+  }
+
+  database_.removeMedia(*media);
 
   media::Media* empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
   applyFilterAdvanced(empty_filter);
