@@ -15,6 +15,7 @@ class NovelEditWidget : public MediaEditWidget {
   void setMedia(const media::Media* media) override;
 
 protected:
+  QLabel* pages_label;
   QLineEdit* author_input_;
   QLineEdit* publisher_input_;
   QSpinBox* pages_input_;
