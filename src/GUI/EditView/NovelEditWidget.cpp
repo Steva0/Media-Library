@@ -38,7 +38,7 @@ NovelEditWidget::NovelEditWidget(QWidget *parent) : MediaEditWidget(parent) {
 
   second_row_layout->addSpacing(10);
 
-  auto* pages_label = new QLabel("Pagine:", this);
+  pages_label = new QLabel("Pagine:", this);
   pages_label->setFixedWidth(60);
   pages_input_ = new QSpinBox(this);
   pages_input_->setRange(1, 10000);
@@ -71,6 +71,12 @@ void NovelEditWidget::setMedia(const media::Media* media) {
   pages_input_->setValue(novel->getPages());
   series_input_->setText(QString::fromStdString(novel->getSeries()));
   isbn_input_->setText(QString::fromStdString(novel->getIsbn()));
+
+  if (dynamic_cast<const media::AudioBook*>(media)) {
+    pages_label->setText("Durata (min):");
+    pages_label->setFixedWidth(90);
+
+  }
 }
 
 media::Media* NovelEditWidget::getModifiedMedia() const {
