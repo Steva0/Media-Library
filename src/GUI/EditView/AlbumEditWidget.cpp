@@ -5,59 +5,91 @@
 namespace gui {
 
 AlbumEditWidget::AlbumEditWidget(QWidget *parent) : MediaEditWidget(parent) {
-  // Band name
+  // --- Band name (etichetta a sinistra, campo più compatto) ---
   auto* band_layout = new QHBoxLayout();
-  band_layout->addWidget(new QLabel("Band:", this));
+  auto* band_label = new QLabel("Band:", this);
+  band_label->setFixedWidth(50); // larghezza costante della label
+  band_layout->addWidget(band_label);
+  
+  band_layout->addSpacing(5);
+
   band_input_ = new QLineEdit(this);
+  band_input_->setMaximumWidth(250); // restringe il campo input
   band_layout->addWidget(band_input_);
+  band_layout->addStretch(); // spinge tutto a sinistra
+
   main_layout_->addLayout(band_layout);
 
-  // Band members input + add button
-  main_layout_->addWidget(new QLabel("Membri della band:", this));
+  // --- Membri della band stile "Generi" ---
+  auto* band_members_row_layout = new QHBoxLayout();
+
+  auto* band_members_label = new QLabel("Membri:", this);
+  band_members_label->setAlignment(Qt::AlignTop);
+  band_members_row_layout->addWidget(band_members_label);
+
+  auto* band_members_right_layout = new QVBoxLayout();
+
   band_member_input_ = new QLineEdit(this);
   add_band_member_button_ = new QPushButton("+", this);
+  add_band_member_button_->setFixedWidth(30);
   connect(add_band_member_button_, &QPushButton::clicked, this, &AlbumEditWidget::addBandMember);
 
-  auto* band_member_input_layout = new QHBoxLayout();
-  band_member_input_layout->addWidget(band_member_input_);
-  band_member_input_layout->addWidget(add_band_member_button_);
-  main_layout_->addLayout(band_member_input_layout);
+  auto* add_band_member_layout = new QHBoxLayout();
+  add_band_member_layout->addWidget(band_member_input_);
+  add_band_member_layout->addWidget(add_band_member_button_);
+  band_members_right_layout->addLayout(add_band_member_layout);
 
   band_members_layout_ = new QGridLayout();
   band_members_layout_->setSpacing(5);
   band_members_layout_->setContentsMargins(0, 0, 0, 0);
-  auto* band_members_scroll = new QScrollArea(this);
+
   auto* band_members_container = new QWidget(this);
   band_members_container->setLayout(band_members_layout_);
+
+  auto* band_members_scroll = new QScrollArea(this);
   band_members_scroll->setWidget(band_members_container);
   band_members_scroll->setWidgetResizable(true);
   band_members_scroll->setFixedHeight(100);
-  main_layout_->addWidget(band_members_scroll);
+  band_members_right_layout->addWidget(band_members_scroll);
 
-  // Songs input + add button
-  main_layout_->addWidget(new QLabel("Canzoni:", this));
+  band_members_row_layout->addLayout(band_members_right_layout);
+  main_layout_->addLayout(band_members_row_layout);
+
+  // --- Canzoni stile "Generi" ---
+  auto* songs_row_layout = new QHBoxLayout();
+
+  auto* songs_label = new QLabel("Canzoni:", this);
+  songs_label->setAlignment(Qt::AlignTop);
+  songs_row_layout->addWidget(songs_label);
+
+  auto* songs_right_layout = new QVBoxLayout();
+
   song_input_ = new QLineEdit(this);
   add_song_button_ = new QPushButton("+", this);
+  add_song_button_->setFixedWidth(30);
   connect(add_song_button_, &QPushButton::clicked, this, &AlbumEditWidget::addSong);
+
+  auto* song_input_layout = new QHBoxLayout();
+  song_input_layout->addWidget(song_input_);
+  song_input_layout->addWidget(add_song_button_);
+  songs_right_layout->addLayout(song_input_layout);
 
   songs_layout_ = new QGridLayout();
   songs_layout_->setSpacing(5);
   songs_layout_->setContentsMargins(0, 0, 0, 0);
-  auto* song_input_layout = new QHBoxLayout();
-  song_input_layout->addWidget(song_input_);
-  song_input_layout->addWidget(add_song_button_);
-  main_layout_->addLayout(song_input_layout);
 
-
-  auto* songs_scroll = new QScrollArea(this);
   auto* songs_container = new QWidget(this);
   songs_container->setLayout(songs_layout_);
+
+  auto* songs_scroll = new QScrollArea(this);
   songs_scroll->setWidget(songs_container);
   songs_scroll->setWidgetResizable(true);
   songs_scroll->setFixedHeight(100);
-  main_layout_->addWidget(songs_scroll);
-}
+  songs_right_layout->addWidget(songs_scroll);
 
+  songs_row_layout->addLayout(songs_right_layout);
+  main_layout_->addLayout(songs_row_layout);
+}
 
 void AlbumEditWidget::addBandMember() {
   QString text = band_member_input_->text().trimmed();

@@ -14,13 +14,15 @@
 
 namespace gui {
 
-gui::MediaEditWidget::MediaEditWidget(QWidget *parent) : IMediaEditWidget(parent) {
+MediaEditWidget::MediaEditWidget(QWidget *parent) : IMediaEditWidget(parent) {
     // Layout principale orizzontale
     auto* split_layout = new QHBoxLayout(this);
 
     // Widget principale con layout verticale (form)
     auto* main_form_widget = new QWidget(this);
     main_layout_ = new QVBoxLayout(main_form_widget);
+    main_form_widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
 
     // Aggiungo form a sinistra (2/3)
     split_layout->addWidget(main_form_widget, 2);
@@ -35,36 +37,43 @@ gui::MediaEditWidget::MediaEditWidget(QWidget *parent) : IMediaEditWidget(parent
     // Titolo
     auto* title_layout = new QHBoxLayout();
     auto* title_label = new QLabel(tr("Titolo:"), this);
+    title_label->setFixedWidth(50);          
     title_input_ = new QLineEdit(this);
+    title_input_->setFixedWidth(250);    
     title_layout->addWidget(title_label);
     title_layout->addWidget(title_input_);
+    title_layout->addStretch();            
     main_layout_->addLayout(title_layout);
 
+
+    // Riga con Anno di uscita, Lingua e Preferito
+    auto* row_layout = new QHBoxLayout();
+
     // Anno di uscita
-    auto* release_layout = new QHBoxLayout();
     auto* release_label = new QLabel(tr("Anno di uscita:"), this);
     release_input_ = new QSpinBox(this);
-    release_input_->setRange(1800, 2100);
-    release_layout->addWidget(release_label);
-    release_layout->addWidget(release_input_);
-    main_layout_->addLayout(release_layout);
+    release_input_->setRange(0, 4000);
+    row_layout->addWidget(release_label);
+    row_layout->addWidget(release_input_);
 
     // Lingua
-    auto* language_layout = new QHBoxLayout();
     auto* language_label = new QLabel(tr("Lingua:"), this);
     language_input_ = new QLineEdit(this);
-    language_layout->addWidget(language_label);
-    language_layout->addWidget(language_input_);
-    main_layout_->addLayout(language_layout);
+    language_input_->setFixedWidth(150);
+    row_layout->addSpacing(10);  // Spazio tra i campi
+    row_layout->addWidget(language_label);
+    row_layout->addWidget(language_input_);
 
     // Preferito
-    auto* favourite_layout = new QHBoxLayout();
     auto* favourite_label = new QLabel(tr("Preferito:"), this);
     favourite_checkbox_ = new QCheckBox(this);
-    favourite_layout->addWidget(favourite_label);
-    favourite_layout->addWidget(favourite_checkbox_);
-    favourite_layout->addStretch();
-    main_layout_->addLayout(favourite_layout);
+    row_layout->addSpacing(10);  // Spazio tra i campi
+    row_layout->addWidget(favourite_label);
+    row_layout->addWidget(favourite_checkbox_);
+    row_layout->addStretch();
+
+    main_layout_->addLayout(row_layout);
+
 
     // Percorso immagine (label + pulsante + path sotto)
     img_select_button_ = new QPushButton(tr("Seleziona immagine..."), this);
@@ -81,18 +90,18 @@ gui::MediaEditWidget::MediaEditWidget(QWidget *parent) : IMediaEditWidget(parent
 
     connect(img_select_button_, &QPushButton::clicked, this, &MediaEditWidget::selectImageFile);
 
-    // Note
-    auto* notes_label = new QLabel(tr("Note:"), this);
-    notes_input_ = new QTextEdit(this);
-    const int line_height = QFontMetrics(notes_input_->font()).lineSpacing();
-    notes_input_->setFixedHeight(line_height * 3 + 12);
-    main_layout_->addWidget(notes_label);
-    main_layout_->addWidget(notes_input_);
+    // Layout orizzontale per l'intera sezione "Generi"
+    auto* genres_row_layout = new QHBoxLayout();
 
-    // Generi
+    // Label "Generi" (in alto a sinistra)
     auto* genres_label = new QLabel(tr("Generi:"), this);
-    main_layout_->addWidget(genres_label);
+    genres_label->setAlignment(Qt::AlignTop);
+    genres_row_layout->addWidget(genres_label);
 
+    // Layout verticale per input + lista a destra
+    auto* genres_right_layout = new QVBoxLayout();
+
+    // Campo input e bottone "+"
     genre_input_ = new QLineEdit(this);
     add_genre_button_ = new QPushButton(tr("+"), this);
     add_genre_button_->setFixedWidth(30);
@@ -100,8 +109,9 @@ gui::MediaEditWidget::MediaEditWidget(QWidget *parent) : IMediaEditWidget(parent
     auto* add_genre_layout = new QHBoxLayout();
     add_genre_layout->addWidget(genre_input_);
     add_genre_layout->addWidget(add_genre_button_);
-    main_layout_->addLayout(add_genre_layout);
+    genres_right_layout->addLayout(add_genre_layout);
 
+    // Lista dei generi (scrollable)
     genres_layout_ = new QGridLayout();
     genres_layout_->setSpacing(5);
     genres_layout_->setContentsMargins(0, 0, 0, 0);
@@ -113,9 +123,24 @@ gui::MediaEditWidget::MediaEditWidget(QWidget *parent) : IMediaEditWidget(parent
     genres_scroll->setWidget(genres_container);
     genres_scroll->setWidgetResizable(true);
     genres_scroll->setFixedHeight(100);
-    main_layout_->addWidget(genres_scroll);
+
+    genres_right_layout->addWidget(genres_scroll);
+
+    // Aggiungo il layout destro a fianco della label
+    genres_row_layout->addLayout(genres_right_layout);
+
+    // Aggiungo il layout dei generi al layout principale
+    main_layout_->addLayout(genres_row_layout);
 
     connect(add_genre_button_, &QPushButton::clicked, this, &MediaEditWidget::addGenre);
+
+    // Note
+    auto* notes_label = new QLabel(tr("Note:"), this);
+    notes_input_ = new QTextEdit(this);
+    const int line_height = QFontMetrics(notes_input_->font()).lineSpacing();
+    notes_input_->setFixedHeight(line_height * 6 + 12);
+    main_layout_->addWidget(notes_label);
+    main_layout_->addWidget(notes_input_);
 
     old_media_ = nullptr;
     img_path_.clear();

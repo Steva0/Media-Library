@@ -6,42 +6,72 @@
 namespace gui {
 
 MovieEditWidget::MovieEditWidget(QWidget *parent) : MediaEditWidget(parent) {
-  auto* length_layout = new QHBoxLayout();
-  length_layout->addWidget(new QLabel("Durata (min):", this));
-  length_input_ = new QSpinBox(this);
-  length_input_->setRange(0, 1000);
-  length_layout->addWidget(length_input_);
-  main_layout_->addLayout(length_layout);
+    // --- Riga con Durata e Universo ---
+    auto* row_layout = new QHBoxLayout();
 
-  auto* universe_layout = new QHBoxLayout();
-  universe_layout->addWidget(new QLabel("Universo:", this));
-  universe_input_ = new QLineEdit(this);
-  universe_layout->addWidget(universe_input_);
-  main_layout_->addLayout(universe_layout);
+    // Durata
+    auto* length_label = new QLabel("Durata (min):", this);
+    length_input_ = new QSpinBox(this);
+    length_input_->setRange(0, 1000);
+    length_input_->setMaximumWidth(80);
+    row_layout->addWidget(length_label);
+    row_layout->addWidget(length_input_);
 
-  cast_container_ = new QWidget(this);
-  cast_layout_ = new QVBoxLayout(cast_container_);
-  cast_layout_->setContentsMargins(0,0,0,0);
-  cast_layout_->setSpacing(5);
+    row_layout->addSpacing(10);
 
-  auto* input_layout = new QHBoxLayout();
-  cast_input_ = new QLineEdit(this);
-  add_cast_button_ = new QPushButton("+", this);
-  add_cast_button_->setFixedWidth(30);
-  input_layout->addWidget(cast_input_);
-  input_layout->addWidget(add_cast_button_);
-  cast_layout_->addLayout(input_layout);
+    // Universo
+    auto* universe_label = new QLabel("Universo:", this);
+    universe_input_ = new QLineEdit(this);
+    row_layout->addWidget(universe_label);
+    row_layout->addWidget(universe_input_);
 
-  auto* cast_scroll = new QScrollArea(this);
-  cast_scroll->setWidget(cast_container_);
-  cast_scroll->setWidgetResizable(true);
-  cast_scroll->setFixedHeight(100);
-  main_layout_->addWidget(cast_scroll);
+    row_layout->addStretch();
 
-  connect(add_cast_button_, &QPushButton::clicked, this, &MovieEditWidget::addCastMember);
+    main_layout_->addLayout(row_layout);
+
+    // --- Sezione Cast ---
+    auto* cast_row_layout = new QHBoxLayout();
+
+    // Label Cast (sinistra, allineata in alto)
+    auto* cast_label = new QLabel("Cast:", this);
+    cast_label->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    cast_row_layout->addWidget(cast_label);
+
+    // Layout verticale a destra per input + lista
+    auto* cast_right_layout = new QVBoxLayout();
+
+    // Input cast e bottone +
+    auto* add_cast_layout = new QHBoxLayout();
+    cast_input_ = new QLineEdit(this);
+    add_cast_button_ = new QPushButton("+", this);
+    add_cast_button_->setFixedWidth(30);
+    add_cast_layout->addWidget(cast_input_);
+    add_cast_layout->addWidget(add_cast_button_);
+    cast_right_layout->addLayout(add_cast_layout);
+
+    // Contenitore con layout verticale per lista cast (aggiunta dinamica)
+    cast_container_ = new QWidget(this);
+    cast_layout_ = new QVBoxLayout(cast_container_);
+    cast_layout_->setContentsMargins(0, 0, 0, 0);
+    cast_layout_->setSpacing(5);
+
+    // Scrolling per la lista cast
+    auto* cast_scroll = new QScrollArea(this);
+    cast_scroll->setWidget(cast_container_);
+    cast_scroll->setWidgetResizable(true);
+    cast_scroll->setFixedHeight(100);
+
+    cast_right_layout->addWidget(cast_scroll);
+
+    // Aggiungo la colonna destra accanto alla label
+    cast_row_layout->addLayout(cast_right_layout);
+
+    // Aggiungo tutto il layout cast al main layout
+    main_layout_->addLayout(cast_row_layout);
+
+    // Connessione bottone aggiungi cast
+    connect(add_cast_button_, &QPushButton::clicked, this, &MovieEditWidget::addCastMember);
 }
-
-
 
 void MovieEditWidget::setMedia(const media::Media* media) {
   MediaEditWidget::setMedia(media);

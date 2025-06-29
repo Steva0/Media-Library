@@ -4,30 +4,60 @@
 namespace gui {
 
 NovelEditWidget::NovelEditWidget(QWidget *parent) : MediaEditWidget(parent) {
-  auto addRow = [this](const QString& label_text, QWidget* widget) {
-    auto* layout = new QHBoxLayout();
-    layout->addWidget(new QLabel(label_text, this));
-    layout->addWidget(widget);
-    main_layout_->addLayout(layout);
-  };
+  // Riga: Autore + Editore
+  auto* first_row_layout = new QHBoxLayout();
 
+  auto* author_label = new QLabel("Autore:", this);
+  author_label->setFixedWidth(50);
   author_input_ = new QLineEdit(this);
-  addRow("Autore:", author_input_);
+  author_input_->setFixedWidth(170);
+  first_row_layout->addWidget(author_label);
+  first_row_layout->addWidget(author_input_);
 
+  first_row_layout->addSpacing(10); // spazio tra i due blocchi
+
+  auto* publisher_label = new QLabel("Editore:", this);
+  publisher_label->setFixedWidth(60);
   publisher_input_ = new QLineEdit(this);
-  addRow("Editore:", publisher_input_);
+  publisher_input_->setFixedWidth(170);
+  first_row_layout->addWidget(publisher_label);
+  first_row_layout->addWidget(publisher_input_);
 
+  first_row_layout->addStretch(); // <-- forza l'allineamento a sinistra
+  main_layout_->addLayout(first_row_layout);
+
+  // Riga: Serie + Pagine + ISBN
+  auto* second_row_layout = new QHBoxLayout();
+
+  auto* series_label = new QLabel("Serie:", this);
+  series_label->setFixedWidth(50);
+  series_input_ = new QLineEdit(this);
+  series_input_->setFixedWidth(150);
+  second_row_layout->addWidget(series_label);
+  second_row_layout->addWidget(series_input_);
+
+  second_row_layout->addSpacing(10);
+
+  auto* pages_label = new QLabel("Pagine:", this);
+  pages_label->setFixedWidth(60);
   pages_input_ = new QSpinBox(this);
   pages_input_->setRange(1, 10000);
-  addRow("Pagine:", pages_input_);
+  pages_input_->setFixedWidth(60);
+  second_row_layout->addWidget(pages_label);
+  second_row_layout->addWidget(pages_input_);
 
-  series_input_ = new QLineEdit(this);
-  addRow("Serie:", series_input_);
+  second_row_layout->addSpacing(10);
 
+  auto* isbn_label = new QLabel("ISBN:", this);
+  isbn_label->setFixedWidth(40);
   isbn_input_ = new QLineEdit(this);
-  addRow("ISBN:", isbn_input_);
-}
+  isbn_input_->setFixedWidth(150);
+  second_row_layout->addWidget(isbn_label);
+  second_row_layout->addWidget(isbn_input_);
 
+  second_row_layout->addStretch(); // <-- forza l'allineamento a sinistra
+  main_layout_->addLayout(second_row_layout);
+}
 
 
 void NovelEditWidget::setMedia(const media::Media* media) {

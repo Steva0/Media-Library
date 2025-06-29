@@ -4,19 +4,30 @@
 namespace gui {
 
 AudioBookEditWidget::AudioBookEditWidget(QWidget *parent) : NovelEditWidget(parent) {
-  auto* narrator_layout = new QHBoxLayout();
-  narrator_layout->addWidget(new QLabel("Narratore:", this));
+  auto* row_layout = new QHBoxLayout();
+
+  // Label "Narratore"
+  auto* narrator_label = new QLabel("Narratore:", this);
+  narrator_label->setFixedWidth(70);
   narrator_input_ = new QLineEdit(this);
-  narrator_layout->addWidget(narrator_input_);
-  main_layout_->addLayout(narrator_layout);
+  narrator_input_->setFixedWidth(160);
+  row_layout->addWidget(narrator_label);
+  row_layout->addWidget(narrator_input_);
 
-  auto* streaming_layout = new QHBoxLayout();
-  streaming_layout->addWidget(new QLabel("Servizio Streaming:", this));
+  row_layout->addSpacing(10);  // spazio tra i due blocchi
+
+  // Label "Servizio Streaming"
+  auto* streaming_label = new QLabel("Servizio Streaming:", this);
+  streaming_label->setFixedWidth(130);
   streaming_service_input_ = new QLineEdit(this);
-  streaming_layout->addWidget(streaming_service_input_);
-  main_layout_->addLayout(streaming_layout);
-}
+  streaming_service_input_->setFixedWidth(160);
+  row_layout->addWidget(streaming_label);
+  row_layout->addWidget(streaming_service_input_);
 
+  row_layout->addStretch();  // allinea tutto a sinistra
+
+  main_layout_->addLayout(row_layout);
+}
 
 
 void AudioBookEditWidget::setMedia(const media::Media* media) {

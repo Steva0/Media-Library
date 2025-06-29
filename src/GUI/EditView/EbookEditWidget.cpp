@@ -4,20 +4,33 @@
 namespace gui {
 
 EbookEditWidget::EbookEditWidget(QWidget *parent) : NovelEditWidget(parent) {
-  auto* file_size_layout = new QHBoxLayout();
-  file_size_layout->addWidget(new QLabel("Dimensione file (bytes):", this));
+  auto* row_layout = new QHBoxLayout();
+
+  // Label "Dimensione file"
+  auto* size_label = new QLabel("Dimensione file (bytes):  ", this);
+  size_label->setFixedWidth(170);
+  row_layout->addWidget(size_label);
+
+  // Campo input: massimo 7 cifre
   file_size_input_ = new QSpinBox(this);
-  file_size_input_->setRange(0, 1'000'000'000);
-  file_size_layout->addWidget(file_size_input_);
-  main_layout_->addLayout(file_size_layout);
+  file_size_input_->setRange(0, 9'999'999);  // max 7 cifre
+  file_size_input_->setFixedWidth(100);
+  row_layout->addWidget(file_size_input_);
 
-  auto* drm_layout = new QHBoxLayout();
-  drm_layout->addWidget(new QLabel("DRM:", this));
+  row_layout->addSpacing(15);  // spazio tra i due blocchi
+
+  // Label "DRM"
+  auto* drm_label = new QLabel("DRM:", this);
+  drm_label->setFixedWidth(40);
+  row_layout->addWidget(drm_label);
+
+  // Checkbox DRM
   drm_checkbox_ = new QCheckBox(this);
-  drm_layout->addWidget(drm_checkbox_);
-  main_layout_->addLayout(drm_layout);
-}
+  row_layout->addWidget(drm_checkbox_);
 
+  row_layout->addStretch();  // allinea tutto a sinistra
+  main_layout_->addLayout(row_layout);
+}
 
 
 void EbookEditWidget::setMedia(const media::Media* media) {
