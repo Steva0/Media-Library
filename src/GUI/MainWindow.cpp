@@ -23,7 +23,8 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
       central_widget_(new QFrame(this)),
       status_bar_(new QStatusBar(this)),
       media_detail_page_(new MediaDetailPage(this)),
-      media_edit_page_(new MediaEditPage(this)) {
+      media_edit_page_(new MediaEditPage(this)),
+      add_media_view_page_(new AddMediaViewPage(this)){
   auto *status_wrapper = new QFrame(this);
   status_wrapper->setFrameShape(QFrame::Box);
   status_wrapper->setFrameShadow(QFrame::Shadow::Sunken);
@@ -45,6 +46,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   stacked_widget_->addWidget(media_detail_page_);
   stacked_widget_->addWidget(media_edit_page_);
+  stacked_widget_->addWidget(add_media_view_page_);
 
   auto *layout = new QVBoxLayout(central_widget_);
 
@@ -106,6 +108,9 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
           [this](const media::Media *new_media, const media::Media *old_media) {
             onEditConfirmed(new_media, old_media);
           });
+  connect(simple_search_widget_, &search::SearchMain::addNewMedia, this,
+          [&]() { navigateTo(add_media_view_page_); });
+  connect(add_media_view_page_, &AddMediaViewPage::mediaAdded, this, &MainWindow::onAddMedia);
 }
 
 void MainWindow::onMediaDoubleClicked(const media::Media *media) {
@@ -138,6 +143,24 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
 
   // Aggiorna ricerca semplice
   simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+}
+
+void MainWindow::onAddMedia(media::Media *newMedia) {
+  if (!newMedia) return;
+
+  // Aggiungi il nuovo media al database
+  database_.addMedia(*newMedia);
+
+  // Aggiorna i risultati della ricerca (avanzata) per riflettere il nuovo media
+  media::Media *empty_filter = new media::Media("");  // filtro vuoto = tutti i media
+  applyFilterAdvanced(empty_filter);
+
+  // Aggiorna ricerca semplice
+  simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+
+  // Naviga alla pagina di dettaglio del nuovo media
+  media_detail_page_->setMedia(newMedia);
+  navigateTo(media_detail_page_);
 }
 
 void MainWindow::onEnterEditRequested(const media::Media *Media) {

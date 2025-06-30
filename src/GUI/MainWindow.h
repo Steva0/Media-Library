@@ -33,6 +33,7 @@ class MainWindow : public QMainWindow {
 
   MediaDetailPage *media_detail_page_;
   MediaEditPage *media_edit_page_;
+  AddMediaViewPage *add_media_view_page_;
 
   QWidget *current_search_widget_;
 
@@ -58,7 +59,8 @@ class MainWindow : public QMainWindow {
   void onEditConfirmed(const media::Media *newMedia,
                        const media::Media *oldMedia);  // Da collegare Signal di MediaEditPage a questo dentro il
                                                        // costruttore di MainWindow
-
+  void onEnterAddMediaView();
+  void onAddMedia(media::Media *newMedia);
   void navigateTo(QWidget *next_page);
 };
 }  // namespace gui
