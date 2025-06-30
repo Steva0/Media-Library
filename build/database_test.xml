@@ -1,5 +1,21 @@
 <!DOCTYPE MediaCollection>
 <MediaList>
+  <Novel>
+    <Title>Novel Te</Title>
+    <Release>1234</Release>
+    <Language>AS</Language>
+    <Genres>
+      <Genre>GenereGenere</Genre>
+      <Genre>Generegenere</Genre>
+    </Genres>
+    <ImagePath>:/assets/wifi.jpeg</ImagePath>
+    <Notes>Za nooto</Notes>
+    <Author>Me</Author>
+    <Publisher>Also me</Publisher>
+    <Pages>32</Pages>
+    <Series>Saaaaseries</Series>
+    <ISBN>098</ISBN>
+  </Novel>
   <Album>
     <Title>Album Test</Title>
   </Album>

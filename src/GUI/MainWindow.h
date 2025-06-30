@@ -23,7 +23,10 @@ class MainWindow : public QMainWindow {
   memory::Database &database_;
   std::stack<QWidget *> navigation_stack_;
   QString last_simple_search_query_;
+  QString allowed_filter_;
+  bool changes_were_made_;
 
+  QMenu *menu_;
   DatabaseSelectionWidget *db_selection_widget_;
   advanced_search::MainWidget *advanced_search_widget_;
   search::SearchMain *simple_search_widget_;
@@ -37,6 +40,7 @@ class MainWindow : public QMainWindow {
   AddMediaViewPage *add_media_view_page_;
 
   QWidget *current_search_widget_;
+  bool savePopup();
 
   // debug
   void debugVisitorNormalSearch();
@@ -47,8 +51,11 @@ class MainWindow : public QMainWindow {
   explicit MainWindow(memory::Database &database, QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
 
  private slots:
+  void createDatabase();
+  void openDatabase();
   void accessDatabase(const QString &path);
-  void closeDatabase(bool save);
+  void closeDatabase();
+  void saveDatabase();
 
   void applyFilterAdvanced(const media::Media *);
   void searchByName(const QString &);
@@ -60,6 +67,7 @@ class MainWindow : public QMainWindow {
   void onEditConfirmed(const media::Media *newMedia,
                        const media::Media *oldMedia);  // Da collegare Signal di MediaEditPage a questo dentro il
                                                        // costruttore di MainWindow
+
   void onAddMedia(media::Media *newMedia);
   void navigateTo(QWidget *next_page);
 };

@@ -38,6 +38,8 @@ class Database {
 
   std::vector<const media::Media*> getAll() const;
   std::vector<const media::Media*> filterMedia(const media::Media& filter) const;
+
+  static const std::array<std::string, 2> kAcceptedExtensions;
 };
 
 }  // namespace memory

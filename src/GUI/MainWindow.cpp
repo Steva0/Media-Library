@@ -1,7 +1,12 @@
 #include "MainWindow.h"
 
+#include <QMenuBar>
 #include <QVBoxLayout>
+#include <algorithm>
+#include <cctype>
 #include <iostream>
+#include <QFileDialog>
+#include <QMessageBox>
 
 #include "DatabaseSelectionWidget.h"
 
@@ -10,12 +15,14 @@
 #include "PreviewVisitor.h"
 #include "Search/SearchMain.h"
 #include "SlidingStackedWidget.h"
+#include "qmessagebox.h"
 
 namespace gui {
 
 MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFlags flags)
     : QMainWindow(parent, flags),
       database_(database),
+      changes_were_made_(false),
       db_selection_widget_(new DatabaseSelectionWidget(this)),
       advanced_search_widget_(new advanced_search::MainWidget(this)),
       simple_search_widget_(new search::SearchMain(this)),
@@ -24,7 +31,16 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
       status_bar_(new QStatusBar(this)),
       media_detail_page_(new MediaDetailPage(this)),
       media_edit_page_(new MediaEditPage(this)),
-      add_media_view_page_(new AddMediaViewPage(this)){
+      add_media_view_page_(new AddMediaViewPage(this)) {
+  std::vector<QString> filetypes{};
+  std::for_each(memory::Database::kAcceptedExtensions.begin(), memory::Database::kAcceptedExtensions.end(),
+                [&filetypes](const std::string &type) { filetypes.push_back(QString::fromStdString(type).toUpper()); });
+  // QString allowed_filetypes{};
+  for (size_t i = 0; i < filetypes.size(); ++i) {
+    allowed_filter_ +=
+        filetypes[i] + QString(" files (*.") + QString::fromStdString(memory::Database::kAcceptedExtensions[i]) + ");;";
+  }
+
   auto *status_wrapper = new QFrame(this);
   status_wrapper->setFrameShape(QFrame::Box);
   status_wrapper->setFrameShadow(QFrame::Shadow::Sunken);
@@ -36,14 +52,9 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   stacked_widget_->setAnimation(QEasingCurve::Type::OutQuart);
   stacked_widget_->setSpeed(450);
 
-  // db_selection_widget_ = new DatabaseSelectionWidget(this);
   stacked_widget_->addWidget(db_selection_widget_);
-
-  // advanced_search_widget_ = new advanced_search::MainWidget(this);
   stacked_widget_->addWidget(advanced_search_widget_);
-
   stacked_widget_->addWidget(simple_search_widget_);
-
   stacked_widget_->addWidget(media_detail_page_);
   stacked_widget_->addWidget(media_edit_page_);
   stacked_widget_->addWidget(add_media_view_page_);
@@ -57,13 +68,29 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   status_bar_->showMessage("Status bar.");
 
-  // debugVisitorNormalSearch();
-  // debugTimedEdit();
-  // debugNormalSearch();
+  auto *open_db = new QAction("Apri", this);
+  auto *new_db = new QAction("Nuovo", this);
+  auto *close_db = new QAction("Chiudi", this);
+  auto *save_db = new QAction("Salva", this);
+
+  menu_ = menuBar()->addMenu("&Database");
+
+  menu_->addAction(save_db);
+  menu_->addAction(new_db);
+  menu_->addAction(open_db);
+  menu_->addAction(close_db);
+
+  menuBar()->hide();
 
   showMaximized();
 
-  connect(db_selection_widget_, &DatabaseSelectionWidget::onSelectDatabase, this, &MainWindow::accessDatabase);
+  connect(save_db, &QAction::triggered, this, &MainWindow::saveDatabase);
+  connect(new_db, &QAction::triggered, this, &MainWindow::createDatabase);
+  connect(open_db, &QAction::triggered, this, &MainWindow::openDatabase);
+  connect(close_db, &QAction::triggered, this, &MainWindow::closeDatabase); // da sistemare
+
+  connect(db_selection_widget_, &DatabaseSelectionWidget::onSelectDatabase, this, &MainWindow::openDatabase);
+  connect(db_selection_widget_, &DatabaseSelectionWidget::onCreateDatabase, this, &MainWindow::createDatabase);
   connect(advanced_search_widget_, &advanced_search::MainWidget::requestResults, this,
           &MainWindow::applyFilterAdvanced);
   connect(simple_search_widget_, &search::SearchMain::searchByName, this, &MainWindow::searchByName);
@@ -88,13 +115,13 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   connect(media_detail_page_, &MediaDetailPage::backRequested, this, &MainWindow::goBack);
   connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, this, &MainWindow::onRemoveMediaRequested);
   connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, [this]() { navigateTo(current_search_widget_); });
-  connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, simple_search_widget_, &search::SearchMain::hidePreview);
+  connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, simple_search_widget_,
+          &search::SearchMain::hidePreview);
   connect(media_detail_page_, &MediaDetailPage::enterEditRequested, this, &MainWindow::onEnterEditRequested);
 
-  connect(media_edit_page_, &MediaEditPage::editConfirmed,
-          [this](const media::Media *new_media, const media::Media *old_media) {
-            onEditConfirmed(new_media, old_media);
-          });
+  connect(
+      media_edit_page_, &MediaEditPage::editConfirmed,
+      [this](const media::Media *new_media, const media::Media *old_media) { onEditConfirmed(new_media, old_media); });
   connect(media_edit_page_, &MediaEditPage::editConfirmed, [this]() { navigateTo(current_search_widget_); });
   connect(media_edit_page_, &MediaEditPage::editConfirmed, simple_search_widget_, &search::SearchMain::hidePreview);
   connect(media_edit_page_, &MediaEditPage::backRequested, this, &MainWindow::goBack);
@@ -104,15 +131,36 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   connect(simple_search_widget_, &search::SearchMain::advancedClicked, this,
           [&]() { navigateTo(advanced_search_widget_); });
-  connect(simple_search_widget_, &search::SearchMain::commitEditChanges,
-          [this](const media::Media *new_media, const media::Media *old_media) {
-            onEditConfirmed(new_media, old_media);
-          });
-  connect(simple_search_widget_, &search::SearchMain::addNewMedia, this,
-          [&]() { navigateTo(add_media_view_page_); });
+  connect(
+      simple_search_widget_, &search::SearchMain::commitEditChanges,
+      [this](const media::Media *new_media, const media::Media *old_media) { onEditConfirmed(new_media, old_media); });
+  connect(simple_search_widget_, &search::SearchMain::addNewMedia, this, [&]() { navigateTo(add_media_view_page_); });
   connect(add_media_view_page_, &AddMediaViewPage::mediaAdded, this, &MainWindow::onAddMedia);
-  connect(add_media_view_page_, &AddMediaViewPage::backRequested, this,
-          [&]() { navigateTo(current_search_widget_); });
+  connect(add_media_view_page_, &AddMediaViewPage::backRequested, this, [&]() { navigateTo(current_search_widget_); });
+}
+
+void MainWindow::createDatabase() {
+  if (savePopup()) database_.save();
+  QString filter;
+  QString path = QFileDialog::getSaveFileName(this, "New Database", ".", allowed_filter_, &filter);
+  if (path == "") return;
+
+  if (filter.contains("xml"))
+    filter = ".xml";
+  else
+    filter = ".json";
+
+  if (!path.endsWith(filter)) path += filter;
+
+  accessDatabase(path);
+}
+
+void MainWindow::openDatabase() {
+  if (savePopup()) database_.save();
+  QString path = QFileDialog::getOpenFileName(nullptr, "Open Database", ".", allowed_filter_);
+  if (path == "") return;  // "cancel"
+  accessDatabase(path);
+  
 }
 
 void MainWindow::onMediaDoubleClicked(const media::Media *media) {
@@ -128,6 +176,8 @@ void MainWindow::goBack() {
     QWidget *previous = navigation_stack_.top();
     navigation_stack_.pop();
     stacked_widget_->setCurrentWidget(previous);
+    if (previous == simple_search_widget_)
+      menuBar()->show();
   }
 }
 
@@ -139,6 +189,7 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
   }
 
   database_.removeMedia(*media);
+  changes_were_made_ = true;
 
   media::Media *empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
   applyFilterAdvanced(empty_filter);
@@ -152,6 +203,7 @@ void MainWindow::onAddMedia(media::Media *newMedia) {
 
   // Aggiungi il nuovo media al database
   database_.addMedia(*newMedia);
+  changes_were_made_ = true;
 
   // Aggiorna i risultati della ricerca (avanzata) per riflettere il nuovo media
   media::Media *empty_filter = new media::Media("");  // filtro vuoto = tutti i media
@@ -184,6 +236,7 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
 
   database_.removeMedia(*oldMedia);
   database_.addMedia(*newMedia);
+  changes_were_made_ = true;
 
   // Aggiorna la pagina dettaglio con il nuovo media
   media_detail_page_->setMedia(newMedia);
@@ -196,7 +249,20 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
   simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
 }
 
+bool MainWindow::savePopup() {
+  if (changes_were_made_) {
+    QMessageBox::StandardButton choice(
+        QMessageBox::question(this, "Salvataggio", "Vuoi salvare?", QMessageBox::Yes | QMessageBox::No));
+
+    if (choice == QMessageBox::No) changes_were_made_ = false;
+  }
+  return changes_were_made_;
+}
+
 void MainWindow::accessDatabase(const QString &path) {
+  if (savePopup()) {
+    database_.save();
+  }
   database_.open(path);
 
   // Appena aperto il db, aggiorna i risultati di ricerca con tutti i media o con filtro vuoto
@@ -209,11 +275,22 @@ void MainWindow::accessDatabase(const QString &path) {
 
   // Naviga alla schermata principale di ricerca avanzata (o altra)
   navigateTo(simple_search_widget_);
+  simple_search_widget_->hidePreview();
 }
 
-void MainWindow::closeDatabase(bool save) {
+void MainWindow::closeDatabase() {
   // bisogna aggiornare status line in base allo stato di chiusura del database
-  database_.close(save);
+  savePopup();
+  database_.close(changes_were_made_);
+  changes_were_made_ = false;
+
+  // reset
+  stacked_widget_->setCurrentWidget(db_selection_widget_);
+}
+
+void MainWindow::saveDatabase() {
+  database_.save();
+  changes_were_made_ = false;
 }
 
 void MainWindow::applyFilterAdvanced(const media::Media *filter) {
@@ -254,8 +331,13 @@ void MainWindow::navigateTo(QWidget *next_page) {
   if (current && current != next_page) {
     navigation_stack_.push(current);
   }
-  if (dynamic_cast<advanced_search::MainWidget*>(next_page) || dynamic_cast<search::SearchMain *>(next_page))
+  if (dynamic_cast<advanced_search::MainWidget *>(next_page) || dynamic_cast<search::SearchMain *>(next_page))
     current_search_widget_ = next_page;
+  if (dynamic_cast<search::SearchMain *>(next_page)) {
+    menuBar()->show();
+  } else {
+    menuBar()->hide();
+  }
   stacked_widget_->setCurrentWidget(next_page);
 }
 

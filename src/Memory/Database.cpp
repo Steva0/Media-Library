@@ -21,6 +21,7 @@
 #include "Serializer.h"
 
 namespace memory {
+const std::array<std::string, 2> Database::kAcceptedExtensions{"xml", "json"};
 
 Database::~Database() { close(false); }
 
