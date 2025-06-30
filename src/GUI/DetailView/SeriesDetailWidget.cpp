@@ -1,4 +1,5 @@
 #include "SeriesDetailWidget.h"
+
 #include <QString>
 
 namespace gui {
@@ -34,6 +35,5 @@ void SeriesDetailWidget::setMedia(const media::Media* media) {
   // Per ended mettiamo "Yes", "No" o campo vuoto se valore non definito
   endedLabel_->setText(series->hasEnded() ? "Ended: Yes" : "Ended: No");
 }
-
 
 }  // namespace gui

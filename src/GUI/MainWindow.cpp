@@ -7,8 +7,8 @@
 
 // debug
 #include "AdvancedSearch/MainWidget.h"
-#include "Search/SearchMain.h"
 #include "PreviewVisitor.h"
+#include "Search/SearchMain.h"
 #include "SlidingStackedWidget.h"
 
 namespace gui {
@@ -65,12 +65,9 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   connect(advanced_search_widget_, &advanced_search::MainWidget::requestResults, this,
           &MainWindow::applyFilterAdvanced);
   connect(simple_search_widget_, &search::SearchMain::searchByName, this, &MainWindow::searchByName);
-  connect(simple_search_widget_, &search::SearchMain::mediaDoubleClicked,
-          this, &MainWindow::onMediaDoubleClicked);
-  connect(simple_search_widget_, &search::SearchMain::requestEdit,
-          this, &MainWindow::onEnterEditRequested);
-  connect(simple_search_widget_, &search::SearchMain::requestDelete,
-          this, &MainWindow::onRemoveMediaRequested);
+  connect(simple_search_widget_, &search::SearchMain::mediaDoubleClicked, this, &MainWindow::onMediaDoubleClicked);
+  connect(simple_search_widget_, &search::SearchMain::requestEdit, this, &MainWindow::onEnterEditRequested);
+  connect(simple_search_widget_, &search::SearchMain::requestDelete, this, &MainWindow::onRemoveMediaRequested);
 
   // connect(this, &MainWindow::onQueryResults, advanced_search_widget,
   // &advanced_search::MainWidget::onGetSearchResults);
@@ -80,39 +77,30 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   // se esiste un segnale custom che fornisce il media selezionato.
   // Supponiamo che advanced_search_widget_ abbia il segnale:
   // void mediaDoubleClicked(const media::Media*);
-  connect(advanced_search_widget_, &advanced_search::MainWidget::mediaDoubleClicked,
-          this, &MainWindow::onMediaDoubleClicked);
-  connect(advanced_search_widget_, &advanced_search::MainWidget::backRequested,
-          this, [this]() { navigateTo(simple_search_widget_); });
+  connect(advanced_search_widget_, &advanced_search::MainWidget::mediaDoubleClicked, this,
+          &MainWindow::onMediaDoubleClicked);
+  connect(advanced_search_widget_, &advanced_search::MainWidget::backRequested, this,
+          [this]() { navigateTo(simple_search_widget_); });
 
   // 2) Segnali dal widget dettaglio per azioni
-  connect(media_detail_page_, &MediaDetailPage::backRequested,
-          this, &MainWindow::goBack);
+  connect(media_detail_page_, &MediaDetailPage::backRequested, this, &MainWindow::goBack);
 
-  connect(media_detail_page_, &MediaDetailPage::removeMediaRequested,
-          this, &MainWindow::onRemoveMediaRequested);
+  connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, this, &MainWindow::onRemoveMediaRequested);
 
-  connect(media_detail_page_, &MediaDetailPage::enterEditRequested,
-          this, &MainWindow::onEnterEditRequested);
+  connect(media_detail_page_, &MediaDetailPage::enterEditRequested, this, &MainWindow::onEnterEditRequested);
 
-  connect(media_edit_page_, &MediaEditPage::editConfirmed,
-          this, &MainWindow::onEditConfirmed);
+  connect(media_edit_page_, &MediaEditPage::editConfirmed, this, &MainWindow::onEditConfirmed);
 
-  connect(media_edit_page_, &MediaEditPage::backRequested,
-          this, &MainWindow::goBack);
-  
-  connect(media_edit_page_, &MediaEditPage::deleteRequested,
-          this, &MainWindow::onRemoveMediaRequested);
+  connect(media_edit_page_, &MediaEditPage::backRequested, this, &MainWindow::goBack);
 
-  connect(simple_search_widget_, &search::SearchMain::advancedClicked,
-        this, [&]() {
-            navigateTo(advanced_search_widget_);
-        });
+  connect(media_edit_page_, &MediaEditPage::deleteRequested, this, &MainWindow::onRemoveMediaRequested);
+
+  connect(simple_search_widget_, &search::SearchMain::advancedClicked, this,
+          [&]() { navigateTo(advanced_search_widget_); });
 }
 
 void MainWindow::onMediaDoubleClicked(const media::Media *media) {
-  if (!media)
-    return;
+  if (!media) return;
 
   media_detail_page_->setMedia(media);
   navigateTo(media_detail_page_);
@@ -121,12 +109,11 @@ void MainWindow::onMediaDoubleClicked(const media::Media *media) {
 // Slot per tornare indietro dalla pagina dettaglio
 void MainWindow::goBack() {
   if (!navigation_stack_.empty()) {
-    QWidget* previous = navigation_stack_.top();
+    QWidget *previous = navigation_stack_.top();
     navigation_stack_.pop();
     stacked_widget_->setCurrentWidget(previous);
   }
 }
-
 
 // Slot per rimuovere media, chiamato da widget dettaglio
 void MainWindow::onRemoveMediaRequested(const media::Media *media, int num) {
@@ -140,15 +127,11 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media, int num) {
   }
   database_.removeMedia(*media);
 
-  
-
-  media::Media* empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
+  media::Media *empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
   applyFilterAdvanced(empty_filter);
 
-  // Aggiorna ricerca semplice 
-  simple_search_widget_->acceptResults(
-  database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
-
+  // Aggiorna ricerca semplice
+  simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
 }
 
 void MainWindow::onEnterEditRequested(const media::Media *Media) {
@@ -159,7 +142,6 @@ void MainWindow::onEnterEditRequested(const media::Media *Media) {
 
   media_edit_page_->setMediaToEdit(Media);
   navigateTo(media_edit_page_);
-
 }
 
 // Slot per modifica media, chiamato da widget dettaglio
@@ -172,27 +154,24 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
   database_.removeMedia(*oldMedia);
   database_.addMedia(*newMedia);
 
-  //Aggiorna la pagina dettaglio con il nuovo media
+  // Aggiorna la pagina dettaglio con il nuovo media
   media_detail_page_->setMedia(newMedia);
 
-  goBack(); // Ora torna al dettaglio già aggiornato
+  goBack();  // Ora torna al dettaglio già aggiornato
 
-  //Aggiorna i risultati della ricerca (avanzata) per riflettere il cambiamento
-  media::Media* empty_filter = new media::Media("");
+  // Aggiorna i risultati della ricerca (avanzata) per riflettere il cambiamento
+  media::Media *empty_filter = new media::Media("");
   applyFilterAdvanced(empty_filter);
 
-  // Aggiorna ricerca semplice 
-  simple_search_widget_->acceptResults(
-  database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
-
+  // Aggiorna ricerca semplice
+  simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
 }
-
 
 void MainWindow::accessDatabase(const QString &path) {
   database_.open(path);
 
   // Appena aperto il db, aggiorna i risultati di ricerca con tutti i media o con filtro vuoto
-  media::Media* empty_filter = new media::Media("");  // filtro vuoto = tutti i media
+  media::Media *empty_filter = new media::Media("");  // filtro vuoto = tutti i media
   applyFilterAdvanced(empty_filter);
 
   // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
@@ -202,7 +181,6 @@ void MainWindow::accessDatabase(const QString &path) {
   // Naviga alla schermata principale di ricerca avanzata (o altra)
   navigateTo(simple_search_widget_);
 }
-
 
 void MainWindow::closeDatabase(bool save) {
   // bisogna aggiornare status line in base allo stato di chiusura del database
@@ -234,15 +212,16 @@ void MainWindow::debugTimedEdit() {
   auto *timed_line = new search::InputBar(this);
   stacked_widget_->addWidget(timed_line);
   stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
-  connect(timed_line, &search::InputBar::timedEdit, this, [](const QString &text){std::cout << text.toStdString() << '\n'; });
+  connect(timed_line, &search::InputBar::timedEdit, this,
+          [](const QString &text) { std::cout << text.toStdString() << '\n'; });
 }
 void MainWindow::debugNormalSearch() {
   auto *search = new search::SearchMain(this);
   stacked_widget_->addWidget(search);
   stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
 }
-void MainWindow::navigateTo(QWidget* next_page) {
-  QWidget* current = stacked_widget_->currentWidget();
+void MainWindow::navigateTo(QWidget *next_page) {
+  QWidget *current = stacked_widget_->currentWidget();
   if (current && current != next_page) {
     navigation_stack_.push(current);
   }

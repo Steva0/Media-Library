@@ -1,76 +1,77 @@
 #include "MovieEditWidget.h"
-#include <QLabel>
-#include <QHBoxLayout>
+
 #include <QDebug>
+#include <QHBoxLayout>
+#include <QLabel>
 
 namespace gui {
 
-MovieEditWidget::MovieEditWidget(QWidget *parent) : MediaEditWidget(parent) {
-    // --- Riga con Durata e Universo ---
-    auto* row_layout = new QHBoxLayout();
+MovieEditWidget::MovieEditWidget(QWidget* parent) : MediaEditWidget(parent) {
+  // --- Riga con Durata e Universo ---
+  auto* row_layout = new QHBoxLayout();
 
-    // Durata
-    auto* length_label = new QLabel("Durata (min):", this);
-    length_input_ = new QSpinBox(this);
-    length_input_->setRange(0, 1000);
-    length_input_->setMaximumWidth(80);
-    row_layout->addWidget(length_label);
-    row_layout->addWidget(length_input_);
+  // Durata
+  auto* length_label = new QLabel("Durata (min):", this);
+  length_input_ = new QSpinBox(this);
+  length_input_->setRange(0, 1000);
+  length_input_->setMaximumWidth(80);
+  row_layout->addWidget(length_label);
+  row_layout->addWidget(length_input_);
 
-    row_layout->addSpacing(10);
+  row_layout->addSpacing(10);
 
-    // Universo
-    auto* universe_label = new QLabel("Universo:", this);
-    universe_input_ = new QLineEdit(this);
-    row_layout->addWidget(universe_label);
-    row_layout->addWidget(universe_input_);
+  // Universo
+  auto* universe_label = new QLabel("Universo:", this);
+  universe_input_ = new QLineEdit(this);
+  row_layout->addWidget(universe_label);
+  row_layout->addWidget(universe_input_);
 
-    row_layout->addStretch();
+  row_layout->addStretch();
 
-    main_layout_->addLayout(row_layout);
+  main_layout_->addLayout(row_layout);
 
-    // --- Sezione Cast ---
-    auto* cast_row_layout = new QHBoxLayout();
+  // --- Sezione Cast ---
+  auto* cast_row_layout = new QHBoxLayout();
 
-    // Label Cast (sinistra, allineata in alto)
-    auto* cast_label = new QLabel("Cast:", this);
-    cast_label->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-    cast_row_layout->addWidget(cast_label);
+  // Label Cast (sinistra, allineata in alto)
+  auto* cast_label = new QLabel("Cast:", this);
+  cast_label->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+  cast_row_layout->addWidget(cast_label);
 
-    // Layout verticale a destra per input + lista
-    auto* cast_right_layout = new QVBoxLayout();
+  // Layout verticale a destra per input + lista
+  auto* cast_right_layout = new QVBoxLayout();
 
-    // Input cast e bottone +
-    auto* add_cast_layout = new QHBoxLayout();
-    cast_input_ = new QLineEdit(this);
-    add_cast_button_ = new QPushButton("+", this);
-    add_cast_button_->setFixedWidth(30);
-    add_cast_layout->addWidget(cast_input_);
-    add_cast_layout->addWidget(add_cast_button_);
-    cast_right_layout->addLayout(add_cast_layout);
+  // Input cast e bottone +
+  auto* add_cast_layout = new QHBoxLayout();
+  cast_input_ = new QLineEdit(this);
+  add_cast_button_ = new QPushButton("+", this);
+  add_cast_button_->setFixedWidth(30);
+  add_cast_layout->addWidget(cast_input_);
+  add_cast_layout->addWidget(add_cast_button_);
+  cast_right_layout->addLayout(add_cast_layout);
 
-    // Contenitore con layout verticale per lista cast (aggiunta dinamica)
-    cast_container_ = new QWidget(this);
-    cast_layout_ = new QVBoxLayout(cast_container_);
-    cast_layout_->setContentsMargins(0, 0, 0, 0);
-    cast_layout_->setSpacing(5);
+  // Contenitore con layout verticale per lista cast (aggiunta dinamica)
+  cast_container_ = new QWidget(this);
+  cast_layout_ = new QVBoxLayout(cast_container_);
+  cast_layout_->setContentsMargins(0, 0, 0, 0);
+  cast_layout_->setSpacing(5);
 
-    // Scrolling per la lista cast
-    auto* cast_scroll = new QScrollArea(this);
-    cast_scroll->setWidget(cast_container_);
-    cast_scroll->setWidgetResizable(true);
-    cast_scroll->setFixedHeight(100);
+  // Scrolling per la lista cast
+  auto* cast_scroll = new QScrollArea(this);
+  cast_scroll->setWidget(cast_container_);
+  cast_scroll->setWidgetResizable(true);
+  cast_scroll->setFixedHeight(100);
 
-    cast_right_layout->addWidget(cast_scroll);
+  cast_right_layout->addWidget(cast_scroll);
 
-    // Aggiungo la colonna destra accanto alla label
-    cast_row_layout->addLayout(cast_right_layout);
+  // Aggiungo la colonna destra accanto alla label
+  cast_row_layout->addLayout(cast_right_layout);
 
-    // Aggiungo tutto il layout cast al main layout
-    main_layout_->addLayout(cast_row_layout);
+  // Aggiungo tutto il layout cast al main layout
+  main_layout_->addLayout(cast_row_layout);
 
-    // Connessione bottone aggiungi cast
-    connect(add_cast_button_, &QPushButton::clicked, this, &MovieEditWidget::addCastMember);
+  // Connessione bottone aggiungi cast
+  connect(add_cast_button_, &QPushButton::clicked, this, &MovieEditWidget::addCastMember);
 }
 
 void MovieEditWidget::setMedia(const media::Media* media) {
@@ -113,7 +114,7 @@ void MovieEditWidget::setCast(const std::vector<std::string>& cast) {
     cast_widgets_.push_back(qMakePair(cast_line, remove_button));
 
     connect(remove_button, &QPushButton::clicked, this,
-      [this, cast_line, remove_button]() { removeCastMember(cast_line, remove_button); });
+            [this, cast_line, remove_button]() { removeCastMember(cast_line, remove_button); });
   }
 }
 
@@ -144,16 +145,16 @@ void MovieEditWidget::addCastMember() {
   cast_widgets_.push_back(qMakePair(cast_line, remove_button));
 
   connect(remove_button, &QPushButton::clicked, this,
-    [this, cast_line, remove_button]() { removeCastMember(cast_line, remove_button); });
+          [this, cast_line, remove_button]() { removeCastMember(cast_line, remove_button); });
 
   cast_input_->clear();
 }
 
 void MovieEditWidget::removeCastMember(QLineEdit* cast_line, QPushButton* button) {
   auto it = std::find_if(cast_widgets_.begin(), cast_widgets_.end(),
-    [cast_line, button](const QPair<QLineEdit*, QPushButton*>& pair) {
-      return pair.first == cast_line && pair.second == button;
-    });
+                         [cast_line, button](const QPair<QLineEdit*, QPushButton*>& pair) {
+                           return pair.first == cast_line && pair.second == button;
+                         });
   if (it == cast_widgets_.end()) return;
 
   cast_layout_->removeWidget(it->first);
@@ -175,18 +176,10 @@ std::vector<std::string> MovieEditWidget::getCast() const {
 media::Media* MovieEditWidget::getModifiedMedia() const {
   if (!old_media_) return nullptr;
 
-  return new media::Movie(
-    title_input_->text().toStdString(),
-    release_input_->value(),
-    language_input_->text().toStdString(),
-    favourite_checkbox_->isChecked(),
-    getGenres(),
-    img_path_input_->text().toStdString(),
-    notes_input_->toPlainText().toStdString(),
-    getCast(),
-    length_input_->value(),
-    universe_input_->text().toStdString()
-  );
+  return new media::Movie(title_input_->text().toStdString(), release_input_->value(),
+                          language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),
+                          img_path_input_->text().toStdString(), notes_input_->toPlainText().toStdString(), getCast(),
+                          length_input_->value(), universe_input_->text().toStdString());
 }
 
 }  // namespace gui

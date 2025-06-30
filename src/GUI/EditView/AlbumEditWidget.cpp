@@ -1,22 +1,23 @@
 #include "AlbumEditWidget.h"
+
 #include <QLabel>
 #include <QScrollArea>
 
 namespace gui {
 
-AlbumEditWidget::AlbumEditWidget(QWidget *parent) : MediaEditWidget(parent) {
+AlbumEditWidget::AlbumEditWidget(QWidget* parent) : MediaEditWidget(parent) {
   // --- Band name (etichetta a sinistra, campo più compatto) ---
   auto* band_layout = new QHBoxLayout();
   auto* band_label = new QLabel("Band:", this);
-  band_label->setFixedWidth(50); // larghezza costante della label
+  band_label->setFixedWidth(50);  // larghezza costante della label
   band_layout->addWidget(band_label);
-  
+
   band_layout->addSpacing(5);
 
   band_input_ = new QLineEdit(this);
-  band_input_->setMaximumWidth(250); // restringe il campo input
+  band_input_->setMaximumWidth(250);  // restringe il campo input
   band_layout->addWidget(band_input_);
-  band_layout->addStretch(); // spinge tutto a sinistra
+  band_layout->addStretch();  // spinge tutto a sinistra
 
   main_layout_->addLayout(band_layout);
 
@@ -211,18 +212,10 @@ media::Media* AlbumEditWidget::getModifiedMedia() const {
     songs.push_back(edit->text().toStdString());
   }
 
-  return new media::Album(
-    title_input_->text().toStdString(),
-    release_input_->value(),
-    language_input_->text().toStdString(),
-    favourite_checkbox_->isChecked(),
-    getGenres(),
-    img_path_input_->text().toStdString(),
-    notes_input_->toPlainText().toStdString(),
-    band_input_->text().toStdString(),
-    members,
-    songs
-  );
+  return new media::Album(title_input_->text().toStdString(), release_input_->value(),
+                          language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),
+                          img_path_input_->text().toStdString(), notes_input_->toPlainText().toStdString(),
+                          band_input_->text().toStdString(), members, songs);
 }
 
 }  // namespace gui

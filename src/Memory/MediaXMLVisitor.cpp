@@ -10,8 +10,7 @@
 
 namespace memory {
 const QDomDocument &MediaXMLVisitor::getDocument() const { return document_; }
-QDomElement MediaXMLVisitor::elementFrom(const std::string &key,
-                                         const std::string &value) {
+QDomElement MediaXMLVisitor::elementFrom(const std::string &key, const std::string &value) {
   QDomElement el = document_.createElement(QString::fromStdString(key));
   el.appendChild(document_.createTextNode(QString::fromStdString(value)));
   return el;
@@ -21,8 +20,7 @@ QDomElement MediaXMLVisitor::elementFrom(const std::string &key, int value) {
   el.appendChild(document_.createTextNode(QString::number(value)));
   return el;
 }
-QDomElement MediaXMLVisitor::elementFrom(const std::string &key,
-                                         unsigned int value) {
+QDomElement MediaXMLVisitor::elementFrom(const std::string &key, unsigned int value) {
   QDomElement el = document_.createElement(QString::fromStdString(key));
   el.appendChild(document_.createTextNode(QString::number(value)));
   return el;
@@ -42,10 +40,8 @@ void MediaXMLVisitor::visit(const media::Media &media) {
 
   if (media.getRelease() != std::numeric_limits<int>::min())
     base.appendChild(elementFrom("Release", media.getRelease()));
-  if (media.getLanguage() != "")
-    base.appendChild(elementFrom("Language", media.getLanguage()));
-  if (media.isFavourite())
-    base.appendChild(elementFrom("Favourite"));
+  if (media.getLanguage() != "") base.appendChild(elementFrom("Language", media.getLanguage()));
+  if (media.isFavourite()) base.appendChild(elementFrom("Favourite"));
 
   if (!media.getGenres().empty()) {
     el = document_.createElement("Genres");
@@ -55,10 +51,8 @@ void MediaXMLVisitor::visit(const media::Media &media) {
     base.appendChild(el);
   }
 
-  if (media.getImgPath() != "")
-    base.appendChild(elementFrom("ImagePath", media.getImgPath()));
-  if (media.getNotes() != "")
-    base.appendChild(elementFrom("Notes", media.getNotes()));
+  if (media.getImgPath() != "") base.appendChild(elementFrom("ImagePath", media.getImgPath()));
+  if (media.getNotes() != "") base.appendChild(elementFrom("Notes", media.getNotes()));
 
   document_.appendChild(base);
 }
@@ -69,9 +63,7 @@ void MediaXMLVisitor::visit(const media::Album &album) {
   }
   visit(static_cast<const media::Media &>(album));
   document_.childNodes().at(0).toElement().setTagName("Album");
-  if (album.getBand() != "")
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("Band", album.getBand()));
+  if (album.getBand() != "") document_.childNodes().at(0).toElement().appendChild(elementFrom("Band", album.getBand()));
   if (!album.getBandMembers().empty()) {
     QDomElement el = document_.createElement("BandMembers");
     for (const std::string &member : album.getBandMembers()) {
@@ -102,11 +94,9 @@ void MediaXMLVisitor::visit(const media::Movie &movie) {
     document_.childNodes().at(0).toElement().appendChild(el);
   }
   if (movie.getLength() != std::numeric_limits<int>::min())
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("Length", movie.getLength()));
+    document_.childNodes().at(0).toElement().appendChild(elementFrom("Length", movie.getLength()));
   if (movie.getUniverse() != "")
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("Universe", movie.getUniverse()));
+    document_.childNodes().at(0).toElement().appendChild(elementFrom("Universe", movie.getUniverse()));
 }
 
 void MediaXMLVisitor::visit(const media::Series &series) {
@@ -116,13 +106,10 @@ void MediaXMLVisitor::visit(const media::Series &series) {
   visit(static_cast<const media::Movie &>(series));
   document_.childNodes().at(0).toElement().setTagName("Series");
   if (series.getEpisodes() != std::numeric_limits<int>::min())
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("Episodes", series.getEpisodes()));
+    document_.childNodes().at(0).toElement().appendChild(elementFrom("Episodes", series.getEpisodes()));
   if (series.getSeasons() != std::numeric_limits<int>::min())
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("Seasons", series.getSeasons()));
-  if (series.hasEnded())
-    document_.childNodes().at(0).toElement().appendChild(elementFrom("Ended"));
+    document_.childNodes().at(0).toElement().appendChild(elementFrom("Seasons", series.getSeasons()));
+  if (series.hasEnded()) document_.childNodes().at(0).toElement().appendChild(elementFrom("Ended"));
 }
 
 void MediaXMLVisitor::visit(const media::Novel &novel) {
@@ -133,20 +120,14 @@ void MediaXMLVisitor::visit(const media::Novel &novel) {
   document_.childNodes().at(0).toElement().setTagName("Novel");
 
   if (novel.getAuthor() != "")
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("Author", novel.getAuthor()));
+    document_.childNodes().at(0).toElement().appendChild(elementFrom("Author", novel.getAuthor()));
   if (novel.getPublisher() != "")
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("Publisher", novel.getPublisher()));
+    document_.childNodes().at(0).toElement().appendChild(elementFrom("Publisher", novel.getPublisher()));
   if (novel.getPages() != std::numeric_limits<int>::min())
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("Pages", novel.getPages()));
+    document_.childNodes().at(0).toElement().appendChild(elementFrom("Pages", novel.getPages()));
   if (novel.getSeries() != "")
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("Series", novel.getSeries()));
-  if (novel.getIsbn() != "")
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("ISBN", novel.getIsbn()));
+    document_.childNodes().at(0).toElement().appendChild(elementFrom("Series", novel.getSeries()));
+  if (novel.getIsbn() != "") document_.childNodes().at(0).toElement().appendChild(elementFrom("ISBN", novel.getIsbn()));
 }
 
 void MediaXMLVisitor::visit(const media::AudioBook &audioBook) {
@@ -156,11 +137,9 @@ void MediaXMLVisitor::visit(const media::AudioBook &audioBook) {
   visit(static_cast<const media::Novel &>(audioBook));
   document_.childNodes().at(0).toElement().setTagName("AudioBook");
   if (audioBook.getNarrator() != "")
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("Narrator", audioBook.getNarrator()));
+    document_.childNodes().at(0).toElement().appendChild(elementFrom("Narrator", audioBook.getNarrator()));
   if (audioBook.getStreamingService() != "")
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("Service", audioBook.getStreamingService()));
+    document_.childNodes().at(0).toElement().appendChild(elementFrom("Service", audioBook.getStreamingService()));
 }
 
 void MediaXMLVisitor::visit(const media::Ebook &ebook) {
@@ -170,9 +149,7 @@ void MediaXMLVisitor::visit(const media::Ebook &ebook) {
   visit(static_cast<const media::Novel &>(ebook));
   document_.childNodes().at(0).toElement().setTagName("Ebook");
   if (ebook.getFileSizeBytes() != std::numeric_limits<int>::min())
-    document_.childNodes().at(0).toElement().appendChild(
-        elementFrom("Bytes", ebook.getFileSizeBytes()));
-  if (ebook.hasDrm())
-    document_.childNodes().at(0).toElement().appendChild(elementFrom("DRM"));
+    document_.childNodes().at(0).toElement().appendChild(elementFrom("Bytes", ebook.getFileSizeBytes()));
+  if (ebook.hasDrm()) document_.childNodes().at(0).toElement().appendChild(elementFrom("DRM"));
 }
 }  // namespace memory

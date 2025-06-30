@@ -1,9 +1,10 @@
 #include "AudioBookEditWidget.h"
+
 #include <QLabel>
 
 namespace gui {
 
-AudioBookEditWidget::AudioBookEditWidget(QWidget *parent) : NovelEditWidget(parent) {
+AudioBookEditWidget::AudioBookEditWidget(QWidget* parent) : NovelEditWidget(parent) {
   auto* row_layout = new QHBoxLayout();
 
   // Label "Narratore"
@@ -29,7 +30,6 @@ AudioBookEditWidget::AudioBookEditWidget(QWidget *parent) : NovelEditWidget(pare
   main_layout_->addLayout(row_layout);
 }
 
-
 void AudioBookEditWidget::setMedia(const media::Media* media) {
   NovelEditWidget::setMedia(media);
 
@@ -43,22 +43,13 @@ void AudioBookEditWidget::setMedia(const media::Media* media) {
 media::Media* AudioBookEditWidget::getModifiedMedia() const {
   if (!old_media_) return nullptr;
 
-  return new media::AudioBook(
-    title_input_->text().toStdString(),
-    release_input_->value(),
-    language_input_->text().toStdString(),
-    favourite_checkbox_->isChecked(),
-    getGenres(),
-    img_path_input_->text().toStdString(),
-    notes_input_->toPlainText().toStdString(),
-    author_input_->text().toStdString(),
-    publisher_input_->text().toStdString(),
-    pages_input_->value(),
-    series_input_->text().toStdString(),
-    isbn_input_->text().toStdString(),
-    narrator_input_->text().toStdString(),
-    streaming_service_input_->text().toStdString()
-  );
+  return new media::AudioBook(title_input_->text().toStdString(), release_input_->value(),
+                              language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),
+                              img_path_input_->text().toStdString(), notes_input_->toPlainText().toStdString(),
+                              author_input_->text().toStdString(), publisher_input_->text().toStdString(),
+                              pages_input_->value(), series_input_->text().toStdString(),
+                              isbn_input_->text().toStdString(), narrator_input_->text().toStdString(),
+                              streaming_service_input_->text().toStdString());
 }
 
 }  // namespace gui

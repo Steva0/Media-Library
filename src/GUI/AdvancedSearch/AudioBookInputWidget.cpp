@@ -1,7 +1,9 @@
 #include "AudioBookInputWidget.h"
-#include "../../Media/AudioBook.h"
+
 #include <QGridLayout>
 #include <QLabel>
+
+#include "../../Media/AudioBook.h"
 
 namespace gui {
 namespace advanced_search {

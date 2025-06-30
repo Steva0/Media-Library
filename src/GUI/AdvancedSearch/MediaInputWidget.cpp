@@ -119,8 +119,7 @@ void MediaInputWidget::setFromMedia(const media::Media &media) {
   title_->setText(QString::fromStdString(media.getTitle()));
 
   QString release = QString::number(media.getRelease());
-  if (media.getRelease() == std::numeric_limits<int>::min())
-    release.clear();
+  if (media.getRelease() == std::numeric_limits<int>::min()) release.clear();
   release_->setText(release);
   language_->setText(QString::fromStdString(media.getLanguage()));
   favourite_->setChecked(media.isFavourite());

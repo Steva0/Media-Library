@@ -31,5 +31,4 @@ void EbookDetailWidget::setMedia(const media::Media* media) {
   drmLabel_->setText(QString("DRM: %1").arg(ebook->hasDrm() ? "Yes" : "No"));
 }
 
-
 }  // namespace gui

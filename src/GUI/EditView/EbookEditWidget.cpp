@@ -1,9 +1,10 @@
 #include "EbookEditWidget.h"
+
 #include <QLabel>
 
 namespace gui {
 
-EbookEditWidget::EbookEditWidget(QWidget *parent) : NovelEditWidget(parent) {
+EbookEditWidget::EbookEditWidget(QWidget* parent) : NovelEditWidget(parent) {
   auto* row_layout = new QHBoxLayout();
 
   // Label "Dimensione file"
@@ -32,7 +33,6 @@ EbookEditWidget::EbookEditWidget(QWidget *parent) : NovelEditWidget(parent) {
   main_layout_->addLayout(row_layout);
 }
 
-
 void EbookEditWidget::setMedia(const media::Media* media) {
   NovelEditWidget::setMedia(media);
 
@@ -46,22 +46,12 @@ void EbookEditWidget::setMedia(const media::Media* media) {
 media::Media* EbookEditWidget::getModifiedMedia() const {
   if (!old_media_) return nullptr;
 
-  return new media::Ebook(
-    title_input_->text().toStdString(),
-    release_input_->value(),
-    language_input_->text().toStdString(),
-    favourite_checkbox_->isChecked(),
-    getGenres(),
-    img_path_input_->text().toStdString(),
-    notes_input_->toPlainText().toStdString(),
-    author_input_->text().toStdString(),
-    publisher_input_->text().toStdString(),
-    pages_input_->value(),
-    series_input_->text().toStdString(),
-    isbn_input_->text().toStdString(),
-    file_size_input_->value(),
-    drm_checkbox_->isChecked()
-  );
+  return new media::Ebook(title_input_->text().toStdString(), release_input_->value(),
+                          language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),
+                          img_path_input_->text().toStdString(), notes_input_->toPlainText().toStdString(),
+                          author_input_->text().toStdString(), publisher_input_->text().toStdString(),
+                          pages_input_->value(), series_input_->text().toStdString(), isbn_input_->text().toStdString(),
+                          file_size_input_->value(), drm_checkbox_->isChecked());
 }
 
 }  // namespace gui

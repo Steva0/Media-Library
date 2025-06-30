@@ -1,4 +1,5 @@
 #include "NovelDetailWidget.h"
+
 #include <limits>
 
 namespace gui {
@@ -52,6 +53,5 @@ void NovelDetailWidget::setMedia(const media::Media* media) {
   QString isbn = QString::fromStdString(novel->getIsbn());
   isbnLabel_->setText(!isbn.isEmpty() ? QString("ISBN: %1").arg(isbn) : "ISBN: ");
 }
-
 
 }  // namespace gui

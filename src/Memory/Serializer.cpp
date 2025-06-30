@@ -12,13 +12,9 @@ namespace memory {
 
 namespace {  // Dettagli interni (visibilità limitata a questo file)
 
-bool openFileForWrite(QFile& file) {
-  return file.open(QIODevice::WriteOnly | QIODevice::Text |
-                   QIODevice::Truncate);
-}
+bool openFileForWrite(QFile& file) { return file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate); }
 
-int writeJsonFile(const std::vector<const media::Media*>& mediaList,
-                  QFile& file) {
+int writeJsonFile(const std::vector<const media::Media*>& mediaList, QFile& file) {
   QJsonArray jsonArray;
 
   for (const auto* media : mediaList) {
@@ -37,8 +33,7 @@ int writeJsonFile(const std::vector<const media::Media*>& mediaList,
   return (written > 0) ? 0 : -2;
 }
 
-int writeXmlFile(const std::vector<const media::Media*>& mediaList,
-                 QFile& file) {
+int writeXmlFile(const std::vector<const media::Media*>& mediaList, QFile& file) {
   QDomDocument doc("MediaCollection");
   QDomElement root = doc.createElement("MediaList");
   doc.appendChild(root);
@@ -47,8 +42,7 @@ int writeXmlFile(const std::vector<const media::Media*>& mediaList,
     if (!media || media->getTitle().empty()) continue;
     MediaXMLVisitor visitor;
     media->accept(visitor);
-    root.appendChild(
-        doc.importNode(visitor.getDocument().documentElement(), true));
+    root.appendChild(doc.importNode(visitor.getDocument().documentElement(), true));
   }
 
   if (!openFileForWrite(file)) return -1;
@@ -61,8 +55,7 @@ int writeXmlFile(const std::vector<const media::Media*>& mediaList,
 
 }  // anonymous namespace
 
-int Serializer::serialize(const std::vector<const media::Media*>& mediaList,
-                          QFile& file) {
+int Serializer::serialize(const std::vector<const media::Media*>& mediaList, QFile& file) {
   if (file.fileName().toLower().endsWith(".json")) {
     return writeJsonFile(mediaList, file);
   }

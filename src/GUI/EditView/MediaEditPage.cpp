@@ -1,22 +1,21 @@
 #include "MediaEditPage.h"
-#include <QPushButton>
-#include <QVBoxLayout>
+
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPushButton>
+#include <QVBoxLayout>
 #include <typeinfo>
 
-#include "../../Media/Media.h"
-#include "../../Media/Novel.h"
-#include "../../Media/AudioBook.h"
 #include "../../Media/Album.h"
-#include "../../Media/Series.h"
+#include "../../Media/AudioBook.h"
 #include "../../Media/Ebook.h"
+#include "../../Media/Media.h"
 #include "../../Media/Movie.h"
+#include "../../Media/Novel.h"
+#include "../../Media/Series.h"
 
 namespace gui {
-MediaEditPage::MediaEditPage(QWidget* parent) : QWidget(parent) {
-  setupUi();
-}
+MediaEditPage::MediaEditPage(QWidget* parent) : QWidget(parent) { setupUi(); }
 
 void MediaEditPage::setupUi() {
   auto* main_layout = new QVBoxLayout(this);
@@ -43,7 +42,6 @@ void MediaEditPage::setupUi() {
   movie_edit_widget_ = new MovieEditWidget(this);
   ebook_edit_widget_ = new EbookEditWidget(this);
 
- 
   stacked_layout_->addWidget(media_edit_widget_);
   stacked_layout_->addWidget(novel_edit_widget_);
   stacked_layout_->addWidget(audiobook_edit_widget_);
@@ -84,23 +82,17 @@ MediaEditWidget* MediaEditPage::getWidgetForMedia(const media::Media* media) con
 
   if (dynamic_cast<const AudioBook*>(media)) {
     return audiobook_edit_widget_;
-  }
-  else if (dynamic_cast<const Series*>(media)) {
+  } else if (dynamic_cast<const Series*>(media)) {
     return series_edit_widget_;
-  }
-  else if (dynamic_cast<const Ebook*>(media)) {
+  } else if (dynamic_cast<const Ebook*>(media)) {
     return ebook_edit_widget_;
-  }
-  else if (dynamic_cast<const Novel*>(media)) {
+  } else if (dynamic_cast<const Novel*>(media)) {
     return novel_edit_widget_;
-  }
-  else if (dynamic_cast<const Album*>(media)) {
+  } else if (dynamic_cast<const Album*>(media)) {
     return album_edit_widget_;
-  }
-  else if (dynamic_cast<const Movie*>(media)) {
+  } else if (dynamic_cast<const Movie*>(media)) {
     return movie_edit_widget_;
-  }
-  else if (dynamic_cast<const Media*>(media)) {
+  } else if (dynamic_cast<const Media*>(media)) {
     return media_edit_widget_;
   }
 
@@ -123,9 +115,7 @@ void MediaEditPage::onDelete() {
   }
 }
 
-void MediaEditPage::onBack() {
-  emit backRequested();
-}
+void MediaEditPage::onBack() { emit backRequested(); }
 
 void MediaEditPage::keyPressEvent(QKeyEvent* event) {
   if (event->key() == Qt::Key_Escape) {
@@ -143,7 +133,5 @@ void MediaEditPage::keyPressEvent(QKeyEvent* event) {
     QWidget::keyPressEvent(event);
   }
 }
-
-
 
 }  // namespace gui

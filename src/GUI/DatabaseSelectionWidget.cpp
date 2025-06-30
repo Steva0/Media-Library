@@ -1,11 +1,12 @@
 #include "DatabaseSelectionWidget.h"
-#include "MainWindow.h"
 
 #include <QFileDialog>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <iostream>
+
+#include "MainWindow.h"
 
 namespace gui {
 DatabaseSelectionWidget::DatabaseSelectionWidget(MainWindow *main_window)
@@ -28,20 +29,20 @@ DatabaseSelectionWidget::DatabaseSelectionWidget(MainWindow *main_window)
 void DatabaseSelectionWidget::openDatabase() {
   // todo decidere quale usare
   QString path = QFileDialog::getOpenFileName(nullptr, "Open Database", ".", "XML files (*.xml);;JSON files (*.json)");
-  if (path == "") return; // "cancel"
+  if (path == "") return;  // "cancel"
   emit onSelectDatabase(path);
 }
 
 void DatabaseSelectionWidget::createDatabase() {
   QString filter;
-  QString path = QFileDialog::getSaveFileName(this, "New Database", ".", "XML files(*.xml);;JSON files (*.json)", &filter);
+  QString path =
+      QFileDialog::getSaveFileName(this, "New Database", ".", "XML files(*.xml);;JSON files (*.json)", &filter);
   if (path == "") return;
 
   if (filter.contains("xml"))
     filter = ".xml";
   else
     filter = ".json";
-
 
   if (!path.endsWith(filter)) path += filter;
 

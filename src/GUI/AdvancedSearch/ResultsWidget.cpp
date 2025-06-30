@@ -1,14 +1,13 @@
 #include "ResultsWidget.h"
 
-#include "ClickableFrame.h"
 #include "../PreviewVisitor.h"
+#include "ClickableFrame.h"
 
 namespace gui {
 namespace advanced_search {
 ResultsWidget::ResultsWidget(QWidget *parent) : QWidget(parent), grid_(new QGridLayout(this)) {
   grid_->setSpacing(0);
   grid_->setAlignment(Qt::AlignTop);
-  
 }
 
 void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_results) {
@@ -56,13 +55,10 @@ void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_r
     grid_->addWidget(wrapper, pos / 2, pos % 2);
 
     // ⬇️ Connetti il doppio click al segnale da emettere
-    connect(wrapper, &ClickableFrame::doubleClicked, this, [this, result]() {
-      emit mediaDoubleClicked(result);
-    });
+    connect(wrapper, &ClickableFrame::doubleClicked, this, [this, result]() { emit mediaDoubleClicked(result); });
 
     ++pos;
   }
-
 }
 }  // namespace advanced_search
 }  // namespace gui

@@ -1,9 +1,10 @@
 #include "NovelEditWidget.h"
+
 #include <QLabel>
 
 namespace gui {
 
-NovelEditWidget::NovelEditWidget(QWidget *parent) : MediaEditWidget(parent) {
+NovelEditWidget::NovelEditWidget(QWidget* parent) : MediaEditWidget(parent) {
   // Riga: Autore + Editore
   auto* first_row_layout = new QHBoxLayout();
 
@@ -14,7 +15,7 @@ NovelEditWidget::NovelEditWidget(QWidget *parent) : MediaEditWidget(parent) {
   first_row_layout->addWidget(author_label);
   first_row_layout->addWidget(author_input_);
 
-  first_row_layout->addSpacing(10); // spazio tra i due blocchi
+  first_row_layout->addSpacing(10);  // spazio tra i due blocchi
 
   auto* publisher_label = new QLabel("Editore:", this);
   publisher_label->setFixedWidth(60);
@@ -23,7 +24,7 @@ NovelEditWidget::NovelEditWidget(QWidget *parent) : MediaEditWidget(parent) {
   first_row_layout->addWidget(publisher_label);
   first_row_layout->addWidget(publisher_input_);
 
-  first_row_layout->addStretch(); // <-- forza l'allineamento a sinistra
+  first_row_layout->addStretch();  // <-- forza l'allineamento a sinistra
   main_layout_->addLayout(first_row_layout);
 
   // Riga: Serie + Pagine + ISBN
@@ -55,10 +56,9 @@ NovelEditWidget::NovelEditWidget(QWidget *parent) : MediaEditWidget(parent) {
   second_row_layout->addWidget(isbn_label);
   second_row_layout->addWidget(isbn_input_);
 
-  second_row_layout->addStretch(); // <-- forza l'allineamento a sinistra
+  second_row_layout->addStretch();  // <-- forza l'allineamento a sinistra
   main_layout_->addLayout(second_row_layout);
 }
-
 
 void NovelEditWidget::setMedia(const media::Media* media) {
   MediaEditWidget::setMedia(media);
@@ -75,27 +75,18 @@ void NovelEditWidget::setMedia(const media::Media* media) {
   if (dynamic_cast<const media::AudioBook*>(media)) {
     pages_label->setText("Durata (min):");
     pages_label->setFixedWidth(90);
-
   }
 }
 
 media::Media* NovelEditWidget::getModifiedMedia() const {
   if (!old_media_) return nullptr;
 
-  return new media::Novel(
-    title_input_->text().toStdString(),
-    release_input_->value(),
-    language_input_->text().toStdString(),
-    favourite_checkbox_->isChecked(),
-    getGenres(),
-    img_path_input_->text().toStdString(),
-    notes_input_->toPlainText().toStdString(),
-    author_input_->text().toStdString(),
-    publisher_input_->text().toStdString(),
-    pages_input_->value(),
-    series_input_->text().toStdString(),
-    isbn_input_->text().toStdString()
-  );
+  return new media::Novel(title_input_->text().toStdString(), release_input_->value(),
+                          language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),
+                          img_path_input_->text().toStdString(), notes_input_->toPlainText().toStdString(),
+                          author_input_->text().toStdString(), publisher_input_->text().toStdString(),
+                          pages_input_->value(), series_input_->text().toStdString(),
+                          isbn_input_->text().toStdString());
 }
 
 }  // namespace gui

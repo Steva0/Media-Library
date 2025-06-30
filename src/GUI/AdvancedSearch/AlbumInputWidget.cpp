@@ -1,6 +1,8 @@
 #include "AlbumInputWidget.h"
+
 #include <QGridLayout>
 #include <QLabel>
+
 #include "../../Media/Album.h"
 #include "MediaInputWidget.h"
 
@@ -39,10 +41,8 @@ void AlbumInputWidget::setFromMedia(const media::Media &media) {
   MediaInputWidget::setFromMedia(media);
   if (const auto *album = dynamic_cast<const media::Album *>(&media)) {
     band_name_->setText(QString::fromStdString(album->getBand()));
-    if (album->getBandMembers().size() != 0)
-      band_member_->setText(QString::fromStdString(album->getBandMembers()[0]));
-    if (album->getSongs().size() != 0)
-      song_->setText(QString::fromStdString(album->getSongs()[0]));
+    if (album->getBandMembers().size() != 0) band_member_->setText(QString::fromStdString(album->getBandMembers()[0]));
+    if (album->getSongs().size() != 0) song_->setText(QString::fromStdString(album->getSongs()[0]));
   }
 }
 }  // namespace advanced_search

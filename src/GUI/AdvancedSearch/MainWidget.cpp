@@ -32,7 +32,7 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent) {
   auto *layout = new QHBoxLayout(this);
   layout->addWidget(input_wrapper);
   layout->addWidget(results_wrapper);
-  
+
   connect(search_, &QAbstractButton::clicked, this, &MainWidget::performSearch);
   connect(results_, &ResultsWidget::mediaDoubleClicked, this, &MainWidget::mediaDoubleClicked);
   connect(back_, &QAbstractButton::clicked, this, &MainWidget::backRequested);
@@ -46,5 +46,5 @@ void MainWidget::performSearch() {
 void MainWidget::updateResults(const std::vector<const media::Media *> &new_results) {
   results_->updateResults(new_results);
 }
-}
-}
+}  // namespace advanced_search
+}  // namespace gui

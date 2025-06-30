@@ -3,13 +3,13 @@
 #include <QVBoxLayout>
 #include <iostream>
 
-#include "MovieInputWidget.h"
-#include "MediaInputWidget.h"
-#include "SeriesInputWidget.h"
 #include "AlbumInputWidget.h"
-#include "NovelInputWidget.h"
-#include "EbookInputWidget.h"
 #include "AudioBookInputWidget.h"
+#include "EbookInputWidget.h"
+#include "MediaInputWidget.h"
+#include "MovieInputWidget.h"
+#include "NovelInputWidget.h"
+#include "SeriesInputWidget.h"
 
 namespace gui {
 namespace advanced_search {

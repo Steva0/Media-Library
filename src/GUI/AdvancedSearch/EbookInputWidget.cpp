@@ -1,15 +1,16 @@
 #include "EbookInputWidget.h"
-#include <QLabel>
-#include "../../Media/Ebook.h"
 
+#include <QLabel>
 #include <iostream>
+
+#include "../../Media/Ebook.h"
 
 namespace gui {
 namespace advanced_search {
 EbookInputWidget::EbookInputWidget(QWidget *parent) : NovelInputWidget(parent) {
   drm_ = new QCheckBox(this);
 
-  auto *last_item= novel_layout_->itemAtPosition(0, novel_layout_->columnCount() - 1);
+  auto *last_item = novel_layout_->itemAtPosition(0, novel_layout_->columnCount() - 1);
   int last_idx = novel_layout_->indexOf(last_item);
 
   int row;
@@ -31,12 +32,12 @@ media::Ebook *EbookInputWidget::getFilter() const {
   ebook->setDrm(drm_->isChecked());
   return ebook;
 }
- void EbookInputWidget::setFromMedia(const media::Media &media) {
-   NovelInputWidget::setFromMedia(media);
-   if (const auto *ebook = dynamic_cast<const media::Ebook *>(&media)) {
-     drm_->setChecked(ebook->hasDrm());
-   }
- }
+void EbookInputWidget::setFromMedia(const media::Media &media) {
+  NovelInputWidget::setFromMedia(media);
+  if (const auto *ebook = dynamic_cast<const media::Ebook *>(&media)) {
+    drm_->setChecked(ebook->hasDrm());
+  }
+}
 
 }  // namespace advanced_search
 }  // namespace gui

@@ -85,8 +85,7 @@ void PreviewVisitor::visit(const media::AudioBook &audiobook) {
 void PreviewVisitor::visit(const media::Ebook &ebook) {
   type_ = "EBOOK ";
   visit(static_cast<const media::Media &>(ebook));
-  if (ebook.hasDrm())
-    data_->addWidget(new QLabel("DRM", result_), data_->rowCount(), 0);
+  if (ebook.hasDrm()) data_->addWidget(new QLabel("DRM", result_), data_->rowCount(), 0);
 }
 
 void PreviewVisitor::addRowVector(const std::string &key, const std::vector<std::string> &values) {

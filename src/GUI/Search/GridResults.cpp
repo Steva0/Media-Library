@@ -1,19 +1,18 @@
 #include "GridResults.h"
-#include "../AdvancedSearch/ClickableFrame.h"
-#include "SimpleResultVisitor.h"
 
 #include <QVBoxLayout>
+
+#include "../AdvancedSearch/ClickableFrame.h"
+#include "SimpleResultVisitor.h"
 
 namespace gui {
 namespace search {
 
 const int GridResults::kResultPerRow = 4;
 
-GridResults::GridResults(QWidget *parent)
-    : QFrame(parent), grid_(new QGridLayout(this)) {
+GridResults::GridResults(QWidget *parent) : QFrame(parent), grid_(new QGridLayout(this)) {
   grid_->setSpacing(0);
-  updateResults(std::vector<const media::Media*>{});
-  
+  updateResults(std::vector<const media::Media *>{});
 }
 
 void GridResults::updateResults(const std::vector<const media::Media *> &results) {
@@ -26,10 +25,9 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     delete item;
   }
 
-  
   results_ = results;  // salva internamente se serve
   int count = 0;
-  
+
   for (const auto *media : results) {
     auto *wrapper = new ClickableFrame(this);
     wrapper->setFrameShape(QFrame::Box);
@@ -46,13 +44,11 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     grid_->addWidget(wrapper, count / kResultPerRow, count % kResultPerRow);
     wrapper->setMaximumHeight(wrapper->sizeHint().height());
     wrapper->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    
+
     // Connetti con lambda che emette il media specifico
-    connect(wrapper, &ClickableFrame::doubleClicked, this, [this, media]() {
-      emit mediaDoubleClicked(media);
-    });
+    connect(wrapper, &ClickableFrame::doubleClicked, this, [this, media]() { emit mediaDoubleClicked(media); });
     connect(wrapper, &ClickableFrame::singleClicked, [this, media]() { emit mediaSingleClicked(media); });
-    
+
     ++count;
   }
 }

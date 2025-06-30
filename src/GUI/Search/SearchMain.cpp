@@ -1,4 +1,5 @@
 #include "SearchMain.h"
+
 #include <QScrollArea>
 
 #include "GridResults.h"
@@ -22,7 +23,7 @@ SearchMain::SearchMain(QWidget *parent)
   selected_->addWidget(edit_);
   selected_->addWidget(preview_);
   selected_->setCurrentWidget(preview_);
-  
+
   auto *top_wrapper = new QFrame(this);
   top_wrapper->setFrameShape(QFrame::Box);
   auto *top_layout = new QHBoxLayout(top_wrapper);
@@ -50,7 +51,7 @@ SearchMain::SearchMain(QWidget *parent)
   auto *layout = new QVBoxLayout(this);
   layout->addWidget(top_wrapper);
   layout->addWidget(results_wrapper);
-        
+
   connect(search_input_, &SearchWidget::searchByName, this, &SearchMain::searchByName);
   connect(this, &SearchMain::acceptResults, results_, &GridResults::updateResults);
 
@@ -70,7 +71,6 @@ SearchMain::SearchMain(QWidget *parent)
   connect(results_, &GridResults::mediaSingleClicked, this, &SearchMain::mediaSingleClicked);
   connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::advancedClicked);
   connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::onClear);
-
 
   // todo display risultati per preview
 }

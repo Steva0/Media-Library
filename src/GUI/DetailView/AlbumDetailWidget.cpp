@@ -1,4 +1,5 @@
 #include "AlbumDetailWidget.h"
+
 #include <QLabel>
 #include <QStringList>
 
@@ -51,6 +52,5 @@ void AlbumDetailWidget::setMedia(const media::Media* media) {
     songsLabel_->setText(QString("Songs: %1").arg(songsList.join(", ")));
   }
 }
-
 
 }  // namespace gui

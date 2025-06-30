@@ -18,7 +18,7 @@ SelectedEdit::SelectedEdit(QWidget *parent)
   auto *edit_layout = new QHBoxLayout;
   auto *right_layout = new QVBoxLayout;
   auto *data_layout = new QGridLayout;
-  
+
   data_layout->addWidget(new QLabel("Title:", this), 0, 0);
   data_layout->addWidget(title_, 0, 1);
 
@@ -64,11 +64,10 @@ void SelectedEdit::display(const media::Media *media) {
     media->accept(probe);
     type_->setText(probe.type_);
 
-    preview_->setPixmap(QPixmap(":/assets/matita.jpg").scaled(128,  128));
+    preview_->setPixmap(QPixmap(":/assets/matita.jpg").scaled(128, 128));
     title_->setText(QString::fromStdString(media->getTitle()));
     release_->setText(QString::number(media->getRelease()));
-    if (media->getRelease() == std::numeric_limits<int>::min())
-      release_->clear();
+    if (media->getRelease() == std::numeric_limits<int>::min()) release_->clear();
     language_->setText(QString::fromStdString(media->getLanguage()));
     favourite_->setChecked(media->isFavourite());
   }

@@ -36,9 +36,7 @@ MediaDetailPage::MediaDetailPage(QWidget* parent) : QWidget(parent) {
   connect(editButton_, &QPushButton::clicked, this, &MediaDetailPage::onEditClicked);
 }
 
-MediaDetailPage::~MediaDetailPage() {
-  clearCurrentDetailWidget();
-}
+MediaDetailPage::~MediaDetailPage() { clearCurrentDetailWidget(); }
 
 void MediaDetailPage::setMedia(const media::Media* media) {
   clearCurrentDetailWidget();
@@ -87,9 +85,7 @@ void MediaDetailPage::onRemoveClicked() {
   }
 }
 
-void MediaDetailPage::onEditClicked() {
-  emit enterEditRequested(currentMedia_);
-}
+void MediaDetailPage::onEditClicked() { emit enterEditRequested(currentMedia_); }
 
 void MediaDetailPage::keyPressEvent(QKeyEvent* event) {
   if (event->key() == Qt::Key_Escape) {
@@ -104,7 +100,5 @@ void MediaDetailPage::keyPressEvent(QKeyEvent* event) {
     QWidget::keyPressEvent(event);
   }
 }
-
-
 
 }  // namespace gui

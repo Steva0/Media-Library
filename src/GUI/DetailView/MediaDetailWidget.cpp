@@ -1,9 +1,10 @@
 #include "MediaDetailWidget.h"
-#include <QVBoxLayout>
+
 #include <QHBoxLayout>
-#include <QString>
 #include <QPixmap>
 #include <QResizeEvent>
+#include <QString>
+#include <QVBoxLayout>
 
 namespace gui {
 
@@ -27,12 +28,12 @@ MediaDetailWidget::MediaDetailWidget(QWidget* parent) : IMediaDetailWidget(paren
   leftLayout_->addWidget(favouriteLabel_);
   leftLayout_->addWidget(genresLabel_);
   leftLayout_->addWidget(notesLabel_);
-  
+
   mainLayout->addWidget(leftWidget_, 2, Qt::AlignTop);
 
   coverLabel_ = new QLabel(this);
   coverLabel_->setAlignment(Qt::AlignCenter);
-  coverLabel_->setScaledContents(false); // facciamo scalare a mano noi
+  coverLabel_->setScaledContents(false);  // facciamo scalare a mano noi
   mainLayout->addWidget(coverLabel_, 1);
 }
 
@@ -93,7 +94,6 @@ void MediaDetailWidget::setMedia(const media::Media* media) {
 
   updateCoverPixmap();
 }
-
 
 void MediaDetailWidget::clearFields() {
   titleLabel_->setText("Title: ");

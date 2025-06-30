@@ -10,26 +10,19 @@
 
 namespace memory {
 
-QJsonDocument MediaJSONVisitor::getDocument() const {
-  return QJsonDocument(root_);
-}
+QJsonDocument MediaJSONVisitor::getDocument() const { return QJsonDocument(root_); }
 
 void MediaJSONVisitor::addValue(QJsonObject &obj, const QString &key, const std::string &value) {
   obj.insert(key, QString::fromStdString(value));
 }
-void MediaJSONVisitor::addValue(QJsonObject &obj, const QString &key, int value) {
-  obj.insert(key, value);
-}
+void MediaJSONVisitor::addValue(QJsonObject &obj, const QString &key, int value) { obj.insert(key, value); }
 void MediaJSONVisitor::addValue(QJsonObject &obj, const QString &key, unsigned int value) {
   obj.insert(key, static_cast<int>(value));
 }
-void MediaJSONVisitor::addFlag(QJsonObject &obj, const QString &key) {
-  obj.insert(key, true);
-}
+void MediaJSONVisitor::addFlag(QJsonObject &obj, const QString &key) { obj.insert(key, true); }
 void MediaJSONVisitor::addStringArray(QJsonObject &obj, const QString &key, const std::vector<std::string> &vec) {
   QJsonArray array;
-  for (const auto &v : vec)
-    array.append(QString::fromStdString(v));
+  for (const auto &v : vec) array.append(QString::fromStdString(v));
   obj.insert(key, array);
 }
 
@@ -43,19 +36,13 @@ void MediaJSONVisitor::visit(const media::Media &media) {
   addValue(root_, "Title", media.getTitle());
 
   // Only add if not empty
-  if (media.getRelease() != std::numeric_limits<int>::min())
-    addValue(root_, "Release", media.getRelease());
-  if (media.getLanguage() != "")
-    addValue(root_, "Language", media.getLanguage());
-  if (media.isFavourite())
-    addFlag(root_, "Favourite");
+  if (media.getRelease() != std::numeric_limits<int>::min()) addValue(root_, "Release", media.getRelease());
+  if (media.getLanguage() != "") addValue(root_, "Language", media.getLanguage());
+  if (media.isFavourite()) addFlag(root_, "Favourite");
 
-  if (!media.getGenres().empty())
-    addStringArray(root_, "Genres", media.getGenres());
-  if (media.getImgPath() != "")
-    addValue(root_, "ImagePath", media.getImgPath());
-  if (media.getNotes() != "")
-    addValue(root_, "Notes", media.getNotes());
+  if (!media.getGenres().empty()) addStringArray(root_, "Genres", media.getGenres());
+  if (media.getImgPath() != "") addValue(root_, "ImagePath", media.getImgPath());
+  if (media.getNotes() != "") addValue(root_, "Notes", media.getNotes());
 }
 
 void MediaJSONVisitor::visit(const media::Album &album) {
@@ -64,12 +51,9 @@ void MediaJSONVisitor::visit(const media::Album &album) {
   }
   visit(static_cast<const media::Media &>(album));
   root_["type"] = "Album";
-  if (album.getBand() != "")
-    addValue(root_, "Band", album.getBand());
-  if (!album.getBandMembers().empty())
-    addStringArray(root_, "BandMembers", album.getBandMembers());
-  if (!album.getSongs().empty())
-    addStringArray(root_, "Songs", album.getSongs());
+  if (album.getBand() != "") addValue(root_, "Band", album.getBand());
+  if (!album.getBandMembers().empty()) addStringArray(root_, "BandMembers", album.getBandMembers());
+  if (!album.getSongs().empty()) addStringArray(root_, "Songs", album.getSongs());
 }
 
 void MediaJSONVisitor::visit(const media::Movie &movie) {
@@ -78,12 +62,9 @@ void MediaJSONVisitor::visit(const media::Movie &movie) {
   }
   visit(static_cast<const media::Media &>(movie));
   root_["type"] = "Movie";
-  if (!movie.getCast().empty())
-    addStringArray(root_, "Cast", movie.getCast());
-  if (movie.getLength() != std::numeric_limits<int>::min())
-    addValue(root_, "Length", movie.getLength());
-  if (movie.getUniverse() != "")
-    addValue(root_, "Universe", movie.getUniverse());
+  if (!movie.getCast().empty()) addStringArray(root_, "Cast", movie.getCast());
+  if (movie.getLength() != std::numeric_limits<int>::min()) addValue(root_, "Length", movie.getLength());
+  if (movie.getUniverse() != "") addValue(root_, "Universe", movie.getUniverse());
 }
 
 void MediaJSONVisitor::visit(const media::Series &series) {
@@ -92,12 +73,9 @@ void MediaJSONVisitor::visit(const media::Series &series) {
   }
   visit(static_cast<const media::Movie &>(series));
   root_["type"] = "Series";
-  if (series.getEpisodes() != std::numeric_limits<int>::min())
-    addValue(root_, "Episodes", series.getEpisodes());
-  if (series.getSeasons() != std::numeric_limits<int>::min())
-    addValue(root_, "Seasons", series.getSeasons());
-  if (series.hasEnded())
-    addFlag(root_, "Ended");
+  if (series.getEpisodes() != std::numeric_limits<int>::min()) addValue(root_, "Episodes", series.getEpisodes());
+  if (series.getSeasons() != std::numeric_limits<int>::min()) addValue(root_, "Seasons", series.getSeasons());
+  if (series.hasEnded()) addFlag(root_, "Ended");
 }
 
 void MediaJSONVisitor::visit(const media::Novel &novel) {
@@ -106,16 +84,11 @@ void MediaJSONVisitor::visit(const media::Novel &novel) {
   }
   visit(static_cast<const media::Media &>(novel));
   root_["type"] = "Novel";
-  if (novel.getAuthor() != "")
-    addValue(root_, "Author", novel.getAuthor());
-  if (novel.getPublisher() != "")
-    addValue(root_, "Publisher", novel.getPublisher());
-  if (novel.getPages() != std::numeric_limits<int>::min())
-    addValue(root_, "Pages", novel.getPages());
-  if (novel.getSeries() != "")
-    addValue(root_, "Series", novel.getSeries());
-  if (novel.getIsbn() != "")
-    addValue(root_, "ISBN", novel.getIsbn());
+  if (novel.getAuthor() != "") addValue(root_, "Author", novel.getAuthor());
+  if (novel.getPublisher() != "") addValue(root_, "Publisher", novel.getPublisher());
+  if (novel.getPages() != std::numeric_limits<int>::min()) addValue(root_, "Pages", novel.getPages());
+  if (novel.getSeries() != "") addValue(root_, "Series", novel.getSeries());
+  if (novel.getIsbn() != "") addValue(root_, "ISBN", novel.getIsbn());
 }
 
 void MediaJSONVisitor::visit(const media::AudioBook &audioBook) {
@@ -124,10 +97,8 @@ void MediaJSONVisitor::visit(const media::AudioBook &audioBook) {
   }
   visit(static_cast<const media::Novel &>(audioBook));
   root_["type"] = "AudioBook";
-  if (audioBook.getNarrator() != "")
-    addValue(root_, "Narrator", audioBook.getNarrator());
-  if (audioBook.getStreamingService() != "")
-    addValue(root_, "Service", audioBook.getStreamingService());
+  if (audioBook.getNarrator() != "") addValue(root_, "Narrator", audioBook.getNarrator());
+  if (audioBook.getStreamingService() != "") addValue(root_, "Service", audioBook.getStreamingService());
 }
 
 void MediaJSONVisitor::visit(const media::Ebook &ebook) {
@@ -136,10 +107,8 @@ void MediaJSONVisitor::visit(const media::Ebook &ebook) {
   }
   visit(static_cast<const media::Novel &>(ebook));
   root_["type"] = "Ebook";
-  if (ebook.getFileSizeBytes() != std::numeric_limits<int>::min())
-    addValue(root_, "Bytes", ebook.getFileSizeBytes());
-  if (ebook.hasDrm())
-    addFlag(root_, "DRM");
+  if (ebook.getFileSizeBytes() != std::numeric_limits<int>::min()) addValue(root_, "Bytes", ebook.getFileSizeBytes());
+  if (ebook.hasDrm()) addFlag(root_, "DRM");
 }
 
 }  // namespace memory

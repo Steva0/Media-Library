@@ -24,8 +24,8 @@ void AudioBookDetailWidget::setMedia(const media::Media* media) {
   narratorLabel_->setText(QString("Narrator: %1").arg(narrator.empty() ? "" : QString::fromStdString(narrator)));
 
   const std::string& service = audiobook->getStreamingService();
-  streamingServiceLabel_->setText(QString("Streaming Service: %1").arg(service.empty() ? "" : QString::fromStdString(service)));
+  streamingServiceLabel_->setText(
+      QString("Streaming Service: %1").arg(service.empty() ? "" : QString::fromStdString(service)));
 }
-
 
 }  // namespace gui

@@ -1,4 +1,5 @@
 #include "MovieDetailWidget.h"
+
 #include <QString>
 
 namespace gui {
@@ -52,6 +53,5 @@ void MovieDetailWidget::setMedia(const media::Media* media) {
     castLabel_->setText("Cast: ");
   }
 }
-
 
 }  // namespace gui
