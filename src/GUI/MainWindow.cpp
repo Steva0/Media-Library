@@ -84,19 +84,22 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   // 2) Segnali dal widget dettaglio per azioni
   connect(media_detail_page_, &MediaDetailPage::backRequested, this, &MainWindow::goBack);
-
   connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, this, &MainWindow::onRemoveMediaRequested);
-
   connect(media_detail_page_, &MediaDetailPage::enterEditRequested, this, &MainWindow::onEnterEditRequested);
 
-  connect(media_edit_page_, &MediaEditPage::editConfirmed, this, &MainWindow::onEditConfirmed);
-
+  connect(media_edit_page_, &MediaEditPage::editConfirmed,
+          [this](const media::Media *new_media, const media::Media *old_media) {
+            onEditConfirmed(new_media, old_media, true);
+          });
   connect(media_edit_page_, &MediaEditPage::backRequested, this, &MainWindow::goBack);
-
   connect(media_edit_page_, &MediaEditPage::deleteRequested, this, &MainWindow::onRemoveMediaRequested);
 
   connect(simple_search_widget_, &search::SearchMain::advancedClicked, this,
           [&]() { navigateTo(advanced_search_widget_); });
+  connect(simple_search_widget_, &search::SearchMain::commitEditChanges,
+          [this](const media::Media *new_media, const media::Media *old_media) {
+            onEditConfirmed(new_media, old_media, false);
+          });
 }
 
 void MainWindow::onMediaDoubleClicked(const media::Media *media) {
@@ -145,7 +148,7 @@ void MainWindow::onEnterEditRequested(const media::Media *Media) {
 }
 
 // Slot per modifica media, chiamato da widget dettaglio
-void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Media *oldMedia) {
+void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Media *oldMedia, bool changeScreen) {
   if (!newMedia || !oldMedia || *newMedia == *oldMedia) {
     goBack();
     return;
@@ -157,7 +160,7 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
   // Aggiorna la pagina dettaglio con il nuovo media
   media_detail_page_->setMedia(newMedia);
 
-  goBack();  // Ora torna al dettaglio già aggiornato
+  if (changeScreen) goBack();  // Ora torna al dettaglio già aggiornato
 
   // Aggiorna i risultati della ricerca (avanzata) per riflettere il cambiamento
   media::Media *empty_filter = new media::Media("");

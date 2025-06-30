@@ -35,7 +35,7 @@ class SearchMain : public QWidget {
   void acceptResults(const std::vector<const media::Media *> &);
   void mediaDoubleClicked(const media::Media *);
   void requestEdit(const media::Media *);
-  void commitEditChanges(const media::Media *old_media, const media::Media *new_media);
+  void commitEditChanges(const media::Media *new_media, const media::Media *old_media);
   void requestDelete(const media::Media *, int num);
 };
 }  // namespace search

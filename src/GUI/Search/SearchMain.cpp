@@ -62,6 +62,7 @@ SearchMain::SearchMain(QWidget *parent)
 
   connect(preview_, &SelectedPreview::fastEditPressed, this, &SearchMain::fastEditClicked);
   connect(edit_, &SelectedEdit::commitChanges, this, &SearchMain::commitEditChanges);
+  connect(edit_, &SelectedEdit::commitChanges, [this](const media::Media *new_media) { mediaSingleClicked(new_media); });
   connect(edit_, &SelectedEdit::undoChanges, this, &SearchMain::undoEditChanges);
   connect(edit_, &SelectedEdit::requestDelete, this, &SearchMain::requestDelete);
   connect(edit_, &SelectedEdit::requestDelete, this, &SearchMain::hidePreview);

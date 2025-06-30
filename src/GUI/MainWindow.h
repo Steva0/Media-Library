@@ -54,9 +54,9 @@ class MainWindow : public QMainWindow {
   void onRemoveMediaRequested(const media::Media *media,
                               int num);  // 0 se vengo da Search, 1 se vengo da Detail, 2 se vengo da Edit
   void onEnterEditRequested(const media::Media *media);  // Da implementare il cambio di SlideStackedWidget
-  void onEditConfirmed(const media::Media *newMedia,
-                       const media::Media *oldMedia);  // Da collegare Signal di MediaEditPage a questo dentro il
-                                                       // costruttore di MainWindow
+  void onEditConfirmed(const media::Media *newMedia, const media::Media *oldMedia,
+                       bool changeScreen);  // Da collegare Signal di MediaEditPage a questo dentro il
+                                            // costruttore di MainWindow
 
   void navigateTo(QWidget *next_page);
 };
