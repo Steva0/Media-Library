@@ -185,15 +185,16 @@ void MediaEditWidget::setMedia(const media::Media* media) {
   favourite_checkbox_->setChecked(media->isFavourite());
 
   img_path_ = QString::fromStdString(media->getImgPath());
-  if (img_path_.isEmpty() || img_path_ == "(nessuna immagine selezionata)") {
+  img_path_input_->setText(img_path_);
+  img_path_input_->setStyleSheet("");
+
+  cover_pixmap_ = QPixmap(img_path_);
+  if (img_path_.isEmpty() || cover_pixmap_.isNull()) {
     img_path_input_->setText("(nessuna immagine selezionata)");
     img_path_input_->setStyleSheet("font-style: italic; color: gray;");
     cover_pixmap_ = QPixmap(":/assets/matita.jpg");  // immagine di default
-  } else {
-    img_path_input_->setText(img_path_);
-    img_path_input_->setStyleSheet("");
-    cover_pixmap_ = QPixmap(img_path_);
   }
+
 
   updateCoverPixmap();
 

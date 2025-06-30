@@ -27,7 +27,7 @@ void AddMediaViewPage::setupUi() {
   // Media type selector
   auto* type_selector_layout = new QHBoxLayout();
   const QStringList labels = {
-    "Generico", "Romanzo", "EBook", "Audiobook", "Film", "Serie", "Album"
+    "Romanzo", "EBook", "Audiobook", "Film", "Serie", "Album"
   };
 
   for (int i = 0; i < labels.size(); ++i) {
@@ -40,7 +40,6 @@ void AddMediaViewPage::setupUi() {
 
   // Stacked layout for editing widgets
   stacked_layout_ = new QStackedLayout();
-  media_edit_widget_ = new MediaEditWidget(this);
   novel_edit_widget_ = new NovelEditWidget(this);
   ebook_edit_widget_ = new EbookEditWidget(this);
   audiobook_edit_widget_ = new AudioBookEditWidget(this);
@@ -48,13 +47,14 @@ void AddMediaViewPage::setupUi() {
   series_edit_widget_ = new SeriesEditWidget(this);
   album_edit_widget_ = new AlbumEditWidget(this);
 
-  stacked_layout_->addWidget(media_edit_widget_);   // index 0
-  stacked_layout_->addWidget(novel_edit_widget_);   // index 1
-  stacked_layout_->addWidget(ebook_edit_widget_);   // index 2
-  stacked_layout_->addWidget(audiobook_edit_widget_); // index 3
-  stacked_layout_->addWidget(movie_edit_widget_);   // index 4
-  stacked_layout_->addWidget(series_edit_widget_);  // index 5
-  stacked_layout_->addWidget(album_edit_widget_);   // index 6
+  stacked_layout_->addWidget(novel_edit_widget_);   
+  stacked_layout_->addWidget(ebook_edit_widget_);  
+  stacked_layout_->addWidget(audiobook_edit_widget_); 
+  stacked_layout_->addWidget(movie_edit_widget_);   
+  stacked_layout_->addWidget(series_edit_widget_);  
+  stacked_layout_->addWidget(album_edit_widget_);   
+
+  stacked_layout_->setCurrentIndex(0);  // Default 
 
   main_layout->addLayout(stacked_layout_);
 
@@ -77,18 +77,19 @@ void AddMediaViewPage::onConfirm() {
   if (!current_widget) return;
 
   media::Media* media = current_widget->getModifiedMedia();
-  if (media) emit mediaAdded(media);
+  if (media) {emit mediaAdded(media)}
+  else std::cout << "Nessun media aggiunto.\n";
+  ;
 }
 
 MediaEditWidget* AddMediaViewPage::getWidgetAtIndex(int index) const {
   switch (index) {
-    case 0: return media_edit_widget_;
-    case 1: return novel_edit_widget_;
-    case 2: return ebook_edit_widget_;
-    case 3: return audiobook_edit_widget_;
-    case 4: return movie_edit_widget_;
-    case 5: return series_edit_widget_;
-    case 6: return album_edit_widget_;
+    case 0: return novel_edit_widget_;
+    case 1: return ebook_edit_widget_;
+    case 2: return audiobook_edit_widget_;
+    case 3: return movie_edit_widget_;
+    case 4: return series_edit_widget_;
+    case 5: return album_edit_widget_;
     default: return nullptr;
   }
 }
