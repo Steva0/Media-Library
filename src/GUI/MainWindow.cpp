@@ -148,7 +148,10 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
 }
 
 void MainWindow::onAddMedia(media::Media *newMedia) {
-  if (!newMedia) return;
+  if (!newMedia) {
+    std::cout << "Nuovo media non valido, non aggiunto al database.\n";
+    return;
+  }
 
   // Aggiungi il nuovo media al database
   database_.addMedia(*newMedia);
