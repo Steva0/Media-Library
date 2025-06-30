@@ -26,19 +26,37 @@ void AddMediaViewPage::setupUi() {
   top_bar_layout->addStretch();
   main_layout->addLayout(top_bar_layout);
 
-  // Media type selector
-  auto* type_selector_layout = new QHBoxLayout();
+  // --- Pulsanti media type con layout orizzontale 2/3 pulsanti + 1/3 vuoto ---
+
+  auto* buttons_row_layout = new QHBoxLayout();
+
+  // Container per i pulsanti che occupa 2/3 larghezza
+  auto* buttons_container = new QWidget(this);
+  auto* buttons_layout = new QHBoxLayout(buttons_container);
+  buttons_layout->setContentsMargins(0,0,0,0);
+
   const QStringList labels = {
     "Romanzo", "EBook", "Audiobook", "Film", "Serie", "Album"
   };
-
   for (int i = 0; i < labels.size(); ++i) {
     auto* button = new QPushButton(labels[i], this);
     connect(button, &QPushButton::clicked, this, [this, i]() { selectMediaType(i); });
-    type_selector_layout->addWidget(button);
+    buttons_layout->addWidget(button);
   }
 
-  main_layout->addLayout(type_selector_layout);
+  buttons_row_layout->addWidget(buttons_container, 2); // stretch 2 -> 2/3 della riga
+
+  // Spazio vuoto a destra che occupa 1/3
+  auto* empty_spacer = new QWidget(this);
+  empty_spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  buttons_row_layout->addWidget(empty_spacer, 1); // stretch 1 -> 1/3 della riga
+
+  main_layout->addLayout(buttons_row_layout);
+
+  // EDIT SECTION: widget contenente stacked layout + bottom bar
+  edit_section_ = new QWidget(this);
+  auto* edit_section_layout = new QVBoxLayout(edit_section_);
+  edit_section_layout->setContentsMargins(0,0,0,0);
 
   // Stacked layout for editing widgets
   stacked_layout_ = new QStackedLayout();
@@ -49,16 +67,16 @@ void AddMediaViewPage::setupUi() {
   series_edit_widget_ = new SeriesEditWidget(this);
   album_edit_widget_ = new AlbumEditWidget(this);
 
-  stacked_layout_->addWidget(novel_edit_widget_);   
-  stacked_layout_->addWidget(ebook_edit_widget_);  
-  stacked_layout_->addWidget(audiobook_edit_widget_); 
-  stacked_layout_->addWidget(movie_edit_widget_);   
-  stacked_layout_->addWidget(series_edit_widget_);  
-  stacked_layout_->addWidget(album_edit_widget_);   
+  stacked_layout_->addWidget(novel_edit_widget_);
+  stacked_layout_->addWidget(ebook_edit_widget_);
+  stacked_layout_->addWidget(audiobook_edit_widget_);
+  stacked_layout_->addWidget(movie_edit_widget_);
+  stacked_layout_->addWidget(series_edit_widget_);
+  stacked_layout_->addWidget(album_edit_widget_);
 
-  stacked_layout_->setCurrentIndex(0);  // Default 
+  stacked_layout_->setCurrentIndex(0);
 
-  main_layout->addLayout(stacked_layout_);
+  edit_section_layout->addLayout(stacked_layout_);
 
   // Bottom bar
   auto* bottom_layout = new QHBoxLayout();
@@ -67,12 +85,23 @@ void AddMediaViewPage::setupUi() {
   bottom_layout->addStretch();
   bottom_layout->addWidget(confirm_button);
 
-  main_layout->addLayout(bottom_layout);
+  edit_section_layout->addLayout(bottom_layout);
+
+  main_layout->addWidget(edit_section_);
+
+  // Nascondo la sezione di modifica all'avvio
+  edit_section_->setVisible(false);
 }
 
 void AddMediaViewPage::selectMediaType(int index) {
   stacked_layout_->setCurrentIndex(index);
+
+  // Mostra la sezione di modifica solo dopo la selezione
+  if (!edit_section_->isVisible()) {
+    edit_section_->setVisible(true);
+  }
 }
+
 
 void AddMediaViewPage::onConfirm() {
   auto* current_widget = getWidgetAtIndex(stacked_layout_->currentIndex());
