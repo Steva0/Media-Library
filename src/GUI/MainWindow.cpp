@@ -35,7 +35,6 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   std::vector<QString> filetypes{};
   std::for_each(memory::Database::kAcceptedExtensions.begin(), memory::Database::kAcceptedExtensions.end(),
                 [&filetypes](const std::string &type) { filetypes.push_back(QString::fromStdString(type).toUpper()); });
-  // QString allowed_filetypes{};
   for (size_t i = 0; i < filetypes.size(); ++i) {
     allowed_filter_ +=
         filetypes[i] + QString(" files (*.") + QString::fromStdString(memory::Database::kAcceptedExtensions[i]) + ");;";
@@ -153,6 +152,14 @@ void MainWindow::createDatabase() {
   if (!path.endsWith(filter)) path += filter;
 
   accessDatabase(path);
+  database_.clear();
+
+  media::Media *empty_filter = new media::Media("");  // filtro vuoto = tutti i media
+  applyFilterAdvanced(empty_filter);
+
+  // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
+  last_simple_search_query_ = "";
+  simple_search_widget_->acceptResults(database_.filterMedia(media::Media("")));
 }
 
 void MainWindow::openDatabase() {
@@ -160,7 +167,14 @@ void MainWindow::openDatabase() {
   QString path = QFileDialog::getOpenFileName(nullptr, "Open Database", ".", allowed_filter_);
   if (path == "") return;  // "cancel"
   accessDatabase(path);
-  
+  // 
+  // Appena aperto il db, aggiorna i risultati di ricerca con tutti i media o con filtro vuoto
+  media::Media *empty_filter = new media::Media("");  // filtro vuoto = tutti i media
+  applyFilterAdvanced(empty_filter);
+
+  // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
+  last_simple_search_query_ = "";
+  simple_search_widget_->acceptResults(database_.filterMedia(media::Media("")));
 }
 
 void MainWindow::onMediaDoubleClicked(const media::Media *media) {
@@ -265,19 +279,10 @@ bool MainWindow::savePopup() {
   return changes_were_made_;
 }
 
+// non c'`é una guardia contro database già aperto
+// gestito da funzione chiamante
 void MainWindow::accessDatabase(const QString &path) {
-  if (savePopup()) {
-    database_.save();
-  }
   database_.open(path);
-
-  // Appena aperto il db, aggiorna i risultati di ricerca con tutti i media o con filtro vuoto
-  media::Media *empty_filter = new media::Media("");  // filtro vuoto = tutti i media
-  applyFilterAdvanced(empty_filter);
-
-  // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
-  last_simple_search_query_ = "";
-  simple_search_widget_->acceptResults(database_.filterMedia(media::Media("")));
 
   // Naviga alla schermata principale di ricerca avanzata (o altra)
   navigateTo(simple_search_widget_);
