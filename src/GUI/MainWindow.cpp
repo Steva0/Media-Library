@@ -111,6 +111,8 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   connect(simple_search_widget_, &search::SearchMain::addNewMedia, this,
           [&]() { navigateTo(add_media_view_page_); });
   connect(add_media_view_page_, &AddMediaViewPage::mediaAdded, this, &MainWindow::onAddMedia);
+  connect(add_media_view_page_, &AddMediaViewPage::backRequested, this,
+          [&]() { navigateTo(current_search_widget_); });
 }
 
 void MainWindow::onMediaDoubleClicked(const media::Media *media) {
