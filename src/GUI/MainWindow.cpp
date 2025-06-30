@@ -65,8 +65,6 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   setCentralWidget(central_widget_);
 
-  status_bar_->showMessage("Status bar.");
-
   auto *open_db = new QAction("Apri", this);
   auto *new_db = new QAction("Nuovo", this);
   auto *close_db = new QAction("Chiudi", this);
@@ -160,6 +158,8 @@ void MainWindow::createDatabase() {
   // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
   last_simple_search_query_ = "";
   simple_search_widget_->acceptResults(database_.filterMedia(media::Media("")));
+
+  status_bar_->showMessage("Creato database: " + path);
 }
 
 void MainWindow::openDatabase() {
@@ -175,6 +175,7 @@ void MainWindow::openDatabase() {
   // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
   last_simple_search_query_ = "";
   simple_search_widget_->acceptResults(database_.filterMedia(media::Media("")));
+  status_bar_->showMessage(QString("Caricato database") + path);
 }
 
 void MainWindow::onMediaDoubleClicked(const media::Media *media) {
@@ -202,6 +203,7 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
     return;
   }
 
+  status_bar_->showMessage("Cancellando media: " + QString::fromStdString(media->getTitle()));
   database_.removeMedia(*media);
   changes_were_made_ = true;
 
@@ -217,6 +219,7 @@ void MainWindow::onAddMedia(media::Media *newMedia) {
 
   // Aggiungi il nuovo media al database
   database_.addMedia(*newMedia);
+  status_bar_->showMessage("Aggiunto media: " + QString::fromStdString(newMedia->getTitle()));
   changes_were_made_ = true;
 
   // Aggiorna i risultati della ricerca
@@ -249,11 +252,12 @@ void MainWindow::onEnterEditRequested(const media::Media *Media) {
 
 // Slot per modifica media, chiamato da widget dettaglio
 void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Media *oldMedia) {
-  if (!newMedia || !oldMedia || *newMedia == *oldMedia) {
-    goBack();
-    return;
-  }
+  // if (!newMedia || !oldMedia || *newMedia == *oldMedia) {
+  //   goBack();
+  //   return;
+  // }
 
+  status_bar_->showMessage("Modificando media con titolo: " + QString::fromStdString(oldMedia->getTitle()));
   database_.removeMedia(*oldMedia);
   database_.addMedia(*newMedia);
   changes_were_made_ = true;
@@ -293,6 +297,7 @@ void MainWindow::closeDatabase() {
   // bisogna aggiornare status line in base allo stato di chiusura del database
   savePopup();
   database_.close(changes_were_made_);
+  status_bar_->showMessage("Chiuso database.");
   changes_were_made_ = false;
 
   // reset
@@ -302,6 +307,7 @@ void MainWindow::closeDatabase() {
 void MainWindow::saveDatabase() {
   database_.save();
   changes_were_made_ = false;
+  status_bar_->showMessage("Salvato database.");
 }
 
 void MainWindow::applyFilterAdvanced(const media::Media *filter) {

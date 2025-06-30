@@ -28,7 +28,6 @@ SelectedEdit::SelectedEdit(QWidget *parent)
 
   data_layout->addWidget(new QLabel("Language:", this), 2, 0);
   data_layout->addWidget(language_, 2, 1);
-  language_->setMaxLength(2);
 
   data_layout->addWidget(new QLabel("Favourite:", this), 3, 0);
   data_layout->addWidget(favourite_, 3, 1);
