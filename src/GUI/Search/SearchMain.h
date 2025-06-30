@@ -6,10 +6,12 @@
 #include "SearchWidget.h"
 #include "SelectedEdit.h"
 #include "SelectedPreview.h"
+#include "../AbstractSearchWidget.h"
+
 
 namespace gui {
 namespace search {
-class SearchMain : public QWidget {
+class SearchMain : public AbstractSearchWidget {
   Q_OBJECT
  private:
   SearchWidget *search_input_;
@@ -33,8 +35,7 @@ class SearchMain : public QWidget {
 
  signals:
   void advancedClicked();
-  void searchByName(const QString &);
-  void acceptResults(const std::vector<const media::Media *> &);
+  // void acceptResults(const std::vector<const media::Media *> &);
   void mediaDoubleClicked(const media::Media *);
   void requestEdit(const media::Media *);
   void commitEditChanges(const media::Media *new_media, const media::Media *old_media);

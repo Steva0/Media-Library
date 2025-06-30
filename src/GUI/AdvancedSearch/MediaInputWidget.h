@@ -25,20 +25,20 @@ class MediaInputWidget : public IMediaInputWidget {
 
   static const int kColumnAmount;
   static const size_t kMaxGenres;
-  QString getTitle() const;
-  int getRelease() const;
-  QString getLanguage() const;
-  bool getFavourite() const;
-  std::vector<std::string> getGenresRaw() const;
-
  protected:
   QVBoxLayout *container_;
 
  public:
   explicit MediaInputWidget(QWidget *parent = nullptr);
 
-  media::Media *getFilter() const override;
   void setFromMedia(const media::Media &) override;
+  void makeFilterFor(InputWidget &) const override;
+
+  std::string getTitle() const;
+  int getRelease() const;
+  std::string getLanguage() const;
+  bool getFavourite() const;
+  std::vector<std::string> getGenres() const;
 
  private slots:
   void addGenre();

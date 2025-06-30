@@ -3,6 +3,8 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <limits>
+#include "InputWidget.h"
 
 namespace gui {
 namespace advanced_search {
@@ -84,37 +86,25 @@ void MediaInputWidget::removeGenre(QLineEdit *genre, QPushButton *button) {
   button->deleteLater();
 }
 
-QString MediaInputWidget::getTitle() const { return title_->text(); }
 
-int MediaInputWidget::getRelease() const { return release_->text().toInt(); }
+// media::Media *MediaInputWidget::getFilter() const {
+//   auto *media = new media::Media(title_->text().toStdString());
+//   if (release_->text() != "") {
+//     media->setRelease(release_->text().toInt());
+//   }
+//   media->setLanguage(language_->text().toStdString());
+//   media->setFavourite(favourite_->isChecked());
 
-QString MediaInputWidget::getLanguage() const { return language_->text(); }
+//   for (const auto *genre : genres_) {
+//     media->addGenre(genre->text().toStdString());
+//   }
 
-bool MediaInputWidget::getFavourite() const { return favourite_->isChecked(); }
-
-std::vector<std::string> MediaInputWidget::getGenresRaw() const {
-  std::vector<std::string> genres;
-  for (auto *genre : genres_) {
-    genres.push_back(genre->text().toStdString());
-  }
-  return genres;
+//   return media;
+// }
+void MediaInputWidget::makeFilterFor(InputWidget &other) const {
+  other.makeFilterFrom(*this);
 }
-
-media::Media *MediaInputWidget::getFilter() const {
-  auto *media = new media::Media(title_->text().toStdString());
-  if (release_->text() != "") {
-    media->setRelease(release_->text().toInt());
-  }
-  media->setLanguage(language_->text().toStdString());
-  media->setFavourite(favourite_->isChecked());
-
-  for (const auto *genre : genres_) {
-    media->addGenre(genre->text().toStdString());
-  }
-
-  return media;
-}
-
+  
 void MediaInputWidget::setFromMedia(const media::Media &media) {
   title_->setText(QString::fromStdString(media.getTitle()));
 
@@ -127,6 +117,20 @@ void MediaInputWidget::setFromMedia(const media::Media &media) {
     genre_input_->setText(QString::fromStdString(media.getGenres()[i]));
     addGenre();
   }
+}
+std::string MediaInputWidget::getTitle() const { return title_->text().toStdString(); }
+bool MediaInputWidget::getFavourite() const { return favourite_->isChecked(); }
+std::string MediaInputWidget::getLanguage() const { return language_->text().toStdString(); }
+int MediaInputWidget::getRelease() const {
+  if (release_->text() == "") return std::numeric_limits<int>::min();
+  return release_->text().toInt();
+}
+std::vector<std::string> MediaInputWidget::getGenres() const {
+  std::vector<std::string> result(genres_.size());
+  for (const QLineEdit *genre: genres_) {
+    result.push_back(genre->text().toStdString());
+  }
+  return result;
 }
 }  // namespace advanced_search
 }  // namespace gui

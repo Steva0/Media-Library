@@ -36,14 +36,15 @@ InputWidget::InputWidget(QWidget *parent) : QWidget(parent) {
 void InputWidget::showTypeInput(int idx) {
   using Type = memory::MediaContainer::Type;
 
-  media::Media *old = makeFilter();
+  // media::Media *old = makeFilter();
+  getFilter();
+  media::Media *old = current_filter_.release();
   layout_->removeWidget(media_filter_);
   media_filter_->deleteLater();
   delete media_filter_;
 
   switch (idx) {
     case static_cast<int>(Type::Series):
-      // media_filter_ = new SeriesInputWidget(*old, this);
       media_filter_ = new SeriesInputWidget(this);
       break;
     case static_cast<int>(Type::Movie):
@@ -64,12 +65,105 @@ void InputWidget::showTypeInput(int idx) {
     default:
       media_filter_ = new MediaInputWidget(this);
   }
-  media_filter_->setFromMedia(*old);
+  // if (old){
+    media_filter_->setFromMedia(*old);
+  //   std::cout << old->getTitle() << '\n';
+  // }
   delete old;
 
   layout_->insertWidget(1, media_filter_);
 }
 
-media::Media *InputWidget::makeFilter() { return media_filter_->getFilter(); }
+const media::Media &InputWidget::getFilter() {
+  media_filter_->makeFilterFor(*this);
+  return *current_filter_;
+}
+
+void InputWidget::makeFilterFrom(const MediaInputWidget &media) {
+  current_filter_ = std::make_unique<media::Media>(media.getTitle());
+  current_filter_->setFavourite(media.getFavourite());
+  current_filter_->setLanguage(media.getLanguage());
+  current_filter_->setRelease(media.getRelease());
+  for (const auto &genre : media.getGenres()) {
+    current_filter_->addGenre(genre);
+  }
+}
+void InputWidget::makeFilterFrom(const AlbumInputWidget &media) {
+  current_filter_ = std::make_unique<media::Album>(media.getTitle());
+  current_filter_->setFavourite(media.getFavourite());
+  current_filter_->setLanguage(media.getLanguage());
+  current_filter_->setRelease(media.getRelease());
+  for (const auto &genre : media.getGenres()) {
+    current_filter_->addGenre(genre);
+  }
+  static_cast<media::Album &>(*current_filter_).setBand(media.getBandName());
+  static_cast<media::Album &>(*current_filter_).addMember(media.getBandMember());
+  static_cast<media::Album &>(*current_filter_).addSong(media.getSong());
+}
+void InputWidget::makeFilterFrom(const NovelInputWidget &media) {
+  current_filter_ = std::make_unique<media::Novel>(media.getTitle());
+  current_filter_->setFavourite(media.getFavourite());
+  current_filter_->setLanguage(media.getLanguage());
+  current_filter_->setRelease(media.getRelease());
+  for (const auto &genre : media.getGenres()) {
+    current_filter_->addGenre(genre);
+  }
+  static_cast<media::Novel &>(*current_filter_).setAuthor(media.getAuthor());
+  static_cast<media::Novel &>(*current_filter_).setPublisher(media.getPublisher());
+  static_cast<media::Novel &>(*current_filter_).setSeries(media.getSeries());
+  static_cast<media::Novel &>(*current_filter_).setIsbn(media.getISBN());
+}
+void InputWidget::makeFilterFrom(const AudioBookInputWidget &media) {
+  current_filter_ = std::make_unique<media::AudioBook>(media.getTitle());
+  current_filter_->setFavourite(media.getFavourite());
+  current_filter_->setLanguage(media.getLanguage());
+  current_filter_->setRelease(media.getRelease());
+  for (const auto &genre : media.getGenres()) {
+    current_filter_->addGenre(genre);
+  }
+  static_cast<media::AudioBook &>(*current_filter_).setAuthor(media.getAuthor());
+  static_cast<media::AudioBook &>(*current_filter_).setPublisher(media.getPublisher());
+  static_cast<media::AudioBook &>(*current_filter_).setSeries(media.getSeries());
+  static_cast<media::AudioBook &>(*current_filter_).setIsbn(media.getISBN());
+  static_cast<media::AudioBook &>(*current_filter_).setNarrator(media.getNarrator());
+  static_cast<media::AudioBook &>(*current_filter_).setStreamingService(media.getStreamingService());
+}
+void InputWidget::makeFilterFrom(const EbookInputWidget &media) {
+  current_filter_ = std::make_unique<media::Ebook>(media.getTitle());
+  current_filter_->setFavourite(media.getFavourite());
+  current_filter_->setLanguage(media.getLanguage());
+  current_filter_->setRelease(media.getRelease());
+  for (const auto &genre : media.getGenres()) {
+    current_filter_->addGenre(genre);
+  }
+  static_cast<media::Ebook &>(*current_filter_).setAuthor(media.getAuthor());
+  static_cast<media::Ebook &>(*current_filter_).setPublisher(media.getPublisher());
+  static_cast<media::Ebook &>(*current_filter_).setSeries(media.getSeries());
+  static_cast<media::Ebook &>(*current_filter_).setIsbn(media.getISBN());
+  static_cast<media::Ebook &>(*current_filter_).setDrm(media.getDRM());
+}
+void InputWidget::makeFilterFrom(const MovieInputWidget &media) {
+  current_filter_ = std::make_unique<media::Movie>(media.getTitle());
+  current_filter_->setFavourite(media.getFavourite());
+  current_filter_->setLanguage(media.getLanguage());
+  current_filter_->setRelease(media.getRelease());
+  for (const auto &genre : media.getGenres()) {
+    current_filter_->addGenre(genre);
+  }
+  static_cast<media::Movie &>(*current_filter_).addActor(media.getActor());
+  static_cast<media::Movie &>(*current_filter_).setUniverse(media.getUniverse());
+}
+void InputWidget::makeFilterFrom(const SeriesInputWidget &media) {
+  current_filter_ = std::make_unique<media::Series>(media.getTitle());
+  current_filter_->setFavourite(media.getFavourite());
+  current_filter_->setLanguage(media.getLanguage());
+  current_filter_->setRelease(media.getRelease());
+  for (const auto &genre : media.getGenres()) {
+    current_filter_->addGenre(genre);
+  }
+  static_cast<media::Series &>(*current_filter_).addActor(media.getActor());
+  static_cast<media::Series &>(*current_filter_).setUniverse(media.getUniverse());
+  static_cast<media::Series &>(*current_filter_).setEnded(media.getEnded());
+}
 }  // namespace advanced_search
 }  // namespace gui

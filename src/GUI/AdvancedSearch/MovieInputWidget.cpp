@@ -2,6 +2,7 @@
 
 #include <QLabel>
 #include <limits>
+#include "InputWidget.h"
 
 #include "../../Media/Movie.h"
 #include "MediaInputWidget.h"
@@ -22,15 +23,18 @@ MovieInputWidget::MovieInputWidget(QWidget *parent) : MediaInputWidget(parent), 
 
   container_->addLayout(movie_layout_);
 }
-media::Movie *MovieInputWidget::getFilter() const {
-  media::Media *base = MediaInputWidget::getFilter();
-  auto *movie = new media::Movie(*base);
-  delete base;
+// media::Movie *MovieInputWidget::getFilter() const {
+//   media::Media *base = MediaInputWidget::getFilter();
+//   auto *movie = new media::Movie(*base);
+//   delete base;
 
-  movie->addActor(actor_->text().toStdString());
-  movie->setUniverse(universe_->text().toStdString());
+//   movie->addActor(actor_->text().toStdString());
+//   movie->setUniverse(universe_->text().toStdString());
 
-  return movie;
+//   return movie;
+// }
+void MovieInputWidget::makeFilterFor(InputWidget &other) const {
+  other.makeFilterFrom(*this);
 }
 void MovieInputWidget::setFromMedia(const media::Media &media) {
   MediaInputWidget::setFromMedia(media);
@@ -39,6 +43,8 @@ void MovieInputWidget::setFromMedia(const media::Media &media) {
     universe_->setText(QString::fromStdString(movie->getUniverse()));
   }
 }
+std::string MovieInputWidget::getActor() const { return actor_->text().toStdString(); }
+std::string MovieInputWidget::getUniverse() const { return universe_->text().toStdString(); }
 
 }  // namespace advanced_search
 }  // namespace gui

@@ -1,12 +1,13 @@
 #ifndef GUI_ADVANCED_SEARCH_MAIN_WIDGET_H
 #define GUI_ADVANCED_SEARCH_MAIN_WIDGET_H
 #include <QWidget>
+#include "../AbstractSearchWidget.h"
 
 #include "InputWidget.h"
 #include "ResultsWidget.h"
 namespace gui {
 namespace advanced_search {
-class MainWidget : public QWidget {
+class MainWidget : public AbstractSearchWidget {
   Q_OBJECT
  private:
   QPushButton *back_;
@@ -19,15 +20,11 @@ class MainWidget : public QWidget {
  public:
   explicit MainWidget(QWidget *parent = nullptr);
 
-  void updateResults(const std::vector<const media::Media *> &new_results);
-
- private slots:
-  void performSearch();
-
  signals:
   void mediaDoubleClicked(const media::Media *media);
-  void requestResults(const media::Media *filter);
+  // void requestResults(const media::Media &filter);
   void backRequested();
+  // void updateResults(const std::vector<const media::Media *> &new_results);
 };
 }  // namespace advanced_search
 }  // namespace gui

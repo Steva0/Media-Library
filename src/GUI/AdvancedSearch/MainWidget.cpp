@@ -2,7 +2,7 @@
 
 namespace gui {
 namespace advanced_search {
-MainWidget::MainWidget(QWidget *parent) : QWidget(parent) {
+MainWidget::MainWidget(QWidget *parent) : AbstractSearchWidget(parent) {
   back_ = new QPushButton("BACK", this);
   input_ = new InputWidget(this);
   results_ = new ResultsWidget(this);
@@ -33,18 +33,14 @@ MainWidget::MainWidget(QWidget *parent) : QWidget(parent) {
   layout->addWidget(input_wrapper);
   layout->addWidget(results_wrapper);
 
-  connect(search_, &QAbstractButton::clicked, this, &MainWidget::performSearch);
+  connect(search_, &QAbstractButton::clicked, this, [this]() { emit requestResults(input_->getFilter()); });
   connect(results_, &ResultsWidget::mediaDoubleClicked, this, &MainWidget::mediaDoubleClicked);
   connect(back_, &QAbstractButton::clicked, this, &MainWidget::backRequested);
+  connect(this, &MainWidget::updateResults, results_, &ResultsWidget::updateResults);
 }
 
-void MainWidget::performSearch() {
-  media::Media *filter = input_->makeFilter();
-  emit requestResults(filter);
-}
-
-void MainWidget::updateResults(const std::vector<const media::Media *> &new_results) {
-  results_->updateResults(new_results);
-}
+// void MainWidget::updateResults(const std::vector<const media::Media *> &new_results) {
+//   results_->updateResults(new_results);
+// }
 }  // namespace advanced_search
 }  // namespace gui

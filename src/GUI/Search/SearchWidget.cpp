@@ -10,7 +10,8 @@ SearchWidget::SearchWidget(QWidget *parent)
     : QWidget(parent),
       input_(new InputBar(this)),
       advanced_search_(new QPushButton("Advanced", this)),
-      add_new_(new QPushButton("Add New", this)) {
+      add_new_(new QPushButton("Add New", this)),
+      filter_("") {
   auto *layout = new QHBoxLayout(this);
 
   input_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -23,7 +24,10 @@ SearchWidget::SearchWidget(QWidget *parent)
 
   layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
 
-  connect(input_, &InputBar::timedEdit, this, &SearchWidget::searchByName);
+  connect(input_, &InputBar::timedEdit, this, [this]() {
+    filter_.setTitle(input_->text().toStdString());
+    emit simpleSearch(filter_);
+  });
   connect(advanced_search_, &QAbstractButton::clicked, this, &SearchWidget::openAdvancedSearch);
   connect(advanced_search_, &QPushButton::clicked, this, &SearchWidget::advancedClicked);
   connect(add_new_, &QAbstractButton::clicked, this, &SearchWidget::addNewMedia);

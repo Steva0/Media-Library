@@ -17,8 +17,11 @@ class AudioBookInputWidget : public NovelInputWidget {
 
  public:
   explicit AudioBookInputWidget(QWidget *parent = nullptr);
-  media::AudioBook *getFilter() const override;
   void setFromMedia(const media::Media &) override;
+  void makeFilterFor(InputWidget &) const override;
+
+  std::string getNarrator() const;
+  std::string getStreamingService() const;
 };
 }  // namespace advanced_search
 }  // namespace gui

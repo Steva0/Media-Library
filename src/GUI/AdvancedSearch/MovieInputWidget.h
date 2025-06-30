@@ -20,8 +20,11 @@ class MovieInputWidget : public MediaInputWidget {
  public:
   explicit MovieInputWidget(QWidget *parent = nullptr);
 
-  media::Movie *getFilter() const override;
   void setFromMedia(const media::Media &) override;
+  void makeFilterFor(InputWidget &) const override;
+
+  std::string getActor() const;
+  std::string getUniverse() const;
 };
 }  // namespace advanced_search
 }  // namespace gui

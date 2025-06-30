@@ -20,8 +20,12 @@ class AlbumInputWidget : public MediaInputWidget {
  public:
   explicit AlbumInputWidget(QWidget *parent = nullptr);
 
-  media::Album *getFilter() const override;
   void setFromMedia(const media::Media &) override;
+  void makeFilterFor(InputWidget &) const override;
+
+  std::string getBandName() const;
+  std::string getBandMember() const;
+  std::string getSong() const;
 };
 }  // namespace advanced_search
 }  // namespace gui

@@ -57,8 +57,8 @@ class MainWindow : public QMainWindow {
   void closeDatabase();
   void saveDatabase();
 
-  void applyFilterAdvanced(const media::Media *);
-  void searchByName(const QString &);
+  void applyFilterAdvanced(const media::Media &);
+  void simpleSearch(const media::Media &);
 
   void onMediaDoubleClicked(const media::Media *media);
   void goBack();

@@ -14,8 +14,10 @@ class EbookInputWidget : public NovelInputWidget {
 
  public:
   explicit EbookInputWidget(QWidget *parent = nullptr);
-  media::Ebook *getFilter() const override;
   void setFromMedia(const media::Media &) override;
+  void makeFilterFor(InputWidget &) const override;
+
+  bool getDRM() const;
 };
 }  // namespace advanced_search
 }  // namespace gui

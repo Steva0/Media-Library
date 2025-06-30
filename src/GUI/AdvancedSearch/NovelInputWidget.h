@@ -22,8 +22,13 @@ class NovelInputWidget : public MediaInputWidget {
  public:
   explicit NovelInputWidget(QWidget *parent = nullptr);
 
-  media::Novel *getFilter() const override;
   void setFromMedia(const media::Media &) override;
+  void makeFilterFor(InputWidget &) const override;
+
+  std::string getAuthor() const;
+  std::string getPublisher() const;
+  std::string getSeries() const;
+  std::string getISBN() const;
 };
 }  // namespace advanced_search
 }  // namespace gui

@@ -11,7 +11,7 @@
 namespace gui {
 namespace search {
 SearchMain::SearchMain(QWidget *parent)
-    : QWidget(parent),
+    : AbstractSearchWidget(parent),
       search_input_(new SearchWidget(this)),
       results_(new GridResults(this)),
       selected_(new QStackedWidget(this)),
@@ -52,8 +52,9 @@ SearchMain::SearchMain(QWidget *parent)
   layout->addWidget(top_wrapper);
   layout->addWidget(results_wrapper);
 
-  connect(search_input_, &SearchWidget::searchByName, this, &SearchMain::searchByName);
-  connect(this, &SearchMain::acceptResults, results_, &GridResults::updateResults);
+  connect(search_input_, &SearchWidget::simpleSearch, this, &SearchMain::requestResults);
+  // connect(this, &SearchMain::acceptResults, results_, &GridResults::updateResults);
+  connect(this, &SearchMain::updateResults, results_, &GridResults::updateResults);
 
   // Pulsanti di preview (edit/delete)
   connect(preview_, &SelectedPreview::editPressed, this, &SearchMain::requestEdit);

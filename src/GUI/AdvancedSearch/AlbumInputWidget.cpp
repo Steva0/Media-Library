@@ -3,6 +3,7 @@
 #include <QGridLayout>
 #include <QLabel>
 
+#include "InputWidget.h"
 #include "../../Media/Album.h"
 #include "MediaInputWidget.h"
 
@@ -27,15 +28,18 @@ AlbumInputWidget::AlbumInputWidget(QWidget *parent) : MediaInputWidget(parent) {
   container_->addLayout(album_layout_);
 }
 
-media::Album *AlbumInputWidget::getFilter() const {
-  media::Media *media = MediaInputWidget::getFilter();
-  auto *album = new media::Album(*media);
-  delete media;
+// media::Album *AlbumInputWidget::getFilter() const {
+//   media::Media *media = MediaInputWidget::getFilter();
+//   auto *album = new media::Album(*media);
+//   delete media;
 
-  album->setBand(band_name_->text().toStdString());
-  album->addMember(band_member_->text().toStdString());
-  album->addSong(song_->text().toStdString());
-  return album;
+//   album->setBand(band_name_->text().toStdString());
+//   album->addMember(band_member_->text().toStdString());
+//   album->addSong(song_->text().toStdString());
+//   return album;
+// }
+void AlbumInputWidget::makeFilterFor(InputWidget &other) const {
+  other.makeFilterFrom(*this);
 }
 void AlbumInputWidget::setFromMedia(const media::Media &media) {
   MediaInputWidget::setFromMedia(media);
@@ -45,5 +49,8 @@ void AlbumInputWidget::setFromMedia(const media::Media &media) {
     if (album->getSongs().size() != 0) song_->setText(QString::fromStdString(album->getSongs()[0]));
   }
 }
+std::string AlbumInputWidget::getBandName() const { return band_name_->text().toStdString(); }
+std::string AlbumInputWidget::getBandMember() const { return band_member_->text().toStdString(); }
+std::string AlbumInputWidget::getSong() const { return song_->text().toStdString(); }
 }  // namespace advanced_search
 }  // namespace gui

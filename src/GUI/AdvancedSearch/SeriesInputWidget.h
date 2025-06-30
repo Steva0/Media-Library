@@ -15,8 +15,10 @@ class SeriesInputWidget : public MovieInputWidget {
  public:
   explicit SeriesInputWidget(QWidget *parent = nullptr);
 
-  media::Series *getFilter() const override;
   void setFromMedia(const media::Media &) override;
+  void makeFilterFor(InputWidget &) const override;
+
+  bool getEnded() const;
 };
 }  // namespace advanced_search
 }  // namespace gui

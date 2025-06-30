@@ -6,6 +6,7 @@
 
 #include "../../Media/Novel.h"
 #include "MediaInputWidget.h"
+#include "InputWidget.h"
 
 namespace gui {
 namespace advanced_search {
@@ -31,18 +32,21 @@ NovelInputWidget::NovelInputWidget(QWidget *parent)
   container_->addLayout(novel_layout_);
 }
 
-media::Novel *NovelInputWidget::getFilter() const {
-  media::Media *media = MediaInputWidget::getFilter();
-  auto *novel = new media::Novel(*media);
-  delete media;
+// media::Novel *NovelInputWidget::getFilter() const {
+//   media::Media *media = MediaInputWidget::getFilter();
+//   auto *novel = new media::Novel(*media);
+//   delete media;
 
-  novel->setAuthor(author_->text().toStdString());
-  novel->setPublisher(publisher_->text().toStdString());
-  novel->setSeries(series_->text().toStdString());
-  novel->setIsbn(isbn_->text().toStdString());
-  return novel;
+//   novel->setAuthor(author_->text().toStdString());
+//   novel->setPublisher(publisher_->text().toStdString());
+//   novel->setSeries(series_->text().toStdString());
+//   novel->setIsbn(isbn_->text().toStdString());
+//   return novel;
+// }
+
+void NovelInputWidget::makeFilterFor(InputWidget &other) const {
+  other.makeFilterFrom(*this);
 }
-
 void NovelInputWidget::setFromMedia(const media::Media &media) {
   MediaInputWidget::setFromMedia(media);
   if (const auto *novel = dynamic_cast<const media::Novel *>(&media)) {
@@ -52,6 +56,9 @@ void NovelInputWidget::setFromMedia(const media::Media &media) {
     isbn_->setText(QString::fromStdString(novel->getIsbn()));
   }
 }
-
+std::string NovelInputWidget::getAuthor() const { return author_->text().toStdString(); }
+std::string NovelInputWidget::getPublisher() const { return publisher_->text().toStdString(); }
+std::string NovelInputWidget::getSeries() const { return series_->text().toStdString(); }
+std::string NovelInputWidget::getISBN() const { return isbn_->text().toStdString(); }
 }  // namespace advanced_search
 }  // namespace gui
