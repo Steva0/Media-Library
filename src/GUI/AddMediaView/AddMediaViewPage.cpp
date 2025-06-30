@@ -111,9 +111,9 @@ void AddMediaViewPage::onConfirm() {
   if (!current_widget) return;
 
   media::Media* media = current_widget->getModifiedMedia(false);
-  if (media) {emit mediaAdded(media);}
-  else std::cout << "Nessun media aggiunto.\n";
-  ;
+  if (media && !media->getTitle().isEmpty() && media->getTitle() != "") {
+    emit mediaAdded(media);
+  }
 }
 
 MediaEditWidget* AddMediaViewPage::getWidgetAtIndex(int index) const {
