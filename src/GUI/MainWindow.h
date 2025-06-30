@@ -34,6 +34,8 @@ class MainWindow : public QMainWindow {
   MediaDetailPage *media_detail_page_;
   MediaEditPage *media_edit_page_;
 
+  QWidget *current_search_widget_;
+
   // debug
   void debugVisitorNormalSearch();
   void debugTimedEdit();

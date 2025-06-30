@@ -85,17 +85,17 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   // 2) Segnali dal widget dettaglio per azioni
   connect(media_detail_page_, &MediaDetailPage::backRequested, this, &MainWindow::goBack);
   connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, this, &MainWindow::onRemoveMediaRequested);
-  connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, [this]() { navigateTo(simple_search_widget_); });
+  connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, [this]() { navigateTo(current_search_widget_); });
   connect(media_detail_page_, &MediaDetailPage::enterEditRequested, this, &MainWindow::onEnterEditRequested);
 
   connect(media_edit_page_, &MediaEditPage::editConfirmed,
           [this](const media::Media *new_media, const media::Media *old_media) {
             onEditConfirmed(new_media, old_media);
           });
-  connect(media_edit_page_, &MediaEditPage::editConfirmed, [this]() { navigateTo(simple_search_widget_); });
+  connect(media_edit_page_, &MediaEditPage::editConfirmed, [this]() { navigateTo(current_search_widget_); });
   connect(media_edit_page_, &MediaEditPage::backRequested, this, &MainWindow::goBack);
   connect(media_edit_page_, &MediaEditPage::deleteRequested, this, &MainWindow::onRemoveMediaRequested);
-  connect(media_edit_page_, &MediaEditPage::deleteRequested, [this]() { navigateTo(simple_search_widget_); });
+  connect(media_edit_page_, &MediaEditPage::deleteRequested, [this]() { navigateTo(current_search_widget_); });
 
   connect(simple_search_widget_, &search::SearchMain::advancedClicked, this,
           [&]() { navigateTo(advanced_search_widget_); });
@@ -226,6 +226,8 @@ void MainWindow::navigateTo(QWidget *next_page) {
   if (current && current != next_page) {
     navigation_stack_.push(current);
   }
+  if (dynamic_cast<advanced_search::MainWidget*>(next_page) || dynamic_cast<search::SearchMain *>(next_page))
+    current_search_widget_ = next_page;
   stacked_widget_->setCurrentWidget(next_page);
 }
 
