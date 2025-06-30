@@ -194,7 +194,8 @@ void MainWindow::goBack() {
   if (!navigation_stack_.empty()) {
     QWidget *previous = navigation_stack_.top();
     navigation_stack_.pop();
-    stacked_widget_->setCurrentWidget(previous);
+    // stacked_widget_->setCurrentWidget(previous);
+    stacked_widget_->slideInWgt(previous);
     if (previous == simple_search_widget_)
       menuBar()->show();
   }
@@ -363,7 +364,8 @@ void MainWindow::navigateTo(QWidget *next_page) {
   } else {
     menuBar()->hide();
   }
-  stacked_widget_->setCurrentWidget(next_page);
+  // stacked_widget_->setCurrentWidget(next_page);
+  stacked_widget_->slideInWgt(next_page);
 }
 
 }  // namespace gui
