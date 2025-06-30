@@ -73,6 +73,7 @@ SearchMain::SearchMain(QWidget *parent)
   connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::advancedClicked);
   connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::clear);
 
+  connect(search_input_, &SearchWidget::addNewMedia, this, &SearchMain::addNewMedia);
   // todo display risultati per preview
 }
 

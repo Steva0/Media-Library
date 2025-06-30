@@ -13,6 +13,7 @@
 #include "DatabaseSelectionWidget.h"
 #include "DetailView/MediaDetailPage.h"
 #include "EditView/MediaEditPage.h"
+#include "AddMediaView/AddMediaViewPage.h"
 #include "SlidingStackedWidget.h"
 
 namespace gui {
