@@ -114,7 +114,7 @@ void MediaEditPage::onConfirm() {
   if (!widget) return;
 
   media::Media* new_media = widget->getModifiedMedia();
-  if (new_media && new_media->getTitle()!= "" && !new) {
+  if (new_media && new_media->getTitle()!= "" && !new_media->getTitle().empty()) {
     emit editConfirmed(new_media, current_media_);
   }
 }
