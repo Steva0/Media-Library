@@ -1,14 +1,15 @@
 #ifndef GUI_MEDIADETAILS_MEDIADETAILWIDGET_H
 #define GUI_MEDIADETAILS_MEDIADETAILWIDGET_H
 
-#include <QWidget>
 #include <QLabel>
-#include <QVBoxLayout>
 #include <QPixmap>
+#include <QVBoxLayout>
+#include <QWidget>
+
 #include "IMediaDetailWidget.h"
 
 namespace media {
-class Media; // forward declaration
+class Media;  // forward declaration
 }
 
 namespace gui {
@@ -16,20 +17,19 @@ namespace gui {
 class MediaDetailWidget : public IMediaDetailWidget {
   Q_OBJECT
 
-public:
+ public:
   explicit MediaDetailWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media);
 
-protected:
+ protected:
   void resizeEvent(QResizeEvent* event) override;
   QVBoxLayout* leftLayout_ = nullptr;
 
-private:
+ private:
   void updateCoverPixmap();
   void clearFields();
 
-  
   QWidget* leftWidget_ = nullptr;
 
   QLabel* titleLabel_ = nullptr;

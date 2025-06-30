@@ -10,20 +10,20 @@ namespace gui {
 namespace advanced_search {
 class NovelInputWidget : public MediaInputWidget {
   Q_OBJECT
-  private:
-   QLineEdit *author_;
-   QLineEdit *publisher_;
-   QLineEdit *series_;
-   QLineEdit *isbn_;
+ private:
+  QLineEdit *author_;
+  QLineEdit *publisher_;
+  QLineEdit *series_;
+  QLineEdit *isbn_;
 
-  protected:
-   QGridLayout *novel_layout_;
+ protected:
+  QGridLayout *novel_layout_;
 
-  public:
-   explicit NovelInputWidget(QWidget *parent = nullptr);
+ public:
+  explicit NovelInputWidget(QWidget *parent = nullptr);
 
-   media::Novel *getFilter() const override;
-   void setFromMedia(const media::Media &) override;
+  media::Novel *getFilter() const override;
+  void setFromMedia(const media::Media &) override;
 };
 }  // namespace advanced_search
 }  // namespace gui

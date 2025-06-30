@@ -1,21 +1,21 @@
 #ifndef GUI_MEDIADETAILS_AUDIOBOOKDETAILWIDGET_H
 #define GUI_MEDIADETAILS_AUDIOBOOKDETAILWIDGET_H
 
-#include "NovelDetailWidget.h"
-#include "../../Media/AudioBook.h"
-
 #include <QLabel>
+
+#include "../../Media/AudioBook.h"
+#include "NovelDetailWidget.h"
 
 namespace gui {
 
 class AudioBookDetailWidget : public NovelDetailWidget {
   Q_OBJECT
-public:
+ public:
   explicit AudioBookDetailWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
 
-private:
+ private:
   QLabel* narratorLabel_;
   QLabel* streamingServiceLabel_;
 };

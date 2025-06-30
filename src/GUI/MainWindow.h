@@ -1,18 +1,18 @@
 #ifndef GRAPHICS_MAIN_WINDOW_H
 #define GRAPHICS_MAIN_WINDOW_H
+#include <QApplication>
 #include <QFrame>
 #include <QMainWindow>
 #include <QScreen>
-#include <QApplication>
 #include <QStatusBar>
 #include <stack>
 
 #include "../Memory/Database.h"
-#include "DetailView/MediaDetailPage.h"
-#include "EditView/MediaEditPage.h"
+#include "./Search/SearchMain.h"
 #include "AdvancedSearch/MainWidget.h"
 #include "DatabaseSelectionWidget.h"
-#include "./Search/SearchMain.h"
+#include "DetailView/MediaDetailPage.h"
+#include "EditView/MediaEditPage.h"
 #include "SlidingStackedWidget.h"
 
 namespace gui {
@@ -20,7 +20,7 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
  private:
   memory::Database &database_;
-  std::stack<QWidget*> navigation_stack_;
+  std::stack<QWidget *> navigation_stack_;
   QString last_simple_search_query_;
 
   DatabaseSelectionWidget *db_selection_widget_;
@@ -51,11 +51,14 @@ class MainWindow : public QMainWindow {
 
   void onMediaDoubleClicked(const media::Media *media);
   void goBack();
-  void onRemoveMediaRequested(const media::Media *media, int num); //0 se vengo da Search, 1 se vengo da Detail, 2 se vengo da Edit
-  void onEnterEditRequested(const media::Media *media);  //Da implementare il cambio di SlideStackedWidget
-  void onEditConfirmed(const media::Media *newMedia, const media::Media *oldMedia); //Da collegare Signal di MediaEditPage a questo dentro il costruttore di MainWindow
+  void onRemoveMediaRequested(const media::Media *media,
+                              int num);  // 0 se vengo da Search, 1 se vengo da Detail, 2 se vengo da Edit
+  void onEnterEditRequested(const media::Media *media);  // Da implementare il cambio di SlideStackedWidget
+  void onEditConfirmed(const media::Media *newMedia,
+                       const media::Media *oldMedia);  // Da collegare Signal di MediaEditPage a questo dentro il
+                                                       // costruttore di MainWindow
 
-  void navigateTo(QWidget* next_page);
+  void navigateTo(QWidget *next_page);
 };
 }  // namespace gui
 #endif

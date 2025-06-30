@@ -1,10 +1,11 @@
 #ifndef GUI_SEARCH_SEARCH_MAIN_H
 #define GUI_SEARCH_SEARCH_MAIN_H
+#include <QStackedWidget>
+
 #include "GridResults.h"
 #include "SearchWidget.h"
-#include <QStackedWidget>
-#include "SelectedPreview.h"
 #include "SelectedEdit.h"
+#include "SelectedPreview.h"
 
 namespace gui {
 namespace search {
@@ -36,7 +37,6 @@ class SearchMain : public QWidget {
   void requestEdit(const media::Media *);
   void commitEditChanges(const media::Media *old_media, const media::Media *new_media);
   void requestDelete(const media::Media *, int num);
-
 };
 }  // namespace search
 }  // namespace gui

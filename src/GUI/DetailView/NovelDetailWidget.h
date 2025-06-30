@@ -1,22 +1,22 @@
 #ifndef GUI_MEDIADETAILS_NOVELDETAILWIDGET_H
 #define GUI_MEDIADETAILS_NOVELDETAILWIDGET_H
 
-#include "MediaDetailWidget.h"
-#include "../../Media/Novel.h"
-
 #include <QLabel>
 #include <QWidget>
+
+#include "../../Media/Novel.h"
+#include "MediaDetailWidget.h"
 
 namespace gui {
 
 class NovelDetailWidget : public MediaDetailWidget {
   Q_OBJECT
-public:
+ public:
   explicit NovelDetailWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
 
-private:
+ private:
   QLabel* authorLabel_;
   QLabel* publisherLabel_;
   QLabel* pagesLabel_;

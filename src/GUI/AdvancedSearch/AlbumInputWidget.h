@@ -9,18 +9,18 @@ namespace gui {
 namespace advanced_search {
 class AlbumInputWidget : public MediaInputWidget {
   Q_OBJECT
-  protected:
-   QGridLayout *album_layout_;
+ protected:
+  QGridLayout *album_layout_;
 
-  private:
-   QLineEdit *band_name_;
-   QLineEdit *band_member_;
-   QLineEdit *song_;
+ private:
+  QLineEdit *band_name_;
+  QLineEdit *band_member_;
+  QLineEdit *song_;
 
-  public:
-   explicit AlbumInputWidget(QWidget *parent = nullptr);
+ public:
+  explicit AlbumInputWidget(QWidget *parent = nullptr);
 
-   media::Album *getFilter() const override;
+  media::Album *getFilter() const override;
   void setFromMedia(const media::Media &) override;
 };
 }  // namespace advanced_search

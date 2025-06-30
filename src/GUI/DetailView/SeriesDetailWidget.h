@@ -1,20 +1,21 @@
 #ifndef GUI_MEDIADETAILS_SERIESDETAILWIDGET_H
 #define GUI_MEDIADETAILS_SERIESDETAILWIDGET_H
 
-#include "MovieDetailWidget.h"
-#include "../../Media/Series.h"
 #include <QLabel>
+
+#include "../../Media/Series.h"
+#include "MovieDetailWidget.h"
 
 namespace gui {
 
 class SeriesDetailWidget : public MovieDetailWidget {
   Q_OBJECT
-public:
+ public:
   explicit SeriesDetailWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
 
-private:
+ private:
   QLabel* episodesLabel_;
   QLabel* seasonsLabel_;
   QLabel* endedLabel_;

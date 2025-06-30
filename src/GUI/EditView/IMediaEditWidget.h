@@ -1,19 +1,20 @@
 #ifndef GUI_MEDIAEDIT_IMEDIAEDITWIDGET_H
 #define GUI_MEDIAEDIT_IMEDIAEDITWIDGET_H
 
-#include <QWidget>
-#include <QTextEdit>
+#include <QCheckBox>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSpinBox>
-#include <QCheckBox>
+#include <QTextEdit>
+#include <QWidget>
+
+#include "../../Media/Album.h"
+#include "../../Media/AudioBook.h"
+#include "../../Media/Ebook.h"
 #include "../../Media/Media.h"
 #include "../../Media/Movie.h"
-#include "../../Media/Series.h"
-#include "../../Media/Album.h"
 #include "../../Media/Novel.h"
-#include "../../Media/Ebook.h"
-#include "../../Media/AudioBook.h"
+#include "../../Media/Series.h"
 
 namespace gui {
 

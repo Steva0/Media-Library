@@ -9,8 +9,9 @@ namespace gui {
 namespace advanced_search {
 class ResultsWidget : public QWidget {
   Q_OBJECT
-  signals:
+ signals:
   void mediaDoubleClicked(const media::Media *media);
+
  private:
   QGridLayout *grid_;
 

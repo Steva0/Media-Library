@@ -1,19 +1,20 @@
 #ifndef GUI_MEDIAEDIT_AUDIOBOOKEDITWIDGET_H
 #define GUI_MEDIAEDIT_AUDIOBOOKEDITWIDGET_H
 
-#include "NovelEditWidget.h"
 #include <QLineEdit>
+
+#include "NovelEditWidget.h"
 
 namespace gui {
 
 class AudioBookEditWidget : public NovelEditWidget {
   Q_OBJECT
  public:
-  explicit AudioBookEditWidget(QWidget *parent = nullptr);
+  explicit AudioBookEditWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
 
-private:
+ private:
   QLineEdit* narrator_input_;
   QLineEdit* streaming_service_input_;
 

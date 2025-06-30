@@ -1,20 +1,21 @@
 #ifndef GUI_MEDIAEDIT_NOVELEDITWIDGET_H
 #define GUI_MEDIAEDIT_NOVELEDITWIDGET_H
 
-#include "MediaEditWidget.h"
 #include <QLineEdit>
 #include <QSpinBox>
+
+#include "MediaEditWidget.h"
 
 namespace gui {
 
 class NovelEditWidget : public MediaEditWidget {
   Q_OBJECT
  public:
-  explicit NovelEditWidget(QWidget *parent = nullptr);
+  explicit NovelEditWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
 
-protected:
+ protected:
   QLabel* pages_label;
   QLineEdit* author_input_;
   QLineEdit* publisher_input_;

@@ -1,24 +1,25 @@
 #ifndef GUI_MEDIAEDIT_ALBUMEDITWIDGET_H
 #define GUI_MEDIAEDIT_ALBUMEDITWIDGET_H
 
-#include "MediaEditWidget.h"
+#include <QHBoxLayout>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QScrollArea>
+#include <QVBoxLayout>
 #include <vector>
+
+#include "MediaEditWidget.h"
 
 namespace gui {
 
 class AlbumEditWidget : public MediaEditWidget {
   Q_OBJECT
  public:
-  explicit AlbumEditWidget(QWidget *parent = nullptr);
+  explicit AlbumEditWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
 
-private:
+ private:
   // Band
   QLineEdit* band_input_;
 

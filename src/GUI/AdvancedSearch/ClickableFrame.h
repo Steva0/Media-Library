@@ -8,16 +8,16 @@ namespace gui {
 class ClickableFrame : public QFrame {
   Q_OBJECT
 
-public:
+ public:
   explicit ClickableFrame(QWidget* parent = nullptr);
 
-signals:
+ signals:
   void doubleClicked();
   void singleClicked();
 
-protected:
+ protected:
   void mouseDoubleClickEvent(QMouseEvent* event) override;
-  void mousePressEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent* event) override;
 };
 
 }  // namespace gui

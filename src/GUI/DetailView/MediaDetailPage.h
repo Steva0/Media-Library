@@ -1,19 +1,20 @@
 #ifndef GUI_MEDIADETAILS_MEDIADETAILPAGE_H
 #define GUI_MEDIADETAILS_MEDIADETAILPAGE_H
 
-#include <QWidget>
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QWidget>
+
+#include "../../Media/Media.h"
+#include "AlbumDetailWidget.h"
+#include "AudioBookDetailWidget.h"
+#include "EbookDetailWidget.h"
 #include "IMediaDetailWidget.h"
 #include "MediaDetailWidget.h"
-#include "NovelDetailWidget.h"
 #include "MovieDetailWidget.h"
-#include "AlbumDetailWidget.h"
-#include "EbookDetailWidget.h"
-#include "AudioBookDetailWidget.h"
+#include "NovelDetailWidget.h"
 #include "SeriesDetailWidget.h"
-#include "../../Media/Media.h"
 
 namespace gui {
 
@@ -25,16 +26,16 @@ class MediaDetailPage : public QWidget {
 
   void setMedia(const media::Media* media);
 
-signals:
+ signals:
   void removeMediaRequested(const media::Media* media, int num);
   void enterEditRequested(const media::Media* media);
   void backRequested();
-  
-private slots:
+
+ private slots:
   void onRemoveClicked();
   void onEditClicked();
 
-protected:
+ protected:
   void keyPressEvent(QKeyEvent* event) override;
   IMediaDetailWidget* currentDetailWidget_ = nullptr;
   const media::Media* currentMedia_ = nullptr;

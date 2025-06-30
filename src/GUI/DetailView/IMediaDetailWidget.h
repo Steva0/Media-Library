@@ -2,9 +2,10 @@
 #define GUI_MEDIADETAILS_IMEDIADETAILWIDGET_H
 
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QVBoxLayout>
 #include <QWidget>
-#include <QLabel>
+
 #include "../../Media/Media.h"
 
 namespace gui {
@@ -12,7 +13,7 @@ namespace gui {
 class IMediaDetailWidget : public QWidget {
   Q_OBJECT
  public:
-  explicit IMediaDetailWidget(QWidget *parent = nullptr) : QWidget(parent) {}
+  explicit IMediaDetailWidget(QWidget* parent = nullptr) : QWidget(parent) {}
   virtual ~IMediaDetailWidget() = default;
 
   virtual void setMedia(const media::Media* media) = 0;

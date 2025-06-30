@@ -1,39 +1,39 @@
 #ifndef GUI_MEDIAEDIT_MEDIAEDITWIDGET_H
 #define GUI_MEDIAEDIT_MEDIAEDITWIDGET_H
 
-#include <QWidget>
+#include <QCheckBox>
+#include <QGridLayout>
+#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QVBoxLayout>
-#include <QGridLayout>
-#include <QScrollArea>
-#include <QLabel>
-#include <QSpinBox>
-#include <QCheckBox>
-#include <QTextEdit>
 #include <QResizeEvent>
-#include <vector>
+#include <QScrollArea>
+#include <QSpinBox>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QWidget>
 #include <memory>
+#include <vector>
 
-#include "IMediaEditWidget.h"
 #include "../../Media/Media.h"
+#include "IMediaEditWidget.h"
 
 namespace gui {
 
 class MediaEditWidget : public IMediaEditWidget {
   Q_OBJECT
 
-public:
+ public:
   explicit MediaEditWidget(QWidget* parent = nullptr);
   void setMedia(const media::Media* media) override;
   media::Media* getModifiedMedia() const override;
 
-private slots:
+ private slots:
   void addGenre();
   void removeGenre(QLineEdit* genre, QPushButton* removeButton);
   void selectImageFile();
 
-protected:
+ protected:
   void resizeEvent(QResizeEvent* event) override;
 
   const media::Media* old_media_;

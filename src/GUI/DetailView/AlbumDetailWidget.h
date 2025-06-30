@@ -1,23 +1,23 @@
 #ifndef GUI_MEDIADETAILS_ALBUMDETAILWIDGET_H
 #define GUI_MEDIADETAILS_ALBUMDETAILWIDGET_H
 
-#include "MediaDetailWidget.h"
-#include "../../Media/Album.h"
-
 #include <QLabel>
-#include <QWidget>
 #include <QListWidget>
+#include <QWidget>
+
+#include "../../Media/Album.h"
+#include "MediaDetailWidget.h"
 
 namespace gui {
 
 class AlbumDetailWidget : public MediaDetailWidget {
   Q_OBJECT
-public:
+ public:
   explicit AlbumDetailWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
 
-private:
+ private:
   QLabel* bandLabel_;
   QLabel* membersLabel_;
   QLabel* songsLabel_;

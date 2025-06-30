@@ -1,21 +1,22 @@
 #ifndef GUI_MEDIADETAILS_MOVIEDETAILWIDGET_H
 #define GUI_MEDIADETAILS_MOVIEDETAILWIDGET_H
 
-#include "MediaDetailWidget.h"
-#include "../../Media/Movie.h"
-#include <QListWidget>
 #include <QLabel>
+#include <QListWidget>
+
+#include "../../Media/Movie.h"
+#include "MediaDetailWidget.h"
 
 namespace gui {
 
 class MovieDetailWidget : public MediaDetailWidget {
   Q_OBJECT
-public:
+ public:
   explicit MovieDetailWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
 
-private:
+ private:
   QLabel* lengthLabel_;
   QLabel* universeLabel_;
   QLabel* castLabel_;

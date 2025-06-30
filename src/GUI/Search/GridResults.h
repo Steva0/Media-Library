@@ -1,8 +1,8 @@
 #ifndef GUI_SEARCH_GRID_RESULTS_H
 #define GUI_SEARCH_GRID_RESULTS_H
 
-#include <QGridLayout>
 #include <QFrame>
+#include <QGridLayout>
 #include <vector>
 
 #include "../../Media/Media.h"

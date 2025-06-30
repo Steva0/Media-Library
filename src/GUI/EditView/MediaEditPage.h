@@ -1,18 +1,18 @@
 #ifndef GUI_MEDIAEDIT_MEDIAEDITPAGE_H
 #define GUI_MEDIAEDIT_MEDIAEDITPAGE_H
 
-#include <QWidget>
-#include <QStackedLayout>
-#include <memory>
 #include <QKeyEvent>
+#include <QStackedLayout>
+#include <QWidget>
+#include <memory>
 
-#include "MediaEditWidget.h"
-#include "NovelEditWidget.h"
-#include "AudioBookEditWidget.h"
 #include "AlbumEditWidget.h"
-#include "SeriesEditWidget.h"
-#include "MovieEditWidget.h"
+#include "AudioBookEditWidget.h"
 #include "EbookEditWidget.h"
+#include "MediaEditWidget.h"
+#include "MovieEditWidget.h"
+#include "NovelEditWidget.h"
+#include "SeriesEditWidget.h"
 
 namespace media {
 class Media;
@@ -27,17 +27,17 @@ class MediaEditPage : public QWidget {
 
   void setMediaToEdit(const media::Media* media);
 
-signals:
+ signals:
   void editConfirmed(const media::Media* newMedia, const media::Media* oldMedia);
   void deleteRequested(const media::Media* media, int num);
   void backRequested();
 
-private slots:
+ private slots:
   void onConfirm();
   void onDelete();
   void onBack();
 
-protected:
+ protected:
   const media::Media* current_media_ = nullptr;
 
   // Contenitore widget di editing polimorfi
