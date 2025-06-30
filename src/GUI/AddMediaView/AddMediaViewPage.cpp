@@ -54,7 +54,7 @@ void AddMediaViewPage::setupUi() {
   main_layout->addLayout(buttons_row_layout);
 
   // EDIT SECTION: widget contenente stacked layout + bottom bar
-  edit_section_ = new QWidget(this);
+  auto* edit_section_ = new QWidget(this);
   auto* edit_section_layout = new QVBoxLayout(edit_section_);
   edit_section_layout->setContentsMargins(0,0,0,0);
 
