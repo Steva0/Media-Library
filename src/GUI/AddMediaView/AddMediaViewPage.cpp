@@ -111,7 +111,7 @@ void AddMediaViewPage::onConfirm() {
   if (!current_widget) return;
 
   media::Media* media = current_widget->getModifiedMedia(false);
-  if (media && !media->getTitle().isEmpty() && media->getTitle() != "") {
+  if (media && !media->getTitle().empty() && media->getTitle() != "") {
     emit mediaAdded(media);
   }
 }
