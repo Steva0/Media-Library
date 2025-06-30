@@ -86,6 +86,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   connect(media_detail_page_, &MediaDetailPage::backRequested, this, &MainWindow::goBack);
   connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, this, &MainWindow::onRemoveMediaRequested);
   connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, [this]() { navigateTo(current_search_widget_); });
+  connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, simple_search_widget_, &search::SearchMain::hidePreview);
   connect(media_detail_page_, &MediaDetailPage::enterEditRequested, this, &MainWindow::onEnterEditRequested);
 
   connect(media_edit_page_, &MediaEditPage::editConfirmed,
