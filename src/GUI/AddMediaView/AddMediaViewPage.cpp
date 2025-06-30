@@ -1,4 +1,6 @@
-#include "AddMediaViewPage.h"
+#include "AddMediaViewPage.h".
+
+#include <iostream>
 
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -77,7 +79,7 @@ void AddMediaViewPage::onConfirm() {
   if (!current_widget) return;
 
   media::Media* media = current_widget->getModifiedMedia();
-  if (media) {emit mediaAdded(media)}
+  if (media) {emit mediaAdded(media);}
   else std::cout << "Nessun media aggiunto.\n";
   ;
 }
