@@ -60,7 +60,6 @@ class MainWindow : public QMainWindow {
   void onEditConfirmed(const media::Media *newMedia,
                        const media::Media *oldMedia);  // Da collegare Signal di MediaEditPage a questo dentro il
                                                        // costruttore di MainWindow
-  void onEnterAddMediaView();
   void onAddMedia(media::Media *newMedia);
   void navigateTo(QWidget *next_page);
 };

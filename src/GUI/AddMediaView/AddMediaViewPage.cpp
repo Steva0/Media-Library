@@ -1,4 +1,4 @@
-#include "AddMediaViewPage.h".
+#include "AddMediaViewPage.h"
 
 #include <iostream>
 
