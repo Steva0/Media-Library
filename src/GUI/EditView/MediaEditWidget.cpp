@@ -86,6 +86,14 @@ MediaEditWidget::MediaEditWidget(QWidget* parent) : IMediaEditWidget(parent) {
   main_layout_->addLayout(img_layout);
   main_layout_->addWidget(img_select_button_);
 
+  // Imposta immagine di default (matita)
+  QPixmap default_pixmap(":/icons/pencil.png");  // Assicurati che il path sia corretto
+  if (!default_pixmap.isNull()) {
+      cover_label_->setPixmap(default_pixmap.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+  } else {
+      cover_label_->setText("Errore caricamento immagine di default");
+  }
+
   connect(img_select_button_, &QPushButton::clicked, this, &MediaEditWidget::selectImageFile);
 
   // Layout orizzontale per l'intera sezione "Generi"
