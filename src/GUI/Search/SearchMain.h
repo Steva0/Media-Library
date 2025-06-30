@@ -36,7 +36,7 @@ class SearchMain : public QWidget {
   void mediaDoubleClicked(const media::Media *);
   void requestEdit(const media::Media *);
   void commitEditChanges(const media::Media *new_media, const media::Media *old_media);
-  void requestDelete(const media::Media *, int num);
+  void requestDelete(const media::Media *);
 };
 }  // namespace search
 }  // namespace gui

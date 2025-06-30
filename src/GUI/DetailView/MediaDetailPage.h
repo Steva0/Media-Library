@@ -27,12 +27,11 @@ class MediaDetailPage : public QWidget {
   void setMedia(const media::Media* media);
 
  signals:
-  void removeMediaRequested(const media::Media* media, int num);
+  void removeMediaRequested(const media::Media* media);
   void enterEditRequested(const media::Media* media);
   void backRequested();
 
  private slots:
-  void onRemoveClicked();
   void onEditClicked();
 
  protected:

@@ -34,7 +34,7 @@ SelectedPreview::SelectedPreview(QWidget *parent)
     if (selected_) emit fastEditPressed(selected_);
   });
   connect(delete_button_, &QAbstractButton::pressed, this, [&]() {
-    if (selected_) emit deletePressed(selected_, 0);
+    if (selected_) emit deletePressed(selected_);
   });
 }
 

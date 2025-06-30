@@ -32,7 +32,7 @@ MediaDetailPage::MediaDetailPage(QWidget* parent) : QWidget(parent) {
 
   mainLayout_->addLayout(bottomBarLayout);
 
-  connect(removeButton_, &QPushButton::clicked, this, &MediaDetailPage::onRemoveClicked);
+  connect(removeButton_, &QPushButton::clicked, [this]() { if (currentMedia_) emit removeMediaRequested(currentMedia_); });
   connect(editButton_, &QPushButton::clicked, this, &MediaDetailPage::onEditClicked);
 }
 
@@ -79,12 +79,6 @@ void MediaDetailPage::createDetailWidgetForMedia(const media::Media* media) {
   currentDetailWidget_->setMedia(media);
 }
 
-void MediaDetailPage::onRemoveClicked() {
-  if (currentMedia_) {
-    emit removeMediaRequested(currentMedia_, 1);
-  }
-}
-
 void MediaDetailPage::onEditClicked() { emit enterEditRequested(currentMedia_); }
 
 void MediaDetailPage::keyPressEvent(QKeyEvent* event) {
@@ -93,7 +87,7 @@ void MediaDetailPage::keyPressEvent(QKeyEvent* event) {
     event->accept();
   } else if (event->key() == Qt::Key_Delete) {
     if (currentMedia_) {
-      onRemoveClicked();
+      emit removeMediaRequested(currentMedia_);
       event->accept();
     }
   } else {

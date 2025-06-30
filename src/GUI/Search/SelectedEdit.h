@@ -37,7 +37,7 @@ class SelectedEdit : public QWidget {
  signals:
   void commitChanges(media::Media *new_media, const media::Media *old_media);
   void undoChanges();
-  void requestDelete(const media::Media *target, int num);
+  void requestDelete(const media::Media *target);
 
  public slots:
   void display(const media::Media *);
