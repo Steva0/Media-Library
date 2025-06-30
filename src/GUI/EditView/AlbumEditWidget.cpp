@@ -199,8 +199,8 @@ void AlbumEditWidget::setMedia(const media::Media* media) {
   }
 }
 
-media::Media* AlbumEditWidget::getModifiedMedia() const {
-  if (!old_media_) return nullptr;
+media::Media* AlbumEditWidget::getModifiedMedia(bool old) const {
+  if (!old_media_ && old) return nullptr;
 
   std::vector<std::string> members;
   for (auto* edit : band_member_edits_) {

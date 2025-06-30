@@ -58,8 +58,8 @@ void SeriesEditWidget::setMedia(const media::Media* media) {
   ended_checkbox_->setChecked(series->hasEnded());
 }
 
-media::Media* SeriesEditWidget::getModifiedMedia() const {
-  if (!old_media_) return nullptr;
+media::Media* SeriesEditWidget::getModifiedMedia(bool old) const {
+  if (!old_media_ && old) return nullptr;
 
   return new media::Series(title_input_->text().toStdString(), release_input_->value(),
                            language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),

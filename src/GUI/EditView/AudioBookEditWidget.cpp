@@ -40,8 +40,8 @@ void AudioBookEditWidget::setMedia(const media::Media* media) {
   streaming_service_input_->setText(QString::fromStdString(audiobook->getStreamingService()));
 }
 
-media::Media* AudioBookEditWidget::getModifiedMedia() const {
-  if (!old_media_) return nullptr;
+media::Media* AudioBookEditWidget::getModifiedMedia(bool old) const {
+  if (!old_media_ && old) return nullptr;
 
   return new media::AudioBook(title_input_->text().toStdString(), release_input_->value(),
                               language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),

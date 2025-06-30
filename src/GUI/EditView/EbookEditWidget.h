@@ -14,12 +14,11 @@ class EbookEditWidget : public NovelEditWidget {
   explicit EbookEditWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
+  media::Media* getModifiedMedia(bool old = true) const override;
 
  private:
   QSpinBox* file_size_input_;
   QCheckBox* drm_checkbox_;
-
-  media::Media* getModifiedMedia() const override;
 };
 
 }  // namespace gui

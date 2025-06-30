@@ -278,12 +278,14 @@ std::vector<std::string> MediaEditWidget::getGenres() const {
   return result;
 }
 
-media::Media* MediaEditWidget::getModifiedMedia() const {
-  if (!old_media_) return nullptr;
+media::Media* MediaEditWidget::getModifiedMedia(bool old) const {
+  if (!old_media_ && old) return nullptr;
 
   return new media::Media(title_input_->text().toStdString(), release_input_->value(),
                           language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),
                           img_path_.toStdString(), notes_input_->toPlainText().toStdString());
 }
+
+
 
 }  // namespace gui

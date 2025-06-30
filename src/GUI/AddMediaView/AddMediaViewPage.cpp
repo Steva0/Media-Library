@@ -78,7 +78,7 @@ void AddMediaViewPage::onConfirm() {
   auto* current_widget = getWidgetAtIndex(stacked_layout_->currentIndex());
   if (!current_widget) return;
 
-  media::Media* media = current_widget->getModifiedMedia();
+  media::Media* media = current_widget->getModifiedMedia(false);
   if (media) {emit mediaAdded(media);}
   else std::cout << "Nessun media aggiunto.\n";
   ;

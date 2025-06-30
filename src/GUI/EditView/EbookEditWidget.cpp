@@ -43,8 +43,8 @@ void EbookEditWidget::setMedia(const media::Media* media) {
   drm_checkbox_->setChecked(Ebook->hasDrm());
 }
 
-media::Media* EbookEditWidget::getModifiedMedia() const {
-  if (!old_media_) return nullptr;
+media::Media* EbookEditWidget::getModifiedMedia(bool old) const {
+  if (!old_media_ && old) return nullptr;
 
   return new media::Ebook(title_input_->text().toStdString(), release_input_->value(),
                           language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),
