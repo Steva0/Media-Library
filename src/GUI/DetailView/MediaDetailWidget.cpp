@@ -15,7 +15,7 @@ MediaDetailWidget::MediaDetailWidget(QWidget* parent) : IMediaDetailWidget(paren
   leftLayout_ = new QVBoxLayout(leftWidget_);
   leftWidget_->setLayout(leftLayout_);
 
-  titleLabel_ = new QLabel("Title: ", this);
+  titleLabel_ = new QLabel(this);
   releaseLabel_ = new QLabel("Release year: ", this);
   languageLabel_ = new QLabel("Language: ", this);
   favouriteLabel_ = new QLabel("Favourite: ", this);
@@ -44,7 +44,7 @@ void MediaDetailWidget::setMedia(const media::Media* media) {
   }
 
   // Title: supponiamo non possa mai essere vuoto
-  titleLabel_->setText(QString("Title: %1").arg(QString::fromStdString(media->getTitle())));
+  titleLabel_->setText(QString::fromStdString(media->getTitle()));
 
   // Release year: se uguale a valore base, campo vuoto
   int releaseYear = media->getRelease();
@@ -96,7 +96,7 @@ void MediaDetailWidget::setMedia(const media::Media* media) {
 }
 
 void MediaDetailWidget::clearFields() {
-  titleLabel_->setText("Title: ");
+  titleLabel_->setText("");
   releaseLabel_->setText("Release year: ");
   languageLabel_->setText("Language: ");
   favouriteLabel_->setText("Favourite: ");

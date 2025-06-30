@@ -173,8 +173,8 @@ std::vector<std::string> MovieEditWidget::getCast() const {
   return result;
 }
 
-media::Media* MovieEditWidget::getModifiedMedia() const {
-  if (!old_media_) return nullptr;
+media::Media* MovieEditWidget::getModifiedMedia(bool old) const {
+  if (!old_media_ && old) return nullptr;
 
   return new media::Movie(title_input_->text().toStdString(), release_input_->value(),
                           language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),

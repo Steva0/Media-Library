@@ -18,6 +18,7 @@ class AlbumEditWidget : public MediaEditWidget {
   explicit AlbumEditWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
+  media::Media* getModifiedMedia(bool old = true) const override;
 
  private:
   // Band
@@ -40,8 +41,6 @@ class AlbumEditWidget : public MediaEditWidget {
 
   void addSong();
   void removeSong(QLineEdit* song_edit);
-
-  media::Media* getModifiedMedia() const override;
 };
 
 }  // namespace gui

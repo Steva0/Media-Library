@@ -26,7 +26,7 @@ class MediaEditWidget : public IMediaEditWidget {
  public:
   explicit MediaEditWidget(QWidget* parent = nullptr);
   void setMedia(const media::Media* media) override;
-  media::Media* getModifiedMedia() const override;
+  media::Media* getModifiedMedia(bool old = true) const override;
 
  private slots:
   void addGenre();

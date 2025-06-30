@@ -205,16 +205,22 @@ void MainWindow::onAddMedia(media::Media *newMedia) {
   database_.addMedia(*newMedia);
   changes_were_made_ = true;
 
-  // Aggiorna i risultati della ricerca (avanzata) per riflettere il nuovo media
-  media::Media *empty_filter = new media::Media("");  // filtro vuoto = tutti i media
+  // Aggiorna i risultati della ricerca
+  media::Media *empty_filter = new media::Media("");
   applyFilterAdvanced(empty_filter);
 
-  // Aggiorna ricerca semplice
+  // Aggiorna la ricerca semplice
   simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+
+  // Pulisci lo stack per evitare ritorno alla AddMediaViewPage
+  while (!navigation_stack_.empty()) navigation_stack_.pop();
+
+  // Imposta esplicitamente che vogliamo tornare a simple_search_widget_
+  navigation_stack_.push(simple_search_widget_);
 
   // Naviga alla pagina di dettaglio del nuovo media
   media_detail_page_->setMedia(newMedia);
-  navigateTo(media_detail_page_);
+  stacked_widget_->setCurrentWidget(media_detail_page_);
 }
 
 void MainWindow::onEnterEditRequested(const media::Media *Media) {

@@ -13,12 +13,11 @@ class AudioBookEditWidget : public NovelEditWidget {
   explicit AudioBookEditWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
+  media::Media* getModifiedMedia(bool old = true) const override;
 
  private:
   QLineEdit* narrator_input_;
   QLineEdit* streaming_service_input_;
-
-  media::Media* getModifiedMedia() const override;
 };
 
 }  // namespace gui

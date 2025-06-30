@@ -45,6 +45,12 @@ class AddMediaViewPage : public QWidget {
   EbookEditWidget* ebook_edit_widget_ = nullptr;
 
   MediaEditWidget* getWidgetAtIndex(int index) const;
+
+  QWidget* edit_section_ = nullptr;
+  QStackedLayout* central_layout_;
+
+  QWidget* createButtonsWidget(QWidget* parent = nullptr);
+  void clearEditSection();
 };
 
 }  // namespace gui

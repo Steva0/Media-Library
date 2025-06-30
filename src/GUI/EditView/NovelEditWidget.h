@@ -14,6 +14,7 @@ class NovelEditWidget : public MediaEditWidget {
   explicit NovelEditWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
+  media::Media* getModifiedMedia(bool old = true) const override;
 
  protected:
   QLabel* pages_label;
@@ -22,8 +23,6 @@ class NovelEditWidget : public MediaEditWidget {
   QSpinBox* pages_input_;
   QLineEdit* series_input_;
   QLineEdit* isbn_input_;
-
-  media::Media* getModifiedMedia() const override;
 };
 
 }  // namespace gui

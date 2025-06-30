@@ -42,7 +42,7 @@ NovelEditWidget::NovelEditWidget(QWidget* parent) : MediaEditWidget(parent) {
   pages_label = new QLabel("Pagine:", this);
   pages_label->setFixedWidth(60);
   pages_input_ = new QSpinBox(this);
-  pages_input_->setRange(1, 10000);
+  pages_input_->setRange(0, 10000);
   pages_input_->setFixedWidth(60);
   second_row_layout->addWidget(pages_label);
   second_row_layout->addWidget(pages_input_);
@@ -78,8 +78,8 @@ void NovelEditWidget::setMedia(const media::Media* media) {
   }
 }
 
-media::Media* NovelEditWidget::getModifiedMedia() const {
-  if (!old_media_) return nullptr;
+media::Media* NovelEditWidget::getModifiedMedia(bool old) const {
+  if (!old_media_ && old) return nullptr;
 
   return new media::Novel(title_input_->text().toStdString(), release_input_->value(),
                           language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),

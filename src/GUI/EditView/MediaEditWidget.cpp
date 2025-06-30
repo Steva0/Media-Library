@@ -86,6 +86,14 @@ MediaEditWidget::MediaEditWidget(QWidget* parent) : IMediaEditWidget(parent) {
   main_layout_->addLayout(img_layout);
   main_layout_->addWidget(img_select_button_);
 
+  // Imposta immagine di default (matita)
+  QPixmap default_pixmap(":/icons/pencil.png");  // Assicurati che il path sia corretto
+  if (!default_pixmap.isNull()) {
+      cover_label_->setPixmap(default_pixmap.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+  } else {
+      cover_label_->setText("Errore caricamento immagine di default");
+  }
+
   connect(img_select_button_, &QPushButton::clicked, this, &MediaEditWidget::selectImageFile);
 
   // Layout orizzontale per l'intera sezione "Generi"
@@ -175,8 +183,27 @@ void MediaEditWidget::resizeEvent(QResizeEvent* event) {
 }
 
 void MediaEditWidget::setMedia(const media::Media* media) {
-  if (!media) return;
+  if (!media) {
+    // Media non valido -> resetto campi e metto immagine di default
+    title_input_->clear();
+    release_input_->setValue(0);
+    language_input_->clear();
+    favourite_checkbox_->setChecked(false);
+    notes_input_->clear();
+    clearGenres();
+    
+    img_path_.clear();
+    img_path_input_->setText("(nessuna immagine selezionata)");
+    img_path_input_->setStyleSheet("font-style: italic; color: gray;");
 
+    cover_pixmap_ = QPixmap(":/assets/matita.jpg");  // immagine di default
+    updateCoverPixmap();
+
+    old_media_ = nullptr;
+    return;
+  }
+
+  // Se media valido, come prima
   old_media_ = media;
 
   title_input_->setText(QString::fromStdString(media->getTitle()));
@@ -194,7 +221,6 @@ void MediaEditWidget::setMedia(const media::Media* media) {
     img_path_input_->setStyleSheet("font-style: italic; color: gray;");
     cover_pixmap_ = QPixmap(":/assets/matita.jpg");  // immagine di default
   }
-
 
   updateCoverPixmap();
 
@@ -278,12 +304,14 @@ std::vector<std::string> MediaEditWidget::getGenres() const {
   return result;
 }
 
-media::Media* MediaEditWidget::getModifiedMedia() const {
-  if (!old_media_) return nullptr;
+media::Media* MediaEditWidget::getModifiedMedia(bool old) const {
+  if (!old_media_ && old) return nullptr;
 
   return new media::Media(title_input_->text().toStdString(), release_input_->value(),
                           language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),
                           img_path_.toStdString(), notes_input_->toPlainText().toStdString());
 }
+
+
 
 }  // namespace gui

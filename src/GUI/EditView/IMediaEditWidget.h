@@ -25,7 +25,7 @@ class IMediaEditWidget : public QWidget {
   virtual ~IMediaEditWidget() = default;
 
   virtual void setMedia(const media::Media* media) = 0;
-  virtual media::Media* getModifiedMedia() const = 0;  // restituisce nuova copia modificata
+  virtual media::Media* getModifiedMedia(bool old = true) const = 0;  // restituisce nuova copia modificata
 };
 
 }  // namespace gui

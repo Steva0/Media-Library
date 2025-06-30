@@ -14,13 +14,12 @@ class SeriesEditWidget : public MovieEditWidget {
   explicit SeriesEditWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
+  media::Media* getModifiedMedia(bool old = true) const override;
 
  private:
   QSpinBox* episodes_input_;
   QSpinBox* seasons_input_;
   QCheckBox* ended_checkbox_;
-
-  media::Media* getModifiedMedia() const override;
 };
 
 }  // namespace gui
