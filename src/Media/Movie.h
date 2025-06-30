@@ -14,7 +14,7 @@ class Movie : public Media {
   std::string universe_;
 
  public:
-  explicit Movie(const std::string &title, int release = std::numeric_limits<int>::min(),
+  explicit Movie(const std::string &title = "", int release = std::numeric_limits<int>::min(),
                  const std::string &language = "", bool favourite = false, const std::vector<std::string> &genres = {},
                  const std::string &img_path = "", const std::string &notes = "",
                  const std::vector<std::string> &cast = {}, int length = std::numeric_limits<int>::min(),

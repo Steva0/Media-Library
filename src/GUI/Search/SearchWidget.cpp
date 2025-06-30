@@ -10,8 +10,7 @@ SearchWidget::SearchWidget(QWidget *parent)
     : QWidget(parent),
       input_(new InputBar(this)),
       advanced_search_(new QPushButton("Advanced", this)),
-      add_new_(new QPushButton("Add New", this)),
-      filter_("") {
+      add_new_(new QPushButton("Add New", this)) {
   auto *layout = new QHBoxLayout(this);
 
   input_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);

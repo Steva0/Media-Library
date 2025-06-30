@@ -11,7 +11,7 @@ class Album : public Media {
   std::vector<std::string> songs_;
 
  public:
-  explicit Album(const std::string &title, int release = std::numeric_limits<int>::min(),
+  explicit Album(const std::string &title = "", int release = std::numeric_limits<int>::min(),
                  const std::string &language = "", bool favourite = false, const std::vector<std::string> &genres = {},
                  const std::string &img_path = "", const std::string &notes = "", const std::string &band = "",
                  const std::vector<std::string> &band_members = {}, const std::vector<std::string> &songs = {});

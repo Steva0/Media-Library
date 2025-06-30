@@ -20,7 +20,7 @@ class Media : IMedia {
   std::string notes_;
 
  public:
-  explicit Media(const std::string &title, int release = std::numeric_limits<int>::min(),
+  explicit Media(const std::string &title = "", int release = std::numeric_limits<int>::min(),
                  const std::string &language = "", bool favourite = false, const std::vector<std::string> &genres = {},
                  const std::string &img_path = "", const std::string &notes = "");
 

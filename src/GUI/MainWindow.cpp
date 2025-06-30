@@ -155,12 +155,12 @@ void MainWindow::createDatabase() {
   database_.clear();
 
   // media::Media *empty_filter = new media::Media("");  // filtro vuoto = tutti i media
-  applyFilterAdvanced(media::Media(""));
+  applyFilterAdvanced(media::Media{});
 
   // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
   last_simple_search_query_ = "";
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media("")));
-  simple_search_widget_->updateResults(database_.filterMedia(media::Media("")));
+  simple_search_widget_->updateResults(database_.filterMedia(media::Media{}));
 
   status_bar_->showMessage("Creato database: " + path);
 }
@@ -173,12 +173,12 @@ void MainWindow::openDatabase() {
   // 
   // Appena aperto il db, aggiorna i risultati di ricerca con tutti i media o con filtro vuoto
   // media::Media *empty_filter = new media::Media("");  // filtro vuoto = tutti i media
-  applyFilterAdvanced(media::Media(""));
+  applyFilterAdvanced(media::Media{});
 
   // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
   last_simple_search_query_ = "";
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media("")));
-  simple_search_widget_->updateResults(database_.filterMedia(media::Media("")));
+  simple_search_widget_->updateResults(database_.filterMedia(media::Media{}));
   status_bar_->showMessage(QString("Caricato database") + path);
 }
 
@@ -212,7 +212,7 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
   changes_were_made_ = true;
 
   // media::Media *empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
-  applyFilterAdvanced(media::Media(""));
+  applyFilterAdvanced(media::Media{});
 
   // Aggiorna ricerca semplice
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
@@ -229,7 +229,7 @@ void MainWindow::onAddMedia(media::Media *newMedia) {
 
   // Aggiorna i risultati della ricerca
   // media::Media *empty_filter = new media::Media("");
-  applyFilterAdvanced(media::Media(""));
+  applyFilterAdvanced(media::Media{});
 
   // Aggiorna la ricerca semplice
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
@@ -273,7 +273,7 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
 
   // Aggiorna i risultati della ricerca (avanzata) per riflettere il cambiamento
   // media::Media *empty_filter = new media::Media("");
-  applyFilterAdvanced(media::Media(""));
+  applyFilterAdvanced(media::Media{});
 
   // Aggiorna ricerca semplice
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));

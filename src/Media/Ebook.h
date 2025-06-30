@@ -11,7 +11,7 @@ class Ebook : public Novel {
   bool drm_;
 
  public:
-  explicit Ebook(const std::string& title, int publicationYear = std::numeric_limits<int>::min(),
+  explicit Ebook(const std::string& title = "", int publicationYear = std::numeric_limits<int>::min(),
                  const std::string& language = "", bool favorite = false, const std::vector<std::string>& genres = {},
                  const std::string& imagePath = "", const std::string& notes = "", const std::string& author = "",
                  const std::string& publisher = "", int pages = std::numeric_limits<int>::min(),
