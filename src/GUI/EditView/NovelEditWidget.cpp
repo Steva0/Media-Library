@@ -42,7 +42,7 @@ NovelEditWidget::NovelEditWidget(QWidget* parent) : MediaEditWidget(parent) {
   pages_label = new QLabel("Pagine:", this);
   pages_label->setFixedWidth(60);
   pages_input_ = new QSpinBox(this);
-  pages_input_->setRange(1, 10000);
+  pages_input_->setRange(0, 10000);
   pages_input_->setFixedWidth(60);
   second_row_layout->addWidget(pages_label);
   second_row_layout->addWidget(pages_input_);
