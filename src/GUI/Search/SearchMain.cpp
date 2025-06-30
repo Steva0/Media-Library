@@ -71,7 +71,7 @@ SearchMain::SearchMain(QWidget *parent)
   connect(results_, &GridResults::mediaDoubleClicked, this, &SearchMain::mediaDoubleClicked);
   connect(results_, &GridResults::mediaSingleClicked, this, &SearchMain::mediaSingleClicked);
   connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::advancedClicked);
-  connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::onClear);
+  connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::clear);
 
   // todo display risultati per preview
 }
@@ -96,7 +96,7 @@ void SearchMain::hidePreview() {
   preview_->clear();
 }
 
-void SearchMain::onClear() {
+void SearchMain::clear() {
   preview_->clear();  // svuota la preview
 }
 }  // namespace search

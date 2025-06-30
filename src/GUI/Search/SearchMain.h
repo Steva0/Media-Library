@@ -26,8 +26,10 @@ class SearchMain : public QWidget {
   void undoEditChanges();
   void mediaSingleClicked(const media::Media *);
   void fastEditClicked(const media::Media *);
+  void clear();
+
+ public slots:
   void hidePreview();
-  void onClear();
 
  signals:
   void advancedClicked();

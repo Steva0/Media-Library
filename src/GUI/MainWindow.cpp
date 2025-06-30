@@ -93,8 +93,10 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
             onEditConfirmed(new_media, old_media);
           });
   connect(media_edit_page_, &MediaEditPage::editConfirmed, [this]() { navigateTo(current_search_widget_); });
+  connect(media_edit_page_, &MediaEditPage::editConfirmed, simple_search_widget_, &search::SearchMain::hidePreview);
   connect(media_edit_page_, &MediaEditPage::backRequested, this, &MainWindow::goBack);
   connect(media_edit_page_, &MediaEditPage::deleteRequested, this, &MainWindow::onRemoveMediaRequested);
+  connect(media_edit_page_, &MediaEditPage::deleteRequested, simple_search_widget_, &search::SearchMain::hidePreview);
   connect(media_edit_page_, &MediaEditPage::deleteRequested, [this]() { navigateTo(current_search_widget_); });
 
   connect(simple_search_widget_, &search::SearchMain::advancedClicked, this,
