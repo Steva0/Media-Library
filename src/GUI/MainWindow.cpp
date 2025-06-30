@@ -128,9 +128,10 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 
   connect(simple_search_widget_, &search::SearchMain::advancedClicked, this,
           [&]() { navigateTo(advanced_search_widget_); });
-  connect(
-      simple_search_widget_, &search::SearchMain::commitEditChanges,
-      [this](const media::Media *new_media, const media::Media *old_media) { onEditConfirmed(new_media, old_media); });
+  connect(simple_search_widget_, &search::SearchMain::commitEditChanges,
+          [this](const media::Media *new_media, const media::Media *old_media) {
+            if (!(*new_media == *old_media)) onEditConfirmed(new_media, old_media);
+          });
   connect(simple_search_widget_, &search::SearchMain::addNewMedia, this, [&]() { navigateTo(add_media_view_page_); });
   connect(add_media_view_page_, &AddMediaViewPage::mediaAdded, this, &MainWindow::onAddMedia);
   connect(add_media_view_page_, &AddMediaViewPage::backRequested, this, [&]() { navigateTo(current_search_widget_); });
@@ -252,10 +253,10 @@ void MainWindow::onEnterEditRequested(const media::Media *Media) {
 
 // Slot per modifica media, chiamato da widget dettaglio
 void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Media *oldMedia) {
-  // if (!newMedia || !oldMedia || *newMedia == *oldMedia) {
-  //   goBack();
-  //   return;
-  // }
+  if (!newMedia || !oldMedia || *newMedia == *oldMedia) {
+    goBack();
+    return;
+  }
 
   status_bar_->showMessage("Modificando media con titolo: " + QString::fromStdString(oldMedia->getTitle()));
   database_.removeMedia(*oldMedia);
