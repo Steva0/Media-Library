@@ -23,11 +23,9 @@ class MediaContainer {
 
   static std::string typeToString(Type);
   static std::string typeToString(size_t);
+  static const std::array<std::string, static_cast<size_t>(Type::TypeCount)> kTypeStrings; 
 
  private:
-  // per assicurare una a compile time una corrispondenza 1 a 1 tra stringhe e valori enum
-  static constexpr std::array<std::string_view, static_cast<size_t>(Type::TypeCount)> typeStrings();
-
   std::array<std::vector<std::unique_ptr<media::Media>>, static_cast<int>(Type::TypeCount)> data_;
 
   Type detectType(const media::Media& media) const;

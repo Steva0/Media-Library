@@ -1,31 +1,12 @@
 #include "MediaContainer.h"
 
-#include <algorithm>
-#include <string_view>
-#define ASSERT_TYPE_STRING(VALUE) static_assert(kResult[static_cast<size_t>(Type::VALUE)] == #VALUE);
-
 namespace memory {
 
-constexpr std::array<std::string_view, static_cast<size_t>(MediaContainer::Type::TypeCount)>
-MediaContainer::typeStrings() {
-  using Type = MediaContainer::Type;
+const std::array<std::string, static_cast<size_t>(MediaContainer::Type::TypeCount)> MediaContainer::kTypeStrings{
+    "All", "Novel", "Album", "Movie", "Ebook", "AudioBook", "Series"};
 
-  constexpr std::array<std::string_view, static_cast<size_t>(MediaContainer::Type::TypeCount)> kResult{
-      "All", "Novel", "Album", "Movie", "Ebook", "AudioBook", "Series"};
-  static_assert(kResult.size() == static_cast<size_t>(MediaContainer::Type::TypeCount));
-
-  ASSERT_TYPE_STRING(All);
-  ASSERT_TYPE_STRING(Novel);
-  ASSERT_TYPE_STRING(Album);
-  ASSERT_TYPE_STRING(Movie);
-  ASSERT_TYPE_STRING(Ebook);
-  ASSERT_TYPE_STRING(AudioBook);
-  ASSERT_TYPE_STRING(Series);
-  return kResult;
-}
-
-std::string MediaContainer::typeToString(Type type) { return std::string(typeStrings()[static_cast<size_t>(type)]); }
-std::string MediaContainer::typeToString(size_t type) { return std::string(typeStrings()[type]); }
+std::string MediaContainer::typeToString(Type type) { return kTypeStrings[static_cast<size_t>(type)]; }
+std::string MediaContainer::typeToString(size_t type) { return kTypeStrings[type]; }
 
 void MediaContainer::addMedia(const media::Media& media) {
   Type t = detectType(media);
