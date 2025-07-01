@@ -24,7 +24,7 @@ void SimpleResultVisitor::visit(const media::Media &media) {
 
   auto *image = new QLabel(result_);
   if (media.getImgPath() == "" || QPixmap(QString::fromStdString(media.getImgPath())).isNull())
-    image->setPixmap(QPixmap(QString::fromStdString(":/assets/wifi.jpeg")).scaled(128, 128, Qt::KeepAspectRatio));
+    image->setPixmap(QPixmap(QString::fromStdString(":/assets/matita.jpg")).scaled(128, 128, Qt::KeepAspectRatio));
   else {
     image->setPixmap(QPixmap(QString::fromStdString(media.getImgPath())).scaled(128, 128, Qt::KeepAspectRatio));
   }

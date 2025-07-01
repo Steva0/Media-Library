@@ -63,7 +63,7 @@ void SelectedEdit::display(const media::Media *media) {
     type_->setText(QString::fromStdString(media->displayType()));
 
     if (media->getImgPath() == "" || QPixmap(QString::fromStdString(media->getImgPath())).isNull())
-      preview_->setPixmap(QPixmap(QString::fromStdString(":/assets/wifi.jpeg")));
+      preview_->setPixmap(QPixmap(QString::fromStdString(":/assets/matita.jpg")));
     else {
       preview_->setPixmap(QPixmap(QString::fromStdString(media->getImgPath())).scaled(128, 128));
     }

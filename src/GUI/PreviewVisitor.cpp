@@ -26,7 +26,7 @@ void PreviewVisitor::visit(const media::Media &media) {
 
   auto *preview = new QLabel(result_);
   if (media.getImgPath() == "" || QPixmap(QString::fromStdString(media.getImgPath())).isNull())
-    preview->setPixmap(QPixmap(QString::fromStdString(":/assets/wifi.jpeg")).scaled(128, 128, Qt::KeepAspectRatio));
+    preview->setPixmap(QPixmap(QString::fromStdString(":/assets/matita.jpg")).scaled(128, 128, Qt::KeepAspectRatio));
   else {
     preview->setPixmap(QPixmap(QString::fromStdString(media.getImgPath())).scaled(128, 128, Qt::KeepAspectRatio));
   }
