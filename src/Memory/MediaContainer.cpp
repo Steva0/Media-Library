@@ -3,7 +3,7 @@
 namespace memory {
 
 const std::array<std::string, static_cast<size_t>(MediaContainer::Type::TypeCount)> MediaContainer::kTypeStrings{
-    "All", "Novel", "Album", "Movie", "Ebook", "AudioBook", "Series"};
+    "Tutti", "Libri", "Album", "Film", "e-Book", "Audiolibro", "Serie TV"};
 
 std::string MediaContainer::typeToString(Type type) { return kTypeStrings[static_cast<size_t>(type)]; }
 std::string MediaContainer::typeToString(size_t type) { return kTypeStrings[type]; }
