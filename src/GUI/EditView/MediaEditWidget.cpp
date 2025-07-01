@@ -338,7 +338,7 @@ void MediaEditWidget::clearGenres() {
     }
     delete child;
   }
-  genre_widgets_.clear();
+  genres_.clear();
 }
 
 }  // namespace gui

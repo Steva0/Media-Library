@@ -62,8 +62,6 @@ class MediaEditWidget : public IMediaEditWidget {
   void setGenres(const std::vector<std::string>& genres);
   std::vector<std::string> getGenres() const;
   void updateCoverPixmap();
-  void clearGenres();
-
 };
 
 }  // namespace gui

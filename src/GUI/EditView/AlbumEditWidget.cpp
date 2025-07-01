@@ -220,7 +220,7 @@ void AlbumEditWidget::clearInputFields() {
   clearGridLayout(songs_layout_, song_edits_);
 }
 
-void clearGridLayout(QGridLayout* layout, std::vector<QLineEdit*>& edits) {
+void AlbumEditWidget::clearGridLayout(QGridLayout* layout, std::vector<QLineEdit*>& edits) {
   QLayoutItem* item;
   while ((item = layout->takeAt(0)) != nullptr) {
     if (QWidget* widget = item->widget()) {

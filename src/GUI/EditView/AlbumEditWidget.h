@@ -42,6 +42,7 @@ class AlbumEditWidget : public MediaEditWidget {
 
   void addSong();
   void removeSong(QLineEdit* song_edit);
+  void clearGridLayout(QGridLayout* layout, std::vector<QLineEdit*>& edits);
 };
 
 }  // namespace gui
