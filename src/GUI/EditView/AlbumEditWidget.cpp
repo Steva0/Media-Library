@@ -178,16 +178,8 @@ void AlbumEditWidget::setMedia(const media::Media* media) {
 
   band_input_->setText(QString::fromStdString(album->getBand()));
 
-  // Pulisci membri attuali
-  for (auto* edit : band_member_edits_) {
-    edit->parentWidget()->deleteLater();
-  }
-  band_member_edits_.clear();
-
-  for (const auto& member : album->getBandMembers()) {
-    band_member_input_->setText(QString::fromStdString(member));
-    addBandMember();
-  }
+  clearGridLayout(band_members_layout_, band_member_edits_);
+  clearGridLayout(songs_layout_, song_edits_);
 
   // Pulisci canzoni attuali
   for (auto* edit : song_edits_) {
@@ -224,17 +216,20 @@ void AlbumEditWidget::clearInputFields() {
   MediaEditWidget::clearInputFields();
   band_input_->clear();
 
-  // Pulisci membri della band
-  for (auto* edit : band_member_edits_) {
-    edit->parentWidget()->deleteLater();
-  }
-  band_member_edits_.clear();
-
-  // Pulisci canzoni
-  for (auto* edit : song_edits_) {
-    edit->parentWidget()->deleteLater();
-  }
-  song_edits_.clear();
+  clearGridLayout(band_members_layout_, band_member_edits_);
+  clearGridLayout(songs_layout_, song_edits_);
 }
+
+void clearGridLayout(QGridLayout* layout, std::vector<QLineEdit*>& edits) {
+  QLayoutItem* item;
+  while ((item = layout->takeAt(0)) != nullptr) {
+    if (QWidget* widget = item->widget()) {
+      widget->deleteLater();
+    }
+    delete item;
+  }
+  edits.clear();
+}
+
 
 }  // namespace gui
