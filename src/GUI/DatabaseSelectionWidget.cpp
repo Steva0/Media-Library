@@ -11,7 +11,7 @@ DatabaseSelectionWidget::DatabaseSelectionWidget(QWidget *parent)
     : QWidget(parent),
       tool_style_sheet_("font-size: 20px;"),
       button_size_(128, 128) {
-  open_db_ = makeToolButton("Apri", QPixmap(":/assets/wifi.jpeg"), this);
+  open_db_ = makeToolButton("Apri", QPixmap(":/assets/folder.jpeg"), this);
   create_db_ = makeToolButton("Nuovo", QPixmap(":/assets/matita.jpg"), this);
 
   auto *layout = new QHBoxLayout(this);
