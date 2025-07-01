@@ -24,6 +24,7 @@ class SelectedEdit : public QWidget {
   QLineEdit *release_;
   QLineEdit *language_;
   QCheckBox *favourite_;
+  QString title_edit_sheet_;
 
   QPushButton *cancel_;
   QPushButton *confirm_;

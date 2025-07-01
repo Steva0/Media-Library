@@ -50,7 +50,8 @@ SelectedEdit::SelectedEdit(QWidget *parent)
   layout->addWidget(cancel_, 1, 0, Qt::AlignBottom | Qt::AlignLeft);
   layout->addWidget(confirm_, 1, 1, Qt::AlignRight | Qt::AlignBottom);
 
-  connect(title_, &QLineEdit::textChanged, [this]() { title_->setStyleSheet("background-color: white;"); });
+  title_edit_sheet_ = title_->styleSheet();
+  connect(title_, &QLineEdit::textChanged, [this]() { title_->setStyleSheet(title_edit_sheet_); });
   connect(cancel_, &QAbstractButton::clicked, [this]() { emit undoChanges(); });
   connect(confirm_, &QAbstractButton::clicked, this, &SelectedEdit::makeMediaAndCommit);
   connect(delete_, &QAbstractButton::clicked, [this]() { emit requestDelete(selected_); });
@@ -75,7 +76,7 @@ void SelectedEdit::display(const media::Media *media) {
 }
 
 void SelectedEdit::makeMediaAndCommit() {
-  if (title_->text() == "") {
+  if (title_->text().trimmed() == "") {
     title_->setStyleSheet("background-color: red");
     return;
   }
