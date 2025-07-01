@@ -5,6 +5,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSpinBox>
+#include <QLabel>
 #include <QTextEdit>
 #include <QWidget>
 

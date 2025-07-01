@@ -140,7 +140,7 @@ MediaEditWidget::MediaEditWidget(QWidget* parent) : IMediaEditWidget(parent) {
 
   connect(add_genre_button_, &QPushButton::clicked, this, &MediaEditWidget::addGenre);
 
-  addNoteSection(main_layout_);
+  addNotesSection(main_layout_);
 
   old_media_ = nullptr;
   img_path_.clear();
