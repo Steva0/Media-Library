@@ -22,34 +22,9 @@ DatabaseSelectionWidget::DatabaseSelectionWidget(QWidget *parent)
 
   layout->setSpacing(20);
 
-  // connect(open_db_, &QAbstractButton::clicked, this, &DatabaseSelectionWidget::openDatabase);
-  // connect(create_db_, &QAbstractButton::clicked, this, &DatabaseSelectionWidget::createDatabase);
   connect(open_db_, &QAbstractButton::clicked, this, &DatabaseSelectionWidget::onSelectDatabase);
   connect(create_db_, &QAbstractButton::clicked, this, &DatabaseSelectionWidget::onCreateDatabase);
 }
-
-// void DatabaseSelectionWidget::openDatabase() {
-//   // todo decidere quale usare
-//   QString path = QFileDialog::getOpenFileName(nullptr, "Open Database", ".", accepted_extensions_);
-//   if (path == "") return;  // "cancel"
-//   emit onSelectDatabase(path);
-// }
-
-// void DatabaseSelectionWidget::createDatabase() {
-//   QString filter;
-//   QString path = QFileDialog::getSaveFileName(this, "New Database", ".", accepted_extensions_, &filter);
-//   if (path == "") return;
-
-//   if (filter.contains("xml"))
-//     filter = ".xml";
-//   else
-//     filter = ".json";
-
-//   if (!path.endsWith(filter)) path += filter;
-
-//   emit onSelectDatabase(path);
-// }
-
 QToolButton *DatabaseSelectionWidget::makeToolButton(const QString &name, const QPixmap &image, QWidget *parent) {
   auto *new_button = new QToolButton(parent);
   new_button->setText(name);

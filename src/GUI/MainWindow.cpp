@@ -207,17 +207,21 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
     goBack();
     return;
   }
+  
 
   status_bar_->showMessage("Cancellando media: " + QString::fromStdString(media->getTitle()));
   database_.removeMedia(*media);
+  
   changes_were_made_ = true;
 
   // media::Media *empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
   applyFilterAdvanced(media::Media{});
+  
 
   // Aggiorna ricerca semplice
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
   simple_search_widget_->updateResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+  
 }
 
 void MainWindow::onAddMedia(media::Media *newMedia) {
@@ -310,6 +314,7 @@ void MainWindow::closeDatabase() {
 
   // reset
   stacked_widget_->setCurrentWidget(db_selection_widget_);
+  menuBar()->hide();
 }
 
 void MainWindow::saveDatabase() {

@@ -2,6 +2,7 @@
 
 #include <QLabel>
 #include <limits>
+#include <QFileInfo>
 
 #include "../Media/Album.h"
 #include "../Media/AudioBook.h"
@@ -24,8 +25,11 @@ void PreviewVisitor::visit(const media::Media &media) {
   data_->setAlignment(Qt::AlignTop);
 
   auto *preview = new QLabel(result_);
-  // preview->setPixmap(QPixmap(QString::fromStdString(media.getImgPath())).scaled(128, 128));
-  preview->setPixmap(QPixmap(QString::fromStdString(":/assets/wifi.jpeg")).scaled(128, 128));
+  if (media.getImgPath() == "" || QPixmap(QString::fromStdString(media.getImgPath())).isNull())
+    preview->setPixmap(QPixmap(QString::fromStdString(":/assets/wifi.jpeg")).scaled(128, 128, Qt::KeepAspectRatio));
+  else {
+    preview->setPixmap(QPixmap(QString::fromStdString(media.getImgPath())).scaled(128, 128, Qt::KeepAspectRatio));
+  }
 
   data_->addWidget(new QLabel(type_), 0, 0);
   if (media.isFavourite()) data_->addWidget(new QLabel("Favourite"));

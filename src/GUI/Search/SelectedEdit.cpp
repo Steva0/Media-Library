@@ -63,7 +63,11 @@ void SelectedEdit::display(const media::Media *media) {
     media->accept(probe);
     type_->setText(probe.type_);
 
-    preview_->setPixmap(QPixmap(":/assets/matita.jpg").scaled(128, 128));
+    if (media->getImgPath() == "" || QPixmap(QString::fromStdString(media->getImgPath())).isNull())
+      preview_->setPixmap(QPixmap(QString::fromStdString(":/assets/wifi.jpeg")));
+    else {
+      preview_->setPixmap(QPixmap(QString::fromStdString(media->getImgPath())).scaled(128, 128));
+    }
     title_->setText(QString::fromStdString(media->getTitle()));
     release_->setText(QString::number(media->getRelease()));
     if (media->getRelease() == std::numeric_limits<int>::min()) release_->clear();

@@ -8,7 +8,7 @@
 namespace gui {
 namespace search {
 
-const int GridResults::kResultPerRow = 4;
+const int GridResults::kResultsPerRow = 4;
 
 GridResults::GridResults(QWidget *parent) : QFrame(parent), grid_(new QGridLayout(this)) {
   grid_->setSpacing(0);
@@ -27,6 +27,7 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
 
   results_ = results;  // salva internamente se serve
   int count = 0;
+  int max_height = -1;
 
   for (const auto *media : results) {
     auto *wrapper = new ClickableFrame(this);
@@ -41,9 +42,10 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     result->setParent(wrapper);
     layout->addWidget(result);
 
-    grid_->addWidget(wrapper, count / kResultPerRow, count % kResultPerRow);
-    wrapper->setMaximumHeight(wrapper->sizeHint().height());
+    grid_->addWidget(wrapper, count / kResultsPerRow, count % kResultsPerRow);
+    // wrapper->setMaximumHeight(wrapper->sizeHint().height());
     wrapper->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    max_height = std::max(max_height, wrapper->sizeHint().height());
 
     // Connetti con lambda che emette il media specifico
     connect(wrapper, &ClickableFrame::doubleClicked, this, [this, media]() { emit mediaDoubleClicked(media); });
@@ -51,6 +53,25 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
 
     ++count;
   }
+  while (count > 0) {
+    --count;
+    QWidget *widget = grid_->itemAtPosition(count / kResultsPerRow, count % kResultsPerRow)->widget();
+    widget->setMaximumHeight(max_height);
+
+  }
+  // while (count > 0) {
+  //   --count;
+  //   QWidget *widget = grid_->itemAtPosition(count / kResultsPerRow, count % kResultsPerRow)->widget();
+  //   max_height = std::max(max_height, widget->sizeHint().height());
+  //   if (count % kResultsPerRow == 0) {
+  //     for (int i = 0; i < kResultsPerRow; ++i) {
+  //       QWidget *to_update = grid_->itemAtPosition((count + i) / kResultsPerRow, (count + i) / kResultsPerRow)->widget();
+  //       to_update->setMaximumHeight(max_height);
+  //       count = -1;
+        
+  //     }
+  //   }
+  // }
 }
 
 }  // namespace search

@@ -23,13 +23,19 @@ void SimpleResultVisitor::visit(const media::Media &media) {
   type->setAlignment(Qt::AlignCenter);
 
   auto *image = new QLabel(result_);
-  image->setPixmap(QPixmap(":/assets/matita.jpg").scaled(128, 128));
+  if (media.getImgPath() == "" || QPixmap(QString::fromStdString(media.getImgPath())).isNull())
+    image->setPixmap(QPixmap(QString::fromStdString(":/assets/wifi.jpeg")).scaled(128, 128, Qt::KeepAspectRatio));
+  else {
+    image->setPixmap(QPixmap(QString::fromStdString(media.getImgPath())).scaled(128, 128, Qt::KeepAspectRatio));
+  }
 
   auto *title = new QLabel(QString::fromStdString(media.getTitle()), result_);
   title->setAlignment(Qt::AlignCenter);
 
   layout->addWidget(type);
+  layout->addStretch();
   layout->addWidget(image);
+  layout->addStretch();
   layout->addWidget(title);
 }
 void SimpleResultVisitor::visit(const media::Album &album) {

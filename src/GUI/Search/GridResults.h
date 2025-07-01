@@ -16,7 +16,7 @@ class GridResults : public QFrame {
   QGridLayout *grid_;
   std::vector<const media::Media *> results_;
 
-  static const int kResultPerRow;
+  static const int kResultsPerRow;
 
  public:
   explicit GridResults(QWidget *parent = nullptr);
