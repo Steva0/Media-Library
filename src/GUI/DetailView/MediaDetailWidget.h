@@ -28,6 +28,7 @@ class MediaDetailWidget : public IMediaDetailWidget {
   void updateTextFontSize() override;
   QFont titleLabelFont_;
   QFont normalLabelFont_;
+  QLabel* notesLabel_ = nullptr;
 
  private:
   void updateCoverPixmap();
@@ -41,7 +42,6 @@ class MediaDetailWidget : public IMediaDetailWidget {
   QLabel* languageLabel_ = nullptr;
   QLabel* favouriteLabel_ = nullptr;
   QLabel* genresLabel_ = nullptr;
-  QLabel* notesLabel_ = nullptr;
 
   QLabel* coverLabel_ = nullptr;
   QPixmap coverPixmap_;
