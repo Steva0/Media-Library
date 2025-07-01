@@ -225,14 +225,6 @@ void MediaEditWidget::setMedia(const media::Media* media) {
   setGenres(media->getGenres());
 }
 
-void MediaEditWidget::clearGenres() {
-  for (auto* genre_line : genres_) {
-    genres_layout_->removeWidget(genre_line);
-    genre_line->deleteLater();
-  }
-  genres_.clear();
-}
-
 void MediaEditWidget::setGenres(const std::vector<std::string>& genres) {
   int row = 0;
   for (const auto& genre : genres) {
@@ -335,4 +327,18 @@ void MediaEditWidget::clearInputFields() {
   cover_pixmap_ = QPixmap(":/assets/matita.jpg");  // immagine di default
   updateCoverPixmap();
 }
+
+void MediaEditWidget::clearGenres() {
+  // Rimuove tutti i widget nel layout dei generi
+  QLayoutItem* child;
+  while ((child = genres_layout_->takeAt(0)) != nullptr) {
+    if (QWidget* widget = child->widget()) {
+      genres_layout_->removeWidget(widget);
+      widget->deleteLater();
+    }
+    delete child;
+  }
+  genre_widgets_.clear();
+}
+
 }  // namespace gui
