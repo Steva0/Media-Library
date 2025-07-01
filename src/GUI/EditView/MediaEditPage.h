@@ -26,6 +26,7 @@ class MediaEditPage : public QWidget {
   explicit MediaEditPage(QWidget* parent = nullptr);
 
   void setMediaToEdit(const media::Media* media);
+  void reset();
 
  signals:
   void editConfirmed(const media::Media* newMedia, const media::Media* oldMedia);

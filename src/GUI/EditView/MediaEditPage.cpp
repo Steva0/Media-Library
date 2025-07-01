@@ -116,12 +116,14 @@ void MediaEditPage::onConfirm() {
   media::Media* new_media = widget->getModifiedMedia();
   if (new_media && new_media->getTitle()!= "" ) {
     emit editConfirmed(new_media, current_media_);
+    reset()
   }
 }
 
 void MediaEditPage::onDelete() {
   if (current_media_) {
     emit deleteRequested(current_media_);
+    reset()
   }
 }
 
@@ -144,4 +146,15 @@ void MediaEditPage::keyPressEvent(QKeyEvent* event) {
   }
 }
 
-}  // namespace gui
+void MediaEditPage::reset() {
+  current_media_ = nullptr;
+  stacked_layout_->setCurrentWidget(media_edit_widget_);
+  media_edit_widget_->clearInputFields();
+  novel_edit_widget_->clearInputFields();
+  audiobook_edit_widget_->clearInputFields();
+  album_edit_widget_->clearInputFields();
+  series_edit_widget_->clearInputFields();
+  movie_edit_widget_->clearInputFields();
+  ebook_edit_widget_->clearInputFields();
+} 
+} // namespace gui
