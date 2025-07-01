@@ -14,7 +14,7 @@ EbookEditWidget::EbookEditWidget(QWidget* parent) : NovelEditWidget(parent, fals
 
   // Campo input: massimo 7 cifre
   file_size_input_ = new QSpinBox(this);
-  file_size_input_->setRange(0, 9'999'999'999);  // max 10 cifre
+  file_size_input_->setRange(0, 999'999'999);  // max 9 cifre
   file_size_input_->setFixedWidth(130);
   row_layout->addWidget(file_size_input_);
 
