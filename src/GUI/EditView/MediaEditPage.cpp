@@ -116,14 +116,14 @@ void MediaEditPage::onConfirm() {
   media::Media* new_media = widget->getModifiedMedia();
   if (new_media && new_media->getTitle()!= "" ) {
     emit editConfirmed(new_media, current_media_);
-    reset()
+    reset();
   }
 }
 
 void MediaEditPage::onDelete() {
   if (current_media_) {
     emit deleteRequested(current_media_);
-    reset()
+    reset();
   }
 }
 

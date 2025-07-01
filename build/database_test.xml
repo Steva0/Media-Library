@@ -37,4 +37,22 @@
     <Bytes>589321</Bytes>
     <DRM/>
   </Ebook>
+  <AudioBook>
+    <Title>The Hobbit</Title>
+    <Release>2012</Release>
+    <Language>Inglese</Language>
+    <Genres>
+      <Genre>Fantasy</Genre>
+      <Genre>Avventura</Genre>
+    </Genres>
+    <ImagePath>(nessuna immagine selezionata)</ImagePath>
+    <Notes>Versione completa narrata con accenti distinti per ogni personaggio</Notes>
+    <Author>J.R.R. Rolkien</Author>
+    <Publisher>HarperAudio</Publisher>
+    <Pages>665</Pages>
+    <Series>Middle-earth Audiobooks</Series>
+    <ISBN>9780007422350</ISBN>
+    <Narrator>Rob Inglis</Narrator>
+    <Service>AudioStream</Service>
+  </AudioBook>
 </MediaList>
