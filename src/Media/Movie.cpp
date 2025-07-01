@@ -24,6 +24,7 @@ bool Movie::operator==(const Media &other) const {
 }
 
 std::unique_ptr<Media> Movie::makePtr() const { return std::make_unique<Movie>(*this); }
+std::string Movie::displayType() const { return "MOVIE"; }
 
 const std::vector<std::string> &Movie::getCast() const { return cast_; }
 int Movie::getLength() const { return length_; }

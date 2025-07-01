@@ -9,7 +9,6 @@
 namespace gui {
 class PreviewVisitor : public IMediaWidgetVisitor {
  private:
-  QString type_;
   QWidget *result_;
   QGridLayout *data_;
 

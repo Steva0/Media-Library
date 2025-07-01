@@ -33,6 +33,7 @@ class Movie : public Media {
   void setUniverse(const std::string &universe);
 
   std::unique_ptr<Media> makePtr() const override;
+  std::string displayType() const override;
 
   bool filter(const Media &movie) const override;
 

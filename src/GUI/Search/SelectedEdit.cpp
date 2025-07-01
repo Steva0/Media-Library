@@ -59,9 +59,7 @@ SelectedEdit::SelectedEdit(QWidget *parent)
 void SelectedEdit::display(const media::Media *media) {
   selected_ = media;
   if (media) {
-    MediaTypeProbe probe;
-    media->accept(probe);
-    type_->setText(probe.type_);
+    type_->setText(QString::fromStdString(media->displayType()));
 
     if (media->getImgPath() == "" || QPixmap(QString::fromStdString(media->getImgPath())).isNull())
       preview_->setPixmap(QPixmap(QString::fromStdString(":/assets/wifi.jpeg")));
@@ -90,20 +88,6 @@ void SelectedEdit::makeMediaAndCommit() {
   new_media->setFavourite(favourite_->isChecked());
   emit commitChanges(new_media, selected_);
 }
-
-void SelectedEdit::MediaTypeProbe::visit(const media::Media &) { type_ = "MEDIA"; }
-
-void SelectedEdit::MediaTypeProbe::visit(const media::Album &) { type_ = "ALBUM"; }
-
-void SelectedEdit::MediaTypeProbe::visit(const media::Movie &) { type_ = "MOVIE"; }
-
-void SelectedEdit::MediaTypeProbe::visit(const media::Series &) { type_ = "SERIES"; }
-
-void SelectedEdit::MediaTypeProbe::visit(const media::Novel &) { type_ = "NOVEL"; }
-
-void SelectedEdit::MediaTypeProbe::visit(const media::AudioBook &) { type_ = "AUDIOBOOK"; }
-
-void SelectedEdit::MediaTypeProbe::visit(const media::Ebook &) { type_ = "EBOOK"; }
 
 void SelectedEdit::MediaTypeClone::visit(const media::Media &media) { clone_ = new media::Media(media); }
 

@@ -27,6 +27,7 @@ class Ebook : public Novel {
   void setDrm(bool drm);
 
   std::unique_ptr<Media> makePtr() const override;
+  std::string displayType() const override;
 
   bool filter(const Media& input) const override;
 

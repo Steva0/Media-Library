@@ -28,6 +28,7 @@ bool Novel::operator==(const Media& other) const {
 }
 
 std::unique_ptr<Media> Novel::makePtr() const { return std::make_unique<Novel>(*this); }
+std::string Novel::displayType() const { return "NOVEL"; }
 
 // Getters
 const std::string& Novel::getAuthor() const { return author_; }

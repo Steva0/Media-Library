@@ -23,6 +23,7 @@ bool Series::operator==(const Media &other) const {
 }
 
 std::unique_ptr<Media> Series::makePtr() const { return std::make_unique<Series>(*this); }
+std::string Series::displayType() const {return "SERIES";}
 
 int Series::getEpisodes() const { return episodes_; }
 int Series::getSeasons() const { return seasons_; }

@@ -29,6 +29,7 @@ class Series : public Movie {
   void setEnded(bool);
 
   std::unique_ptr<Media> makePtr() const override;
+  std::string displayType() const override;
 
   bool filter(const Media &input) const override;
 

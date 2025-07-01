@@ -31,7 +31,8 @@ void PreviewVisitor::visit(const media::Media &media) {
     preview->setPixmap(QPixmap(QString::fromStdString(media.getImgPath())).scaled(128, 128, Qt::KeepAspectRatio));
   }
 
-  data_->addWidget(new QLabel(type_), 0, 0);
+  // data_->addWidget(new QLabel(type_), 0, 0);
+  data_->addWidget(new QLabel(QString::fromStdString(media.displayType())), 0, 0);
   if (media.isFavourite()) data_->addWidget(new QLabel("Favourite"));
 
   addRow("Title:", media.getTitle());
@@ -44,7 +45,7 @@ void PreviewVisitor::visit(const media::Media &media) {
 }
 
 void PreviewVisitor::visit(const media::Album &album) {
-  type_ = "ALBUM";
+  // type_ = "ALBUM";
   visit(static_cast<const media::Media &>(album));
   addRow("Band:", album.getBand());
   addRowVector("Members:", album.getBandMembers());
@@ -52,7 +53,7 @@ void PreviewVisitor::visit(const media::Album &album) {
 }
 
 void PreviewVisitor::visit(const media::Movie &movie) {
-  type_ = "MOVIE ";
+  // type_ = "MOVIE ";
   visit(static_cast<const media::Media &>(movie));
   addRow("Duration:", movie.getLength());
   addRow("Universe:", movie.getUniverse());
@@ -60,7 +61,7 @@ void PreviewVisitor::visit(const media::Movie &movie) {
 }
 
 void PreviewVisitor::visit(const media::Series &series) {
-  type_ = "SERIES ";
+  // type_ = "SERIES ";
   visit(static_cast<const media::Media &>(series));
   addRow("Seasons:", series.getSeasons());
   addRow("Episodes:", series.getEpisodes());
@@ -70,7 +71,7 @@ void PreviewVisitor::visit(const media::Series &series) {
 }
 
 void PreviewVisitor::visit(const media::Novel &novel) {
-  type_ = "NOVEL ";
+  // type_ = "NOVEL ";
   visit(static_cast<const media::Media &>(novel));
   addRow("Author:", novel.getAuthor());
   addRow("Publisher:", novel.getPublisher());
@@ -80,14 +81,14 @@ void PreviewVisitor::visit(const media::Novel &novel) {
 }
 
 void PreviewVisitor::visit(const media::AudioBook &audiobook) {
-  type_ = "AUDIOBOOK ";
+  // type_ = "AUDIOBOOK ";
   visit(static_cast<const media::Media &>(audiobook));
   addRow("Voice:", audiobook.getNarrator());
   addRow("Streaming service:", audiobook.getStreamingService());
 }
 
 void PreviewVisitor::visit(const media::Ebook &ebook) {
-  type_ = "EBOOK ";
+  // type_ = "EBOOK ";
   visit(static_cast<const media::Media &>(ebook));
   if (ebook.hasDrm()) data_->addWidget(new QLabel("DRM", result_), data_->rowCount(), 0);
 }

@@ -34,6 +34,7 @@ void Ebook::setFileSizeBytes(int size) {
 void Ebook::setDrm(bool drm) { drm_ = drm; }
 
 std::unique_ptr<Media> Ebook::makePtr() const { return std::make_unique<Ebook>(*this); }
+std::string Ebook::displayType() const { return "EBOOK"; }
 
 bool Ebook::filter(const Media& input) const {
   // Riutilizzo filtro base di Novel

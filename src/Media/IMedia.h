@@ -13,6 +13,7 @@ class IMedia {
   virtual bool open() = 0;
   virtual std::unique_ptr<Media> makePtr() const = 0;
   virtual ~IMedia() = default;
+  virtual std::string displayType() const = 0;
 };
 
 }  // namespace media

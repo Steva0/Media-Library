@@ -37,6 +37,7 @@ class Novel : public Media {
   void setIsbn(const std::string& isbn);
 
   std::unique_ptr<Media> makePtr() const override;
+  std::string displayType() const override;
 
   bool filter(const Media& input) const override;
 

@@ -45,23 +45,6 @@ class SelectedEdit : public QWidget {
   void makeMediaAndCommit();
 
  public:
-  class MediaTypeProbe : media::IConstMediaVisitor {
-    friend class SelectedEdit;
-
-   private:
-    QString type_;
-    MediaTypeProbe() = default;
-    MediaTypeProbe(const MediaTypeProbe &) = default;
-
-   public:
-    void visit(const media::Media &media) override;
-    void visit(const media::Album &album) override;
-    void visit(const media::Movie &movie) override;
-    void visit(const media::Series &series) override;
-    void visit(const media::Novel &novel) override;
-    void visit(const media::AudioBook &audiobook) override;
-    void visit(const media::Ebook &ebook) override;
-  };
   class MediaTypeClone : media::IConstMediaVisitor {
     friend class SelectedEdit;
 

@@ -46,6 +46,7 @@ void Album::removeSong(const std::string &song) {
 }
 
 std::unique_ptr<Media> Album::makePtr() const { return std::make_unique<Album>(*this); }
+std::string Album::displayType() const { return "ALBUM"; }
 
 bool Album::filter(const Media &album) const {
   // Riutilizzo filtro base di Media

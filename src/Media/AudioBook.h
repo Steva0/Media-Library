@@ -29,6 +29,7 @@ class AudioBook : public Novel {
   void setStreamingService(const std::string& service);
 
   std::unique_ptr<Media> makePtr() const override;
+  std::string displayType() const override;
 
   bool filter(const Media& input) const override;
 

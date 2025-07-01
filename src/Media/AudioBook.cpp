@@ -23,6 +23,7 @@ bool AudioBook::operator==(const Media& other) const {
 }
 
 std::unique_ptr<Media> AudioBook::makePtr() const { return std::make_unique<AudioBook>(*this); }
+std::string AudioBook::displayType() const { return "AUDIOBOOK"; }
 
 const std::string& AudioBook::getNarrator() const { return narrator_; }
 

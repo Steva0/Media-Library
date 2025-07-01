@@ -23,7 +23,7 @@ bool Media::operator==(const Media &other) const {
 }
 
 std::unique_ptr<media::Media> media::Media::makePtr() const { return std::make_unique<media::Media>(*this); }
-
+std::string Media::displayType() const { return "Media"; }
 bool Media::open() {
   notes_ = "";
   return false;

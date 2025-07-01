@@ -31,6 +31,7 @@ class Album : public Media {
   void removeSong(const std::string &song);
 
   std::unique_ptr<Media> makePtr() const override;
+  std::string displayType() const override;
 
   bool filter(const Media &album) const override;
   void accept(IConstMediaVisitor &) const override;

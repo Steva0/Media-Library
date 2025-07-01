@@ -49,6 +49,7 @@ class Media : IMedia {
   void setNotes(const std::string &);
 
   std::unique_ptr<Media> makePtr() const override;
+  std::string displayType() const override;
 
   virtual bool filter(const Media &media) const;
 };
