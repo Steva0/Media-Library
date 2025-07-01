@@ -4,7 +4,7 @@
 
 namespace gui {
 
-SeriesDetailWidget::SeriesDetailWidget(QWidget* parent) : MovieDetailWidget(parent) {
+SeriesDetailWidget::SeriesDetailWidget(QWidget* parent) : MovieDetailWidget(parent, false) {
   episodesLabel_ = new QLabel("Episodes: ", this);
   seasonsLabel_ = new QLabel("Seasons: ", this);
   endedLabel_ = new QLabel("Ended: ", this);
@@ -13,6 +13,8 @@ SeriesDetailWidget::SeriesDetailWidget(QWidget* parent) : MovieDetailWidget(pare
   leftLayout_->addWidget(episodesLabel_);
   leftLayout_->addWidget(seasonsLabel_);
   leftLayout_->addWidget(endedLabel_);
+  
+  leftLayout_->addWidget(notesLabel_);
 }
 
 void SeriesDetailWidget::setMedia(const media::Media* media) {
