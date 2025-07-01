@@ -14,6 +14,7 @@ class EbookDetailWidget : public NovelDetailWidget {
   explicit EbookDetailWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
+  void updateTextFontSize() override;
 
  private:
   QLabel* fileSizeLabel_;

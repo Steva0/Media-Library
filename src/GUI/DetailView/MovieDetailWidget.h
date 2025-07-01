@@ -15,6 +15,7 @@ class MovieDetailWidget : public MediaDetailWidget {
   explicit MovieDetailWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
+  void updateTextFontSize() override;
 
  private:
   QLabel* lengthLabel_;

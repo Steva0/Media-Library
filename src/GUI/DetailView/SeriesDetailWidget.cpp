@@ -36,4 +36,13 @@ void SeriesDetailWidget::setMedia(const media::Media* media) {
   endedLabel_->setText(series->hasEnded() ? "Ended: Yes" : "Ended: No");
 }
 
+void SeriesDetailWidget::updateTextFontSize() {
+  MovieDetailWidget::updateTextFontSize();  // Chiama la base per gestire le label comuni
+
+  // Applica il font normale alle label aggiuntive
+  episodesLabel_->setFont(normalLabelFont_);
+  seasonsLabel_->setFont(normalLabelFont_);
+  endedLabel_->setFont(normalLabelFont_);
+}
+
 }  // namespace gui

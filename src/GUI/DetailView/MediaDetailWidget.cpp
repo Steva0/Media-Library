@@ -16,6 +16,7 @@ MediaDetailWidget::MediaDetailWidget(QWidget* parent) : IMediaDetailWidget(paren
   leftWidget_->setLayout(leftLayout_);
 
   titleLabel_ = new QLabel(this);
+  spacerLabel_ = new QLabel(this);  
   releaseLabel_ = new QLabel("Release year: ", this);
   languageLabel_ = new QLabel("Language: ", this);
   favouriteLabel_ = new QLabel("Favourite: ", this);
@@ -110,6 +111,7 @@ void MediaDetailWidget::clearFields() {
 void MediaDetailWidget::resizeEvent(QResizeEvent* event) {
   IMediaDetailWidget::resizeEvent(event);
   updateCoverPixmap();
+  updateTextFontSize();
 }
 
 void MediaDetailWidget::updateCoverPixmap() {
@@ -127,5 +129,37 @@ void MediaDetailWidget::updateCoverPixmap() {
   // Ridimensiono e setto la pixmap
   coverLabel_->setPixmap(coverPixmap_.scaled(targetWidth, targetHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
+
+void MediaDetailWidget::updateTextFontSize() {
+  if (!leftWidget_) return;
+
+  int totalHeight = height();
+
+  // Calcoliamo lo spazio per titolo e il resto
+  int totalLabels = 6; // le etichette oltre al titolo
+  int spaceForText = totalHeight * 0.9;
+
+  int titleLabelFont_Size = std::clamp(spaceForText / 12, 16, 36);  // più grande
+  int otherFontSize = std::clamp(spaceForText / (totalLabels * 2), 10, 24);  // più piccolo
+
+  // Font titolo: grande e bold
+  titleLabelFont_.setPointSize(titleLabelFont_Size);
+  titleLabelFont_.setBold(true);
+  titleLabel_->setFont(titleLabelFont_);
+
+  // Font normale: più piccolo e non bold
+  normalLabelFont_.setPointSize(otherFontSize);
+  normalLabelFont_.setBold(false);
+
+  releaseLabel_->setFont(normalLabelFont_);
+  languageLabel_->setFont(normalLabelFont_);
+  favouriteLabel_->setFont(normalLabelFont_);
+  genresLabel_->setFont(normalLabelFont_);
+  notesLabel_->setFont(normalLabelFont_);
+
+  // La riga vuota può essere piccola o nulla
+  spacerLabel_->setFixedHeight(titleLabelFont_Size / 2);
+}
+
 
 }  // namespace gui

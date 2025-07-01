@@ -1,4 +1,5 @@
 #include "NovelDetailWidget.h"
+#include "../../Media/AudioBook.h"
 
 #include <limits>
 
@@ -40,11 +41,13 @@ void NovelDetailWidget::setMedia(const media::Media* media) {
   QString publisher = QString::fromStdString(novel->getPublisher());
   publisherLabel_->setText(!publisher.isEmpty() ? QString("Publisher: %1").arg(publisher) : "Publisher: ");
 
+  // Etichetta per durata se è un AudioBook
+  const media::AudioBook* audioBook = dynamic_cast<const media::AudioBook*>(media);
   int pages = novel->getPages();
-  if (pages != std::numeric_limits<int>::min() && pages > 0) {
-    pagesLabel_->setText(QString("Pages: %1").arg(pages));
+  if (audioBook) {
+    pagesLabel_->setText(pages > 0 ? QString("Duration (min): %1").arg(pages) : "Duration (min): ");
   } else {
-    pagesLabel_->setText("Pages: ");
+    pagesLabel_->setText(pages > 0 ? QString("Pages: %1").arg(pages) : "Pages: ");
   }
 
   QString series = QString::fromStdString(novel->getSeries());
@@ -52,6 +55,17 @@ void NovelDetailWidget::setMedia(const media::Media* media) {
 
   QString isbn = QString::fromStdString(novel->getIsbn());
   isbnLabel_->setText(!isbn.isEmpty() ? QString("ISBN: %1").arg(isbn) : "ISBN: ");
+}
+
+void NovelDetailWidget::updateTextFontSize() {
+  MediaDetailWidget::updateTextFontSize();  // Chiama la base per gestire le label comuni
+
+  // Applica il font normale alle label aggiuntive
+  authorLabel_->setFont(normalLabelFont_);
+  publisherLabel_->setFont(normalLabelFont_);
+  pagesLabel_->setFont(normalLabelFont_);
+  seriesLabel_->setFont(normalLabelFont_);
+  isbnLabel_->setFont(normalLabelFont_);
 }
 
 }  // namespace gui

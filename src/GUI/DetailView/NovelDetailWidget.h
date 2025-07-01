@@ -15,6 +15,7 @@ class NovelDetailWidget : public MediaDetailWidget {
   explicit NovelDetailWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
+  void updateTextFontSize() override;
 
  private:
   QLabel* authorLabel_;

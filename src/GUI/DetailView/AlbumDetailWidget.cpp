@@ -53,4 +53,12 @@ void AlbumDetailWidget::setMedia(const media::Media* media) {
   }
 }
 
-}  // namespace gui
+void AlbumDetailWidget::updateTextFontSize() {
+  MediaDetailWidget::updateTextFontSize();  // chiama base
+
+  bandLabel_->setFont(normalLabelFont_);
+  membersLabel_->setFont(normalLabelFont_);
+  songsLabel_->setFont(normalLabelFont_);
+}
+
+}// namespace gui

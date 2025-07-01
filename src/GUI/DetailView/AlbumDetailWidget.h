@@ -16,6 +16,7 @@ class AlbumDetailWidget : public MediaDetailWidget {
   explicit AlbumDetailWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
+  void updateTextFontSize() override;
 
  private:
   QLabel* bandLabel_;

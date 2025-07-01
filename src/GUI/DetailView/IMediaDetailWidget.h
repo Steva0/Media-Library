@@ -17,6 +17,7 @@ class IMediaDetailWidget : public QWidget {
   virtual ~IMediaDetailWidget() = default;
 
   virtual void setMedia(const media::Media* media) = 0;
+  virtual void updateTextFontSize() = 0;
 };
 
 }  // namespace gui

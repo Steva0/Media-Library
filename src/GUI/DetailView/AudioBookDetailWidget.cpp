@@ -28,4 +28,12 @@ void AudioBookDetailWidget::setMedia(const media::Media* media) {
       QString("Streaming Service: %1").arg(service.empty() ? "" : QString::fromStdString(service)));
 }
 
+void AudioBookDetailWidget::updateTextFontSize() {
+  NovelDetailWidget::updateTextFontSize();  // Chiama la base per gestire le label comuni
+
+  // Applica il font normale alle label aggiuntive
+  narratorLabel_->setFont(normalLabelFont_);
+  streamingServiceLabel_->setFont(normalLabelFont_);
+}
+
 }  // namespace gui
