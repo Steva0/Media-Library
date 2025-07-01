@@ -5,7 +5,7 @@
 
 namespace gui {
 
-SeriesEditWidget::SeriesEditWidget(QWidget* parent) : MovieEditWidget(parent) {
+SeriesEditWidget::SeriesEditWidget(QWidget* parent) : MovieEditWidget(parent, false) {
   // Layout orizzontale principale per i 3 campi
   auto* main_row_layout = new QHBoxLayout();
   main_row_layout->setAlignment(Qt::AlignLeft);  // Allinea a sinistra
@@ -45,6 +45,8 @@ SeriesEditWidget::SeriesEditWidget(QWidget* parent) : MovieEditWidget(parent) {
 
   // Aggiungo al layout verticale
   main_layout_->addLayout(main_row_layout);
+
+  addNotesSection(main_layout_);
 }
 
 void SeriesEditWidget::setMedia(const media::Media* media) {

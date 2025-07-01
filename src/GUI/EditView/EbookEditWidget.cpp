@@ -4,7 +4,7 @@
 
 namespace gui {
 
-EbookEditWidget::EbookEditWidget(QWidget* parent) : NovelEditWidget(parent) {
+EbookEditWidget::EbookEditWidget(QWidget* parent) : NovelEditWidget(parent, false) {
   auto* row_layout = new QHBoxLayout();
 
   // Label "Dimensione file"
@@ -31,6 +31,8 @@ EbookEditWidget::EbookEditWidget(QWidget* parent) : NovelEditWidget(parent) {
 
   row_layout->addStretch();  // allinea tutto a sinistra
   main_layout_->addLayout(row_layout);
+
+  addNotesSection(main_layout_);
 }
 
 void EbookEditWidget::setMedia(const media::Media* media) {

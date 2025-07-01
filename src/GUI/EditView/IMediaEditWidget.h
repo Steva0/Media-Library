@@ -29,8 +29,8 @@ class IMediaEditWidget : public QWidget {
   virtual media::Media* getModifiedMedia(bool old = true) const = 0;  // restituisce nuova copia modificata
 
 protected:
-  QLabel* notes_label_;
-  QTextEdit* notes_input_;
+  QLabel* notes_label_ = nullptr;
+  QTextEdit* notes_input_ = nullptr;
 };
 
 }  // namespace gui

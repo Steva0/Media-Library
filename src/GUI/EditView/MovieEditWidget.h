@@ -15,7 +15,7 @@ namespace gui {
 class MovieEditWidget : public MediaEditWidget {
   Q_OBJECT
  public:
-  explicit MovieEditWidget(QWidget* parent = nullptr);
+  explicit MovieEditWidget(QWidget* parent = nullptr, bool note = true);
 
   void setMedia(const media::Media* media) override;
   media::Media* getModifiedMedia(bool old = true) const override;

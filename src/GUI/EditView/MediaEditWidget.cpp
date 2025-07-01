@@ -140,8 +140,9 @@ MediaEditWidget::MediaEditWidget(QWidget* parent) : IMediaEditWidget(parent) {
 
   connect(add_genre_button_, &QPushButton::clicked, this, &MediaEditWidget::addGenre);
 
-  addNotesSection(main_layout_);
-
+  notes_label_ = new QLabel();
+  notes_input_ = new QTextEdit();
+  
   old_media_ = nullptr;
   img_path_.clear();
 }
@@ -307,13 +308,17 @@ media::Media* MediaEditWidget::getModifiedMedia(bool old) const {
 }
 
 void MediaEditWidget::addNotesSection(QVBoxLayout* layout) {
+  QHBoxLayout* notes_layout = new QHBoxLayout;
   notes_label_ = new QLabel(tr("Note:"), this);
   notes_input_ = new QTextEdit(this);
   const int line_height = QFontMetrics(notes_input_->font()).lineSpacing();
   notes_input_->setFixedHeight(line_height * 6 + 12);
-  layout->addWidget(notes_label_);
-  layout->addWidget(notes_input_);
+ 
+  notes_layout->addWidget(notes_label_, 0, Qt::AlignTop);
+  notes_layout->addWidget(notes_input_, 1); 
+  layout->addLayout(notes_layout);
 }
+
 
 
 }  // namespace gui

@@ -4,7 +4,7 @@
 
 namespace gui {
 
-NovelEditWidget::NovelEditWidget(QWidget* parent) : MediaEditWidget(parent) {
+NovelEditWidget::NovelEditWidget(QWidget* parent, bool note) : MediaEditWidget(parent) {
   // Riga: Autore + Editore
   auto* first_row_layout = new QHBoxLayout();
 
@@ -58,6 +58,11 @@ NovelEditWidget::NovelEditWidget(QWidget* parent) : MediaEditWidget(parent) {
 
   second_row_layout->addStretch();  // <-- forza l'allineamento a sinistra
   main_layout_->addLayout(second_row_layout);
+
+  if (note) {
+    // Aggiungo la sezione note
+    addNotesSection(main_layout_);
+  }
 }
 
 void NovelEditWidget::setMedia(const media::Media* media) {

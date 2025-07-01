@@ -4,7 +4,7 @@
 
 namespace gui {
 
-AudioBookEditWidget::AudioBookEditWidget(QWidget* parent) : NovelEditWidget(parent) {
+AudioBookEditWidget::AudioBookEditWidget(QWidget* parent) : NovelEditWidget(parent, false) {
   auto* row_layout = new QHBoxLayout();
 
   // Label "Narratore"
@@ -28,6 +28,8 @@ AudioBookEditWidget::AudioBookEditWidget(QWidget* parent) : NovelEditWidget(pare
   row_layout->addStretch();  // allinea tutto a sinistra
 
   main_layout_->addLayout(row_layout);
+
+  addNotesSection(main_layout_);
 }
 
 void AudioBookEditWidget::setMedia(const media::Media* media) {

@@ -90,6 +90,8 @@ AlbumEditWidget::AlbumEditWidget(QWidget* parent) : MediaEditWidget(parent) {
 
   songs_row_layout->addLayout(songs_right_layout);
   main_layout_->addLayout(songs_row_layout);
+
+  addNotesSection(main_layout_);
 }
 
 void AlbumEditWidget::addBandMember() {
