@@ -4,7 +4,7 @@
 
 namespace gui {
 
-AudioBookEditWidget::AudioBookEditWidget(QWidget* parent) : NovelEditWidget(parent, false) {
+AudioBookEditWidget::AudioBookEditWidget(QWidget* parent, bool min) : NovelEditWidget(parent, true) {
   auto* row_layout = new QHBoxLayout();
 
   // Label "Narratore"

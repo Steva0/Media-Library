@@ -10,7 +10,7 @@ namespace gui {
 class AudioBookEditWidget : public NovelEditWidget {
   Q_OBJECT
  public:
-  explicit AudioBookEditWidget(QWidget* parent = nullptr);
+  explicit AudioBookEditWidget(QWidget* parent = nullptr, bool min = false);
 
   void setMedia(const media::Media* media) override;
   media::Media* getModifiedMedia(bool old = true) const override;

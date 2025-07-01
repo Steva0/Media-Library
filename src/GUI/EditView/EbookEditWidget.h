@@ -11,7 +11,7 @@ namespace gui {
 class EbookEditWidget : public NovelEditWidget {
   Q_OBJECT
  public:
-  explicit EbookEditWidget(QWidget* parent = nullptr, bool min = false);
+  explicit EbookEditWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
   media::Media* getModifiedMedia(bool old = true) const override;
