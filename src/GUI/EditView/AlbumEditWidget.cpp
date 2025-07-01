@@ -15,7 +15,7 @@ AlbumEditWidget::AlbumEditWidget(QWidget* parent) : MediaEditWidget(parent) {
   band_layout->addSpacing(5);
 
   band_input_ = new QLineEdit(this);
-  band_input_->setMaximumWidth(250);  // restringe il campo input
+  band_input_->setMaximumWidth(300);  // restringe il campo input
   band_layout->addWidget(band_input_);
   band_layout->addStretch();  // spinge tutto a sinistra
 

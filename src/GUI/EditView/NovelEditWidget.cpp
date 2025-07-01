@@ -11,7 +11,7 @@ NovelEditWidget::NovelEditWidget(QWidget* parent, bool note, bool min) : MediaEd
   auto* author_label = new QLabel("Autore:", this);
   author_label->setFixedWidth(50);
   author_input_ = new QLineEdit(this);
-  author_input_->setFixedWidth(170);
+  author_input_->setFixedWidth(200);
   first_row_layout->addWidget(author_label);
   first_row_layout->addWidget(author_input_);
 
@@ -20,7 +20,7 @@ NovelEditWidget::NovelEditWidget(QWidget* parent, bool note, bool min) : MediaEd
   auto* publisher_label = new QLabel("Editore:", this);
   publisher_label->setFixedWidth(60);
   publisher_input_ = new QLineEdit(this);
-  publisher_input_->setFixedWidth(170);
+  publisher_input_->setFixedWidth(200);
   first_row_layout->addWidget(publisher_label);
   first_row_layout->addWidget(publisher_input_);
 
@@ -33,7 +33,7 @@ NovelEditWidget::NovelEditWidget(QWidget* parent, bool note, bool min) : MediaEd
   auto* series_label = new QLabel("Serie:", this);
   series_label->setFixedWidth(50);
   series_input_ = new QLineEdit(this);
-  series_input_->setFixedWidth(150);
+  series_input_->setFixedWidth(200);
   second_row_layout->addWidget(series_label);
   second_row_layout->addWidget(series_input_);
 
@@ -57,7 +57,7 @@ NovelEditWidget::NovelEditWidget(QWidget* parent, bool note, bool min) : MediaEd
   auto* isbn_label = new QLabel("ISBN:", this);
   isbn_label->setFixedWidth(40);
   isbn_input_ = new QLineEdit(this);
-  isbn_input_->setFixedWidth(150);
+  isbn_input_->setFixedWidth(160);
   second_row_layout->addWidget(isbn_label);
   second_row_layout->addWidget(isbn_input_);
 

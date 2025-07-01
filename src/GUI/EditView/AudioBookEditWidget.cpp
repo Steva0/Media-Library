@@ -11,7 +11,7 @@ AudioBookEditWidget::AudioBookEditWidget(QWidget* parent, bool min) : NovelEditW
   auto* narrator_label = new QLabel("Narratore:", this);
   narrator_label->setFixedWidth(70);
   narrator_input_ = new QLineEdit(this);
-  narrator_input_->setFixedWidth(160);
+  narrator_input_->setFixedWidth(200);
   row_layout->addWidget(narrator_label);
   row_layout->addWidget(narrator_input_);
 
@@ -21,7 +21,7 @@ AudioBookEditWidget::AudioBookEditWidget(QWidget* parent, bool min) : NovelEditW
   auto* streaming_label = new QLabel("Servizio Streaming:", this);
   streaming_label->setFixedWidth(130);
   streaming_service_input_ = new QLineEdit(this);
-  streaming_service_input_->setFixedWidth(160);
+  streaming_service_input_->setFixedWidth(200);
   row_layout->addWidget(streaming_label);
   row_layout->addWidget(streaming_service_input_);
 
