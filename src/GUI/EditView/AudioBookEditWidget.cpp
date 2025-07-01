@@ -54,4 +54,10 @@ media::Media* AudioBookEditWidget::getModifiedMedia(bool old) const {
                               streaming_service_input_->text().toStdString());
 }
 
+void AudioBookEditWidget::clearInputFields() {
+  NovelEditWidget::clearInputFields();
+  narrator_input_->clear();
+  streaming_service_input_->clear();
+}
+
 }  // namespace gui

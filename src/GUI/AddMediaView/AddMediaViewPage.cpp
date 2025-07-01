@@ -142,6 +142,7 @@ void AddMediaViewPage::clearEditSection(){
   movie_edit_widget_->setMedia(nullptr);
   series_edit_widget_->setMedia(nullptr);
   album_edit_widget_->setMedia(nullptr);
+  central_layout_->setCurrentIndex(0);
 }
 
 

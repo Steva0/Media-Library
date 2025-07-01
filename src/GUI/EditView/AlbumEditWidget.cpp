@@ -220,4 +220,21 @@ media::Media* AlbumEditWidget::getModifiedMedia(bool old) const {
                           band_input_->text().toStdString(), members, songs);
 }
 
+void AlbumEditWidget::clearInputFields() {
+  MediaEditWidget::clearInputFields();
+  band_input_->clear();
+
+  // Pulisci membri della band
+  for (auto* edit : band_member_edits_) {
+    edit->parentWidget()->deleteLater();
+  }
+  band_member_edits_.clear();
+
+  // Pulisci canzoni
+  for (auto* edit : song_edits_) {
+    edit->parentWidget()->deleteLater();
+  }
+  song_edits_.clear();
+}
+
 }  // namespace gui

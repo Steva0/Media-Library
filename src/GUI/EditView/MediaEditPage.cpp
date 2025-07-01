@@ -69,12 +69,12 @@ void MediaEditPage::setMediaToEdit(const media::Media* media) {
   current_media_ = media;
 
   // RESET di tutti i widget
-  novel_edit_widget_->setMedia(nullptr);
-  ebook_edit_widget_->setMedia(nullptr);
-  audiobook_edit_widget_->setMedia(nullptr);
-  movie_edit_widget_->setMedia(nullptr);
-  series_edit_widget_->setMedia(nullptr);
-  album_edit_widget_->setMedia(nullptr);
+  novel_edit_widget_->clearInputFields();
+  ebook_edit_widget_->clearInputFields();
+  audiobook_edit_widget_->clearInputFields();
+  movie_edit_widget_->clearInputFields();
+  series_edit_widget_->clearInputFields();
+  album_edit_widget_->clearInputFields();
   media_edit_widget_->setMedia(nullptr);
 
   MediaEditWidget* widget = getWidgetForMedia(media);

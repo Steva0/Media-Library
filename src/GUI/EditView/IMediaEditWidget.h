@@ -27,6 +27,7 @@ class IMediaEditWidget : public QWidget {
 
   virtual void setMedia(const media::Media* media) = 0;
   virtual media::Media* getModifiedMedia(bool old = true) const = 0;  // restituisce nuova copia modificata
+  virtual void clearInputFields() = 0;
 
 protected:
   QLabel* notes_label_ = nullptr;

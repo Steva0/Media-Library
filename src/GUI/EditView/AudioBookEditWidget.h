@@ -14,6 +14,7 @@ class AudioBookEditWidget : public NovelEditWidget {
 
   void setMedia(const media::Media* media) override;
   media::Media* getModifiedMedia(bool old = true) const override;
+  void clearInputFields() override;
 
  private:
   QLineEdit* narrator_input_;

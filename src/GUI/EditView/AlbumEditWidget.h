@@ -19,6 +19,7 @@ class AlbumEditWidget : public MediaEditWidget {
 
   void setMedia(const media::Media* media) override;
   media::Media* getModifiedMedia(bool old = true) const override;
+  void clearInputFields() override;
 
  private:
   // Band

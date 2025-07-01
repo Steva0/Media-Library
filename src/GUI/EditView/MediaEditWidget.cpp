@@ -319,6 +319,20 @@ void MediaEditWidget::addNotesSection(QVBoxLayout* layout) {
   layout->addLayout(notes_layout);
 }
 
-
-
+void MediaEditWidget::clearInputFields() {
+  title_input_->clear();
+  release_input_->setValue(0);
+  language_input_->clear();
+  favourite_checkbox_->setChecked(false);
+  notes_input_->clear();
+  
+  clearGenres();
+  
+  img_path_.clear();
+  img_path_input_->setText("(nessuna immagine selezionata)");
+  img_path_input_->setStyleSheet("font-style: italic; color: gray;");
+  
+  cover_pixmap_ = QPixmap(":/assets/matita.jpg");  // immagine di default
+  updateCoverPixmap();
+}
 }  // namespace gui

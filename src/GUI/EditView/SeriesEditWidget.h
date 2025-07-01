@@ -15,6 +15,7 @@ class SeriesEditWidget : public MovieEditWidget {
 
   void setMedia(const media::Media* media) override;
   media::Media* getModifiedMedia(bool old = true) const override;
+  void clearInputFields() override;
 
  private:
   QSpinBox* episodes_input_;

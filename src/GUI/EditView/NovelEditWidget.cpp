@@ -94,4 +94,13 @@ media::Media* NovelEditWidget::getModifiedMedia(bool old) const {
                           isbn_input_->text().toStdString());
 }
 
+void NovelEditWidget::clearInputFields() {
+  MediaEditWidget::clearInputFields();
+  author_input_->clear();
+  publisher_input_->clear();
+  pages_input_->setValue(0);
+  series_input_->clear();
+  isbn_input_->clear();
+}
+
 }  // namespace gui

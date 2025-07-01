@@ -19,6 +19,7 @@ class AddMediaViewPage : public QWidget {
 
  public:
   explicit AddMediaViewPage(QWidget* parent = nullptr);
+  void clearEditSection();
 
  signals:
   void mediaAdded(media::Media* newMedia);
@@ -50,7 +51,6 @@ class AddMediaViewPage : public QWidget {
   QStackedLayout* central_layout_;
 
   QWidget* createButtonsWidget(QWidget* parent = nullptr);
-  void clearEditSection();
 };
 
 }  // namespace gui

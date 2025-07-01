@@ -1,50 +1,40 @@
 <!DOCTYPE MediaCollection>
 <MediaList>
-  <Album>
-    <Title>Album Test</Title>
-  </Album>
   <Novel>
-    <Title>Novel Test</Title>
-    <Release>1234</Release>
-    <Language>ASD</Language>
-    <Genres>
-      <Genre>GenereGenere</Genre>
-      <Genre>Generegenere</Genre>
-    </Genres>
-    <ImagePath>:/assets/wifi.jpeg</ImagePath>
-    <Notes>Za nooto</Notes>
-    <Author>Me</Author>
-    <Publisher>Also me</Publisher>
-    <Pages>32</Pages>
-    <Series>Saaaaseries</Series>
-    <ISBN>098</ISBN>
-  </Novel>
-  <AudioBook>
-    <Title>AudioBook Test</Title>
-    <Release>10924</Release>
-    <Language>Li</Language>
+    <Title>Viaggio al centro della Terra</Title>
+    <Release>1870</Release>
+    <Language>Francese</Language>
     <Favourite/>
     <Genres>
-      <Genre>Genere1</Genre>
-      <Genre>Genere2</Genre>
+      <Genre>Avventura</Genre>
     </Genres>
-    <Notes>Note</Notes>
-    <Author>Nome Autore</Author>
-    <Publisher>Nome editore</Publisher>
-    <Pages>2048</Pages>
-    <Series>Nome serie</Series>
-    <ISBN>12345679857234-2</ISBN>
-    <Narrator>Nome voce</Narrator>
-    <Service>Servizio Streaming</Service>
-  </AudioBook>
-  <Series>
-    <Title>Series test</Title>
-    <Release>123</Release>
-  </Series>
-  <Movie>
-    <Title>Movie test</Title>
-  </Movie>
+    <ImagePath>(nessuna immagine selezionata)</ImagePath>
+    <Notes>Il mio libro preferito</Notes>
+    <Author>Jules Verne</Author>
+    <Publisher>Giulio Einaudi</Publisher>
+    <Pages>177</Pages>
+    <Series>Libro Singolo</Series>
+    <ISBN>880622249X</ISBN>
+  </Novel>
   <Ebook>
-    <Title>Ebook test</Title>
+    <Title>The Left Hand of Darkness</Title>
+    <Release>1969</Release>
+    <Language>Inglese</Language>
+    <Favourite/>
+    <Genres>
+      <Genre>Fantascienza</Genre>
+      <Genre>Politico</Genre>
+      <Genre>Classico</Genre>
+    </Genres>
+    <ImagePath>(nessuna immagine selezionata)</ImagePath>
+    <Notes>Romanzo fondamentale della fantascienza femminista. Ambientato su Gethen, un pianeta di esseri androgini.
+</Notes>
+    <Author>Ursula K. Le Guin</Author>
+    <Publisher>Ace Books</Publisher>
+    <Pages>304</Pages>
+    <Series>Hainish Cycle</Series>
+    <ISBN>9780441478125</ISBN>
+    <Bytes>589321</Bytes>
+    <DRM/>
   </Ebook>
 </MediaList>

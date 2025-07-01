@@ -15,6 +15,7 @@ class NovelEditWidget : public MediaEditWidget {
 
   void setMedia(const media::Media* media) override;
   media::Media* getModifiedMedia(bool old = true) const override;
+  void clearInputFields() override;
 
  protected:
   QLabel* pages_label;

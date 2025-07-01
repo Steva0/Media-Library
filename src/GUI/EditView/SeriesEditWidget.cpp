@@ -70,4 +70,12 @@ media::Media* SeriesEditWidget::getModifiedMedia(bool old) const {
                            seasons_input_->value(), ended_checkbox_->isChecked());
 }
 
+void SeriesEditWidget::clearInputFields() {
+  MovieEditWidget::clearInputFields();
+  episodes_input_->setValue(0);
+  seasons_input_->setValue(0);
+  ended_checkbox_->setChecked(false);
+  clearCast();
+}
+
 }  // namespace gui

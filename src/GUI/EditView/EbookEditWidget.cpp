@@ -56,4 +56,10 @@ media::Media* EbookEditWidget::getModifiedMedia(bool old) const {
                           file_size_input_->value(), drm_checkbox_->isChecked());
 }
 
+void EbookEditWidget::clearInputFields() {
+  NovelEditWidget::clearInputFields();
+  file_size_input_->setValue(0);
+  drm_checkbox_->setChecked(false);
+}
+
 }  // namespace gui

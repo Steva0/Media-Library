@@ -133,9 +133,9 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
           [this](const media::Media *new_media, const media::Media *old_media) {
             if (!(*new_media == *old_media)) onEditConfirmed(new_media, old_media);
           });
-  connect(simple_search_widget_, &search::SearchMain::addNewMedia, this, [&]() { navigateTo(add_media_view_page_); });
+  connect(simple_search_widget_, &search::SearchMain::addNewMedia, this, [&]() { add_media_view_page_->clearEditSection(); navigateTo(add_media_view_page_); });
   connect(add_media_view_page_, &AddMediaViewPage::mediaAdded, this, &MainWindow::onAddMedia);
-  connect(add_media_view_page_, &AddMediaViewPage::backRequested, this, [&]() { navigateTo(current_search_widget_); });
+  connect(add_media_view_page_, &AddMediaViewPage::backRequested, this, [&]() { add_media_view_page_->clearEditSection();navigateTo(current_search_widget_); });
 }
 
 void MainWindow::createDatabase() {
@@ -249,6 +249,7 @@ void MainWindow::onAddMedia(media::Media *newMedia) {
   // Naviga alla pagina di dettaglio del nuovo media
   media_detail_page_->setMedia(newMedia);
   stacked_widget_->setCurrentWidget(media_detail_page_);
+  add_media_view_page_->clearEditSection();  // Pulisce la sezione di modifica per il prossimo uso
 }
 
 void MainWindow::onEnterEditRequested(const media::Media *Media) {

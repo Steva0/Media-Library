@@ -186,4 +186,11 @@ media::Media* MovieEditWidget::getModifiedMedia(bool old) const {
                           length_input_->value(), universe_input_->text().toStdString());
 }
 
+void MovieEditWidget::clearInputFields() {
+  MediaEditWidget::clearInputFields();
+  length_input_->setValue(0);
+  universe_input_->clear();
+  clearCast();
+}
+
 }  // namespace gui
