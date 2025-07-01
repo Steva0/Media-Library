@@ -79,31 +79,13 @@ void SelectedEdit::makeMediaAndCommit() {
     title_->setStyleSheet("background-color: red");
     return;
   }
-  MediaTypeClone v;
-  selected_->accept(v);
-  media::Media *new_media = v.clone_;
+  media::Media *new_media = selected_->makePtr().release();
   new_media->setTitle(title_->text().toStdString());
   new_media->setRelease(release_->text().toInt());
   new_media->setLanguage(language_->text().toStdString());
   new_media->setFavourite(favourite_->isChecked());
   emit commitChanges(new_media, selected_);
 }
-
-void SelectedEdit::MediaTypeClone::visit(const media::Media &media) { clone_ = new media::Media(media); }
-
-void SelectedEdit::MediaTypeClone::visit(const media::Album &album) { clone_ = new media::Album(album); }
-
-void SelectedEdit::MediaTypeClone::visit(const media::Movie &movie) { clone_ = new media::Movie(movie); }
-
-void SelectedEdit::MediaTypeClone::visit(const media::Series &series) { clone_ = new media::Series(series); }
-
-void SelectedEdit::MediaTypeClone::visit(const media::Novel &novel) { clone_ = new media::Novel(novel); }
-
-void SelectedEdit::MediaTypeClone::visit(const media::AudioBook &audiobook) {
-  clone_ = new media::AudioBook(audiobook);
-}
-
-void SelectedEdit::MediaTypeClone::visit(const media::Ebook &ebook) { clone_ = new media::Ebook(ebook); }
 
 }  // namespace search
 }  // namespace gui

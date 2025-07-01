@@ -271,6 +271,7 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
   status_bar_->showMessage("Modificando media con titolo: " + QString::fromStdString(oldMedia->getTitle()));
   database_.removeMedia(*oldMedia);
   database_.addMedia(*newMedia);
+  // todo memory leak
   changes_were_made_ = true;
 
   // Aggiorna la pagina dettaglio con il nuovo media
