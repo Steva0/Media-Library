@@ -14,6 +14,8 @@ AlbumDetailWidget::AlbumDetailWidget(QWidget* parent) : MediaDetailWidget(parent
 
   songsLabel_ = new QLabel("Songs: ", this);
   leftLayout_->addWidget(songsLabel_);
+  
+  leftLayout_->addWidget(notesLabel_);
 }
 
 void AlbumDetailWidget::setMedia(const media::Media* media) {

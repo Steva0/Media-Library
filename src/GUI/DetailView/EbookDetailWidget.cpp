@@ -2,12 +2,14 @@
 
 namespace gui {
 
-EbookDetailWidget::EbookDetailWidget(QWidget* parent) : NovelDetailWidget(parent) {
+EbookDetailWidget::EbookDetailWidget(QWidget* parent) : NovelDetailWidget(parent, false) {
   fileSizeLabel_ = new QLabel("File Size: ", this);
   leftLayout_->addWidget(fileSizeLabel_);
 
   drmLabel_ = new QLabel("DRM: ", this);
   leftLayout_->addWidget(drmLabel_);
+  
+  leftLayout_->addWidget(notesLabel_);
 }
 
 void EbookDetailWidget::setMedia(const media::Media* media) {

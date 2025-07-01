@@ -12,7 +12,7 @@ namespace gui {
 class NovelDetailWidget : public MediaDetailWidget {
   Q_OBJECT
  public:
-  explicit NovelDetailWidget(QWidget* parent = nullptr);
+  explicit NovelDetailWidget(QWidget* parent = nullptr, bool note = true);
 
   void setMedia(const media::Media* media) override;
   void updateTextFontSize() override;

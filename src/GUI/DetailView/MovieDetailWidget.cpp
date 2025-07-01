@@ -4,7 +4,7 @@
 
 namespace gui {
 
-MovieDetailWidget::MovieDetailWidget(QWidget* parent) : MediaDetailWidget(parent) {
+MovieDetailWidget::MovieDetailWidget(QWidget* parent, bool note) : MediaDetailWidget(parent) {
   lengthLabel_ = new QLabel("Length (min): ", this);
   universeLabel_ = new QLabel("Universe: ", this);
   castLabel_ = new QLabel("Cast: ", this);
@@ -13,6 +13,10 @@ MovieDetailWidget::MovieDetailWidget(QWidget* parent) : MediaDetailWidget(parent
   leftLayout_->addWidget(lengthLabel_);
   leftLayout_->addWidget(universeLabel_);
   leftLayout_->addWidget(castLabel_);
+
+  if (note) {
+    leftLayout_->addWidget(notesLabel_);
+  }
 }
 
 void MovieDetailWidget::setMedia(const media::Media* media) {

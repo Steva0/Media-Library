@@ -5,7 +5,7 @@
 
 namespace gui {
 
-NovelDetailWidget::NovelDetailWidget(QWidget* parent) : MediaDetailWidget(parent) {
+NovelDetailWidget::NovelDetailWidget(QWidget* parent, bool note) : MediaDetailWidget(parent) {
   authorLabel_ = new QLabel("Author: ", this);
   leftLayout_->addWidget(authorLabel_);
 
@@ -20,6 +20,10 @@ NovelDetailWidget::NovelDetailWidget(QWidget* parent) : MediaDetailWidget(parent
 
   isbnLabel_ = new QLabel("ISBN: ", this);
   leftLayout_->addWidget(isbnLabel_);
+
+  if (note) {
+    leftLayout_->addWidget(notesLabel_);
+  }
 }
 
 void NovelDetailWidget::setMedia(const media::Media* media) {

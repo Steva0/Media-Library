@@ -2,12 +2,14 @@
 
 namespace gui {
 
-AudioBookDetailWidget::AudioBookDetailWidget(QWidget* parent) : NovelDetailWidget(parent) {
+AudioBookDetailWidget::AudioBookDetailWidget(QWidget* parent) : NovelDetailWidget(parent, false) {
   narratorLabel_ = new QLabel("Narrator: ", this);
   leftLayout_->addWidget(narratorLabel_);
 
   streamingServiceLabel_ = new QLabel("Streaming Service: ", this);
   leftLayout_->addWidget(streamingServiceLabel_);
+  
+  leftLayout_->addWidget(notesLabel_);
 }
 
 void AudioBookDetailWidget::setMedia(const media::Media* media) {

@@ -28,7 +28,6 @@ MediaDetailWidget::MediaDetailWidget(QWidget* parent) : IMediaDetailWidget(paren
   leftLayout_->addWidget(languageLabel_);
   leftLayout_->addWidget(favouriteLabel_);
   leftLayout_->addWidget(genresLabel_);
-  leftLayout_->addWidget(notesLabel_);
 
   mainLayout->addWidget(leftWidget_, 2, Qt::AlignTop);
 
