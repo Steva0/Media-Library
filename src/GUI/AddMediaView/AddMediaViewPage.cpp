@@ -113,6 +113,7 @@ void AddMediaViewPage::onConfirm() {
   media::Media* media = current_widget->getModifiedMedia(false);
   if (media && !media->getTitle().empty() && media->getTitle() != "") {
     emit mediaAdded(media);
+    clearEditSection();
   }
 }
 
@@ -133,15 +134,16 @@ void AddMediaViewPage::onBack() {
   central_layout_->setCurrentIndex(0);
   
   emit backRequested();
+  clearEditSection();
 }
 
 void AddMediaViewPage::clearEditSection(){
-  novel_edit_widget_->setMedia(nullptr);
-  ebook_edit_widget_->setMedia(nullptr);
-  audiobook_edit_widget_->setMedia(nullptr);
-  movie_edit_widget_->setMedia(nullptr);
-  series_edit_widget_->setMedia(nullptr);
-  album_edit_widget_->setMedia(nullptr);
+  novel_edit_widget_->clearInputFields();
+  ebook_edit_widget_->clearInputFields();
+  audiobook_edit_widget_->clearInputFields();
+  movie_edit_widget_->clearInputFields();
+  series_edit_widget_->clearInputFields();
+  album_edit_widget_->clearInputFields();
   central_layout_->setCurrentIndex(0);
 }
 
