@@ -34,6 +34,7 @@ class MediaEditWidget : public IMediaEditWidget {
   void selectImageFile();
 
  protected:
+  void addNotesSection(QVBoxLayout* layout);
   void resizeEvent(QResizeEvent* event) override;
 
   const media::Media* old_media_;
@@ -50,8 +51,6 @@ class MediaEditWidget : public IMediaEditWidget {
   QString img_path_;
   QLabel* cover_label_;
   QPixmap cover_pixmap_;
-
-  QTextEdit* notes_input_;
 
   QLineEdit* genre_input_;
   std::vector<QLineEdit*> genres_;

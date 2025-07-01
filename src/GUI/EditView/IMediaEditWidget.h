@@ -5,6 +5,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QSpinBox>
+#include <QLabel>
 #include <QTextEdit>
 #include <QWidget>
 
@@ -26,6 +27,10 @@ class IMediaEditWidget : public QWidget {
 
   virtual void setMedia(const media::Media* media) = 0;
   virtual media::Media* getModifiedMedia(bool old = true) const = 0;  // restituisce nuova copia modificata
+
+protected:
+  QLabel* notes_label_;
+  QTextEdit* notes_input_;
 };
 
 }  // namespace gui
