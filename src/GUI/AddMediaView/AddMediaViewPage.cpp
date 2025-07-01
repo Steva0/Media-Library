@@ -38,7 +38,7 @@ void AddMediaViewPage::setupUi() {
   stacked_layout_ = new QStackedLayout();
   novel_edit_widget_ = new NovelEditWidget(this);
   ebook_edit_widget_ = new EbookEditWidget(this);
-  audiobook_edit_widget_ = new AudioBookEditWidget(this);
+  audiobook_edit_widget_ = new AudioBookEditWidget(this, true);
   movie_edit_widget_ = new MovieEditWidget(this);
   series_edit_widget_ = new SeriesEditWidget(this);
   album_edit_widget_ = new AlbumEditWidget(this);

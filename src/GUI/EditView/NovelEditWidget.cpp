@@ -4,7 +4,7 @@
 
 namespace gui {
 
-NovelEditWidget::NovelEditWidget(QWidget* parent, bool note) : MediaEditWidget(parent) {
+NovelEditWidget::NovelEditWidget(QWidget* parent, bool note, bool min) : MediaEditWidget(parent) {
   // Riga: Autore + Editore
   auto* first_row_layout = new QHBoxLayout();
 
@@ -46,6 +46,11 @@ NovelEditWidget::NovelEditWidget(QWidget* parent, bool note) : MediaEditWidget(p
   pages_input_->setFixedWidth(60);
   second_row_layout->addWidget(pages_label);
   second_row_layout->addWidget(pages_input_);
+
+  if (min) {
+    pages_label->setText("Durata (min):");
+    pages_label->setFixedWidth(90);
+  }
 
   second_row_layout->addSpacing(10);
 

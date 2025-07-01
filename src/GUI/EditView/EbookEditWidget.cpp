@@ -4,7 +4,7 @@
 
 namespace gui {
 
-EbookEditWidget::EbookEditWidget(QWidget* parent) : NovelEditWidget(parent, false) {
+EbookEditWidget::EbookEditWidget(QWidget* parent, bool min) : NovelEditWidget(parent, false, min) {
   auto* row_layout = new QHBoxLayout();
 
   // Label "Dimensione file"
