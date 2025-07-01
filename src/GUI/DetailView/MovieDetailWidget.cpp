@@ -54,4 +54,13 @@ void MovieDetailWidget::setMedia(const media::Media* media) {
   }
 }
 
+void MovieDetailWidget::updateTextFontSize() {
+  MediaDetailWidget::updateTextFontSize();  // Chiama la base per gestire le label comuni
+
+  // Applica il font normale alle label aggiuntive
+  lengthLabel_->setFont(normalLabelFont_);
+  universeLabel_->setFont(normalLabelFont_);
+  castLabel_->setFont(normalLabelFont_);
+}
+
 }  // namespace gui

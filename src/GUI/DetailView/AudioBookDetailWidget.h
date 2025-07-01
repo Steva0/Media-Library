@@ -14,6 +14,7 @@ class AudioBookDetailWidget : public NovelDetailWidget {
   explicit AudioBookDetailWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
+  void updateTextFontSize() override;
 
  private:
   QLabel* narratorLabel_;

@@ -25,6 +25,9 @@ class MediaDetailWidget : public IMediaDetailWidget {
  protected:
   void resizeEvent(QResizeEvent* event) override;
   QVBoxLayout* leftLayout_ = nullptr;
+  void updateTextFontSize() override;
+  QFont titleLabelFont_;
+  QFont normalLabelFont_;
 
  private:
   void updateCoverPixmap();
@@ -33,6 +36,7 @@ class MediaDetailWidget : public IMediaDetailWidget {
   QWidget* leftWidget_ = nullptr;
 
   QLabel* titleLabel_ = nullptr;
+  QLabel* spacerLabel_ = nullptr;
   QLabel* releaseLabel_ = nullptr;
   QLabel* languageLabel_ = nullptr;
   QLabel* favouriteLabel_ = nullptr;

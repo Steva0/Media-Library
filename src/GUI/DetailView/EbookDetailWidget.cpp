@@ -31,4 +31,12 @@ void EbookDetailWidget::setMedia(const media::Media* media) {
   drmLabel_->setText(QString("DRM: %1").arg(ebook->hasDrm() ? "Yes" : "No"));
 }
 
+void EbookDetailWidget::updateTextFontSize() {
+  NovelDetailWidget::updateTextFontSize();  // Chiama la base per gestire le label comuni
+
+  // Applica il font normale alle label aggiuntive
+  fileSizeLabel_->setFont(normalLabelFont_);
+  drmLabel_->setFont(normalLabelFont_);
+}
+
 }  // namespace gui

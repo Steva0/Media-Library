@@ -14,6 +14,7 @@ class SeriesDetailWidget : public MovieDetailWidget {
   explicit SeriesDetailWidget(QWidget* parent = nullptr);
 
   void setMedia(const media::Media* media) override;
+  void updateTextFontSize() override;
 
  private:
   QLabel* episodesLabel_;
