@@ -35,6 +35,12 @@ MediaDetailWidget::MediaDetailWidget(QWidget* parent) : IMediaDetailWidget(paren
   coverLabel_->setAlignment(Qt::AlignCenter);
   coverLabel_->setScaledContents(false);  // facciamo scalare a mano noi
   mainLayout->addWidget(coverLabel_, 1);
+
+  releaseLabel_->setWordWrap(true);
+  languageLabel_->setWordWrap(true);
+  favouriteLabel_->setWordWrap(true);
+  genresLabel_->setWordWrap(true);
+  notesLabel_->setWordWrap(true);
 }
 
 void MediaDetailWidget::setMedia(const media::Media* media) {
