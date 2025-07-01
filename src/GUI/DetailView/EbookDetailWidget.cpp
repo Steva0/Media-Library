@@ -10,6 +10,8 @@ EbookDetailWidget::EbookDetailWidget(QWidget* parent) : NovelDetailWidget(parent
   leftLayout_->addWidget(drmLabel_);
   
   leftLayout_->addWidget(notesLabel_);
+  fileSizeLabel_->setWordWrap(true);
+  drmLabel_->setWordWrap(true);
 }
 
 void EbookDetailWidget::setMedia(const media::Media* media) {

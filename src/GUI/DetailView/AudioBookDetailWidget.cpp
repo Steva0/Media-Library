@@ -10,6 +10,9 @@ AudioBookDetailWidget::AudioBookDetailWidget(QWidget* parent) : NovelDetailWidge
   leftLayout_->addWidget(streamingServiceLabel_);
   
   leftLayout_->addWidget(notesLabel_);
+
+  narratorLabel_->setWordWrap(true);
+  streamingServiceLabel_->setWordWrap(true);
 }
 
 void AudioBookDetailWidget::setMedia(const media::Media* media) {

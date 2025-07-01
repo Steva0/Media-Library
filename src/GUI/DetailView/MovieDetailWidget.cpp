@@ -17,6 +17,11 @@ MovieDetailWidget::MovieDetailWidget(QWidget* parent, bool note) : MediaDetailWi
   if (note) {
     leftLayout_->addWidget(notesLabel_);
   }
+
+  // Imposta il word wrap per le label aggiuntive
+  lengthLabel_->setWordWrap(true);
+  universeLabel_->setWordWrap(true);
+  castLabel_->setWordWrap(true);
 }
 
 void MovieDetailWidget::setMedia(const media::Media* media) {

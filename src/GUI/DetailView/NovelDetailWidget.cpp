@@ -24,6 +24,13 @@ NovelDetailWidget::NovelDetailWidget(QWidget* parent, bool note) : MediaDetailWi
   if (note) {
     leftLayout_->addWidget(notesLabel_);
   }
+
+  // Imposta il word wrap per le label aggiuntive
+  authorLabel_->setWordWrap(true);
+  publisherLabel_->setWordWrap(true);
+  pagesLabel_->setWordWrap(true);
+  seriesLabel_->setWordWrap(true);
+  isbnLabel_->setWordWrap(true);
 }
 
 void NovelDetailWidget::setMedia(const media::Media* media) {

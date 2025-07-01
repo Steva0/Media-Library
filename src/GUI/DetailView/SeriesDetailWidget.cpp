@@ -15,6 +15,11 @@ SeriesDetailWidget::SeriesDetailWidget(QWidget* parent) : MovieDetailWidget(pare
   leftLayout_->addWidget(endedLabel_);
   
   leftLayout_->addWidget(notesLabel_);
+
+  // Imposta il word wrap per le label aggiuntive
+  episodesLabel_->setWordWrap(true);
+  seasonsLabel_->setWordWrap(true);
+  endedLabel_->setWordWrap(true);
 }
 
 void SeriesDetailWidget::setMedia(const media::Media* media) {

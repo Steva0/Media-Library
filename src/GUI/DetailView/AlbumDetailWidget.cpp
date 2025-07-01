@@ -16,6 +16,9 @@ AlbumDetailWidget::AlbumDetailWidget(QWidget* parent) : MediaDetailWidget(parent
   leftLayout_->addWidget(songsLabel_);
   
   leftLayout_->addWidget(notesLabel_);
+  bandLabel_->setWordWrap(true);
+  membersLabel_->setWordWrap(true);
+  songsLabel_->setWordWrap(true);
 }
 
 void AlbumDetailWidget::setMedia(const media::Media* media) {
