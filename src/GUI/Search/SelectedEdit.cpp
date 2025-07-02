@@ -4,6 +4,7 @@
 #include <QIntValidator>
 #include <QPushButton>
 #include <limits>
+#include "qnamespace.h"
 
 namespace gui {
 namespace search {
@@ -63,9 +64,9 @@ void SelectedEdit::display(const media::Media *media) {
     type_->setText(QString::fromStdString(media->displayType()));
 
     if (media->getImgPath() == "" || QPixmap(QString::fromStdString(media->getImgPath())).isNull())
-      preview_->setPixmap(QPixmap(QString::fromStdString(":/assets/matita.jpg")));
+      preview_->setPixmap(QPixmap(QString::fromStdString(":/assets/matita.jpg")).scaled(128, 128, Qt::KeepAspectRatio));
     else {
-      preview_->setPixmap(QPixmap(QString::fromStdString(media->getImgPath())).scaled(128, 128));
+      preview_->setPixmap(QPixmap(QString::fromStdString(media->getImgPath())).scaled(128, 128, Qt::KeepAspectRatio));
     }
     title_->setText(QString::fromStdString(media->getTitle()));
     release_->setText(QString::number(media->getRelease()));
