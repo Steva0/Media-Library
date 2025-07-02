@@ -195,7 +195,7 @@ QWidget* AddMediaViewPage::createButtonsWidget(QWidget* parent) {
   buttons_layout->setSpacing(5);
 
   const QStringList labels = {
-    "Romanzo", "EBook", "Audiobook", "Film", "Serie", "Album"
+    "Libro", "EBook", "Audiobook", "Film", "Serie", "Album"
   };
   for (int i = 0; i < labels.size(); ++i) {
     auto* button = new QPushButton(labels[i], buttons_container);

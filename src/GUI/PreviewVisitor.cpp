@@ -36,7 +36,7 @@ void PreviewVisitor::visit(const media::Media &media) {
   if (media.isFavourite()) data_->addWidget(new QLabel("Favourite"));
 
   addRow("Titolo:", media.getTitle());
-  addRow("Anno di uscita:", media.getRelease());
+  addRow("Uscita:", media.getRelease());
   addRow("Lingua:", media.getLanguage());
 
   layout->addWidget(preview);
