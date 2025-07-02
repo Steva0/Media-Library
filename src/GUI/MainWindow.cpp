@@ -376,4 +376,9 @@ void MainWindow::navigateTo(QWidget *next_page) {
   stacked_widget_->slideInWgt(next_page);
 }
 
+void MainWindow::closeEvent(QCloseEvent *event) {
+  database_.close(savePopup());
+  QMainWindow::closeEvent(event);
+}
+
 }  // namespace gui

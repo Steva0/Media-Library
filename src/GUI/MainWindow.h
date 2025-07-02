@@ -70,6 +70,9 @@ class MainWindow : public QMainWindow {
 
   void onAddMedia(media::Media *newMedia);
   void navigateTo(QWidget *next_page);
-};
+
+ protected:
+  void closeEvent(QCloseEvent *event) override;
+ };
 }  // namespace gui
 #endif
