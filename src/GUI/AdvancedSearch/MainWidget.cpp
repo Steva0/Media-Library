@@ -1,5 +1,7 @@
 #include "MainWidget.h"
 
+#include <QKeyEvent>
+
 namespace gui {
 namespace advanced_search {
 MainWidget::MainWidget(QWidget *parent) : AbstractSearchWidget(parent) {
