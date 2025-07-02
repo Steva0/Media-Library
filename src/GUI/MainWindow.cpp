@@ -203,7 +203,7 @@ void MainWindow::goBack() {
     navigation_stack_.pop();
     // stacked_widget_->setCurrentWidget(previous);
     stacked_widget_->slideInWgt(previous);
-    if (previous == simple_search_widget_) menuBar()->show();
+    if (previous == simple_search_widget_ || previous == advanced_search_widget_) menuBar()->show();
   }
 }
 
