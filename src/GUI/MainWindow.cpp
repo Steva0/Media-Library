@@ -33,6 +33,8 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
       media_detail_page_(new MediaDetailPage(this)),
       media_edit_page_(new MediaEditPage(this)),
       add_media_view_page_(new AddMediaViewPage(this)) {
+
+  setWindowTitle("Media Library");
   std::vector<QString> filetypes{};
   std::for_each(memory::Database::kAcceptedExtensions.begin(), memory::Database::kAcceptedExtensions.end(),
                 [&filetypes](const std::string &type) { filetypes.push_back(QString::fromStdString(type).toUpper()); });
