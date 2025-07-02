@@ -39,6 +39,17 @@ MainWidget::MainWidget(QWidget *parent) : AbstractSearchWidget(parent) {
   connect(this, &MainWidget::updateResults, results_, &ResultsWidget::updateResults);
 }
 
+void MainWidget::keyPressEvent(QKeyEvent* event) {
+  if (event->key() == Qt::Key_Escape) {
+    emit backRequested();
+  } else if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
+    emit requestResults(input_->getFilter());
+  } else {
+    QWidget::keyPressEvent(event);  // Propaga altri tasti
+  }
+}
+
+
 // void MainWidget::updateResults(const std::vector<const media::Media *> &new_results) {
 //   results_->updateResults(new_results);
 // }

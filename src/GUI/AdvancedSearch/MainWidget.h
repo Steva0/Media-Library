@@ -25,6 +25,8 @@ class MainWidget : public AbstractSearchWidget {
   // void requestResults(const media::Media &filter);
   void backRequested();
   // void updateResults(const std::vector<const media::Media *> &new_results);
+protected:
+  void keyPressEvent(QKeyEvent* event) override;
 };
 }  // namespace advanced_search
 }  // namespace gui
