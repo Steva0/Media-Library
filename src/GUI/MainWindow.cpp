@@ -148,7 +148,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 void MainWindow::createDatabase() {
   if (savePopup()) database_.save();
   QString filter;
-  QString path = QFileDialog::getSaveFileName(this, "New Database", ".", allowed_filter_, &filter);
+  QString path = QFileDialog::getSaveFileName(this, "Nuovo Database", ".", allowed_filter_, &filter);
   if (path == "") return;
 
   if (filter.contains("xml"))
@@ -174,7 +174,7 @@ void MainWindow::createDatabase() {
 
 void MainWindow::openDatabase() {
   if (savePopup()) database_.save();
-  QString path = QFileDialog::getOpenFileName(nullptr, "Open Database", ".", allowed_filter_);
+  QString path = QFileDialog::getOpenFileName(nullptr, "Apri Database", ".", allowed_filter_);
   if (path == "") return;  // "cancel"
   accessDatabase(path);
   //

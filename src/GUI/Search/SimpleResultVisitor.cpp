@@ -43,15 +43,15 @@ void SimpleResultVisitor::visit(const media::Album &album) {
   visit(static_cast<const media::Media &>(album));
 }
 void SimpleResultVisitor::visit(const media::Movie &movie) {
-  type_ = "MOVIE";
+  type_ = "FILM";
   visit(static_cast<const media::Media &>(movie));
 }
 void SimpleResultVisitor::visit(const media::Series &series) {
-  type_ = "SERIES";
+  type_ = "SERIE";
   visit(static_cast<const media::Media &>(series));
 }
 void SimpleResultVisitor::visit(const media::Novel &novel) {
-  type_ = "NOVEL";
+  type_ = "LIBRO";
   visit(static_cast<const media::Media &>(novel));
 }
 void SimpleResultVisitor::visit(const media::AudioBook &audiobook) {

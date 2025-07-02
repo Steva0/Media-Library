@@ -19,17 +19,17 @@ SelectedEdit::SelectedEdit(QWidget *parent)
   auto *right_layout = new QVBoxLayout;
   auto *data_layout = new QGridLayout;
 
-  data_layout->addWidget(new QLabel("Title:", this), 0, 0);
+  data_layout->addWidget(new QLabel("Titolo:", this), 0, 0);
   data_layout->addWidget(title_, 0, 1);
 
-  data_layout->addWidget(new QLabel("Release:", this), 1, 0);
+  data_layout->addWidget(new QLabel("Anno di uscita:", this), 1, 0);
   data_layout->addWidget(release_, 1, 1);
   release_->setValidator(new QIntValidator(-5000, 5000, release_));
 
-  data_layout->addWidget(new QLabel("Language:", this), 2, 0);
+  data_layout->addWidget(new QLabel("Lingua:", this), 2, 0);
   data_layout->addWidget(language_, 2, 1);
 
-  data_layout->addWidget(new QLabel("Favourite:", this), 3, 0);
+  data_layout->addWidget(new QLabel("Preferito:", this), 3, 0);
   data_layout->addWidget(favourite_, 3, 1);
 
   right_layout->addWidget(type_);
@@ -40,9 +40,9 @@ SelectedEdit::SelectedEdit(QWidget *parent)
   edit_layout->addLayout(right_layout);
   edit_layout->setAlignment(Qt::AlignLeft);
 
-  cancel_ = new QPushButton("Cancel", this);
-  confirm_ = new QPushButton("Confirm", this);
-  delete_ = new QPushButton("Delete", this);
+  cancel_ = new QPushButton("Annulla", this);
+  confirm_ = new QPushButton("Conferma", this);
+  delete_ = new QPushButton("Elimina", this);
 
   auto *layout = new QGridLayout(this);
   layout->addLayout(edit_layout, 0, 0, Qt::AlignTop | Qt::AlignLeft);

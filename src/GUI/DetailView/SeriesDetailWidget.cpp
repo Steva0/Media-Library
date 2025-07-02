@@ -40,7 +40,7 @@ void SeriesDetailWidget::setMedia(const media::Media* media) {
   seasonsLabel_->setText((seasons > 0) ? QString("Stagioni: %1").arg(seasons) : "Stagioni: ");
 
   // Per ended mettiamo "Yes", "No" o campo vuoto se valore non definito
-  endedLabel_->setText(series->hasEnded() ? "Terminata: Yes" : "Terminata: No");
+  endedLabel_->setText(series->hasEnded() ? "Terminata: Sì" : "Terminata: No");
 }
 
 void SeriesDetailWidget::updateTextFontSize() {

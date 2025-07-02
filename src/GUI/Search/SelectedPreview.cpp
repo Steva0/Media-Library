@@ -7,9 +7,9 @@ namespace search {
 SelectedPreview::SelectedPreview(QWidget *parent)
     : QWidget(parent),
       layout_(new QHBoxLayout(this)),
-      edit_button_(new QPushButton("Edit", this)),
-      fast_edit_button_(new QPushButton("Fast edit", this)),
-      delete_button_(new QPushButton("Delete", this)),
+      edit_button_(new QPushButton("Modifica", this)),
+      fast_edit_button_(new QPushButton("Modifica Rapida", this)),
+      delete_button_(new QPushButton("Elimina", this)),
       buttons_(new QWidget(this)),
       displayed_result_(new QWidget(this)) {
   edit_button_->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);

@@ -9,8 +9,8 @@ namespace search {
 SearchWidget::SearchWidget(QWidget *parent)
     : QWidget(parent),
       input_(new InputBar(this)),
-      advanced_search_(new QPushButton("Advanced", this)),
-      add_new_(new QPushButton("Add New", this)) {
+      advanced_search_(new QPushButton("Avanzata", this)),
+      add_new_(new QPushButton("Aggiungi Nuovo", this)) {
   auto *layout = new QHBoxLayout(this);
 
   input_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);

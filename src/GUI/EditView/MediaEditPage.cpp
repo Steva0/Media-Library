@@ -22,7 +22,7 @@ void MediaEditPage::setupUi() {
 
   // Top bar with Back button
   auto* top_bar_layout = new QHBoxLayout();
-  auto* back_button = new QPushButton("← Back", this);
+  auto* back_button = new QPushButton("Indietro", this);
   back_button->setFixedSize(80, 30);
   connect(back_button, &QPushButton::clicked, this, &MediaEditPage::onBack);
   top_bar_layout->addWidget(back_button);

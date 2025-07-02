@@ -35,9 +35,9 @@ void PreviewVisitor::visit(const media::Media &media) {
   data_->addWidget(new QLabel(QString::fromStdString(media.displayType())), 0, 0);
   if (media.isFavourite()) data_->addWidget(new QLabel("Favourite"));
 
-  addRow("Title:", media.getTitle());
-  addRow("Release:", media.getRelease());
-  addRow("Language:", media.getLanguage());
+  addRow("Titolo:", media.getTitle());
+  addRow("Anno di uscita:", media.getRelease());
+  addRow("Lingua:", media.getLanguage());
 
   layout->addWidget(preview);
   layout->addLayout(data_);
@@ -48,42 +48,42 @@ void PreviewVisitor::visit(const media::Album &album) {
   // type_ = "ALBUM";
   visit(static_cast<const media::Media &>(album));
   addRow("Band:", album.getBand());
-  addRowVector("Members:", album.getBandMembers());
-  addRowVector("Songs:", album.getSongs());
+  addRowVector("Mebri della band:", album.getBandMembers());
+  addRowVector("Canzoni:", album.getSongs());
 }
 
 void PreviewVisitor::visit(const media::Movie &movie) {
   // type_ = "MOVIE ";
   visit(static_cast<const media::Media &>(movie));
-  addRow("Duration:", movie.getLength());
-  addRow("Universe:", movie.getUniverse());
+  addRow("Durata:", movie.getLength());
+  addRow("Universo:", movie.getUniverse());
   addRowVector("Cast:", movie.getCast());
 }
 
 void PreviewVisitor::visit(const media::Series &series) {
   // type_ = "SERIES ";
   visit(static_cast<const media::Media &>(series));
-  addRow("Seasons:", series.getSeasons());
-  addRow("Episodes:", series.getEpisodes());
+  addRow("Stagioni:", series.getSeasons());
+  addRow("Episodi:", series.getEpisodes());
   if (series.hasEnded()) {
-    data_->addWidget(new QLabel("Ended", result_), data_->rowCount(), 0);
+    data_->addWidget(new QLabel("Terminata", result_), data_->rowCount(), 0);
   }
 }
 
 void PreviewVisitor::visit(const media::Novel &novel) {
   // type_ = "NOVEL ";
   visit(static_cast<const media::Media &>(novel));
-  addRow("Author:", novel.getAuthor());
-  addRow("Publisher:", novel.getPublisher());
-  addRow("Series:", novel.getSeries());
-  addRow("Pages:", novel.getPages());
+  addRow("Autore:", novel.getAuthor());
+  addRow("Casa editrice:", novel.getPublisher());
+  addRow("Collana:", novel.getSeries());
+  addRow("Pagine:", novel.getPages());
   addRow("ISBN:", novel.getIsbn());
 }
 
 void PreviewVisitor::visit(const media::AudioBook &audiobook) {
   // type_ = "AUDIOBOOK ";
   visit(static_cast<const media::Media &>(audiobook));
-  addRow("Voice:", audiobook.getNarrator());
+  addRow("Narratore:", audiobook.getNarrator());
   addRow("Streaming service:", audiobook.getStreamingService());
 }
 
