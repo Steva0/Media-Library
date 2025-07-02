@@ -15,10 +15,10 @@ MovieInputWidget::MovieInputWidget(QWidget *parent) : MediaInputWidget(parent), 
 
   // movie_layout_ = new QGridLayout(this);
 
-  movie_layout_->addWidget(new QLabel("Actor:", this), 0, 0);
+  movie_layout_->addWidget(new QLabel("Attori:", this), 0, 0);
   movie_layout_->addWidget(actor_, 0, 1);
 
-  movie_layout_->addWidget(new QLabel("Universe:", this), 0, 2);
+  movie_layout_->addWidget(new QLabel("Universo:", this), 0, 2);
   movie_layout_->addWidget(universe_, 0, 3);
 
   container_->addLayout(movie_layout_);

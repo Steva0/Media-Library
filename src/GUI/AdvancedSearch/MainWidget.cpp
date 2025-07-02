@@ -5,10 +5,10 @@
 namespace gui {
 namespace advanced_search {
 MainWidget::MainWidget(QWidget *parent) : AbstractSearchWidget(parent) {
-  back_ = new QPushButton("BACK", this);
+  back_ = new QPushButton("Indietro", this);
   input_ = new InputWidget(this);
   results_ = new ResultsWidget(this);
-  search_ = new QPushButton("SEARCH", this);
+  search_ = new QPushButton("Cerca", this);
 
   // aggiungere separatore per risultati
 

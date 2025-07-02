@@ -15,20 +15,20 @@ MediaInputWidget::MediaInputWidget(QWidget *parent) : IMediaInputWidget(parent),
   media_layout_ = new QGridLayout;
 
   title_ = new QLineEdit(this);
-  title_->setPlaceholderText("Title");
+  title_->setPlaceholderText("Titolo");
 
-  auto *release_label = new QLabel("Release:", this);
+  auto *release_label = new QLabel("Anno di uscita:", this);
   release_ = new QLineEdit(this);
   release_->setValidator(new QIntValidator(-5000, 5000, release_));
 
-  auto *language_label = new QLabel("Language:", this);
+  auto *language_label = new QLabel("Lingua:", this);
   language_ = new QLineEdit(this);
   language_->setMaxLength(2);
 
-  auto *favourite_label = new QLabel("Favourite:", this);
+  auto *favourite_label = new QLabel("PReferito:", this);
   favourite_ = new QCheckBox(this);
 
-  auto *genre_label = new QLabel("Genres:", this);
+  auto *genre_label = new QLabel("Generi:", this);
   genre_input_ = new QLineEdit(this);
   auto *add_genre = new QPushButton("+", this);
 

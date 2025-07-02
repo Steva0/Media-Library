@@ -17,13 +17,13 @@ NovelInputWidget::NovelInputWidget(QWidget *parent)
       series_(new QLineEdit(this)),
       isbn_(new QLineEdit(this)) {
   novel_layout_ = new QGridLayout;
-  novel_layout_->addWidget(new QLabel("Author:", this), 0, 0);
+  novel_layout_->addWidget(new QLabel("Autore:", this), 0, 0);
   novel_layout_->addWidget(author_, 0, 1);
 
-  novel_layout_->addWidget(new QLabel("Publisher:", this), 0, 2);
+  novel_layout_->addWidget(new QLabel("Casa editrice:", this), 0, 2);
   novel_layout_->addWidget(publisher_, 0, 3);
 
-  novel_layout_->addWidget(new QLabel("Series:", this), 1, 0);
+  novel_layout_->addWidget(new QLabel("Collana:", this), 1, 0);
   novel_layout_->addWidget(series_, 1, 1);
 
   novel_layout_->addWidget(new QLabel("ISBN:", this), 1, 2);

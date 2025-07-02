@@ -19,10 +19,10 @@ AlbumInputWidget::AlbumInputWidget(QWidget *parent) : MediaInputWidget(parent) {
   album_layout_->addWidget(new QLabel("Band:", this), 0, 0);
   album_layout_->addWidget(band_name_, 0, 1);
 
-  album_layout_->addWidget(new QLabel("Member:", this), 1, 0);
+  album_layout_->addWidget(new QLabel("Membri:", this), 1, 0);
   album_layout_->addWidget(band_member_, 1, 1);
 
-  album_layout_->addWidget(new QLabel("Song:", this), 2, 0);
+  album_layout_->addWidget(new QLabel("Canzoni:", this), 2, 0);
   album_layout_->addWidget(song_, 2, 1);
 
   container_->addLayout(album_layout_);

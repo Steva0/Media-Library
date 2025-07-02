@@ -8,7 +8,7 @@ namespace advanced_search {
 SeriesInputWidget::SeriesInputWidget(QWidget *parent) : MovieInputWidget(parent) {
   ended_ = new QCheckBox(this);
 
-  movie_layout_->addWidget(new QLabel("Ended:", this), 0, movie_layout_->columnCount());
+  movie_layout_->addWidget(new QLabel("Terminata:", this), 0, movie_layout_->columnCount());
   movie_layout_->addWidget(ended_, 0, movie_layout_->columnCount());
 }
 // media::Series *SeriesInputWidget::getFilter() const {

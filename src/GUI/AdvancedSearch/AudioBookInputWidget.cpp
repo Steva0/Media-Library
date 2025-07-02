@@ -9,14 +9,14 @@
 namespace gui {
 namespace advanced_search {
 const QStringList AudioBookInputWidget::kStreamingServices{
-    "Any", "Audible", "Audiobooks.com", "B&N Audiobooks", "Libro.fm", "Everand", "Spotify", "Libby", "Hoopla", "Chirp"};
+    "Tutti", "Audible", "Audiobooks.com", "B&N Audiobooks", "Libro.fm", "Everand", "Spotify", "Libby", "Hoopla", "Chirp"};
 
 AudioBookInputWidget::AudioBookInputWidget(QWidget *parent) : NovelInputWidget(parent) {
   narrator_ = new QLineEdit(this);
   streaming_service_ = new QComboBox(this);
   streaming_service_->addItems(kStreamingServices);
 
-  novel_layout_->addWidget(new QLabel("Voice:", this), novel_layout_->rowCount(), 0);
+  novel_layout_->addWidget(new QLabel("Narratore:", this), novel_layout_->rowCount(), 0);
   novel_layout_->addWidget(narrator_, novel_layout_->rowCount() - 1, 1);
 
   novel_layout_->addWidget(new QLabel("Streaming:", this), novel_layout_->rowCount() - 1, 2);
