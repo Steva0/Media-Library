@@ -1,18 +1,18 @@
 #include "MainWindow.h"
 
+#include <QFileDialog>
 #include <QMenuBar>
+#include <QMessageBox>
 #include <QVBoxLayout>
 #include <algorithm>
 #include <cctype>
 #include <iostream>
-#include <QFileDialog>
-#include <QMessageBox>
 
 #include "DatabaseSelectionWidget.h"
 
 // debug
-#include "AdvancedSearch/MainWidget.h"
 #include "AbstractSearchWidget.h"
+#include "AdvancedSearch/MainWidget.h"
 #include "PreviewVisitor.h"
 #include "Search/SearchMain.h"
 #include "SlidingStackedWidget.h"
@@ -33,7 +33,6 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
       media_detail_page_(new MediaDetailPage(this)),
       media_edit_page_(new MediaEditPage(this)),
       add_media_view_page_(new AddMediaViewPage(this)) {
-
   setWindowTitle("Media Library");
   std::vector<QString> filetypes{};
   std::for_each(memory::Database::kAcceptedExtensions.begin(), memory::Database::kAcceptedExtensions.end(),
@@ -87,7 +86,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   connect(save_db, &QAction::triggered, this, &MainWindow::saveDatabase);
   connect(new_db, &QAction::triggered, this, &MainWindow::createDatabase);
   connect(open_db, &QAction::triggered, this, &MainWindow::openDatabase);
-  connect(close_db, &QAction::triggered, this, &MainWindow::closeDatabase); // da sistemare
+  connect(close_db, &QAction::triggered, this, &MainWindow::closeDatabase);  // da sistemare
 
   connect(db_selection_widget_, &DatabaseSelectionWidget::onSelectDatabase, this, &MainWindow::openDatabase);
   connect(db_selection_widget_, &DatabaseSelectionWidget::onCreateDatabase, this, &MainWindow::createDatabase);
@@ -135,9 +134,15 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
           [this](const media::Media *new_media, const media::Media *old_media) {
             if (!(*new_media == *old_media)) onEditConfirmed(new_media, old_media);
           });
-  connect(simple_search_widget_, &search::SearchMain::addNewMedia, this, [&]() { add_media_view_page_->clearEditSection(); navigateTo(add_media_view_page_); });
+  connect(simple_search_widget_, &search::SearchMain::addNewMedia, this, [&]() {
+    add_media_view_page_->clearEditSection();
+    navigateTo(add_media_view_page_);
+  });
   connect(add_media_view_page_, &AddMediaViewPage::mediaAdded, this, &MainWindow::onAddMedia);
-  connect(add_media_view_page_, &AddMediaViewPage::backRequested, this, [&]() { add_media_view_page_->clearEditSection();navigateTo(current_search_widget_); });
+  connect(add_media_view_page_, &AddMediaViewPage::backRequested, this, [&]() {
+    add_media_view_page_->clearEditSection();
+    navigateTo(current_search_widget_);
+  });
 }
 
 void MainWindow::createDatabase() {
@@ -172,7 +177,7 @@ void MainWindow::openDatabase() {
   QString path = QFileDialog::getOpenFileName(nullptr, "Open Database", ".", allowed_filter_);
   if (path == "") return;  // "cancel"
   accessDatabase(path);
-  // 
+  //
   // Appena aperto il db, aggiorna i risultati di ricerca con tutti i media o con filtro vuoto
   // media::Media *empty_filter = new media::Media("");  // filtro vuoto = tutti i media
   applyFilterAdvanced(media::Media{});
@@ -198,8 +203,7 @@ void MainWindow::goBack() {
     navigation_stack_.pop();
     // stacked_widget_->setCurrentWidget(previous);
     stacked_widget_->slideInWgt(previous);
-    if (previous == simple_search_widget_)
-      menuBar()->show();
+    if (previous == simple_search_widget_) menuBar()->show();
   }
 }
 
@@ -209,21 +213,18 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
     goBack();
     return;
   }
-  
 
   status_bar_->showMessage("Cancellando media: " + QString::fromStdString(media->getTitle()));
   database_.removeMedia(*media);
-  
+
   changes_were_made_ = true;
 
   // media::Media *empty_filter = new media::Media("");  // Filtro vuoto per ricaricare tutti i media
   applyFilterAdvanced(media::Media{});
-  
 
   // Aggiorna ricerca semplice
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
   simple_search_widget_->updateResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
-  
 }
 
 void MainWindow::onAddMedia(media::Media *newMedia) {
@@ -365,10 +366,8 @@ void MainWindow::navigateTo(QWidget *next_page) {
   if (current && current != next_page) {
     navigation_stack_.push(current);
   }
-  if (/* dynamic_cast<advanced_search::MainWidget *>(next_page) || dynamic_cast<search::SearchMain *>(next_page) */
-      dynamic_cast<AbstractSearchWidget *>(next_page))
+  if (dynamic_cast<AbstractSearchWidget *>(next_page)) {
     current_search_widget_ = next_page;
-  if (dynamic_cast<search::SearchMain *>(next_page)) {
     menuBar()->show();
   } else {
     menuBar()->hide();
