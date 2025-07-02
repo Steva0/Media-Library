@@ -101,8 +101,10 @@ void PreviewVisitor::addRowVector(const std::string &key, const std::vector<std:
 
   data_->addWidget(
       new QLabel(QString::fromStdString(std::accumulate(
-                     values.cbegin(), values.cend(), values[0],
-                     [](const std::string &left, const std::string &right) { return left + "\n" + right; })),
+                     values.cbegin(), values.cend(), std::string{},
+                     [](const std::string &left, const std::string &right) {
+    if (left == "") return right;
+    return left + "\n" + right; })),
                  result_),
       data_->rowCount() - 1, 1);
 }
