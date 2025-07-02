@@ -19,7 +19,7 @@ void AddMediaViewPage::setupUi() {
 
   // Top bar
   auto* top_bar_layout = new QHBoxLayout();
-  auto* back_button = new QPushButton("← Back", this);
+  auto* back_button = new QPushButton("Indietro", this);
   back_button->setFixedSize(80, 30);
   connect(back_button, &QPushButton::clicked, this, &AddMediaViewPage::onBack);
   top_bar_layout->addWidget(back_button);
