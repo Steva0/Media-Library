@@ -4,6 +4,7 @@
 #include <QHoverEvent>
 #include <QPalette>
 #include <QCursor>
+#include <QStyle>
 
 namespace gui {
 
