@@ -20,26 +20,25 @@ void ClickableFrame::mousePressEvent(QMouseEvent* event) {
   QFrame::mousePressEvent(event);
 }
 
-void ClickableFrame::hoverEnterEvent(QHoverEvent* event) {
-  Q_UNUSED(event);
-  // Ottieni il colore di base del sistema (es. background dei widget)
-  QColor baseColor = palette().color(QPalette::Window);
-  QColor darkerColor = baseColor.darker(110); // 110 = 10% più scuro
+bool ClickableFrame::event(QEvent* event) {
+  if (event->type() == QEvent::HoverEnter) {
+    QColor baseColor = palette().color(QPalette::Window);
+    QColor darkerColor = baseColor.darker(110);  // 10% più scuro
 
-  QPalette pal = palette();
-  pal.setColor(QPalette::Window, darkerColor);
-  setPalette(pal);
-  setAutoFillBackground(true); // obbligatorio per rendere visibile il colore
-  update();
+    QPalette pal = palette();
+    pal.setColor(QPalette::Window, darkerColor);
+    setPalette(pal);
+    setAutoFillBackground(true);
+    update();
+  } else if (event->type() == QEvent::HoverLeave) {
+    QPalette pal = palette();
+    pal.setColor(QPalette::Window, style()->standardPalette().color(QPalette::Window));
+    setPalette(pal);
+    update();
+  }
+
+  return QFrame::event(event);  // Continua con la gestione normale
 }
 
-void ClickableFrame::hoverLeaveEvent(QHoverEvent* event) {
-  Q_UNUSED(event);
-  // Ripristina il colore originale
-  QPalette pal = palette();
-  pal.setColor(QPalette::Window, style()->standardPalette().color(QPalette::Window));
-  setPalette(pal);
-  update();
-}
 
 }  // namespace gui
