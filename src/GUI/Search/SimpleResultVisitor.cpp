@@ -28,7 +28,8 @@ void SimpleResultVisitor::visit(const media::Media &media) {
   else {
     image->setPixmap(QPixmap(QString::fromStdString(media.getImgPath())).scaled(128, 128, Qt::KeepAspectRatio));
   }
-
+  image->setAlignment(Qt::AlignCenter);
+  
   auto *title = new QLabel(QString::fromStdString(media.getTitle()), result_);
   title->setAlignment(Qt::AlignCenter);
 
