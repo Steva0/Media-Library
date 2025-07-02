@@ -1,7 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
     <file>assets/folder.jpeg</file>
-    <file>assets/wifi.jpeg</file>
     <file>assets/matita.jpg</file>
+    <file>assets/Libreria.png</file>
 </qresource>
 </RCC>
