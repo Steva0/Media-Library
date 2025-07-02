@@ -16,6 +16,8 @@ class ClickableFrame : public QFrame {
   void singleClicked();
 
  protected:
+  void hoverEnterEvent(QHoverEvent* event) override;
+  void hoverLeaveEvent(QHoverEvent* event) override;
   void mouseDoubleClickEvent(QMouseEvent* event) override;
   void mousePressEvent(QMouseEvent* event) override;
 };
