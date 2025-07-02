@@ -6,16 +6,16 @@
 namespace gui {
 
 NovelDetailWidget::NovelDetailWidget(QWidget* parent, bool note) : MediaDetailWidget(parent) {
-  authorLabel_ = new QLabel("Author: ", this);
+  authorLabel_ = new QLabel("Autore: ", this);
   leftLayout_->addWidget(authorLabel_);
 
-  publisherLabel_ = new QLabel("Publisher: ", this);
+  publisherLabel_ = new QLabel("Casa editirice: ", this);
   leftLayout_->addWidget(publisherLabel_);
 
-  pagesLabel_ = new QLabel("Pages: ", this);
+  pagesLabel_ = new QLabel("Pagine: ", this);
   leftLayout_->addWidget(pagesLabel_);
 
-  seriesLabel_ = new QLabel("Series: ", this);
+  seriesLabel_ = new QLabel("Collana: ", this);
   leftLayout_->addWidget(seriesLabel_);
 
   isbnLabel_ = new QLabel("ISBN: ", this);
@@ -38,19 +38,19 @@ void NovelDetailWidget::setMedia(const media::Media* media) {
 
   const media::Novel* novel = dynamic_cast<const media::Novel*>(media);
   if (!novel) {
-    authorLabel_->setText("Author: ");
-    publisherLabel_->setText("Publisher: ");
-    pagesLabel_->setText("Pages: ");
-    seriesLabel_->setText("Series: ");
+    authorLabel_->setText("Autore: ");
+    publisherLabel_->setText("Casa editirice: ");
+    pagesLabel_->setText("Pagine: ");
+    seriesLabel_->setText("Collana: ");
     isbnLabel_->setText("ISBN: ");
     return;
   }
 
   QString author = QString::fromStdString(novel->getAuthor());
-  authorLabel_->setText(!author.isEmpty() ? QString("Author: %1").arg(author) : "Author: ");
+  authorLabel_->setText(!author.isEmpty() ? QString("Autore: %1").arg(author) : "Autore: ");
 
   QString publisher = QString::fromStdString(novel->getPublisher());
-  publisherLabel_->setText(!publisher.isEmpty() ? QString("Publisher: %1").arg(publisher) : "Publisher: ");
+  publisherLabel_->setText(!publisher.isEmpty() ? QString("Casa editirice: %1").arg(publisher) : "Casa editirice: ");
 
   // Etichetta per durata se è un AudioBook
   const media::AudioBook* audioBook = dynamic_cast<const media::AudioBook*>(media);
@@ -58,11 +58,11 @@ void NovelDetailWidget::setMedia(const media::Media* media) {
   if (audioBook) {
     pagesLabel_->setText(pages > 0 ? QString("Duration (min): %1").arg(pages) : "Duration (min): ");
   } else {
-    pagesLabel_->setText(pages > 0 ? QString("Pages: %1").arg(pages) : "Pages: ");
+    pagesLabel_->setText(pages > 0 ? QString("Pagine: %1").arg(pages) : "Pagine: ");
   }
 
   QString series = QString::fromStdString(novel->getSeries());
-  seriesLabel_->setText(!series.isEmpty() ? QString("Series: %1").arg(series) : "Series: ");
+  seriesLabel_->setText(!series.isEmpty() ? QString("Collana: %1").arg(series) : "Collana: ");
 
   QString isbn = QString::fromStdString(novel->getIsbn());
   isbnLabel_->setText(!isbn.isEmpty() ? QString("ISBN: %1").arg(isbn) : "ISBN: ");

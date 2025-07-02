@@ -5,8 +5,8 @@
 namespace gui {
 
 MovieDetailWidget::MovieDetailWidget(QWidget* parent, bool note) : MediaDetailWidget(parent) {
-  lengthLabel_ = new QLabel("Length (min): ", this);
-  universeLabel_ = new QLabel("Universe: ", this);
+  lengthLabel_ = new QLabel("Durata (min): ", this);
+  universeLabel_ = new QLabel("Universo: ", this);
   castLabel_ = new QLabel("Cast: ", this);
 
   // Usa il leftLayout_ ereditato da MediaDetailWidget
@@ -29,25 +29,25 @@ void MovieDetailWidget::setMedia(const media::Media* media) {
 
   const media::Movie* movie = dynamic_cast<const media::Movie*>(media);
   if (!movie) {
-    lengthLabel_->setText("Length (min): ");
-    universeLabel_->setText("Universe: ");
+    lengthLabel_->setText("Durata (min): ");
+    universeLabel_->setText("Universo: ");
     castLabel_->setText("Cast: ");
     return;
   }
 
   // Controllo length, 0 o negativo lo considero "vuoto"
   if (movie->getLength() > 0) {
-    lengthLabel_->setText(QString("Length (min): %1").arg(movie->getLength()));
+    lengthLabel_->setText(QString("Durata (min): %1").arg(movie->getLength()));
   } else {
-    lengthLabel_->setText("Length (min): ");
+    lengthLabel_->setText("Durata (min): ");
   }
 
   // Controllo universe vuoto o stringa base
   QString universe = QString::fromStdString(movie->getUniverse());
   if (!universe.isEmpty()) {
-    universeLabel_->setText(QString("Universe: %1").arg(universe));
+    universeLabel_->setText(QString("Universo: %1").arg(universe));
   } else {
-    universeLabel_->setText("Universe: ");
+    universeLabel_->setText("Universo: ");
   }
 
   // Cast: se vuoto, campo vuoto

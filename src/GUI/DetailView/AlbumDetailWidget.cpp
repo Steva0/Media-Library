@@ -9,10 +9,10 @@ AlbumDetailWidget::AlbumDetailWidget(QWidget* parent) : MediaDetailWidget(parent
   bandLabel_ = new QLabel("Band: ", this);
   leftLayout_->addWidget(bandLabel_);
 
-  membersLabel_ = new QLabel("Band Members: ", this);
+  membersLabel_ = new QLabel("Membri della Band: ", this);
   leftLayout_->addWidget(membersLabel_);
 
-  songsLabel_ = new QLabel("Songs: ", this);
+  songsLabel_ = new QLabel("Canzoni: ", this);
   leftLayout_->addWidget(songsLabel_);
   
   leftLayout_->addWidget(notesLabel_);
@@ -27,8 +27,8 @@ void AlbumDetailWidget::setMedia(const media::Media* media) {
   const media::Album* album = dynamic_cast<const media::Album*>(media);
   if (!album) {
     bandLabel_->setText("Band: ");
-    membersLabel_->setText("Band Members: ");
-    songsLabel_->setText("Songs: ");
+    membersLabel_->setText("Membri della Band: ");
+    songsLabel_->setText("Canzoni: ");
     return;
   }
 
@@ -37,24 +37,24 @@ void AlbumDetailWidget::setMedia(const media::Media* media) {
 
   const auto& members = album->getBandMembers();
   if (members.empty()) {
-    membersLabel_->setText("Band Members: ");
+    membersLabel_->setText("Membri della Band: ");
   } else {
     QStringList membersList;
     for (const auto& member : members) {
       membersList << QString::fromStdString(member);
     }
-    membersLabel_->setText(QString("Band Members: %1").arg(membersList.join(", ")));
+    membersLabel_->setText(QString("Membri della Band: %1").arg(membersList.join(", ")));
   }
 
   const auto& songs = album->getSongs();
   if (songs.empty()) {
-    songsLabel_->setText("Songs: ");
+    songsLabel_->setText("Canzoni: ");
   } else {
     QStringList songsList;
     for (const auto& song : songs) {
       songsList << QString::fromStdString(song);
     }
-    songsLabel_->setText(QString("Songs: %1").arg(songsList.join(", ")));
+    songsLabel_->setText(QString("Canzoni: %1").arg(songsList.join(", ")));
   }
 }
 

@@ -10,7 +10,7 @@ MediaDetailPage::MediaDetailPage(QWidget* parent) : QWidget(parent) {
 
   // Top bar con bottone back
   auto* topBarLayout = new QHBoxLayout();
-  auto* backButton = new QPushButton("← Back", this);
+  auto* backButton = new QPushButton("Indietro", this);
   backButton->setFixedSize(80, 30);
   connect(backButton, &QPushButton::clicked, this, [this]() {
     emit backRequested();  // segnale specifico per tornare indietro

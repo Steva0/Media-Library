@@ -17,11 +17,11 @@ MediaDetailWidget::MediaDetailWidget(QWidget* parent) : IMediaDetailWidget(paren
 
   titleLabel_ = new QLabel(this);
   spacerLabel_ = new QLabel(this);  
-  releaseLabel_ = new QLabel("Release year: ", this);
-  languageLabel_ = new QLabel("Language: ", this);
-  favouriteLabel_ = new QLabel("Favourite: ", this);
-  genresLabel_ = new QLabel("Genres: ", this);
-  notesLabel_ = new QLabel("Notes: ", this);
+  releaseLabel_ = new QLabel("Anno di uscita: ", this);
+  languageLabel_ = new QLabel("Lingua: ", this);
+  favouriteLabel_ = new QLabel("Preferito: ", this);
+  genresLabel_ = new QLabel("Generi: ", this);
+  notesLabel_ = new QLabel("Note: ", this);
 
   leftLayout_->addWidget(titleLabel_);
   leftLayout_->addWidget(releaseLabel_);
@@ -55,40 +55,40 @@ void MediaDetailWidget::setMedia(const media::Media* media) {
   // Release year: se uguale a valore base, campo vuoto
   int releaseYear = media->getRelease();
   if (releaseYear == std::numeric_limits<int>::min()) {
-    releaseLabel_->setText("Release year: ");
+    releaseLabel_->setText("Anno di uscita: ");
   } else {
-    releaseLabel_->setText(QString("Release year: %1").arg(releaseYear));
+    releaseLabel_->setText(QString("Anno di uscita: %1").arg(releaseYear));
   }
 
   // Language: se stringa vuota o solo spazi, campo vuoto
   QString language = QString::fromStdString(media->getLanguage()).trimmed();
   if (language.isEmpty()) {
-    languageLabel_->setText("Language: ");
+    languageLabel_->setText("Lingua: ");
   } else {
-    languageLabel_->setText(QString("Language: %1").arg(language));
+    languageLabel_->setText(QString("Lingua: %1").arg(language));
   }
 
   // Favourite: true/false, sempre visualizzato
-  favouriteLabel_->setText(QString("Favourite: %1").arg(media->isFavourite() ? "Yes" : "No"));
+  favouriteLabel_->setText(QString("Preferito: %1").arg(media->isFavourite() ? "Yes" : "No"));
 
   // Genres: se vuoto, campo vuoto
   const auto& genres = media->getGenres();
   if (genres.empty()) {
-    genresLabel_->setText("Genres: ");
+    genresLabel_->setText("Generi: ");
   } else {
     QStringList genresList;
     for (const auto& g : genres) {
       genresList << QString::fromStdString(g);
     }
-    genresLabel_->setText(QString("Genres: %1").arg(genresList.join(", ")));
+    genresLabel_->setText(QString("Generi: %1").arg(genresList.join(", ")));
   }
 
   // Notes: se vuoto o solo spazi, campo vuoto
   QString notes = QString::fromStdString(media->getNotes()).trimmed();
   if (notes.isEmpty()) {
-    notesLabel_->setText("Notes: ");
+    notesLabel_->setText("Note: ");
   } else {
-    notesLabel_->setText(QString("Notes: %1").arg(notes));
+    notesLabel_->setText(QString("Note: %1").arg(notes));
   }
 
   // Carico immagine
@@ -103,11 +103,11 @@ void MediaDetailWidget::setMedia(const media::Media* media) {
 
 void MediaDetailWidget::clearFields() {
   titleLabel_->setText("");
-  releaseLabel_->setText("Release year: ");
-  languageLabel_->setText("Language: ");
-  favouriteLabel_->setText("Favourite: ");
-  genresLabel_->setText("Genres: ");
-  notesLabel_->setText("Notes: ");
+  releaseLabel_->setText("Anno di uscita: ");
+  languageLabel_->setText("Lingua: ");
+  favouriteLabel_->setText("Preferito: ");
+  genresLabel_->setText("Generi: ");
+  notesLabel_->setText("Note: ");
 
   coverPixmap_ = QPixmap(":/assets/matita.jpg");
   updateCoverPixmap();

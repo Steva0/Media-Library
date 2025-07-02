@@ -3,7 +3,7 @@
 namespace gui {
 
 EbookDetailWidget::EbookDetailWidget(QWidget* parent) : NovelDetailWidget(parent, false) {
-  fileSizeLabel_ = new QLabel("File Size: ", this);
+  fileSizeLabel_ = new QLabel("Dimensione File: ", this);
   leftLayout_->addWidget(fileSizeLabel_);
 
   drmLabel_ = new QLabel("DRM: ", this);
@@ -19,7 +19,7 @@ void EbookDetailWidget::setMedia(const media::Media* media) {
 
   const media::Ebook* ebook = dynamic_cast<const media::Ebook*>(media);
   if (!ebook) {
-    fileSizeLabel_->setText("File Size: ");
+    fileSizeLabel_->setText("Dimensione File: ");
     drmLabel_->setText("DRM: ");
     return;
   }
@@ -27,12 +27,12 @@ void EbookDetailWidget::setMedia(const media::Media* media) {
   qint64 fileSizeBytes = ebook->getFileSizeBytes();
   if (fileSizeBytes > 0) {
     double sizeMB = static_cast<double>(fileSizeBytes) / (1024.0 * 1024.0);
-    fileSizeLabel_->setText(QString("File Size: %1 MB").arg(sizeMB, 0, 'f', 2));
+    fileSizeLabel_->setText(QString("Dimensione File: %1 MB").arg(sizeMB, 0, 'f', 2));
   } else {
-    fileSizeLabel_->setText("File Size: ");
+    fileSizeLabel_->setText("Dimensione File: ");
   }
 
-  drmLabel_->setText(QString("DRM: %1").arg(ebook->hasDrm() ? "Yes" : "No"));
+  drmLabel_->setText(QString("DRM: %1").arg(ebook->hasDrm() ? "Sì" : "No"));
 }
 
 void EbookDetailWidget::updateTextFontSize() {
