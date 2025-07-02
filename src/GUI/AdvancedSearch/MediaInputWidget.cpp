@@ -25,7 +25,7 @@ MediaInputWidget::MediaInputWidget(QWidget *parent) : IMediaInputWidget(parent),
   language_ = new QLineEdit(this);
   language_->setMaxLength(2);
 
-  auto *favourite_label = new QLabel("PReferito:", this);
+  auto *favourite_label = new QLabel("Preferito:", this);
   favourite_ = new QCheckBox(this);
 
   auto *genre_label = new QLabel("Generi:", this);
