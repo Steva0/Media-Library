@@ -1,21 +1,5 @@
 <!DOCTYPE MediaCollection>
 <MediaList>
-  <Novel>
-    <Title>Viaggio al centro della Terra</Title>
-    <Release>1870</Release>
-    <Language>Francese</Language>
-    <Favourite/>
-    <Genres>
-      <Genre>Avventura</Genre>
-    </Genres>
-    <ImagePath>(nessuna immagine selezionata)</ImagePath>
-    <Notes>Il mio libro preferito</Notes>
-    <Author>Jules Verne</Author>
-    <Publisher>Giulio Einaudi</Publisher>
-    <Pages>177</Pages>
-    <Series>Libro Singolo</Series>
-    <ISBN>880622249X</ISBN>
-  </Novel>
   <Ebook>
     <Title>The Left Hand of Darkness</Title>
     <Release>1969</Release>
@@ -26,7 +10,6 @@
       <Genre>Politico</Genre>
       <Genre>Classico</Genre>
     </Genres>
-    <ImagePath>(nessuna immagine selezionata)</ImagePath>
     <Notes>Romanzo fondamentale della fantascienza femminista. Ambientato su Gethen, un pianeta di esseri androgini.
 </Notes>
     <Author>Ursula K. Le Guin</Author>
@@ -45,7 +28,6 @@
       <Genre>Fantasy</Genre>
       <Genre>Avventura</Genre>
     </Genres>
-    <ImagePath>(nessuna immagine selezionata)</ImagePath>
     <Notes>Versione completa narrata con accenti distinti per ogni personaggio</Notes>
     <Author>J.R.R. Rolkien</Author>
     <Publisher>HarperAudio</Publisher>
@@ -65,7 +47,6 @@
       <Genre>Thriller</Genre>
       <Genre>Fantascienza</Genre>
     </Genres>
-    <ImagePath>(nessuna immagine selezionata)</ImagePath>
     <Notes>Visione obbligatoria per passare l'esame di Reti</Notes>
     <Cast>
       <Act>Leonardo DiCaprio</Act>
@@ -83,7 +64,6 @@
       <Genre>Crime</Genre>
       <Genre>Drama</Genre>
     </Genres>
-    <ImagePath>(nessuna immagine selezionata)</ImagePath>
     <Cast>
       <Act>Bryan Craston</Act>
       <Act>Aaron Paul</Act>
@@ -102,7 +82,6 @@
       <Genre>Progressive Rock</Genre>
       <Genre>Psychedelic Rock</Genre>
     </Genres>
-    <ImagePath>(nessuna immagine selezionata)</ImagePath>
     <Band>Pynk Floyd</Band>
     <BandMembers>
       <Member>David Gilmour</Member>
@@ -125,4 +104,18 @@
       <Song>Eclipse</Song>
     </Songs>
   </Album>
+  <Novel>
+    <Title>Viaggio al centro della Terra</Title>
+    <Release>1870</Release>
+    <Language>Francese</Language>
+    <Genres>
+      <Genre>Avventura</Genre>
+    </Genres>
+    <Notes>Il mio libro preferito</Notes>
+    <Author>Jules Verne</Author>
+    <Publisher>Giulio Einaudi</Publisher>
+    <Pages>177</Pages>
+    <Series>Libro Singolo</Series>
+    <ISBN>880622249X</ISBN>
+  </Novel>
 </MediaList>

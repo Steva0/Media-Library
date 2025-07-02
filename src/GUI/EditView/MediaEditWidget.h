@@ -53,6 +53,7 @@ class MediaEditWidget : public IMediaEditWidget {
   QLabel* cover_label_;
   QPixmap cover_pixmap_;
 
+  QLabel* img_label_;
   QLineEdit* genre_input_;
   std::vector<QLineEdit*> genres_;
   QGridLayout* genres_layout_;

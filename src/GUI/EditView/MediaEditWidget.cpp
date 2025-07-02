@@ -79,8 +79,8 @@ MediaEditWidget::MediaEditWidget(QWidget* parent) : IMediaEditWidget(parent) {
   img_path_input_->setStyleSheet("font-style: italic; color: gray;");
 
   auto* img_layout = new QHBoxLayout();
-  auto* img_label = new QLabel(tr("Percorso immagine:"), this);
-  img_layout->addWidget(img_label);
+  img_label_ = new QLabel(tr("Percorso immagine:"), this);
+  img_layout->addWidget(img_label_);
   img_layout->addWidget(img_path_input_);
   img_layout->addStretch();
   main_layout_->addLayout(img_layout);
@@ -152,12 +152,26 @@ void MediaEditWidget::selectImageFile() {
                                                   tr("Immagini (*.png *.jpg *.jpeg *.bmp *.gif)"));
 
   if (!fileName.isEmpty()) {
-    img_path_ = fileName;
-    img_path_input_->setText(img_path_);
-    cover_pixmap_ = QPixmap(img_path_);
+    QPixmap test_pixmap(fileName);
+    if (!test_pixmap.isNull()) {
+      img_path_ = fileName;
+      img_path_input_->setText(img_path_);
+      img_path_input_->setStyleSheet("");
+      img_label_->setText("Percorso immagine:");
+      cover_pixmap_ = test_pixmap;
+    } else {
+      // Immagine non caricabile
+      img_path_.clear();
+      img_path_input_->setText("(nessuna immagine selezionata)");
+      img_path_input_->setStyleSheet("font-style: italic; color: gray;");
+      img_label_->setText("Percorso immagine:");
+      cover_pixmap_ = QPixmap(":/assets/matita.jpg");  // fallback
+    }
+
     updateCoverPixmap();
   }
 }
+
 
 void MediaEditWidget::updateCoverPixmap() {
   if (cover_pixmap_.isNull()) {
@@ -186,10 +200,11 @@ void MediaEditWidget::setMedia(const media::Media* media) {
     favourite_checkbox_->setChecked(false);
     notes_input_->clear();
     clearGenres();
-    
+
     img_path_.clear();
-    img_path_input_->setText("(nessuna immagine selezionata)");
-    img_path_input_->setStyleSheet("font-style: italic; color: gray;");
+    img_path_input_->clear();  // Nessun testo indicato
+    img_path_input_->setStyleSheet("");
+    img_label_->setText("Percorso immagine:");
 
     cover_pixmap_ = QPixmap(":/assets/matita.jpg");  // immagine di default
     updateCoverPixmap();
@@ -198,7 +213,7 @@ void MediaEditWidget::setMedia(const media::Media* media) {
     return;
   }
 
-  // Se media valido, come prima
+  // Se media valido
   old_media_ = media;
 
   title_input_->setText(QString::fromStdString(media->getTitle()));
@@ -206,17 +221,23 @@ void MediaEditWidget::setMedia(const media::Media* media) {
   language_input_->setText(QString::fromStdString(media->getLanguage()));
   favourite_checkbox_->setChecked(media->isFavourite());
 
-  img_path_ = QString::fromStdString(media->getImgPath());
-  img_path_input_->setText(img_path_);
-  img_path_input_->setStyleSheet("");
+  const QString img_path = QString::fromStdString(media->getImgPath());
+  QPixmap test_pixmap(img_path);
 
-  cover_pixmap_ = QPixmap(img_path_);
-  if (img_path_.isEmpty() || cover_pixmap_.isNull()) {
-    img_path_input_->setText("(nessuna immagine selezionata)");
-    img_path_input_->setStyleSheet("font-style: italic; color: gray;");
-    cover_pixmap_ = QPixmap(":/assets/matita.jpg");  // immagine di default
+  if (!img_path.isEmpty() && !test_pixmap.isNull()) {
+    img_path_ = img_path;
+    img_path_input_->setText(img_path_);
+    img_path_input_->setStyleSheet("");
+    cover_pixmap_ = test_pixmap;
+    img_label_->setText("Percorso immagine:");
+  } else {
+    img_path_.clear();  // Consideriamo il path non valido
+    img_path_input_->clear();  // Nessuna dicitura "nessuna immagine selezionata"
+    img_path_input_->setStyleSheet("");
+    cover_pixmap_ = QPixmap(":/assets/matita.jpg");
+    img_label_->setText("Percorso immagine: (nessuna immagine selezionata)");
   }
-
+ 
   updateCoverPixmap();
 
   notes_input_->setText(QString::fromStdString(media->getNotes()));
@@ -321,7 +342,7 @@ void MediaEditWidget::clearInputFields() {
   clearGenres();
   
   img_path_.clear();
-  img_path_input_->setText("(nessuna immagine selezionata)");
+  img_label_->setText("Percorso immagine: (nessuna immagine selezionata)");
   img_path_input_->setStyleSheet("font-style: italic; color: gray;");
   
   cover_pixmap_ = QPixmap(":/assets/matita.jpg");  // immagine di default
