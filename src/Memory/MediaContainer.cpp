@@ -8,36 +8,108 @@ const std::array<std::string, static_cast<size_t>(MediaContainer::Type::TypeCoun
 std::string MediaContainer::typeToString(Type type) { return kTypeStrings[static_cast<size_t>(type)]; }
 std::string MediaContainer::typeToString(size_t type) { return kTypeStrings[type]; }
 
+MediaContainer::MediaOpVisitor::MediaOpVisitor(MediaContainer *container, Operation op)
+    : container_(container), const_container_(container), operation_(op) {}
+
+MediaContainer::MediaOpVisitor::MediaOpVisitor(const MediaContainer *container, Operation op)
+    : container_(nullptr), const_container_(container), operation_(op) {}
+
+void MediaContainer::MediaOpVisitor::appendGroup(Type t) {
+  for (const auto& ptr : const_container_->data_[static_cast<int>(t)]) {
+    if (!ptr->getTitle().empty()) {  // Ignora media senza titolo
+      groups_.push_back(ptr.get());
+    }
+  }
+}
+
+void MediaContainer::MediaOpVisitor::visit(const media::Media&) {
+  switch (operation_) {
+    case Operation::kGetGroups:
+      for (size_t i = 1; i < static_cast<size_t>(Type::TypeCount); ++i) {
+        appendGroup(static_cast<Type>(i));
+      }
+      break;
+    default: break;
+  }
+}
+void MediaContainer::MediaOpVisitor::visit(const media::Album& album) {
+  switch (operation_) {
+    case Operation::kAddMedia:
+      container_->removeMedia(album);
+      container_->data_[static_cast<int>(Type::Album)].push_back(album.makePtr());
+      break;
+
+    case Operation::kGetGroups:
+      appendGroup(Type::Album);
+      break;
+  }
+}
+void MediaContainer::MediaOpVisitor::visit(const media::Novel& novel) {
+  switch (operation_) {
+    case Operation::kAddMedia:
+      container_->removeMedia(novel);
+      container_->data_[static_cast<int>(Type::Novel)].push_back(novel.makePtr());
+      break;
+      
+    case Operation::kGetGroups:
+      appendGroup(Type::Novel);
+      appendGroup(Type::Movie);
+      appendGroup(Type::Series);
+      break;
+  }
+}
+void MediaContainer::MediaOpVisitor::visit(const media::AudioBook& audiobook) {
+  switch (operation_) {
+    case Operation::kAddMedia:
+      container_->removeMedia(audiobook);
+      container_->data_[static_cast<int>(Type::AudioBook)].push_back(audiobook.makePtr());
+      break;
+      
+    case Operation::kGetGroups:
+      appendGroup(Type::AudioBook);
+      break;
+  }
+}
+void MediaContainer::MediaOpVisitor::visit(const media::Ebook& ebook) {
+  switch (operation_) {
+    case Operation::kAddMedia:
+      container_->removeMedia(ebook);
+      container_->data_[static_cast<int>(Type::Ebook)].push_back(ebook.makePtr());
+      break;
+      
+    case Operation::kGetGroups:
+      appendGroup(Type::Ebook);
+      break;
+  }
+}
+void MediaContainer::MediaOpVisitor::visit(const media::Movie& movie) {
+  switch (operation_) {
+    case Operation::kAddMedia:
+      container_->removeMedia(movie);
+      container_->data_[static_cast<int>(Type::Movie)].push_back(movie.makePtr());
+      break;
+      
+    case Operation::kGetGroups:
+      appendGroup(Type::Movie);
+      appendGroup(Type::Series);
+      break;
+  }
+}
+void MediaContainer::MediaOpVisitor::visit(const media::Series& series) {
+  switch (operation_) {
+    case Operation::kAddMedia:
+      container_->removeMedia(series);
+      container_->data_[static_cast<int>(Type::Series)].push_back(series.makePtr());
+      break;
+      
+    case Operation::kGetGroups:
+      appendGroup(Type::Series);
+      break;
+  }
+}
 void MediaContainer::addMedia(const media::Media& media) {
-  Type t = detectType(media);
-  if (t == Type::All) {
-    return;
-  }
-
-  // Rimuove eventuali duplicati prima di inserire
-  removeMedia(media);
-
-  // Inserisce una copia in "All"
-  data_[static_cast<int>(Type::All)].push_back(media.makePtr());
-
-  // Inserisce una copia nel tipo specifico
-  data_[static_cast<int>(t)].push_back(media.makePtr());
-}
-
-void MediaContainer::addMedia(const std::vector<media::Media>& listaMedia) {
-  for (const auto& media : listaMedia) {
-    addMedia(media);
-  }
-}
-
-MediaContainer::Type MediaContainer::detectType(const media::Media& media) const {
-  if (dynamic_cast<const media::Series*>(&media)) return Type::Series;
-  if (dynamic_cast<const media::AudioBook*>(&media)) return Type::AudioBook;
-  if (dynamic_cast<const media::Ebook*>(&media)) return Type::Ebook;
-  if (dynamic_cast<const media::Movie*>(&media)) return Type::Movie;
-  if (dynamic_cast<const media::Album*>(&media)) return Type::Album;
-  if (dynamic_cast<const media::Novel*>(&media)) return Type::Novel;
-  return Type::All;
+  MediaOpVisitor v(this, MediaOpVisitor::Operation::kAddMedia);
+  media.accept(v);
 }
 
 void MediaContainer::removeMedia(const media::Media& media) {
@@ -56,7 +128,11 @@ void MediaContainer::clear() {
   }
 }
 
-std::vector<const media::Media*> MediaContainer::getAll() const { return getByType(Type::All); }
+std::vector<const media::Media*> MediaContainer::getAll() const {
+  MediaOpVisitor v(this);
+  media::Media{}.accept(v);
+  return v.getGroups();
+}
 
 std::vector<const media::Media*> MediaContainer::getByType(Type type) const {
   std::vector<const media::Media*> result;
@@ -102,9 +178,11 @@ std::vector<const media::Media*> MediaContainer::getByGroup(Type type) const {
 
 std::vector<const media::Media*> MediaContainer::filter(const media::Media& media) const {
   std::vector<const media::Media*> results;
-  Type t = detectType(media);
+  // Type t = detectType(media);
+  MediaOpVisitor v(this, MediaOpVisitor::Operation::kGetGroups); // la pigrizia impera
+  media.accept(v);
 
-  for (const media::Media* m : getByGroup(t)) {
+  for (const media::Media* m : v.getGroups()) {
     if (!m->getTitle().empty() && media.filter(*m)) {  // Ignora media senza titolo
       results.push_back(m);
     }
