@@ -29,9 +29,13 @@ const std::string& AudioBook::getNarrator() const { return narrator_; }
 
 const std::string& AudioBook::getStreamingService() const { return streamingService_; }
 
+int AudioBook::getDuration() const { return getPages(); }
+
 void AudioBook::setNarrator(const std::string& narrator) { narrator_ = narrator; }
 
 void AudioBook::setStreamingService(const std::string& service) { streamingService_ = service; }
+
+void AudioBook::setDuration(int duration) { setPages(duration); }
 
 bool AudioBook::filter(const Media& input) const {
   if (!Novel::filter(input)) return false;

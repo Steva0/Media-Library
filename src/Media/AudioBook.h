@@ -24,9 +24,11 @@ class AudioBook : public Novel {
   bool operator==(const Media&) const override;
   const std::string& getNarrator() const;
   const std::string& getStreamingService() const;
+  int getDuration() const;
 
   void setNarrator(const std::string& narrator);
   void setStreamingService(const std::string& service);
+  void setDuration(int);
 
   std::unique_ptr<Media> makePtr() const override;
   std::string displayType() const override;
