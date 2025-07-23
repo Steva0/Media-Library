@@ -31,6 +31,7 @@ std::vector<const media::Media*> MediaContainer::filter(const media::Media& medi
       results.push_back(m->makePtr().release());
     }
   }
+  std::cout << "#results = " << results.size() << '\n';
   return results;
 }
 

@@ -3,6 +3,7 @@
 
 #include "./GUI/MainWindow.h"
 #include "./Memory/Database.h"
+// questa versione porta a leak
 
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
