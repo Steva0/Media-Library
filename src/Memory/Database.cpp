@@ -1,5 +1,3 @@
-#include "Database.h"
-
 #include <QDomDocument>
 #include <QDomElement>
 #include <QDomNodeList>
@@ -18,6 +16,7 @@
 #include "../Media/Movie.h"
 #include "../Media/Novel.h"
 #include "../Media/Series.h"
+#include "Database.h"
 #include "Serializer.h"
 
 namespace memory {
