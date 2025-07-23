@@ -45,6 +45,10 @@ SelectedEdit::SelectedEdit(QWidget *parent)
   confirm_ = new QPushButton("Conferma", this);
   delete_ = new QPushButton("Elimina", this);
 
+  delete_->setProperty("rosso", true);
+  confirm_->setProperty("verde", true);
+  
+
   auto *layout = new QGridLayout(this);
   layout->addLayout(edit_layout, 0, 0, Qt::AlignTop | Qt::AlignLeft);
   layout->addWidget(delete_, 0, 1, Qt::AlignTop | Qt::AlignRight);

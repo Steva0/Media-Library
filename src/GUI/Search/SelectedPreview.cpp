@@ -16,6 +16,8 @@ SelectedPreview::SelectedPreview(QWidget *parent)
   fast_edit_button_->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
   delete_button_->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
+  delete_button_->setProperty("rosso", true);
+
   auto *buttons_layout = new QVBoxLayout(buttons_);
   buttons_layout->setAlignment(Qt::AlignRight);
   buttons_layout->addWidget(edit_button_);

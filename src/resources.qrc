@@ -3,5 +3,6 @@
     <file>assets/folder.jpeg</file>
     <file>assets/matita.jpg</file>
     <file>assets/Libreria.ico</file>
+    <file>assets/style.qss</file>
 </qresource>
 </RCC>

@@ -8,7 +8,10 @@
 
 namespace gui {
 
-ClickableFrame::ClickableFrame(QWidget* parent) : QFrame(parent) { setAttribute(Qt::WA_Hover); }
+ClickableFrame::ClickableFrame(QWidget* parent) : QFrame(parent) { 
+  setAttribute(Qt::WA_Hover); 
+ setProperty("clickable", true);
+ }
 
 void ClickableFrame::mouseDoubleClickEvent(QMouseEvent* event) {
   emit doubleClicked();

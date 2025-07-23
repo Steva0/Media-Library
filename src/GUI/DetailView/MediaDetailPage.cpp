@@ -26,6 +26,8 @@ MediaDetailPage::MediaDetailPage(QWidget* parent) : QWidget(parent) {
   editButton_ = new QPushButton("Modifica", this);
   removeButton_ = new QPushButton("Elimina", this);
 
+  removeButton_->setProperty("rosso", true);
+
   bottomBarLayout->addWidget(editButton_, 0, Qt::AlignLeft);
   bottomBarLayout->addStretch();
   bottomBarLayout->addWidget(removeButton_, 0, Qt::AlignRight);

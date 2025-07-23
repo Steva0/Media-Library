@@ -1,0 +1,97 @@
+/* Font e sfondo globale */
+* {
+    font-family: "Helvetica", "Calibri", "monospace";
+    color: #003366;
+    background-color: #F5FBFF;  /* azzurro chiaro ovunque */
+}
+
+/* Pulsanti generici */
+QPushButton {
+    background-color: #E0F2FF;  /* stesso tono base */
+    border: 1px solid #A0C8E0;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+QPushButton:hover {
+    background-color: #B0DAF5;  /* leggermente più scuro */
+    border: 1px solid #5DADE2;
+}
+
+/* Pulsanti verdi personalizzati */
+QPushButton[verde="true"] {
+    background-color: #A9DFBF;  /* verdino pastello */
+    color: #145A32;
+    border: 1px solid #58D68D;
+}
+
+QPushButton[verde="true"]:hover {
+    background-color: #7DCEA0;
+    border: 1px solid #27AE60;
+}
+
+/* Pulsanti rossi personalizzati */
+QPushButton[rosso="true"] {
+    background-color: #F5B7B1;  /* rosso pastello */
+    color: #78281F;
+    border: 1px solid #EC7063;
+}
+
+QPushButton[rosso="true"]:hover {
+    background-color: #F1948A;  /* più scuro al passaggio */
+    border: 1px solid #CB4335;
+}
+
+/* Pulsante per eliminazione */
+QPushButton#delete-button {
+    background-color: #E74C3C;
+    color: white;
+    border: none;
+}
+
+QPushButton#delete-button:hover {
+    background-color: #F1948A;
+}
+
+/* Titoli */
+QLabel#title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #154360;
+}
+
+/* Nome contenuto */
+QLabel#name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #154360;
+}
+
+/* Informazioni secondarie */
+QLabel#sku,
+QLabel#count {
+    color: #5D6D7E;
+}
+
+QLabel#availability {
+    font-style: italic;
+    color: #2874A6;
+}
+
+/* Tutti i QFrame con stesso sfondo della finestra */
+QFrame {
+    background-color: #F5FBFF;
+}
+
+/* ClickableFrame personalizzato: stessi colori, effetto hover */
+QFrame[clickable="true"] {
+    border: 1px solid #A9CCE3;
+    border-radius: 0px;
+    padding: 6px;
+}
+
+/* Hover: più scuro */
+QFrame[clickable="true"]:hover {
+    background-color: #D0E6F5;
+    border: 1px solid #5DADE2;
+}

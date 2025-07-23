@@ -55,6 +55,9 @@ void MediaEditPage::setupUi() {
   auto* confirm_button = new QPushButton("Conferma", this);
   auto* delete_button = new QPushButton("Elimina", this);
 
+  delete_button->setProperty("rosso", true);
+  confirm_button->setProperty("verde", true);
+
   connect(confirm_button, &QPushButton::clicked, this, &MediaEditPage::onConfirm);
   connect(delete_button, &QPushButton::clicked, this, &MediaEditPage::onDelete);
 
