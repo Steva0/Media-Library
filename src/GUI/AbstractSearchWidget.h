@@ -6,11 +6,11 @@
 namespace gui {
 class AbstractSearchWidget : public QWidget {
   Q_OBJECT
-public:
- explicit AbstractSearchWidget(QWidget *parent = nullptr) : QWidget(parent) {}
-signals:
- void requestResults(const media::Media &);
- void updateResults(const std::vector<const media::Media *> &results);
+ public:
+  explicit AbstractSearchWidget(QWidget *parent = nullptr) : QWidget(parent) {}
+ signals:
+  void requestResults(const media::Media &);
+  void updateResults(const std::vector<const media::Media *> &results);
 };
 }  // namespace gui
 
