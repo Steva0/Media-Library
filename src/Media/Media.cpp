@@ -1,9 +1,10 @@
-#include "Media.h"
-
 #include <cctype>
 #include <limits>
 
+#include "Media.h"
+
 namespace media {
+int Media::debug_count_ = 0;
 Media::Media(const std::string &title, int release, const std::string &language, bool favourite,
              const std::vector<std::string> &genres, const std::string &img_path, const std::string &notes)
     : title_(title),
@@ -12,7 +13,10 @@ Media::Media(const std::string &title, int release, const std::string &language,
       favourite_(favourite),
       genres_(genres),
       img_path_(img_path),
-      notes_(notes) {}
+      notes_(notes) {
+  debug_count_++;
+  std::cout << "(" << debug_count_ << ") Media(): " << title << std::endl;
+}
 
 void Media::accept(IConstMediaVisitor &v) const { v.visit(*this); }
 
