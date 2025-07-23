@@ -178,8 +178,7 @@ std::vector<const media::Media*> MediaContainer::getByGroup(Type type) const {
 
 std::vector<const media::Media*> MediaContainer::filter(const media::Media& media) const {
   std::vector<const media::Media*> results;
-  // Type t = detectType(media);
-  MediaOpVisitor v(this, MediaOpVisitor::Operation::kGetGroups); // la pigrizia impera
+  MediaOpVisitor v(this, MediaOpVisitor::Operation::kGetGroups);
   media.accept(v);
 
   for (const media::Media* m : v.getGroups()) {

@@ -54,7 +54,6 @@ bool Novel::filter(const Media& input) const {
   const Novel* novelPtr = dynamic_cast<const Novel*>(&input);
   if (!novelPtr) return false;
 
-  // Match fields
   // Autore
   if (!author_.empty() && !stringContainsIgnoreCase(novelPtr->getAuthor(), author_)) return false;
 
