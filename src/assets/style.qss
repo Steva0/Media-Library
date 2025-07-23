@@ -2,12 +2,12 @@
 * {
     font-family: "Helvetica", "Calibri", "monospace";
     color: #003366;
-    background-color: #F5FBFF;  /* azzurro chiaro ovunque */
+    background-color: #E8F4FA;  /* azzurro chiaro leggermente più scuro */
 }
 
 /* Pulsanti generici */
 QPushButton {
-    background-color: #E0F2FF;  /* stesso tono base */
+    background-color: #CDE9F6;  /* più scuro dello sfondo */
     border: 1px solid #A0C8E0;
     border-radius: 6px;
     padding: 4px 8px;
@@ -20,7 +20,7 @@ QPushButton:hover {
 
 /* Pulsanti verdi personalizzati */
 QPushButton[verde="true"] {
-    background-color: #A9DFBF;  /* verdino pastello */
+    background-color: #A9DFBF;
     color: #145A32;
     border: 1px solid #58D68D;
 }
@@ -32,13 +32,13 @@ QPushButton[verde="true"]:hover {
 
 /* Pulsanti rossi personalizzati */
 QPushButton[rosso="true"] {
-    background-color: #F5B7B1;  /* rosso pastello */
+    background-color: #F5B7B1;
     color: #78281F;
     border: 1px solid #EC7063;
 }
 
 QPushButton[rosso="true"]:hover {
-    background-color: #F1948A;  /* più scuro al passaggio */
+    background-color: #F1948A;
     border: 1px solid #CB4335;
 }
 
@@ -80,7 +80,7 @@ QLabel#availability {
 
 /* Tutti i QFrame con stesso sfondo della finestra */
 QFrame {
-    background-color: #F5FBFF;
+    background-color: #E8F4FA;
 }
 
 /* ClickableFrame personalizzato: stessi colori, effetto hover */
