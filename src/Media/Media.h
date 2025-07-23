@@ -46,8 +46,6 @@ class Media : IMedia {
   void accept(IConstMediaVisitor &) const override;
   bool open() override;
 
-  // Possiamo scegliere noi se utilizzare un riferimento costante o fare una copia
-  // Fare attenzione a vita delle variabili
   const std::string &getTitle() const;
   int getRelease() const;
   const std::string &getLanguage() const;

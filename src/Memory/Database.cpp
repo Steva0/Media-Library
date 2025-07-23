@@ -30,7 +30,7 @@ Database::Database(const QString& path) { open(path); }
 bool Database::open(const QString& path) {
   QFile file(path);
   if (!file.exists()) {
-    // Create an empty file if it doesn't exist
+    // Crea un file vuoto se non esiste
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
       return false;
     }
@@ -41,7 +41,7 @@ bool Database::open(const QString& path) {
 
   media_container_.clear();
 
-  // Deserialize only if file is not empty
+  // Deserialize solo se non vuoto
   if (file.size() > 0) {
     const QString fileName = file.fileName().toLower();
     fileName.endsWith(".json") ? fromJson(file) : fromXml(file);
