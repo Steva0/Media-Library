@@ -166,3 +166,17 @@ QSpinBox:disabled {
     color: #5A6E7A;
     border: 1px solid #7A9BAF;
 }
+
+/* Stato premuto (momentaneo) */
+QPushButton:pressed {
+    background-color: #A9D0E7;  /* più scuro */
+    border: 1px solid #3498DB;
+}
+
+/* Stato selezionato (solo se setCheckable(true)) */
+QPushButton:checked {
+    background-color: #A9D0E7;
+    border: 1px solid #3498DB;
+}
+
+
