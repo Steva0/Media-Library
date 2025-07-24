@@ -72,7 +72,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   auto *close_db = new QAction("Chiudi", this);
   auto *save_db = new QAction("Salva", this);
 
-  menu_ = menuBar()->addMenu("&Database");
+  menu_ = menuBar()->addMenu("&File");
 
   menu_->addAction(save_db);
   menu_->addAction(new_db);
