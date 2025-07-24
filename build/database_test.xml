@@ -22,15 +22,7 @@
       <Genre>Progressive Rock</Genre>
       <Genre>Psychedelic Rock</Genre>
     </Genres>
-    <Band>Pynk Floyd</Band>
-    <BandMembers>
-      <Member>David Gilmour</Member>
-      <Member>Roger Waters</Member>
-      <Member>Syd Barret</Member>
-      <Member>Richard Wright</Member>
-      <Member>Nick Mason</Member>
-      <Member>Bob Klose</Member>
-    </BandMembers>
+    <Band>Pink Floyd</Band>
     <Songs>
       <Song>Speack to Me</Song>
       <Song>Breathe</Song>
