@@ -179,4 +179,20 @@ QPushButton:checked {
     border: 1px solid #3498DB;
 }
 
+QComboBox QAbstractItemView {
+    background-color: white;       /* sfondo bianco del menu */
+    border: 1px solid #A0C8E0;
+    selection-background-color: #AED6F1;  /* azzurro per l'hover */
+    selection-color: #003366;              /* testo blu scuro selezionato */
+}
+
+QComboBox QAbstractItemView::item {
+    background-color: white;   /* voce normale bianca */
+    color: #003366;
+}
+
+QComboBox QAbstractItemView::item:hover {
+    background-color: #AED6F1;  /* azzurro su hover */
+    color: #003366;
+}
 
