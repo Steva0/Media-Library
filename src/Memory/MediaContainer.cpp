@@ -28,10 +28,9 @@ std::vector<const media::Media*> MediaContainer::filter(const media::Media& medi
 
   for (const auto& m : data_) {
     if (!m->getTitle().empty() && media.filter(*m)) {  // Ignora media senza titolo
-      results.push_back(m->makePtr().release());
+      results.push_back(m.get());
     }
   }
-  std::cout << "#results = " << results.size() << '\n';
   return results;
 }
 
@@ -51,7 +50,7 @@ std::vector<const media::Media*> MediaContainer::getAll() const {
   clone.reserve(data_.size());
 
   for (const auto& m : data_) {
-    clone.push_back(m->makePtr().release());
+    clone.push_back(m.get());
   }
   return clone;
 }
