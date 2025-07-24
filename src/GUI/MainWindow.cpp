@@ -227,11 +227,14 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
   simple_search_widget_->updateResults(database_.filter(media::Media(last_simple_search_query_.toStdString())));
 }
 
-void MainWindow::onAddMedia(media::Media *newMedia) {
+void MainWindow::onAddMedia(const media::Media *newMedia) {
   if (!newMedia) return;
 
   // Aggiungi il nuovo media al database
-  database_.addMedia(*newMedia);
+  const media::Media *aux = newMedia;
+  newMedia = database_.addMedia(*newMedia);
+  delete aux;
+
   status_bar_->showMessage("Aggiunto media: " + QString::fromStdString(newMedia->getTitle()));
   changes_were_made_ = true;
 

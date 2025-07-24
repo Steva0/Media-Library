@@ -8,9 +8,10 @@ const std::array<std::string, static_cast<size_t>(Database::Type::TypeCount)> Da
 std::string Database::typeToString(Type type) { return kTypeStrings[static_cast<size_t>(type)]; }
 std::string Database::typeToString(size_t type) { return kTypeStrings[type]; }
 
-void Database::addMedia(const media::Media& media) {
+const media::Media* Database::addMedia(const media::Media& media) {
   removeMedia(media);
   data_.push_back(media.makePtr());
+  return data_[data_.size() - 1].get();
 }
 
 void Database::removeMedia(const media::Media& media) {

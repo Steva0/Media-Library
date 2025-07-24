@@ -9,11 +9,11 @@
 
 #include "../Memory/Database.h"
 #include "./Search/SearchMain.h"
+#include "AddMediaView/AddMediaViewPage.h"
 #include "AdvancedSearch/MainWidget.h"
 #include "DatabaseSelectionWidget.h"
 #include "DetailView/MediaDetailPage.h"
 #include "EditView/MediaEditPage.h"
-#include "AddMediaView/AddMediaViewPage.h"
 #include "SlidingStackedWidget.h"
 
 namespace gui {
@@ -68,11 +68,11 @@ class MainWindow : public QMainWindow {
                        const media::Media *oldMedia);  // Da collegare Signal di MediaEditPage a questo dentro il
                                                        // costruttore di MainWindow
 
-  void onAddMedia(media::Media *newMedia);
+  void onAddMedia(const media::Media *newMedia);
   void navigateTo(QWidget *next_page);
 
  protected:
   void closeEvent(QCloseEvent *event) override;
- };
+};
 }  // namespace gui
 #endif

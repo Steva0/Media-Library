@@ -21,7 +21,7 @@ class Database {
   static std::string typeToString(size_t);
   static const std::array<std::string, static_cast<size_t>(Type::TypeCount)> kTypeStrings;
 
-  void addMedia(const media::Media &);
+  const media::Media *addMedia(const media::Media &);
   void removeMedia(const media::Media &media);
   void clear();
 
