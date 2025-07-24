@@ -95,3 +95,20 @@ QFrame[clickable="true"]:hover {
     background-color: #D0E6F5;
     border: 1px solid #5DADE2;
 }
+
+/* QLineEdit normale*/
+QLineEdit {
+    background-color: white;
+    border: 1px solid #A0C8E0;
+    border-radius: 4px;
+    padding: 2px 6px;
+}
+
+/* QLineEdit disattivata */
+QLineEdit:disabled {
+    background-color: #E0E0E0;  /* grigino chiaro */
+    color: #888888;
+    border: 1px solid #CCCCCC;
+}
+
+

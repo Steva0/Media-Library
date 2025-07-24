@@ -1,5 +1,68 @@
 <!DOCTYPE MediaCollection>
 <MediaList>
+  <Novel>
+    <Title>Viaggio al centro della Terra</Title>
+    <Release>1870</Release>
+    <Language>Francese</Language>
+    <Genres>
+      <Genre>Avventura</Genre>
+    </Genres>
+    <Notes>Il mio libro preferito</Notes>
+    <Author>Jules Verne</Author>
+    <Publisher>Giulio Einaudi</Publisher>
+    <Pages>177</Pages>
+    <Series>Libro Singolo</Series>
+    <ISBN>880622249X</ISBN>
+  </Novel>
+  <Album>
+    <Title>The Dark Side of the Moon</Title>
+    <Release>1973</Release>
+    <Language>Inglese</Language>
+    <Genres>
+      <Genre>Progressive Rock</Genre>
+      <Genre>Psychedelic Rock</Genre>
+    </Genres>
+    <Band>Pynk Floyd</Band>
+    <BandMembers>
+      <Member>David Gilmour</Member>
+      <Member>Roger Waters</Member>
+      <Member>Syd Barret</Member>
+      <Member>Richard Wright</Member>
+      <Member>Nick Mason</Member>
+      <Member>Bob Klose</Member>
+    </BandMembers>
+    <Songs>
+      <Song>Speack to Me</Song>
+      <Song>Breathe</Song>
+      <Song>On the Run</Song>
+      <Song>Time</Song>
+      <Song>The Great Gig in the Sky</Song>
+      <Song>Money</Song>
+      <Song>Us and Them</Song>
+      <Song>Any Colour You Like</Song>
+      <Song>Brain Damage</Song>
+      <Song>Eclipse</Song>
+    </Songs>
+  </Album>
+  <Movie>
+    <Title>Inception</Title>
+    <Release>2010</Release>
+    <Language>Inglese</Language>
+    <Favourite/>
+    <Genres>
+      <Genre>Azione</Genre>
+      <Genre>Thriller</Genre>
+      <Genre>Fantascienza</Genre>
+    </Genres>
+    <Notes>Visione obbligatoria per passare l'esame di Reti</Notes>
+    <Cast>
+      <Act>Leonardo DiCaprio</Act>
+      <Act>Joseph Gordon-Levitt</Act>
+      <Act>Ellen Page</Act>
+    </Cast>
+    <Length>148</Length>
+    <Universe>Pianeta terra</Universe>
+  </Movie>
   <Ebook>
     <Title>The Left Hand of Darkness</Title>
     <Release>1969</Release>
@@ -37,25 +100,6 @@
     <Narrator>Rob Inglis</Narrator>
     <Service>AudioStream</Service>
   </AudioBook>
-  <Movie>
-    <Title>Inception</Title>
-    <Release>2010</Release>
-    <Language>Inglese</Language>
-    <Favourite/>
-    <Genres>
-      <Genre>Azione</Genre>
-      <Genre>Thriller</Genre>
-      <Genre>Fantascienza</Genre>
-    </Genres>
-    <Notes>Visione obbligatoria per passare l'esame di Reti</Notes>
-    <Cast>
-      <Act>Leonardo DiCaprio</Act>
-      <Act>Joseph Gordon-Levitt</Act>
-      <Act>Ellen Page</Act>
-    </Cast>
-    <Length>148</Length>
-    <Universe>Pianeta terra</Universe>
-  </Movie>
   <Series>
     <Title>Breaking Bad</Title>
     <Release>2008</Release>
@@ -74,48 +118,4 @@
     <Seasons>5</Seasons>
     <Ended/>
   </Series>
-  <Album>
-    <Title>The Dark Side of the Moon</Title>
-    <Release>1973</Release>
-    <Language>Inglese</Language>
-    <Genres>
-      <Genre>Progressive Rock</Genre>
-      <Genre>Psychedelic Rock</Genre>
-    </Genres>
-    <Band>Pynk Floyd</Band>
-    <BandMembers>
-      <Member>David Gilmour</Member>
-      <Member>Roger Waters</Member>
-      <Member>Syd Barret</Member>
-      <Member>Richard Wright</Member>
-      <Member>Nick Mason</Member>
-      <Member>Bob Klose</Member>
-    </BandMembers>
-    <Songs>
-      <Song>Speack to Me</Song>
-      <Song>Breathe</Song>
-      <Song>On the Run</Song>
-      <Song>Time</Song>
-      <Song>The Great Gig in the Sky</Song>
-      <Song>Money</Song>
-      <Song>Us and Them</Song>
-      <Song>Any Colour You Like</Song>
-      <Song>Brain Damage</Song>
-      <Song>Eclipse</Song>
-    </Songs>
-  </Album>
-  <Novel>
-    <Title>Viaggio al centro della Terra</Title>
-    <Release>1870</Release>
-    <Language>Francese</Language>
-    <Genres>
-      <Genre>Avventura</Genre>
-    </Genres>
-    <Notes>Il mio libro preferito</Notes>
-    <Author>Jules Verne</Author>
-    <Publisher>Giulio Einaudi</Publisher>
-    <Pages>177</Pages>
-    <Series>Libro Singolo</Series>
-    <ISBN>880622249X</ISBN>
-  </Novel>
 </MediaList>
