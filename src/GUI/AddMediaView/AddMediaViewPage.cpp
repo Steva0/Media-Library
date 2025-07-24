@@ -193,13 +193,30 @@ QWidget* AddMediaViewPage::createButtonsWidget(QWidget* parent) {
   auto* buttons_layout = new QHBoxLayout(buttons_container);
   buttons_layout->setContentsMargins(0, 0, 0, 0);
   buttons_layout->setSpacing(5);
-
   const QStringList labels = {
     "Libro", "EBook", "Audiobook", "Film", "Serie", "Album"
   };
+
+  // Salva i puntatori ai pulsanti per gestire lo stato checked
+  static QVector<QPushButton*> media_type_buttons;
+
+  // Pulisci il vettore se già popolato (per evitare duplicati in più istanze)
+  media_type_buttons.clear();
+
   for (int i = 0; i < labels.size(); ++i) {
     auto* button = new QPushButton(labels[i], buttons_container);
-    connect(button, &QPushButton::clicked, this, [this, i]() { selectMediaType(i); });
+    button->setCheckable(true);
+    media_type_buttons.append(button);
+
+    connect(button, &QPushButton::clicked, this, [this, i, button]() {
+      // Deseleziona tutti gli altri pulsanti
+      for (auto* btn : media_type_buttons) {
+        if (btn != button) btn->setChecked(false);
+      }
+      button->setChecked(true);
+      selectMediaType(i);
+    });
+
     buttons_layout->addWidget(button);
   }
 
