@@ -13,6 +13,7 @@ class Ebook;
 
 class IConstMediaVisitor {
  public:
+  virtual ~IConstMediaVisitor() = default;
   virtual void visit(const Media &) = 0;
   virtual void visit(const Album &) = 0;
   virtual void visit(const Movie &) = 0;

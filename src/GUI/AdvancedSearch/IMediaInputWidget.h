@@ -11,7 +11,6 @@ class IMediaInputWidget : public QWidget {
   Q_OBJECT
  public:
   explicit IMediaInputWidget(QWidget *parent = nullptr) : QWidget(parent) {}
-  ~IMediaInputWidget() override = default;
 
   virtual void setFromMedia(const media::Media &) = 0;
   virtual void makeFilterFor(InputWidget &) const = 0;

@@ -4,7 +4,7 @@
 #include <QPushButton>
 #include <QWidget>
 
-#include "../../Memory/MediaContainer.h"
+#include "../../Memory/Database.h"
 
 namespace gui {
 namespace advanced_search {
@@ -13,7 +13,7 @@ class TypeSelector : public QWidget {
 
  private:
   QButtonGroup *container_;
-  std::array<QPushButton *, static_cast<size_t>(memory::MediaContainer::Type::TypeCount)> types_;
+  std::array<QPushButton *, static_cast<size_t>(memory::Database::Type::TypeCount)> types_;
 
  public:
   explicit TypeSelector(QWidget *parent = nullptr);

@@ -1,47 +1,44 @@
 #ifndef MEMORY_DATABASE_H
 #define MEMORY_DATABASE_H
 
-#include <QString>
+#include <QFile>
+#include <array>
 #include <memory>
 #include <vector>
 
-#include "./MediaContainer.h"
-
-class QFile;
-
-namespace media {
-class Media;
-}
+#include "../Media/Media.h"
+#include "FileManager.h"
+#include "Serializer.h"
 
 namespace memory {
-
 class Database {
- private:
-  MediaContainer media_container_;
-  QString file_path_;
-
-  void fromJson(QFile& file);
-  void fromXml(QFile& file);
+  friend class MediaTypeVisitor;
 
  public:
-  Database() = default;
-  explicit Database(const QString& path);
-  ~Database();
+  enum class Type { All = 0, Novel, Album, Movie, Ebook, AudioBook, Series, TypeCount };
 
-  bool open(const QString& path);
-  bool close(bool save);  // salva se `save == true`
-  bool save(const QString& path = QString());
+  static std::string typeToString(Type);
+  static std::string typeToString(size_t);
+  static const std::array<std::string, static_cast<size_t>(Type::TypeCount)> kTypeStrings;
 
-  void addMedia(const media::Media& media);
-  void removeMedia(const media::Media& media);
+  void addMedia(const media::Media &);
+  void removeMedia(const media::Media &media);
   void clear();
 
-  std::vector<const media::Media*> getAll() const;
-  std::vector<const media::Media*> filterMedia(const media::Media& filter) const;
+  void open(const QString &path);
+  void save();
+  void close(bool changes);
 
-  static const std::array<std::string, 2> kAcceptedExtensions;
+  std::vector<const media::Media *> filter(const media::Media &media) const;
+  std::vector<const media::Media *> getAll() const;
+
+ private:
+  int serializeAll(QFile &file) const;
+
+  FileManager file_manager_;
+  std::vector<std::unique_ptr<media::Media>> data_;
 };
 
 }  // namespace memory
 
-#endif  // MEMORY_DATABASE_H
+#endif  // MEMORY_MEDIACONTAINER_H
