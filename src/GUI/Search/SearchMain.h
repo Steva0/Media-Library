@@ -2,12 +2,11 @@
 #define GUI_SEARCH_SEARCH_MAIN_H
 #include <QStackedWidget>
 
+#include "../AbstractSearchWidget.h"
 #include "GridResults.h"
 #include "SearchWidget.h"
 #include "SelectedEdit.h"
 #include "SelectedPreview.h"
-#include "../AbstractSearchWidget.h"
-
 
 namespace gui {
 namespace search {
@@ -26,12 +25,13 @@ class SearchMain : public AbstractSearchWidget {
 
  private slots:
   void undoEditChanges();
-  void mediaSingleClicked(const media::Media *);
+  // void mediaSingleClicked(const media::Media *);
   void fastEditClicked(const media::Media *);
   void clear();
 
  public slots:
   void hidePreview();
+  void showPreview(const media::Media *);
 
  signals:
   void advancedClicked();

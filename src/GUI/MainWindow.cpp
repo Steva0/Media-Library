@@ -276,8 +276,12 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
   }
 
   status_bar_->showMessage("Modificando media con titolo: " + QString::fromStdString(oldMedia->getTitle()));
-  database_.removeMedia(*oldMedia);
-  database_.addMedia(*newMedia);
+  // database_.removeMedia(*oldMedia);
+
+  const media::Media *aux = newMedia;
+  // newMedia = database_.addMedia(*newMedia);
+  newMedia = database_.updateMedia(newMedia, oldMedia);
+  delete aux;
   // todo memory leak
   changes_were_made_ = true;
 
@@ -290,6 +294,7 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
 
   // Aggiorna ricerca semplice
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+  simple_search_widget_->showPreview(newMedia);
   simple_search_widget_->updateResults(database_.filter(media::Media(last_simple_search_query_.toStdString())));
 }
 

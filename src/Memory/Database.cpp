@@ -14,6 +14,16 @@ const media::Media* Database::addMedia(const media::Media& media) {
   return data_[data_.size() - 1].get();
 }
 
+const media::Media* Database::updateMedia(const media::Media* newMedia, const media::Media* oldMedia) {
+  for (std::unique_ptr<media::Media>& media : data_) {
+    if (media.get() == oldMedia) {
+      media = newMedia->makePtr();
+      return media.get();
+    }
+  }
+  return nullptr;
+}
+
 void Database::removeMedia(const media::Media& media) {
   for (auto& m : data_) {
     if (!m->getTitle().empty() && typeid(*m) == typeid(media) && *m == media) {

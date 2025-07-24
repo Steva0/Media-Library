@@ -1,8 +1,7 @@
-#include "SearchMain.h"
-
 #include <QScrollArea>
 
 #include "GridResults.h"
+#include "SearchMain.h"
 #include "SearchWidget.h"
 #include "SelectedPreview.h"
 #include "qnamespace.h"
@@ -63,14 +62,16 @@ SearchMain::SearchMain(QWidget *parent)
   connect(preview_, &SelectedPreview::fastEditPressed, this, &SearchMain::fastEditClicked);
 
   connect(edit_, &SelectedEdit::commitChanges, this, &SearchMain::commitEditChanges);
-  connect(edit_, &SelectedEdit::commitChanges, [this](const media::Media *new_media) { mediaSingleClicked(new_media); });
+  // connect(edit_, &SelectedEdit::commitChanges, [this](const media::Media *new_media) { mediaSingleClicked(new_media);
+  // });
   connect(edit_, &SelectedEdit::undoChanges, this, &SearchMain::undoEditChanges);
   connect(edit_, &SelectedEdit::requestDelete, this, &SearchMain::requestDelete);
   connect(edit_, &SelectedEdit::requestDelete, this, &SearchMain::hidePreview);
 
   // Doppio click sui risultati
   connect(results_, &GridResults::mediaDoubleClicked, this, &SearchMain::mediaDoubleClicked);
-  connect(results_, &GridResults::mediaSingleClicked, this, &SearchMain::mediaSingleClicked);
+  // connect(results_, &GridResults::mediaSingleClicked, this, &SearchMain::mediaSingleClicked);
+  connect(results_, &GridResults::mediaSingleClicked, this, &SearchMain::showPreview);
   connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::advancedClicked);
   connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::clear);
 
@@ -83,14 +84,19 @@ void SearchMain::undoEditChanges() {
   selected_->setCurrentWidget(preview_);
 }
 
-void SearchMain::mediaSingleClicked(const media::Media *media) {
-  preview_->display(media);
-  selected_->setCurrentWidget(preview_);
-}
+// void SearchMain::mediaSingleClicked(const media::Media *media) {
+//   preview_->display(media);
+//   selected_->setCurrentWidget(preview_);
+// }
 
 void SearchMain::fastEditClicked(const media::Media *media) {
   edit_->display(media);
   selected_->setCurrentWidget(edit_);
+}
+
+void SearchMain::showPreview(const media::Media *media) {
+  preview_->display(media);
+  selected_->setCurrentWidget(preview_);
 }
 
 void SearchMain::hidePreview() {
