@@ -1,11 +1,10 @@
-#include "InputWidget.h"
-
 #include <QVBoxLayout>
 #include <iostream>
 
 #include "AlbumInputWidget.h"
 #include "AudioBookInputWidget.h"
 #include "EbookInputWidget.h"
+#include "InputWidget.h"
 #include "MediaInputWidget.h"
 #include "MovieInputWidget.h"
 #include "NovelInputWidget.h"
@@ -34,7 +33,7 @@ InputWidget::InputWidget(QWidget *parent) : QWidget(parent) {
 }
 
 void InputWidget::showTypeInput(int idx) {
-  using Type = memory::MediaContainer::Type;
+  using Type = memory::Database::Type;
 
   // media::Media *old = makeFilter();
   getFilter();
@@ -66,7 +65,7 @@ void InputWidget::showTypeInput(int idx) {
       media_filter_ = new MediaInputWidget(this);
   }
   // if (old){
-    media_filter_->setFromMedia(*old);
+  media_filter_->setFromMedia(*old);
   //   std::cout << old->getTitle() << '\n';
   // }
   delete old;

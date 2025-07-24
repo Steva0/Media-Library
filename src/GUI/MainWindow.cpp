@@ -1,5 +1,3 @@
-#include "MainWindow.h"
-
 #include <QFileDialog>
 #include <QMenuBar>
 #include <QMessageBox>
@@ -8,7 +6,9 @@
 #include <cctype>
 #include <iostream>
 
+#include "../Memory/FileManager.h"
 #include "DatabaseSelectionWidget.h"
+#include "MainWindow.h"
 
 // debug
 #include "AbstractSearchWidget.h"
@@ -35,11 +35,11 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
       add_media_view_page_(new AddMediaViewPage(this)) {
   setWindowTitle("Media Library");
   std::vector<QString> filetypes{};
-  std::for_each(memory::Database::kAcceptedExtensions.begin(), memory::Database::kAcceptedExtensions.end(),
+  std::for_each(memory::FileManager::kAcceptedExtensions.begin(), memory::FileManager::kAcceptedExtensions.end(),
                 [&filetypes](const std::string &type) { filetypes.push_back(QString::fromStdString(type).toUpper()); });
   for (size_t i = 0; i < filetypes.size(); ++i) {
-    allowed_filter_ +=
-        filetypes[i] + QString(" files (*.") + QString::fromStdString(memory::Database::kAcceptedExtensions[i]) + ");;";
+    allowed_filter_ += filetypes[i] + QString(" files (*.") +
+                       QString::fromStdString(memory::FileManager::kAcceptedExtensions[i]) + ");;";
   }
 
   auto *status_wrapper = new QFrame(this);
@@ -167,7 +167,7 @@ void MainWindow::createDatabase() {
   // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
   last_simple_search_query_ = "";
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media("")));
-  simple_search_widget_->updateResults(database_.filterMedia(media::Media{}));
+  simple_search_widget_->updateResults(database_.filter(media::Media{}));
 
   status_bar_->showMessage("Creato database: " + path);
 }
@@ -185,7 +185,7 @@ void MainWindow::openDatabase() {
   // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
   last_simple_search_query_ = "";
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media("")));
-  simple_search_widget_->updateResults(database_.filterMedia(media::Media{}));
+  simple_search_widget_->updateResults(database_.filter(media::Media{}));
   status_bar_->showMessage(QString("Caricato database") + path);
 }
 
@@ -224,7 +224,7 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
 
   // Aggiorna ricerca semplice
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
-  simple_search_widget_->updateResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+  simple_search_widget_->updateResults(database_.filter(media::Media(last_simple_search_query_.toStdString())));
 }
 
 void MainWindow::onAddMedia(media::Media *newMedia) {
@@ -241,7 +241,7 @@ void MainWindow::onAddMedia(media::Media *newMedia) {
 
   // Aggiorna la ricerca semplice
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
-  simple_search_widget_->updateResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+  simple_search_widget_->updateResults(database_.filter(media::Media(last_simple_search_query_.toStdString())));
 
   // Pulisci lo stack per evitare ritorno alla AddMediaViewPage
   while (!navigation_stack_.empty()) navigation_stack_.pop();
@@ -287,7 +287,7 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
 
   // Aggiorna ricerca semplice
   // simple_search_widget_->acceptResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
-  simple_search_widget_->updateResults(database_.filterMedia(media::Media(last_simple_search_query_.toStdString())));
+  simple_search_widget_->updateResults(database_.filter(media::Media(last_simple_search_query_.toStdString())));
 }
 
 bool MainWindow::savePopup() {
@@ -329,13 +329,13 @@ void MainWindow::saveDatabase() {
 }
 
 void MainWindow::applyFilterAdvanced(const media::Media &filter) {
-  advanced_search_widget_->updateResults(database_.filterMedia(filter));
+  advanced_search_widget_->updateResults(database_.filter(filter));
 }
 
 void MainWindow::simpleSearch(const media::Media &media) {
   last_simple_search_query_ = QString::fromStdString(media.getTitle());
   // simple_search_widget_->acceptResults(database_.filterMedia(media));
-  simple_search_widget_->updateResults(database_.filterMedia(media));
+  simple_search_widget_->updateResults(database_.filter(media));
 }
 
 void MainWindow::debugVisitorNormalSearch() {

@@ -1,14 +1,13 @@
-#include "TypeSelector.h"
-
 #include <QHBoxLayout>
 
-#include "../../Memory/MediaContainer.h"
+#include "../../Memory/Database.h"
+#include "TypeSelector.h"
 
 namespace gui {
 namespace advanced_search {
 
 TypeSelector::TypeSelector(QWidget *parent) : QWidget(parent) {
-  using MediaType = memory::MediaContainer::Type;
+  using MediaType = memory::Database::Type;
 
   auto *layout = new QHBoxLayout(this);
   container_ = new QButtonGroup(this);
@@ -18,7 +17,7 @@ TypeSelector::TypeSelector(QWidget *parent) : QWidget(parent) {
 
   int max_width = -1;
   for (size_t type = 0; type < static_cast<size_t>(MediaType::TypeCount); ++type) {
-    types_[type] = new QPushButton(QString::fromStdString(memory::MediaContainer::typeToString(type)), this);
+    types_[type] = new QPushButton(QString::fromStdString(memory::Database::typeToString(type)), this);
     types_[type]->setCheckable(true);
     max_width = std::max(max_width, types_[type]->sizeHint().width());
     layout->addWidget(types_[type]);
