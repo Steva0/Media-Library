@@ -1,9 +1,8 @@
-#include "GridResults.h"
-
+#include <QLabel>
 #include <QVBoxLayout>
 
 #include "../AdvancedSearch/ClickableFrame.h"
-#include "SimpleResultVisitor.h"
+#include "GridResults.h"
 
 namespace gui {
 namespace search {
@@ -35,9 +34,7 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     auto *layout = new QVBoxLayout(wrapper);
     layout->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
 
-    SimpleResultVisitor v;
-    media->accept(v);
-    QWidget *result = v.getWidget();
+    QWidget *result = makeResult(*media);
 
     result->setParent(wrapper);
     layout->addWidget(result);
@@ -57,21 +54,34 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     --count;
     QWidget *widget = grid_->itemAtPosition(count / kResultsPerRow, count % kResultsPerRow)->widget();
     widget->setMaximumHeight(max_height);
-
   }
-  // while (count > 0) {
-  //   --count;
-  //   QWidget *widget = grid_->itemAtPosition(count / kResultsPerRow, count % kResultsPerRow)->widget();
-  //   max_height = std::max(max_height, widget->sizeHint().height());
-  //   if (count % kResultsPerRow == 0) {
-  //     for (int i = 0; i < kResultsPerRow; ++i) {
-  //       QWidget *to_update = grid_->itemAtPosition((count + i) / kResultsPerRow, (count + i) / kResultsPerRow)->widget();
-  //       to_update->setMaximumHeight(max_height);
-  //       count = -1;
-        
-  //     }
-  //   }
-  // }
+}
+
+QWidget *GridResults::makeResult(const media::Media &media) {
+  auto *result = new QWidget;
+  auto *layout = new QVBoxLayout(result);
+
+  auto *type = new QLabel(QString::fromStdString(media.displayType()), result);
+  type->setAlignment(Qt::AlignCenter);
+
+  auto *image = new QLabel(result);
+  if (media.getImgPath() == "" || QPixmap(QString::fromStdString(media.getImgPath())).isNull())
+    image->setPixmap(QPixmap(QString::fromStdString(":/assets/matita.jpg")).scaled(128, 128, Qt::KeepAspectRatio));
+  else {
+    image->setPixmap(QPixmap(QString::fromStdString(media.getImgPath())).scaled(128, 128, Qt::KeepAspectRatio));
+  }
+  image->setAlignment(Qt::AlignCenter);
+
+  auto *title = new QLabel(QString::fromStdString(media.getTitle()), result);
+  title->setAlignment(Qt::AlignCenter);
+
+  layout->addWidget(type);
+  layout->addStretch();
+  layout->addWidget(image);
+  layout->addStretch();
+  layout->addWidget(title);
+
+  return result;
 }
 
 }  // namespace search

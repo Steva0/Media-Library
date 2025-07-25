@@ -18,6 +18,8 @@ class GridResults : public QFrame {
 
   static const int kResultsPerRow;
 
+  QWidget *makeResult(const media::Media &);
+
  public:
   explicit GridResults(QWidget *parent = nullptr);
 
