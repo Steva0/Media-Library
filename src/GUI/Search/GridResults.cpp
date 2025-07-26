@@ -1,7 +1,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-#include "../AdvancedSearch/ClickableFrame.h"
+#include "../ClickableFrame.h"
 #include "GridResults.h"
 
 namespace gui {

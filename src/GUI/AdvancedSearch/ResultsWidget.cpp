@@ -1,7 +1,7 @@
 #include "ResultsWidget.h"
 
 #include "../PreviewVisitor.h"
-#include "ClickableFrame.h"
+#include "../ClickableFrame.h"
 
 namespace gui {
 namespace advanced_search {

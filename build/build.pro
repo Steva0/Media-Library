@@ -39,7 +39,7 @@ HEADERS += ../src/GUI/AbstractSearchWidget.h \
            ../src/GUI/AddMediaView/AddMediaViewPage.h \
            ../src/GUI/AdvancedSearch/AlbumInputWidget.h \
            ../src/GUI/AdvancedSearch/AudioBookInputWidget.h \
-           ../src/GUI/AdvancedSearch/ClickableFrame.h \
+           ../src/GUI/ClickableFrame.h \
            ../src/GUI/AdvancedSearch/EbookInputWidget.h \
            ../src/GUI/AdvancedSearch/IMediaInputWidget.h \
            ../src/GUI/AdvancedSearch/InputWidget.h \
@@ -94,7 +94,7 @@ SOURCES += ../src/main.cpp \
            ../src/GUI/AddMediaView/AddMediaViewPage.cpp \
            ../src/GUI/AdvancedSearch/AlbumInputWidget.cpp \
            ../src/GUI/AdvancedSearch/AudioBookInputWidget.cpp \
-           ../src/GUI/AdvancedSearch/ClickableFrame.cpp \
+           ../src/GUI/ClickableFrame.cpp \
            ../src/GUI/AdvancedSearch/EbookInputWidget.cpp \
            ../src/GUI/AdvancedSearch/InputWidget.cpp \
            ../src/GUI/AdvancedSearch/MainWidget.cpp \
