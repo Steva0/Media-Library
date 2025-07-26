@@ -2,7 +2,7 @@
 
 namespace memory {
 
-const std::array<std::string, static_cast<size_t>(Database::Type::TypeCount)> Database::kTypeStrings{
+const std::array<std::string, static_cast<size_t>(Database::Type::TypeFilterCount)> Database::kTypeStrings{
     "Tutti", "Libro", "Album", "Film", "e-Book", "Audiolibro", "Serie TV"};
 
 std::string Database::typeToString(Type type) { return kTypeStrings[static_cast<size_t>(type)]; }

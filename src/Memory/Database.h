@@ -15,11 +15,11 @@ class Database {
   friend class MediaTypeVisitor;
 
  public:
-  enum class Type { All = 0, Novel, Album, Movie, Ebook, AudioBook, Series, TypeCount };
+  enum class Type { All = 0, Novel, Album, Movie, Ebook, AudioBook, Series, TypeFilterCount };
 
   static std::string typeToString(Type);
   static std::string typeToString(size_t);
-  static const std::array<std::string, static_cast<size_t>(Type::TypeCount)> kTypeStrings;
+  static const std::array<std::string, static_cast<size_t>(Type::TypeFilterCount)> kTypeStrings;
 
   const media::Media *addMedia(const media::Media &);
   const media::Media *updateMedia(const media::Media *newMedia, const media::Media *oldMedia);

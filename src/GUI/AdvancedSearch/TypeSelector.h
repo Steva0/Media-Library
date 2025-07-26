@@ -13,7 +13,7 @@ class TypeSelector : public QWidget {
 
  private:
   QButtonGroup *container_;
-  std::array<QPushButton *, static_cast<size_t>(memory::Database::Type::TypeCount)> types_;
+  std::array<QPushButton *, static_cast<size_t>(memory::Database::Type::TypeFilterCount)> types_;
 
  public:
   explicit TypeSelector(QWidget *parent = nullptr);
