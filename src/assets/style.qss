@@ -196,3 +196,20 @@ QComboBox QAbstractItemView::item:hover {
     color: #003366;
 }
 
+QMenuBar {
+    background-color: #E8F4FA;  /* stesso sfondo dell'app */
+    border-bottom: 1px solid #003366;  /* linea blu scuro */
+}
+
+QMenuBar::item {
+    background: transparent;
+    padding: 4px 12px;
+    color: #003366;
+}
+
+QMenuBar::item:selected {
+    background: #D0E6F5;  /* effetto hover chiaro */
+    border-radius: 4px;
+}
+
+
