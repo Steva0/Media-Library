@@ -9,7 +9,7 @@
 QPushButton {
     background-color: #CDE9F6;  /* più scuro dello sfondo */
     border: 1px solid #A0C8E0;
-    border-radius: 6px;
+    border-radius: 0px;
     padding: 4px 8px;
 }
 
@@ -99,7 +99,7 @@ QFrame[clickable="true"]:hover {
 QLineEdit {
     background-color: white;
     border: 1px solid #A0C8E0;
-    border-radius: 4px;
+    border-radius: 0px;
     padding: 2px 6px;
 }
 
@@ -141,7 +141,7 @@ QMenu::separator {
 QTextEdit {
     background-color: white;
     border: 1px solid #A0C8E0;
-    border-radius: 4px;
+    border-radius: 0px;
     padding: 2px 6px;
 }
 
@@ -149,7 +149,7 @@ QTextEdit {
 QSpinBox {
     background-color: white;
     border: 1px solid #A0C8E0;
-    border-radius: 4px;
+    border-radius: 0px;
     padding-right: 15px; /* spazio per le frecce */
 }
 
