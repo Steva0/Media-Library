@@ -14,7 +14,7 @@ AudioBookEditWidget::AudioBookEditWidget(QWidget* parent, bool min) : NovelEditW
   row_layout->addWidget(narrator_label);
   row_layout->addWidget(narrator_input_);
 
-  row_layout->addSpacing(10);  // spazio tra i due blocchi
+  row_layout->addSpacing(10); 
 
   // Label "Servizio Streaming"
   auto* streaming_label = new QLabel("Servizio Streaming:", this);
@@ -24,7 +24,7 @@ AudioBookEditWidget::AudioBookEditWidget(QWidget* parent, bool min) : NovelEditW
   row_layout->addWidget(streaming_label);
   row_layout->addWidget(streaming_service_input_);
 
-  row_layout->addStretch();  // allinea tutto a sinistra
+  row_layout->addStretch(); 
 
   main_layout_->addLayout(row_layout);
 

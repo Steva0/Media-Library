@@ -140,19 +140,16 @@ void MediaDetailWidget::updateTextFontSize() {
 
   int totalHeight = height();
 
-  // Calcoliamo lo spazio per titolo e il resto
-  int totalLabels = 6; // le etichette oltre al titolo
+  int totalLabels = 6; 
   int spaceForText = totalHeight * 0.9;
 
-  int titleLabelFont_Size = std::clamp(spaceForText / 12, 16, 36);  // più grande
-  int otherFontSize = std::clamp(spaceForText / (totalLabels * 2), 10, 24);  // più piccolo
+  int titleLabelFont_Size = std::clamp(spaceForText / 12, 16, 36);  
+  int otherFontSize = std::clamp(spaceForText / (totalLabels * 2), 10, 24);  
 
-  // Font titolo: grande e bold
   titleLabelFont_.setPointSize(titleLabelFont_Size);
   titleLabelFont_.setBold(true);
   titleLabel_->setFont(titleLabelFont_);
 
-  // Font normale: più piccolo e non bold
   normalLabelFont_.setPointSize(otherFontSize);
   normalLabelFont_.setBold(false);
 
@@ -162,7 +159,6 @@ void MediaDetailWidget::updateTextFontSize() {
   genresLabel_->setFont(normalLabelFont_);
   notesLabel_->setFont(normalLabelFont_);
 
-  // La riga vuota può essere piccola o nulla
   spacerLabel_->setFixedHeight(titleLabelFont_Size / 2);
 }
 

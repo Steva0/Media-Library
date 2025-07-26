@@ -20,7 +20,6 @@ MediaEditPage::MediaEditPage(QWidget* parent) : QWidget(parent) { setupUi(); }
 void MediaEditPage::setupUi() {
   auto* main_layout = new QVBoxLayout(this);
 
-  // Top bar with Back button
   auto* top_bar_layout = new QHBoxLayout();
   auto* back_button = new QPushButton("Indietro", this);
   back_button->setFixedSize(80, 30);
@@ -29,11 +28,9 @@ void MediaEditPage::setupUi() {
   top_bar_layout->addStretch();
   main_layout->addLayout(top_bar_layout);
 
-  // Stacked layout for different editing widgets
   stacked_layout_ = new QStackedLayout();
   main_layout->addLayout(stacked_layout_);
 
-  // Instantiate all edit widgets once
   media_edit_widget_ = new MediaEditWidget(this);
   novel_edit_widget_ = new NovelEditWidget(this);
   audiobook_edit_widget_ = new AudioBookEditWidget(this);
@@ -50,7 +47,6 @@ void MediaEditPage::setupUi() {
   stacked_layout_->addWidget(movie_edit_widget_);
   stacked_layout_->addWidget(ebook_edit_widget_);
 
-  // Bottom bar with Confirm and Delete buttons
   auto* bottom_bar_layout = new QHBoxLayout();
   auto* confirm_button = new QPushButton("Conferma", this);
   auto* delete_button = new QPushButton("Elimina", this);

@@ -7,7 +7,6 @@
 namespace gui {
 
 MovieEditWidget::MovieEditWidget(QWidget* parent, bool note) : MediaEditWidget(parent) {
-  // --- Riga con Durata e Universo ---
   auto* row_layout = new QHBoxLayout();
 
   // Durata
@@ -30,7 +29,6 @@ MovieEditWidget::MovieEditWidget(QWidget* parent, bool note) : MediaEditWidget(p
 
   main_layout_->addLayout(row_layout);
 
-  // --- Sezione Cast ---
   auto* cast_row_layout = new QHBoxLayout();
 
   // Label Cast (sinistra, allineata in alto)
@@ -64,17 +62,13 @@ MovieEditWidget::MovieEditWidget(QWidget* parent, bool note) : MediaEditWidget(p
 
   cast_right_layout->addWidget(cast_scroll);
 
-  // Aggiungo la colonna destra accanto alla label
   cast_row_layout->addLayout(cast_right_layout);
 
-  // Aggiungo tutto il layout cast al main layout
   main_layout_->addLayout(cast_row_layout);
 
   if (note) {
-    // Aggiungo la sezione note
     addNotesSection(main_layout_);
   }
-  // Connessione bottone aggiungi cast
   connect(add_cast_button_, &QPushButton::clicked, this, &MovieEditWidget::addCastMember);
 }
 

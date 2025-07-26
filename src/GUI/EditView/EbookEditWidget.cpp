@@ -18,7 +18,7 @@ EbookEditWidget::EbookEditWidget(QWidget* parent) : NovelEditWidget(parent, fals
   file_size_input_->setFixedWidth(130);
   row_layout->addWidget(file_size_input_);
 
-  row_layout->addSpacing(15);  // spazio tra i due blocchi
+  row_layout->addSpacing(15); 
 
   // Label "DRM"
   auto* drm_label = new QLabel("DRM:", this);
@@ -29,7 +29,7 @@ EbookEditWidget::EbookEditWidget(QWidget* parent) : NovelEditWidget(parent, fals
   drm_checkbox_ = new QCheckBox(this);
   row_layout->addWidget(drm_checkbox_);
 
-  row_layout->addStretch();  // allinea tutto a sinistra
+  row_layout->addStretch(); 
   main_layout_->addLayout(row_layout);
 
   addNotesSection(main_layout_);

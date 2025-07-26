@@ -32,8 +32,6 @@ MediaEditWidget::MediaEditWidget(QWidget* parent) : IMediaEditWidget(parent) {
   cover_label_->setAlignment(Qt::AlignCenter);
   split_layout->addWidget(cover_label_, 1);
 
-  // --- Campi del form ---
-
   // Titolo
   auto* title_layout = new QHBoxLayout();
   auto* title_label = new QLabel(tr("Titolo:"), this);

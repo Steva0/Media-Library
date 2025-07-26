@@ -26,11 +26,9 @@ void AddMediaViewPage::setupUi() {
   top_bar_layout->addStretch();
   main_layout->addLayout(top_bar_layout);
 
-  // --- Usa DUE widget pulsanti separati ---
   auto* buttons_widget_selector = createButtonsWidget(this);
   auto* buttons_widget_full = createButtonsWidget(this);
 
-  // --- Sezione edit ---
   edit_section_ = new QWidget(this);
   auto* edit_section_layout = new QVBoxLayout(edit_section_);
   edit_section_layout->setContentsMargins(0, 0, 0, 0);
@@ -61,7 +59,6 @@ void AddMediaViewPage::setupUi() {
   bottom_layout->addWidget(confirm_button);
   edit_section_layout->addLayout(bottom_layout);
 
-  // --- Due pagine nello stacked layout centrale ---
 
   // Pagina 0: solo pulsanti (selector)
   auto* selector_page = new QWidget(this);
@@ -84,23 +81,18 @@ void AddMediaViewPage::setupUi() {
 
   main_layout->addLayout(central_layout_);
 
-  // Nascondiamo la sezione edit di default (anche se è in full_edit_page)
   edit_section_->setVisible(false);
-  // Impostiamo la pagina iniziale a selector_page con solo i pulsanti in alto
   central_layout_->setCurrentIndex(0);
   clearEditSection();
 }
 
 void AddMediaViewPage::selectMediaType(int index) {
-  // Cambia pagina edit widget interno
   stacked_layout_->setCurrentIndex(index);
 
-  // Mostra la sezione edit (solo se nascosta)
   if (!edit_section_->isVisible()) {
     edit_section_->setVisible(true);
   }
 
-  // Cambia pagina centrale da selector_page (0) a full_edit_page (1)
   if (central_layout_->currentIndex() != 1) {
     central_layout_->setCurrentIndex(1);
   }
@@ -163,23 +155,19 @@ void AddMediaViewPage::keyPressEvent(QKeyEvent* event) {
 QWidget* AddMediaViewPage::createButtonsWidget(QWidget* parent) {
   auto* container = new QWidget(parent);
 
-  // Layout verticale per tutta la sezione
   auto* vertical_layout = new QVBoxLayout(container);
   vertical_layout->setContentsMargins(0, 0, 0, 0);
   vertical_layout->setSpacing(10);
 
-  // Container orizzontale con pulsanti a sinistra e stretch a destra
   auto* row_container = new QWidget(container);
   auto* row_layout = new QHBoxLayout(row_container);
   row_layout->setContentsMargins(0, 0, 0, 0);
 
-  // Colonna dei pulsanti (e label sopra)
   auto* column_widget = new QWidget(row_container);
   auto* column_layout = new QVBoxLayout(column_widget);
   column_layout->setContentsMargins(0, 0, 0, 0);
   column_layout->setSpacing(5);
 
-  // Label centrata rispetto ai pulsanti
   auto* label = new QLabel("Selezionare tipologia di Media", column_widget);
   label->setAlignment(Qt::AlignHCenter);
   QFont font = label->font();
@@ -188,7 +176,6 @@ QWidget* AddMediaViewPage::createButtonsWidget(QWidget* parent) {
   label->setFont(font);
   column_layout->addWidget(label);
 
-  // Layout dei pulsanti
   auto* buttons_container = new QWidget(column_widget);
   auto* buttons_layout = new QHBoxLayout(buttons_container);
   buttons_layout->setContentsMargins(0, 0, 0, 0);
@@ -197,10 +184,8 @@ QWidget* AddMediaViewPage::createButtonsWidget(QWidget* parent) {
     "Libro", "EBook", "Audiobook", "Film", "Serie", "Album"
   };
 
-  // Salva i puntatori ai pulsanti per gestire lo stato checked
   static QVector<QPushButton*> media_type_buttons;
 
-  // Pulisci il vettore se già popolato (per evitare duplicati in più istanze)
   media_type_buttons.clear();
 
   for (int i = 0; i < labels.size(); ++i) {
@@ -209,7 +194,6 @@ QWidget* AddMediaViewPage::createButtonsWidget(QWidget* parent) {
     media_type_buttons.append(button);
 
     connect(button, &QPushButton::clicked, this, [this, i, button]() {
-      // Deseleziona tutti gli altri pulsanti
       for (auto* btn : media_type_buttons) {
         if (btn != button) btn->setChecked(false);
       }
@@ -222,11 +206,9 @@ QWidget* AddMediaViewPage::createButtonsWidget(QWidget* parent) {
 
   column_layout->addWidget(buttons_container);
 
-  // Aggiungi la colonna al layout orizzontale, poi lo stretch
   row_layout->addWidget(column_widget, 2);
   row_layout->addStretch(1);
 
-  // Infine aggiungi tutto al layout verticale
   vertical_layout->addWidget(row_container);
 
   return container;

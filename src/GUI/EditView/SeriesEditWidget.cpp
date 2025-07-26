@@ -6,10 +6,9 @@
 namespace gui {
 
 SeriesEditWidget::SeriesEditWidget(QWidget* parent) : MovieEditWidget(parent, false) {
-  // Layout orizzontale principale per i 3 campi
   auto* main_row_layout = new QHBoxLayout();
-  main_row_layout->setAlignment(Qt::AlignLeft);  // Allinea a sinistra
-  main_row_layout->setSpacing(10);               // Spazio ridotto tra i blocchi
+  main_row_layout->setAlignment(Qt::AlignLeft); 
+  main_row_layout->setSpacing(10);            
 
   // Episodi
   auto* episodes_layout = new QHBoxLayout();

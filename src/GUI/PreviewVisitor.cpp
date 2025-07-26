@@ -15,10 +15,7 @@
 namespace gui {
 QWidget *PreviewVisitor::getWidget() const { return result_; }
 void PreviewVisitor::visit(const media::Media &media) {
-  // result_ = new QFrame;
   result_ = new QWidget;
-  // result_->setFrameShape(QFrame::Box);
-  // result_->setLineWidth(1);
 
   auto *layout = new QHBoxLayout(result_);
   data_ = new QGridLayout;
@@ -31,7 +28,6 @@ void PreviewVisitor::visit(const media::Media &media) {
     preview->setPixmap(QPixmap(QString::fromStdString(media.getImgPath())).scaled(128, 128, Qt::KeepAspectRatio));
   }
 
-  // data_->addWidget(new QLabel(type_), 0, 0);
   data_->addWidget(new QLabel(QString::fromStdString(media.displayType())), 0, 0);
   if (media.isFavourite()) data_->addWidget(new QLabel("Favourite"));
 

@@ -15,7 +15,7 @@ NovelEditWidget::NovelEditWidget(QWidget* parent, bool note, bool min) : MediaEd
   first_row_layout->addWidget(author_label);
   first_row_layout->addWidget(author_input_);
 
-  first_row_layout->addSpacing(10);  // spazio tra i due blocchi
+  first_row_layout->addSpacing(10);
 
   auto* publisher_label = new QLabel("Editore:", this);
   publisher_label->setFixedWidth(60);
@@ -24,7 +24,7 @@ NovelEditWidget::NovelEditWidget(QWidget* parent, bool note, bool min) : MediaEd
   first_row_layout->addWidget(publisher_label);
   first_row_layout->addWidget(publisher_input_);
 
-  first_row_layout->addStretch();  // <-- forza l'allineamento a sinistra
+  first_row_layout->addStretch(); 
   main_layout_->addLayout(first_row_layout);
 
   // Riga: Serie + Pagine + ISBN
@@ -61,7 +61,7 @@ NovelEditWidget::NovelEditWidget(QWidget* parent, bool note, bool min) : MediaEd
   second_row_layout->addWidget(isbn_label);
   second_row_layout->addWidget(isbn_input_);
 
-  second_row_layout->addStretch();  // <-- forza l'allineamento a sinistra
+  second_row_layout->addStretch();  
   main_layout_->addLayout(second_row_layout);
 
   if (note) {

@@ -9,7 +9,7 @@
 #include "IMediaDetailWidget.h"
 
 namespace media {
-class Media;  // forward declaration
+class Media;  
 }
 
 namespace gui {

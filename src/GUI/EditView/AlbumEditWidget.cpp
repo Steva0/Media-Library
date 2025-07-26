@@ -6,22 +6,22 @@
 namespace gui {
 
 AlbumEditWidget::AlbumEditWidget(QWidget* parent) : MediaEditWidget(parent) {
-  // --- Band name (etichetta a sinistra, campo più compatto) ---
+  // Band name 
   auto* band_layout = new QHBoxLayout();
   auto* band_label = new QLabel("Band:", this);
-  band_label->setFixedWidth(50);  // larghezza costante della label
+  band_label->setFixedWidth(50);  
   band_layout->addWidget(band_label);
 
   band_layout->addSpacing(5);
 
   band_input_ = new QLineEdit(this);
-  band_input_->setMaximumWidth(300);  // restringe il campo input
+  band_input_->setMaximumWidth(300); 
   band_layout->addWidget(band_input_);
-  band_layout->addStretch();  // spinge tutto a sinistra
+  band_layout->addStretch(); 
 
   main_layout_->addLayout(band_layout);
 
-  // --- Membri della band stile "Generi" ---
+  // Membri della band stile "Generi" 
   auto* band_members_row_layout = new QHBoxLayout();
 
   auto* band_members_label = new QLabel("Membri:", this);
@@ -56,7 +56,7 @@ AlbumEditWidget::AlbumEditWidget(QWidget* parent) : MediaEditWidget(parent) {
   band_members_row_layout->addLayout(band_members_right_layout);
   main_layout_->addLayout(band_members_row_layout);
 
-  // --- Canzoni stile "Generi" ---
+  // Canzoni stile "Generi"
   auto* songs_row_layout = new QHBoxLayout();
 
   auto* songs_label = new QLabel("Canzoni:", this);
