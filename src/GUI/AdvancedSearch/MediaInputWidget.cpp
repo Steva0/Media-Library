@@ -84,22 +84,6 @@ void MediaInputWidget::removeGenre(QLineEdit *genre, QPushButton *button) {
   media_layout_->removeWidget(button);
   button->deleteLater();
 }
-
-
-// media::Media *MediaInputWidget::getFilter() const {
-//   auto *media = new media::Media(title_->text().toStdString());
-//   if (release_->text() != "") {
-//     media->setRelease(release_->text().toInt());
-//   }
-//   media->setLanguage(language_->text().toStdString());
-//   media->setFavourite(favourite_->isChecked());
-
-//   for (const auto *genre : genres_) {
-//     media->addGenre(genre->text().toStdString());
-//   }
-
-//   return media;
-// }
 void MediaInputWidget::makeFilterFor(InputWidget &other) const {
   other.makeFilterFrom(*this);
 }

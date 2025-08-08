@@ -32,18 +32,6 @@ NovelInputWidget::NovelInputWidget(QWidget *parent)
   container_->addLayout(novel_layout_);
 }
 
-// media::Novel *NovelInputWidget::getFilter() const {
-//   media::Media *media = MediaInputWidget::getFilter();
-//   auto *novel = new media::Novel(*media);
-//   delete media;
-
-//   novel->setAuthor(author_->text().toStdString());
-//   novel->setPublisher(publisher_->text().toStdString());
-//   novel->setSeries(series_->text().toStdString());
-//   novel->setIsbn(isbn_->text().toStdString());
-//   return novel;
-// }
-
 void NovelInputWidget::makeFilterFor(InputWidget &other) const {
   other.makeFilterFrom(*this);
 }

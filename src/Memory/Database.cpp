@@ -3,7 +3,8 @@
 namespace memory {
 
 const std::array<std::string, static_cast<size_t>(Database::Type::TypeFilterCount)> Database::kTypeStrings{
-    "Tutti", "Libro", "Album", "Film", "e-Book", "Audiolibro", "Serie TV"};
+    "Tutti", "Libro", "Album", "Film", "e-Book", "Audiolibro", "Serie TV"
+};
 
 std::string Database::typeToString(Type type) { return kTypeStrings[static_cast<size_t>(type)]; }
 std::string Database::typeToString(size_t type) { return kTypeStrings[type]; }
@@ -15,13 +16,17 @@ const media::Media* Database::addMedia(const media::Media& media) {
 }
 
 const media::Media* Database::updateMedia(const media::Media* newMedia, const media::Media* oldMedia) {
+  if (!newMedia) {
+    return nullptr;
+  }
   for (std::unique_ptr<media::Media>& media : data_) {
     if (media.get() == oldMedia) {
       media = newMedia->makePtr();
       return media.get();
     }
   }
-  return nullptr;
+  data_.push_back(newMedia->makePtr());
+  return data_[data_.size() - 1].get();
 }
 
 void Database::removeMedia(const media::Media& media) {
@@ -58,7 +63,6 @@ int Database::serializeAll(QFile& file) const {
 
 std::vector<const media::Media*> Database::getAll() const {
   std::vector<const media::Media*> clone;
-  clone.reserve(data_.size());
 
   for (const auto& m : data_) {
     clone.push_back(m.get());
@@ -70,7 +74,6 @@ void Database::open(const QString& path) { data_ = file_manager_.deserialize(pat
 
 void Database::save() {
   std::vector<const media::Media*> save_data;
-  save_data.reserve(data_.size());
 
   for (const std::unique_ptr<media::Media>& media : data_) {
     save_data.push_back(media.get());

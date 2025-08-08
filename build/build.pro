@@ -25,7 +25,6 @@ HEADERS += ../src/GUI/AbstractSearchWidget.h \
            ../src/Media/AudioBook.h \
            ../src/Media/Ebook.h \
            ../src/Media/IConstMediaVisitor.h \
-           ../src/Media/IMedia.h \
            ../src/Media/Media.h \
            ../src/Media/Movie.h \
            ../src/Media/Novel.h \

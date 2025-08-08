@@ -1,16 +1,15 @@
 #ifndef MEDIA_MEDIA_H
 #define MEDIA_MEDIA_H
-#include <iostream>
 #include <limits>
 #include <memory>
 #include <string>
 #include <vector>
 
-#include "IMedia.h"
 #include "StringUtils.h"
+#include "IConstMediaVisitor.h"
 
 namespace media {
-class Media : IMedia {
+class Media {
  private:
   std::string title_;
   int release_;
@@ -25,26 +24,10 @@ class Media : IMedia {
   explicit Media(const std::string &title = "", int release = std::numeric_limits<int>::min(),
                  const std::string &language = "", bool favourite = false, const std::vector<std::string> &genres = {},
                  const std::string &img_path = "", const std::string &notes = "");
-  Media(const Media &o) {
-    title_ = o.title_;
-    release_ = o.release_;
-    language_ = o.language_;
-    favourite_ = o.favourite_;
-    genres_ = o.genres_;
-    img_path_ = o.img_path_;
-    notes_ = o.notes_;
-
-    debug_count_++;
-    std::cout << "(" << debug_count_ << ") Media(const Media&): " << title_ << std::endl;
-  }
-  ~Media() override {
-    debug_count_--;
-    std::cout << "(" << debug_count_ << ") ~Media(): " << title_ << std::endl;
-  }
+  virtual ~Media() = default;
   virtual bool operator==(const Media &) const;
 
-  void accept(IConstMediaVisitor &) const override;
-  bool open() override;
+  virtual void accept(IConstMediaVisitor &) const;
 
   const std::string &getTitle() const;
   int getRelease() const;
@@ -63,8 +46,8 @@ class Media : IMedia {
   void setImgPath(const std::string &);
   void setNotes(const std::string &);
 
-  std::unique_ptr<Media> makePtr() const override;
-  std::string displayType() const override;
+  virtual std::unique_ptr<Media> makePtr() const;
+  virtual std::string displayType() const;
 
   virtual bool filter(const Media &media) const;
 };

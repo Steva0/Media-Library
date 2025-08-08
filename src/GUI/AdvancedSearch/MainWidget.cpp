@@ -10,8 +10,6 @@ MainWidget::MainWidget(QWidget *parent) : AbstractSearchWidget(parent) {
   results_ = new ResultsWidget(this);
   search_ = new QPushButton("Cerca", this);
 
-  // aggiungere separatore per risultati
-
   auto *navigation_layout = new QHBoxLayout;
   navigation_layout->addStretch();
   navigation_layout->addWidget(back_);
@@ -50,10 +48,5 @@ void MainWidget::keyPressEvent(QKeyEvent* event) {
   QWidget::keyPressEvent(event);  // Propaga altri tasti
   }
 }
-
-
-// void MainWidget::updateResults(const std::vector<const media::Media *> &new_results) {
-//   results_->updateResults(new_results);
-// }
 }  // namespace advanced_search
 }  // namespace gui

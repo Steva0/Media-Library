@@ -56,10 +56,10 @@ SelectedEdit::SelectedEdit(QWidget *parent)
   layout->addWidget(confirm_, 1, 1, Qt::AlignRight | Qt::AlignBottom);
 
   title_edit_sheet_ = title_->styleSheet();
-  connect(title_, &QLineEdit::textChanged, [this]() { title_->setStyleSheet(title_edit_sheet_); });
-  connect(cancel_, &QAbstractButton::clicked, [this]() { emit undoChanges(); });
+  connect(title_, &QLineEdit::textChanged, this, [this]() { title_->setStyleSheet(title_edit_sheet_); });
+  connect(cancel_, &QAbstractButton::clicked, this, [this]() { emit undoChanges(); });
   connect(confirm_, &QAbstractButton::clicked, this, &SelectedEdit::makeMediaAndCommit);
-  connect(delete_, &QAbstractButton::clicked, [this]() { emit requestDelete(selected_); });
+  connect(delete_, &QAbstractButton::clicked, this, [this]() { emit requestDelete(selected_); });
 }
 
 void SelectedEdit::display(const media::Media *media) {

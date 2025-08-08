@@ -22,16 +22,6 @@ AudioBookInputWidget::AudioBookInputWidget(QWidget *parent) : NovelInputWidget(p
   novel_layout_->addWidget(new QLabel("Streaming:", this), novel_layout_->rowCount() - 1, 2);
   novel_layout_->addWidget(streaming_service_, novel_layout_->rowCount() - 1, 3);
 }
-// media::AudioBook *AudioBookInputWidget::getFilter() const {
-//   auto *novel = NovelInputWidget::getFilter();
-//   auto *audio_book = new media::AudioBook(*novel);
-//   delete novel;
-
-//   audio_book->setNarrator(narrator_->text().toStdString());
-//   if (streaming_service_->currentText() != "Any")
-//     audio_book->setStreamingService(streaming_service_->currentText().toStdString());
-//   return audio_book;
-// }
 void AudioBookInputWidget::makeFilterFor(InputWidget &other) const {
   other.makeFilterFrom(*this);
 }

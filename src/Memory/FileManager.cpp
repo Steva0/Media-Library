@@ -24,14 +24,10 @@ const std::array<std::string, 2> FileManager::kAcceptedExtensions{"xml", "json"}
 
 FileManager::~FileManager() { close(); }
 
-// FileManager::FileManager(const QString& path) { open(path); }
-
 std::vector<std::unique_ptr<media::Media>> FileManager::deserialize(const QString& path) {
   QFile file(path);
   if (!file.exists()) {
-    // Create an empty file if it doesn't exist
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-      // return false;
       return {};
     }
     file.close();
@@ -40,9 +36,6 @@ std::vector<std::unique_ptr<media::Media>> FileManager::deserialize(const QStrin
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))  // return false;
     return {};
 
-  // media_container_.clear();
-
-  // Deserialize only if file is not empty
   std::vector<std::unique_ptr<media::Media>> result;
   if (file.size() > 0) {
     const QString fileName = file.fileName().toLower();
@@ -51,12 +44,10 @@ std::vector<std::unique_ptr<media::Media>> FileManager::deserialize(const QStrin
     } else {
       result = fromXml(file);
     }
-    // fileName.endsWith(".json") ? fromJson(file) : fromXml(file);
   }
 
   file_path_ = path;
   file.close();
-  // return true;
   return result;
 }
 
@@ -66,16 +57,6 @@ bool FileManager::close(const std::vector<const media::Media*>& save_data) {
   file_path_.clear();
   return done;
 }
-// bool FileManager::close(bool save_on_exit) {
-//   bool done = true;
-//   // if (save_on_exit) done = save();
-
-//   if (!done) return done;
-
-//   // media_container_.clear();
-//   file_path_.clear();
-//   return done;
-// }
 
 bool FileManager::save(const std::vector<const media::Media*>& data, const QString& path) {
   QString savePath = path.isEmpty() ? file_path_ : path;
@@ -182,7 +163,6 @@ std::vector<std::unique_ptr<media::Media>> FileManager::fromJson(QFile& file) {
       continue;  // tipo sconosciuto
     }
 
-    // if (media) media_container_.addMedia(*media);
     result.push_back(std::move(media));
   }
 
@@ -193,7 +173,6 @@ std::vector<std::unique_ptr<media::Media>> FileManager::fromXml(QFile& file) {
   QDomDocument doc;
   if (!doc.setContent(&file)) {
     file.close();
-    // return;
     return {};
   }
   file.close();
@@ -294,7 +273,6 @@ std::vector<std::unique_ptr<media::Media>> FileManager::fromXml(QFile& file) {
       continue;  // tipo sconosciuto
     }
 
-    // if (media) media_container_.addMedia(*media);
     result.push_back(std::move(media));
   }
 

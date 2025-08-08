@@ -1,7 +1,6 @@
 #include "EbookInputWidget.h"
 
 #include <QLabel>
-#include <iostream>
 #include "InputWidget.h"
 
 #include "../../Media/Ebook.h"
@@ -25,14 +24,6 @@ EbookInputWidget::EbookInputWidget(QWidget *parent) : NovelInputWidget(parent) {
   novel_layout_->addWidget(new QLabel("DRM:", this), novel_layout_->rowCount() - 1, 4);
   novel_layout_->addWidget(drm_, novel_layout_->rowCount() - 1, 5);
 }
-// media::Ebook *EbookInputWidget::getFilter() const {
-//   auto *novel = NovelInputWidget::getFilter();
-//   auto *ebook = new media::Ebook(*novel);
-//   delete novel;
-
-//   ebook->setDrm(drm_->isChecked());
-//   return ebook;
-// }
 void EbookInputWidget::makeFilterFor(InputWidget &other) const {
   other.makeFilterFrom(*this);
 }

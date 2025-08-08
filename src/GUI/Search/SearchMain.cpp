@@ -18,7 +18,6 @@ SearchMain::SearchMain(QWidget *parent)
       edit_(new SelectedEdit(this)) {
   search_input_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   results_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  // preview_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   selected_->addWidget(edit_);
   selected_->addWidget(preview_);
   selected_->setCurrentWidget(preview_);
@@ -52,7 +51,6 @@ SearchMain::SearchMain(QWidget *parent)
   layout->addWidget(results_wrapper);
 
   connect(search_input_, &SearchWidget::simpleSearch, this, &SearchMain::requestResults);
-  // connect(this, &SearchMain::acceptResults, results_, &GridResults::updateResults);
   connect(this, &SearchMain::updateResults, results_, &GridResults::updateResults);
 
   // Pulsanti di preview (edit/delete)
@@ -62,32 +60,23 @@ SearchMain::SearchMain(QWidget *parent)
   connect(preview_, &SelectedPreview::fastEditPressed, this, &SearchMain::fastEditClicked);
 
   connect(edit_, &SelectedEdit::commitChanges, this, &SearchMain::commitEditChanges);
-  // connect(edit_, &SelectedEdit::commitChanges, [this](const media::Media *new_media) { mediaSingleClicked(new_media);
-  // });
   connect(edit_, &SelectedEdit::undoChanges, this, &SearchMain::undoEditChanges);
   connect(edit_, &SelectedEdit::requestDelete, this, &SearchMain::requestDelete);
   connect(edit_, &SelectedEdit::requestDelete, this, &SearchMain::hidePreview);
 
-  // Doppio click sui risultati
+  // click sui risultati
   connect(results_, &GridResults::mediaDoubleClicked, this, &SearchMain::mediaDoubleClicked);
-  // connect(results_, &GridResults::mediaSingleClicked, this, &SearchMain::mediaSingleClicked);
   connect(results_, &GridResults::mediaSingleClicked, this, &SearchMain::showPreview);
   connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::advancedClicked);
   connect(search_input_, &SearchWidget::advancedClicked, this, &SearchMain::clear);
 
   connect(search_input_, &SearchWidget::addNewMedia, this, &SearchMain::addNewMedia);
-  // todo display risultati per preview
 }
 
 void SearchMain::undoEditChanges() {
   edit_->display(nullptr);
   selected_->setCurrentWidget(preview_);
 }
-
-// void SearchMain::mediaSingleClicked(const media::Media *media) {
-//   preview_->display(media);
-//   selected_->setCurrentWidget(preview_);
-// }
 
 void SearchMain::fastEditClicked(const media::Media *media) {
   edit_->display(media);

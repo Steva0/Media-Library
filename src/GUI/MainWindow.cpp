@@ -10,13 +10,11 @@
 #include "DatabaseSelectionWidget.h"
 #include "MainWindow.h"
 
-// debug
 #include "AbstractSearchWidget.h"
 #include "AdvancedSearch/MainWidget.h"
 #include "PreviewVisitor.h"
 #include "Search/SearchMain.h"
 #include "SlidingStackedWidget.h"
-#include "qmessagebox.h"
 
 namespace gui {
 
@@ -104,24 +102,24 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
   // 2) Segnali dal widget dettaglio per azioni
   connect(media_detail_page_, &MediaDetailPage::backRequested, this, &MainWindow::goBack);
   connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, this, &MainWindow::onRemoveMediaRequested);
-  connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, [this]() { navigateTo(current_search_widget_); });
+  connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, this, [this]() { navigateTo(current_search_widget_); });
   connect(media_detail_page_, &MediaDetailPage::removeMediaRequested, simple_search_widget_,
           &search::SearchMain::hidePreview);
   connect(media_detail_page_, &MediaDetailPage::enterEditRequested, this, &MainWindow::onEnterEditRequested);
 
   connect(
-      media_edit_page_, &MediaEditPage::editConfirmed,
+      media_edit_page_, &MediaEditPage::editConfirmed, this,
       [this](const media::Media *new_media, const media::Media *old_media) { onEditConfirmed(new_media, old_media); });
-  connect(media_edit_page_, &MediaEditPage::editConfirmed, [this]() { navigateTo(current_search_widget_); });
+  connect(media_edit_page_, &MediaEditPage::editConfirmed, this, [this]() { navigateTo(current_search_widget_); });
   connect(media_edit_page_, &MediaEditPage::editConfirmed, simple_search_widget_, &search::SearchMain::hidePreview);
   connect(media_edit_page_, &MediaEditPage::backRequested, this, &MainWindow::goBack);
   connect(media_edit_page_, &MediaEditPage::deleteRequested, this, &MainWindow::onRemoveMediaRequested);
   connect(media_edit_page_, &MediaEditPage::deleteRequested, simple_search_widget_, &search::SearchMain::hidePreview);
-  connect(media_edit_page_, &MediaEditPage::deleteRequested, [this]() { navigateTo(current_search_widget_); });
+  connect(media_edit_page_, &MediaEditPage::deleteRequested, this, [this]() { navigateTo(current_search_widget_); });
 
   connect(simple_search_widget_, &search::SearchMain::advancedClicked, this,
           [&]() { navigateTo(advanced_search_widget_); });
-  connect(simple_search_widget_, &search::SearchMain::commitEditChanges,
+  connect(simple_search_widget_, &search::SearchMain::commitEditChanges, this,
           [this](const media::Media *new_media, const media::Media *old_media) {
             if (!(*new_media == *old_media)) onEditConfirmed(new_media, old_media);
           });
@@ -156,7 +154,7 @@ void MainWindow::createDatabase() {
 
   // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
   last_simple_search_query_ = "";
-  simple_search_widget_->updateResults(database_.filter(media::Media{}));
+  emit simple_search_widget_->updateResults(database_.filter(media::Media{}));
 
   status_bar_->showMessage("Creato database: " + path);
 }
@@ -171,7 +169,7 @@ void MainWindow::openDatabase() {
 
   // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
   last_simple_search_query_ = "";
-  simple_search_widget_->updateResults(database_.filter(media::Media{}));
+  emit simple_search_widget_->updateResults(database_.filter(media::Media{}));
   status_bar_->showMessage(QString("Caricato database") + path);
 }
 
@@ -208,7 +206,7 @@ void MainWindow::onRemoveMediaRequested(const media::Media *media) {
   applyFilterAdvanced(media::Media{});
 
   // Aggiorna ricerca semplice
-  simple_search_widget_->updateResults(database_.filter(media::Media(last_simple_search_query_.toStdString())));
+  emit simple_search_widget_->updateResults(database_.filter(media::Media(last_simple_search_query_.toStdString())));
 }
 
 void MainWindow::onAddMedia(const media::Media *newMedia) {
@@ -226,7 +224,7 @@ void MainWindow::onAddMedia(const media::Media *newMedia) {
   applyFilterAdvanced(media::Media{});
 
   // Aggiorna la ricerca semplice
-  simple_search_widget_->updateResults(database_.filter(media::Media(last_simple_search_query_.toStdString())));
+  emit simple_search_widget_->updateResults(database_.filter(media::Media(last_simple_search_query_.toStdString())));
 
   // Pulisci lo stack per evitare ritorno alla AddMediaViewPage
   while (!navigation_stack_.empty()) navigation_stack_.pop();
@@ -272,7 +270,7 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
 
   // Aggiorna ricerca semplice
   simple_search_widget_->showPreview(newMedia);
-  simple_search_widget_->updateResults(database_.filter(media::Media(last_simple_search_query_.toStdString())));
+  emit simple_search_widget_->updateResults(database_.filter(media::Media(last_simple_search_query_.toStdString())));
 }
 
 bool MainWindow::savePopup() {
@@ -310,12 +308,12 @@ void MainWindow::saveDatabase() {
 }
 
 void MainWindow::applyFilterAdvanced(const media::Media &filter) {
-  advanced_search_widget_->updateResults(database_.filter(filter));
+  emit advanced_search_widget_->updateResults(database_.filter(filter));
 }
 
 void MainWindow::simpleSearch(const media::Media &media) {
   last_simple_search_query_ = QString::fromStdString(media.getTitle());
-  simple_search_widget_->updateResults(database_.filter(media));
+  emit simple_search_widget_->updateResults(database_.filter(media));
 }
 
 void MainWindow::debugVisitorNormalSearch() {

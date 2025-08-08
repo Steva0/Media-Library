@@ -28,16 +28,6 @@ AlbumInputWidget::AlbumInputWidget(QWidget *parent) : MediaInputWidget(parent) {
   container_->addLayout(album_layout_);
 }
 
-// media::Album *AlbumInputWidget::getFilter() const {
-//   media::Media *media = MediaInputWidget::getFilter();
-//   auto *album = new media::Album(*media);
-//   delete media;
-
-//   album->setBand(band_name_->text().toStdString());
-//   album->addMember(band_member_->text().toStdString());
-//   album->addSong(song_->text().toStdString());
-//   return album;
-// }
 void AlbumInputWidget::makeFilterFor(InputWidget &other) const {
   other.makeFilterFrom(*this);
 }

@@ -25,7 +25,6 @@ class SearchMain : public AbstractSearchWidget {
 
  private slots:
   void undoEditChanges();
-  // void mediaSingleClicked(const media::Media *);
   void fastEditClicked(const media::Media *);
   void clear();
 
@@ -35,7 +34,6 @@ class SearchMain : public AbstractSearchWidget {
 
  signals:
   void advancedClicked();
-  // void acceptResults(const std::vector<const media::Media *> &);
   void mediaDoubleClicked(const media::Media *);
   void requestEdit(const media::Media *);
   void commitEditChanges(const media::Media *new_media, const media::Media *old_media);

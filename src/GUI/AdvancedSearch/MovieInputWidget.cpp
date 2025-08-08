@@ -13,8 +13,6 @@ MovieInputWidget::MovieInputWidget(QWidget *parent) : MediaInputWidget(parent), 
   actor_ = new QLineEdit(this);
   universe_ = new QLineEdit(this);
 
-  // movie_layout_ = new QGridLayout(this);
-
   movie_layout_->addWidget(new QLabel("Attori:", this), 0, 0);
   movie_layout_->addWidget(actor_, 0, 1);
 
@@ -23,16 +21,6 @@ MovieInputWidget::MovieInputWidget(QWidget *parent) : MediaInputWidget(parent), 
 
   container_->addLayout(movie_layout_);
 }
-// media::Movie *MovieInputWidget::getFilter() const {
-//   media::Media *base = MediaInputWidget::getFilter();
-//   auto *movie = new media::Movie(*base);
-//   delete base;
-
-//   movie->addActor(actor_->text().toStdString());
-//   movie->setUniverse(universe_->text().toStdString());
-
-//   return movie;
-// }
 void MovieInputWidget::makeFilterFor(InputWidget &other) const {
   other.makeFilterFrom(*this);
 }

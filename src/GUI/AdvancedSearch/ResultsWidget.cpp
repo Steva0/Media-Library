@@ -54,7 +54,6 @@ void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_r
 
     grid_->addWidget(wrapper, pos / 2, pos % 2);
 
-    // ⬇️ Connetti il doppio click al segnale da emettere
     connect(wrapper, &ClickableFrame::doubleClicked, this, [this, result]() { emit mediaDoubleClicked(result); });
 
     ++pos;

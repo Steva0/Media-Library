@@ -1,9 +1,7 @@
 #include <QApplication>
-#include <iostream>
 
 #include "./GUI/MainWindow.h"
 #include "./Memory/Database.h"
-// questa versione porta a leak
 
 int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
@@ -13,6 +11,6 @@ int main(int argc, char *argv[]) {
   styleFile.open(QFile::ReadOnly);
   app.setStyleSheet(styleFile.readAll());
   main_window.show();
-  app.setActiveWindow(&main_window);
+  main_window.activateWindow();
   return app.exec();
 }

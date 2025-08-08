@@ -13,10 +13,7 @@ Media::Media(const std::string &title, int release, const std::string &language,
       favourite_(favourite),
       genres_(genres),
       img_path_(img_path),
-      notes_(notes) {
-  debug_count_++;
-  std::cout << "(" << debug_count_ << ") Media(): " << title << std::endl;
-}
+      notes_(notes) {}
 
 void Media::accept(IConstMediaVisitor &v) const { v.visit(*this); }
 
@@ -26,12 +23,8 @@ bool Media::operator==(const Media &other) const {
          notes_ == other.notes_;
 }
 
-std::unique_ptr<media::Media> media::Media::makePtr() const { return std::make_unique<media::Media>(*this); }
+std::unique_ptr<Media> media::Media::makePtr() const { return std::make_unique<Media>(*this); }
 std::string Media::displayType() const { return "Media"; }
-bool Media::open() {
-  notes_ = "";
-  return false;
-}
 
 void Media::setTitle(const std::string &title) { title_ = title; }
 void Media::setRelease(int release) { release_ = release; }

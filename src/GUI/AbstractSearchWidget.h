@@ -4,6 +4,7 @@
 
 #include "../Media/Media.h"
 namespace gui {
+// "Abstract" solamente per indicare che non deve essere istanziata
 class AbstractSearchWidget : public QWidget {
   Q_OBJECT
  public:

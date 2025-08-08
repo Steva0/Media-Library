@@ -17,7 +17,6 @@ namespace advanced_search {
 class InputWidget : public QWidget {
   Q_OBJECT
  private:
-  // selezione del tipo di media cercato sulla base di enum in MediaContainer
   QVBoxLayout *layout_;
   TypeSelector *type_selection_;
 
