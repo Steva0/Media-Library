@@ -1,6 +1,7 @@
 #include "SelectedPreview.h"
 
 #include "../PreviewVisitor.h"
+#include <QVariant>
 
 namespace gui {
 namespace search {
