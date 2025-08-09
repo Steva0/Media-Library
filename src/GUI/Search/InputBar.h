@@ -9,10 +9,10 @@ class InputBar : public QLineEdit {
  private:
   QTimer *timer_;
 
-  static const int kTimerDuration;
+  const int kTimerDurationMillis_;
 
  public:
-  explicit InputBar(QWidget *parent = nullptr);
+  explicit InputBar(int timerDurationMillis, QWidget *parent = nullptr);
 
  signals:
   void timedEdit(const QString &);

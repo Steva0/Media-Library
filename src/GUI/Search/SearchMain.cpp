@@ -17,6 +17,7 @@ SearchMain::SearchMain(QWidget *parent)
       preview_(new SelectedPreview(this)),
       edit_(new SelectedEdit(this)) {
   search_input_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  selected_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
   results_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   selected_->addWidget(edit_);
   selected_->addWidget(preview_);

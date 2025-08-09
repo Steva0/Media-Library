@@ -18,7 +18,6 @@ class SearchMain : public AbstractSearchWidget {
   QStackedWidget *selected_;
   SelectedPreview *preview_;
   SelectedEdit *edit_;
-  QWidget *placeholder_;
 
  public:
   explicit SearchMain(QWidget *parent = nullptr);

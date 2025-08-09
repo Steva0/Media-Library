@@ -8,10 +8,10 @@ namespace gui {
 namespace search {
 SearchWidget::SearchWidget(QWidget *parent)
   : QWidget(parent),
-    input_(new InputBar(this)),
+    input_(new InputBar(500, this)),
     advanced_search_(new QPushButton("Avanzata", this)),
     add_new_(new QPushButton("Aggiungi Nuovo", this)) {
-  auto *layout = new QHBoxLayout(this);
+  auto *layout = new QVBoxLayout(this);
 
   input_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   advanced_search_->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
@@ -20,9 +20,17 @@ SearchWidget::SearchWidget(QWidget *parent)
   // Imposta la proprietà "verde" solo per il pulsante add_new_
   add_new_->setProperty("verde", true);
 
-  layout->addWidget(advanced_search_);
+  auto *advanced_wrapper = new QHBoxLayout;
+  advanced_wrapper->addWidget(advanced_search_);
+  advanced_wrapper->addStretch();
+
+  auto *add_wrapper = new QHBoxLayout;
+  add_wrapper->addStretch();
+  add_wrapper->addWidget(add_new_);
+
+  layout->addLayout(advanced_wrapper);
   layout->addWidget(input_);
-  layout->addWidget(add_new_);
+  layout->addLayout(add_wrapper);
 
   layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
 

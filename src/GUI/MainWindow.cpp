@@ -4,7 +4,6 @@
 #include <QVBoxLayout>
 #include <algorithm>
 #include <cctype>
-#include <iostream>
 
 #include "../Memory/FileManager.h"
 #include "DatabaseSelectionWidget.h"
@@ -12,7 +11,6 @@
 
 #include "AbstractSearchWidget.h"
 #include "AdvancedSearch/MainWidget.h"
-#include "PreviewVisitor.h"
 #include "Search/SearchMain.h"
 #include "SlidingStackedWidget.h"
 
@@ -316,29 +314,6 @@ void MainWindow::simpleSearch(const media::Media &media) {
   emit simple_search_widget_->updateResults(database_.filter(media));
 }
 
-void MainWindow::debugVisitorNormalSearch() {
-  PreviewVisitor v;
-  auto *album = new media::Album("Nome Album", 2010, "IT", false, {"NomeGenere1", "Genere2"}, ":/assets/matita.jpg",
-                                 "Non dovrebbe essere visualizzato", "Nome band", {"Membro 1", "Membro 2", "Membro 3"},
-                                 {"Canzone 1", "Canzone 2", "Canzone 3", "Canzone 4"});
-  album->accept(v);
-  QWidget *widget = v.getWidget();
-  widget->setParent(this);
-  stacked_widget_->addWidget(widget);
-  stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
-}
-void MainWindow::debugTimedEdit() {
-  auto *timed_line = new search::InputBar(this);
-  stacked_widget_->addWidget(timed_line);
-  stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
-  connect(timed_line, &search::InputBar::timedEdit, this,
-          [](const QString &text) { std::cout << text.toStdString() << '\n'; });
-}
-void MainWindow::debugNormalSearch() {
-  auto *search = new search::SearchMain(this);
-  stacked_widget_->addWidget(search);
-  stacked_widget_->setCurrentIndex(stacked_widget_->count() - 1);
-}
 void MainWindow::navigateTo(QWidget *next_page) {
   QWidget *current = stacked_widget_->currentWidget();
   if (current && current != next_page) {

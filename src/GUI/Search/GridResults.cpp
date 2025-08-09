@@ -15,7 +15,7 @@ GridResults::GridResults(QWidget *parent) : QFrame(parent), grid_(new QGridLayou
 }
 
 void GridResults::updateResults(const std::vector<const media::Media *> &results) {
-  // Pulisci il layout esistente
+  // Cancella risultati precedenti
   while (QLayoutItem *item = grid_->takeAt(0)) {
     if (QWidget *widget = item->widget()) {
       grid_->removeWidget(widget);
@@ -24,7 +24,7 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     delete item;
   }
 
-  results_ = results;  // salva internamente se serve
+  results_ = results;
   int count = 0;
   int max_height = -1;
 

@@ -42,11 +42,6 @@ class MainWindow : public QMainWindow {
   QWidget *current_search_widget_;
   bool savePopup();
 
-  // debug
-  void debugVisitorNormalSearch();
-  void debugTimedEdit();
-  void debugNormalSearch();
-
  public:
   explicit MainWindow(memory::Database &database, QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
 
