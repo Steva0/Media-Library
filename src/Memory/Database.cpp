@@ -50,17 +50,6 @@ std::vector<const media::Media*> Database::filter(const media::Media& media) con
   return results;
 }
 
-int Database::serializeAll(QFile& file) const {
-  std::vector<const media::Media*> raw_all;
-
-  for (const auto& ptr : data_) {
-    if (!ptr->getTitle().empty()) {  // Ignora media senza titolo
-      raw_all.push_back(ptr.get());
-    }
-  }
-  return Serializer::serialize(raw_all, file);
-}
-
 std::vector<const media::Media*> Database::getAll() const {
   std::vector<const media::Media*> clone;
 

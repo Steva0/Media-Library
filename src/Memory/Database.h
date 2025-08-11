@@ -12,8 +12,6 @@
 
 namespace memory {
 class Database {
-  friend class MediaTypeVisitor;
-
  public:
   enum class Type { All = 0, Novel, Album, Movie, Ebook, AudioBook, Series, TypeFilterCount };
 
@@ -34,8 +32,6 @@ class Database {
   std::vector<const media::Media *> getAll() const;
 
  private:
-  int serializeAll(QFile &file) const;
-
   FileManager file_manager_;
   std::vector<std::unique_ptr<media::Media>> data_;
 };
