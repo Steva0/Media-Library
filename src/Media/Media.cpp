@@ -4,7 +4,6 @@
 #include "Media.h"
 
 namespace media {
-int Media::debug_count_ = 0;
 Media::Media(const std::string &title, int release, const std::string &language, bool favourite,
              const std::vector<std::string> &genres, const std::string &img_path, const std::string &notes)
     : title_(title),

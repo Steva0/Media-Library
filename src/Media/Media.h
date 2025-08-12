@@ -18,7 +18,6 @@ class Media {
   std::vector<std::string> genres_;
   std::string img_path_;
   std::string notes_;
-  static int debug_count_;
 
  public:
   explicit Media(const std::string &title = "", int release = std::numeric_limits<int>::min(),

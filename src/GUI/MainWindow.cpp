@@ -256,7 +256,7 @@ void MainWindow::onEditConfirmed(const media::Media *newMedia, const media::Medi
   status_bar_->showMessage("Modificando media con titolo: " + QString::fromStdString(oldMedia->getTitle()));
 
   const media::Media *aux = newMedia;
-  newMedia = database_.updateMedia(newMedia, oldMedia);
+  newMedia = database_.updateMedia(*newMedia, *oldMedia);
   delete aux;
   changes_were_made_ = true;
 
