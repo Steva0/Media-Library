@@ -181,12 +181,13 @@ void AlbumEditWidget::setMedia(const media::Media* media) {
   clearGridLayout(band_members_layout_, band_member_edits_);
   clearGridLayout(songs_layout_, song_edits_);
 
-  // Pulisci canzoni attuali
-  for (auto* edit : song_edits_) {
-    edit->parentWidget()->deleteLater();
+  // Popola membri band
+  for (const auto& member : album->getBandMembers()) {
+    band_member_input_->setText(QString::fromStdString(member));
+    addBandMember();
   }
-  song_edits_.clear();
 
+  // Popola canzoni
   for (const auto& song : album->getSongs()) {
     song_input_->setText(QString::fromStdString(song));
     addSong();

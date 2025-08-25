@@ -3,7 +3,7 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET = build
+TARGET = MediaLibrary
 INCLUDEPATH += .
 QT += widgets xml
 

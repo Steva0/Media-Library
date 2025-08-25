@@ -23,8 +23,14 @@
       <Genre>Psychedelic Rock</Genre>
     </Genres>
     <Band>Pink Floyd</Band>
+    <BandMembers>
+      <Member>David Gilmour</Member>
+      <Member>Roger Waters</Member>
+      <Member>Richard Wright</Member>
+      <Member>Nick Mason</Member>
+    </BandMembers>
     <Songs>
-      <Song>Speack to Me</Song>
+      <Song>Speak to Me</Song>
       <Song>Breathe</Song>
       <Song>On the Run</Song>
       <Song>Time</Song>

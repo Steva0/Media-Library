@@ -3,6 +3,9 @@
 
 #include <QWidget>
 #include <QStackedLayout>
+#include <QPushButton>
+#include <QButtonGroup>
+#include <QVector>
 
 #include "../EditView/AlbumEditWidget.h"
 #include "../EditView/AudioBookEditWidget.h"
@@ -15,42 +18,45 @@
 namespace gui {
 
 class AddMediaViewPage : public QWidget {
-  Q_OBJECT
+    Q_OBJECT
 
- public:
-  explicit AddMediaViewPage(QWidget* parent = nullptr);
-  void clearEditSection();
+public:
+    explicit AddMediaViewPage(QWidget* parent = nullptr);
+    void clearEditSection();
 
- signals:
-  void mediaAdded(media::Media* newMedia);
-  void backRequested();
+signals:
+    void mediaAdded(media::Media* newMedia);
+    void backRequested();
 
- private slots:
-  void onConfirm();
-  void onBack();
-  void selectMediaType(int index);
+private slots:
+    void onConfirm();
+    void onBack();
+    void selectMediaType(int index);
 
- protected:
-  void setupUi();
-  void keyPressEvent(QKeyEvent* event) override;
+protected:
+    void setupUi();
+    void keyPressEvent(QKeyEvent* event) override;
 
- private:
-  QStackedLayout* stacked_layout_ = nullptr;
+private:
+    QVector<QPushButton*> media_type_buttons_;
+    QButtonGroup* media_type_group_ = nullptr;
 
-  MediaEditWidget* media_edit_widget_ = nullptr;
-  NovelEditWidget* novel_edit_widget_ = nullptr;
-  AudioBookEditWidget* audiobook_edit_widget_ = nullptr;
-  AlbumEditWidget* album_edit_widget_ = nullptr;
-  SeriesEditWidget* series_edit_widget_ = nullptr;
-  MovieEditWidget* movie_edit_widget_ = nullptr;
-  EbookEditWidget* ebook_edit_widget_ = nullptr;
+    QStackedLayout* stacked_layout_ = nullptr;
 
-  MediaEditWidget* getWidgetAtIndex(int index) const;
+    MediaEditWidget* media_edit_widget_ = nullptr;
+    NovelEditWidget* novel_edit_widget_ = nullptr;
+    AudioBookEditWidget* audiobook_edit_widget_ = nullptr;
+    AlbumEditWidget* album_edit_widget_ = nullptr;
+    SeriesEditWidget* series_edit_widget_ = nullptr;
+    MovieEditWidget* movie_edit_widget_ = nullptr;
+    EbookEditWidget* ebook_edit_widget_ = nullptr;
 
-  QWidget* edit_section_ = nullptr;
-  QStackedLayout* central_layout_;
+    MediaEditWidget* getWidgetAtIndex(int index) const;
 
-  QWidget* createButtonsWidget(QWidget* parent = nullptr);
+    QWidget* edit_section_ = nullptr;
+    QStackedLayout* central_layout_ = nullptr;
+
+    QWidget* createButtonsWidget(QWidget* parent = nullptr);
 };
 
 }  // namespace gui

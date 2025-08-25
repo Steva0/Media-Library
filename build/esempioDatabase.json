@@ -1,0 +1,130 @@
+[
+    {
+        "Author": "Jane Austen",
+        "Genres": [
+            "Romantico",
+            "Classico"
+        ],
+        "ISBN": "9780141040349",
+        "Language": "Inglese",
+        "Notes": "Un grande classico della letteratura inglese",
+        "Pages": 432,
+        "Publisher": "Thomas Egerton",
+        "Release": 1813,
+        "Series": "Romanzo Singolo",
+        "Title": "Orgoglio e Pregiudizio",
+        "type": "Novel"
+    },
+    {
+        "Author": "William Gibson",
+        "Bytes": 523456,
+        "DRM": true,
+        "Genres": [
+            "Fantascienza",
+            "Cyberpunk"
+        ],
+        "ISBN": "9780441569595",
+        "Language": "Inglese",
+        "Notes": "Capostipite del genere cyberpunk",
+        "Pages": 271,
+        "Publisher": "Ace Books",
+        "Release": 1984,
+        "Series": "Sprawl Trilogy",
+        "Title": "Neuromante",
+        "type": "Ebook"
+    },
+    {
+        "Author": "Umberto Eco",
+        "Genres": [
+            "Storico",
+            "Giallo"
+        ],
+        "ISBN": "9788845292615",
+        "Language": "Italiano",
+        "Narrator": "Luigi La Monica",
+        "Notes": "Versione narrata integrale",
+        "Pages": 140,
+        "Publisher": "Bompiani",
+        "Release": 2015,
+        "Series": "Romanzo Singolo",
+        "Service": "Audible",
+        "Title": "Il Nome della Rosa",
+        "type": "AudioBook"
+    },
+    {
+        "Cast": [
+            "Matthew McConaughey",
+            "Anne Hathaway",
+            "Jessica Chastain",
+            "Michael Caine"
+        ],
+        "Favourite": true,
+        "Genres": [
+            "Fantascienza",
+            "Avventura",
+            "Drammatico"
+        ],
+        "Language": "Inglese",
+        "Length": 169,
+        "Notes": "Un viaggio epico tra galassie e dimensioni",
+        "Release": 2014,
+        "Title": "Interstellar",
+        "Universe": "Spazio-tempo",
+        "type": "Movie"
+    },
+    {
+        "Cast": [
+            "Millie Bobby Brown",
+            "Finn Wolfhard",
+            "David Harbour"
+        ],
+        "Episodes": 34,
+        "Genres": [
+            "Fantascienza",
+            "Horror",
+            "Drammatico"
+        ],
+        "Language": "Inglese",
+        "Release": 2016,
+        "Seasons": 4,
+        "Title": "Stranger Things",
+        "Universe": "Realtà Alternativa",
+        "type": "Series"
+    },
+    {
+        "Band": "The Beatles",
+        "BandMembers": [
+            "John Lennon",
+            "Paul McCartney",
+            "George Harrison",
+            "Ringo Starr"
+        ],
+        "Genres": [
+            "Rock",
+            "Pop"
+        ],
+        "Language": "Inglese",
+        "Release": 1969,
+        "Songs": [
+            "Come Together",
+            "Something",
+            "Maxwell's Silver Hammer",
+            "Oh! Darling",
+            "Octopus's Garden",
+            "I Want You (She's So Heavy)",
+            "Here Comes the Sun",
+            "Because",
+            "You Never Give Me Your Money",
+            "Sun King",
+            "Mean Mr. Mustard",
+            "Polythene Pam",
+            "She Came In Through the Bathroom Window",
+            "Golden Slumbers",
+            "Carry That Weight",
+            "The End",
+            "Her Majesty"
+        ],
+        "Title": "Abbey Road",
+        "type": "Album"
+    }
+]
