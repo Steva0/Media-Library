@@ -47,12 +47,13 @@ void Movie::setUniverse(const std::string &universe) { universe_ = universe; }
 bool Movie::filter(const Media &movie) const {
   if (!Media::filter(movie)) return false;
 
-  // Cast (match parziale, case-insensitive)
   const Movie *moviePtr = dynamic_cast<const Movie *>(&movie);
   if (!moviePtr) {
     return false;
   }
+  
   if (!cast_.empty()) {
+    // necessaria almeno una corrispondenza parziale
     const auto &movieCast = moviePtr->getCast();
     for (const auto &filterCast : cast_) {
       bool found = false;
@@ -68,11 +69,9 @@ bool Movie::filter(const Media &movie) const {
     }
   }
 
-  // Length (non confronto)
-
-  // Universe (match parziale, case-insensitive)
   if (!universe_.empty() && !stringContainsIgnoreCase(moviePtr->getUniverse(), universe_)) return false;
 
+  // ignoro lunghezza
   return true;
 }
 

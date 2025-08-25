@@ -39,20 +39,16 @@ void Media::setImgPath(const std::string &path) { img_path_ = path; }
 void Media::setNotes(const std::string &notes) { notes_ = notes; }
 
 bool Media::filter(const Media &media) const {
-  // Title (substring, case-insensitive)
   if (!getTitle().empty() && !stringContainsIgnoreCase(media.getTitle(), getTitle())) return false;
 
-  // Release (confronto stretto)
   if (getRelease() != std::numeric_limits<int>::min() && media.getRelease() != getRelease()) return false;
 
-  // Language (substring, case-insensitive)
   if (!getLanguage().empty() && media.getLanguage() != getLanguage()) return false;
 
-  // Favourite (confronto booleano)
   if (isFavourite() && media.isFavourite() != isFavourite()) return false;
 
-  // Generi (match parziale case-insensitive su ogni genere richiesto)
   if (!getGenres().empty()) {
+    // almeno una corrispondenza parziale
     const auto &mediaGenres = media.getGenres();
     for (const auto &genreFilter : getGenres()) {
       bool found = false;
@@ -67,6 +63,8 @@ bool Media::filter(const Media &media) const {
       }
     }
   }
+
+  // ignorati percorso immagine e note
 
   return true;
 }

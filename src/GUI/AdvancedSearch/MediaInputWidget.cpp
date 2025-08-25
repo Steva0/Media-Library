@@ -19,7 +19,7 @@ MediaInputWidget::MediaInputWidget(QWidget *parent) : IMediaInputWidget(parent),
 
   auto *release_label = new QLabel("Anno di uscita:", this);
   release_ = new QLineEdit(this);
-  release_->setValidator(new QIntValidator(-5000, 5000, release_));
+  release_->setValidator(new QIntValidator(-1000, 1000, release_));
 
   auto *language_label = new QLabel("Lingua:", this);
   language_ = new QLineEdit(this);

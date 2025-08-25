@@ -39,10 +39,10 @@ void AudioBook::setDuration(int duration) { setPages(duration); }
 
 bool AudioBook::filter(const Media& input) const {
   if (!Novel::filter(input)) return false;
-  const AudioBook* audiobookPtr = dynamic_cast<const AudioBook*>(&input);
-  if (!audiobookPtr) return false;  // Protegge da cast fallito
 
-  // Filtro specifico AudioBook
+  const AudioBook* audiobookPtr = dynamic_cast<const AudioBook*>(&input);
+  if (!audiobookPtr) return false; 
+
   if (!narrator_.empty() && !stringContainsIgnoreCase(audiobookPtr->getNarrator(), narrator_)) return false;
 
   if (!streamingService_.empty() && !stringContainsIgnoreCase(audiobookPtr->getStreamingService(), streamingService_))

@@ -37,16 +37,13 @@ std::unique_ptr<Media> Ebook::makePtr() const { return std::make_unique<Ebook>(*
 std::string Ebook::displayType() const { return "EBOOK"; }
 
 bool Ebook::filter(const Media& input) const {
-  // Riutilizzo filtro base di Novel
   if (!Novel::filter(input)) return false;
-  // Cast to Ebook to access Ebook-specific members
+
   const Ebook* ebookPtr = dynamic_cast<const Ebook*>(&input);
   if (!ebookPtr) return false;
 
-  // File size filter
   if (fileSizeBytes_ != std::numeric_limits<int>::min() && ebookPtr->getFileSizeBytes() != fileSizeBytes_) return false;
 
-  // DRM filter
   if (drm_ && ebookPtr->hasDrm() != drm_) return false;
 
   return true;

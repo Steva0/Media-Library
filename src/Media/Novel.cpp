@@ -48,25 +48,20 @@ void Novel::setSeries(const std::string& series) { series_ = series; }
 void Novel::setIsbn(const std::string& isbn) { isbn_ = isbn; }
 
 bool Novel::filter(const Media& input) const {
-  // Riutilizzo filtro base di Media
   if (!Media::filter(input)) return false;
-  // Cast to Novel to access Novel-specific members
+
   const Novel* novelPtr = dynamic_cast<const Novel*>(&input);
   if (!novelPtr) return false;
 
-  // Autore
   if (!author_.empty() && !stringContainsIgnoreCase(novelPtr->getAuthor(), author_)) return false;
 
-  // Editore
   if (!publisher_.empty() && !stringContainsIgnoreCase(novelPtr->getPublisher(), publisher_)) return false;
 
-  // Serie
   if (!series_.empty() && !stringContainsIgnoreCase(novelPtr->getSeries(), series_)) return false;
 
-  // ISBN
   if (!isbn_.empty() && !stringContainsIgnoreCase(novelPtr->getIsbn(), isbn_)) return false;
 
-  // Pagine (non fa il confronto)
+  // ignoro numero pagine
 
   return true;
 }

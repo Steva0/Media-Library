@@ -49,18 +49,15 @@ std::unique_ptr<Media> Album::makePtr() const { return std::make_unique<Album>(*
 std::string Album::displayType() const { return "ALBUM"; }
 
 bool Album::filter(const Media &album) const {
-  // Riutilizzo filtro base di Media
   if (!Media::filter(album)) return false;
 
-  // Cast to Album to access Album-specific members
   const Album *albumPtr = dynamic_cast<const Album *>(&album);
   if (!albumPtr) return false;
 
-  // Band
   if (!band_.empty() && !stringContainsIgnoreCase(albumPtr->getBand(), band_)) return false;
 
-  // Band members (ogni membro richiesto deve matchare almeno uno esistente)
   if (!band_members_.empty()) {
+    // corrispondenza parziale case insensitive su tutti i membri
     for (const auto &memberFilter : band_members_) {
       bool found = false;
       for (const auto &m : albumPtr->getBandMembers()) {
@@ -75,8 +72,8 @@ bool Album::filter(const Media &album) const {
     }
   }
 
-  // Songs (ogni canzone richiesta deve matchare almeno una esistente)
   if (!songs_.empty()) {
+    // corrispondenza parziale case insensitive su tutte le canzoni
     for (const auto &songFilter : songs_) {
       bool found = false;
       for (const auto &s : albumPtr->getSongs()) {

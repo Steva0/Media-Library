@@ -23,9 +23,9 @@ SelectedEdit::SelectedEdit(QWidget *parent)
   data_layout->addWidget(new QLabel("Titolo:", this), 0, 0);
   data_layout->addWidget(title_, 0, 1);
 
-  data_layout->addWidget(new QLabel("Anno di uscita:", this), 1, 0);
+  data_layout->addWidget(new QLabel("Uscita:", this), 1, 0);
   data_layout->addWidget(release_, 1, 1);
-  release_->setValidator(new QIntValidator(-5000, 5000, release_));
+  release_->setValidator(new QIntValidator(-1000, 1000, release_));
 
   data_layout->addWidget(new QLabel("Lingua:", this), 2, 0);
   data_layout->addWidget(language_, 2, 1);

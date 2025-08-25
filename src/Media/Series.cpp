@@ -43,15 +43,12 @@ bool Series::filter(const Media &input) const {
   if (!Movie::filter(input)) return false;
 
   const Series *seriesPtr = dynamic_cast<const Series *>(&input);
-  if (!seriesPtr) return false;  // Protegge da cast fallito
+  if (!seriesPtr) return false; 
 
-  // Episodes 
   if (episodes_ != std::numeric_limits<int>::min() && seriesPtr->getEpisodes() != episodes_) return false;
 
-  // Seasons 
   if (seasons_ != std::numeric_limits<int>::min() && seriesPtr->getSeasons() != seasons_) return false;
 
-  // Ended 
   if (ended_ && ended_ != seriesPtr->hasEnded()) return false;
 
   return true;
