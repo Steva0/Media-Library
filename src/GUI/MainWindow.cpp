@@ -137,7 +137,7 @@ void MainWindow::createDatabase() {
     if (savePopup()) database_.save();
 
     QString filter = "All supported files (*.xml *.json);;XML files (*.xml);;JSON files (*.json)";
-    QString selected_filter; // <--- dichiarazione della variabile
+    QString selected_filter;
     QString path = QFileDialog::getSaveFileName(this, "Nuovo Database", ".", filter, &selected_filter);
 
     if (path.isEmpty()) return;
