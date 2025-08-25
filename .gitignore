@@ -1,7 +1,8 @@
 .cache
 .qmake.stash
 ./src
-build/build
+build/MediaLibrary
+
 
 # C++ objects and libs
 *.slo

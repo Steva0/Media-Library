@@ -38,6 +38,7 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
                        QString::fromStdString(memory::FileManager::kAcceptedExtensions[i]) + ");;";
   }
 
+
   auto *status_wrapper = new QFrame(this);
   status_wrapper->setFrameShape(QFrame::Box);
   status_wrapper->setFrameShadow(QFrame::Shadow::Sunken);
@@ -133,43 +134,48 @@ MainWindow::MainWindow(memory::Database &database, QWidget *parent, Qt::WindowFl
 }
 
 void MainWindow::createDatabase() {
-  if (savePopup()) database_.save();
-  QString filter;
-  QString path = QFileDialog::getSaveFileName(this, "Nuovo Database", ".", allowed_filter_, &filter);
-  if (path == "") return;
+    if (savePopup()) database_.save();
 
-  if (filter.contains("xml"))
-    filter = ".xml";
-  else
-    filter = ".json";
+    QString filter = "All supported files (*.xml *.json);;XML files (*.xml);;JSON files (*.json)";
+    QString selected_filter; // <--- dichiarazione della variabile
+    QString path = QFileDialog::getSaveFileName(this, "Nuovo Database", ".", filter, &selected_filter);
 
-  if (!path.endsWith(filter)) path += filter;
+    if (path.isEmpty()) return;
 
-  accessDatabase(path);
-  database_.clear();
+    // Aggiunge estensione se manca
+    if (selected_filter.contains("xml") && !path.endsWith(".xml"))
+        path += ".xml";
+    else if (selected_filter.contains("json") && !path.endsWith(".json"))
+        path += ".json";
 
-  applyFilterAdvanced(media::Media{});
+    accessDatabase(path);
+    database_.clear();
 
-  // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
-  last_simple_search_query_ = "";
-  emit simple_search_widget_->updateResults(database_.filter(media::Media{}));
+    applyFilterAdvanced(media::Media{});
 
-  status_bar_->showMessage("Creato database: " + path);
+    last_simple_search_query_ = "";
+    emit simple_search_widget_->updateResults(database_.filter(media::Media{}));
+
+    status_bar_->showMessage("Creato database: " + path);
 }
+
 
 void MainWindow::openDatabase() {
-  if (savePopup()) database_.save();
-  QString path = QFileDialog::getOpenFileName(nullptr, "Apri Database", ".", allowed_filter_);
-  if (path == "") return;  // "cancel"
-  accessDatabase(path);
-  // Appena aperto il db, aggiorna i risultati di ricerca con tutti i media o con filtro vuoto
-  applyFilterAdvanced(media::Media{});
+    if (savePopup()) database_.save();
 
-  // Aggiorna anche la ricerca semplice con titolo vuoto per mostrare tutti i media
-  last_simple_search_query_ = "";
-  emit simple_search_widget_->updateResults(database_.filter(media::Media{}));
-  status_bar_->showMessage(QString("Caricato database") + path);
+    QString all_supported_filter = "All supported files (*.xml *.json);;XML files (*.xml);;JSON files (*.json)";
+    QString path = QFileDialog::getOpenFileName(this, "Apri Database", ".", all_supported_filter);
+
+    if (path.isEmpty()) return;  // "cancel"
+    accessDatabase(path);
+
+    applyFilterAdvanced(media::Media{});
+
+    last_simple_search_query_ = "";
+    emit simple_search_widget_->updateResults(database_.filter(media::Media{}));
+    status_bar_->showMessage("Caricato database: " + path);
 }
+
 
 void MainWindow::onMediaDoubleClicked(const media::Media *media) {
   if (!media) return;
