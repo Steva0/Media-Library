@@ -11,7 +11,7 @@ namespace advanced_search {
 const int MediaInputWidget::kColumnAmount = 6;
 const size_t MediaInputWidget::kMaxGenres = 3;
 
-MediaInputWidget::MediaInputWidget(QWidget *parent) : IMediaInputWidget(parent), container_(new QVBoxLayout(this)) {
+MediaInputWidget::MediaInputWidget(QWidget *parent) : QWidget(parent), container_(new QVBoxLayout(this)) {
   media_layout_ = new QGridLayout;
 
   title_ = new QLineEdit(this);

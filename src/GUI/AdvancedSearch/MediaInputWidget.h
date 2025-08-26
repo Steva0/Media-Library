@@ -8,11 +8,12 @@
 #include <QSpinBox>
 
 #include "../../Media/Media.h"
-#include "IMediaInputWidget.h"
 
 namespace gui {
 namespace advanced_search {
-class MediaInputWidget : public IMediaInputWidget {
+class InputWidget;
+
+class MediaInputWidget : public QWidget {
   Q_OBJECT
  private:
   QGridLayout *media_layout_;
@@ -31,8 +32,8 @@ class MediaInputWidget : public IMediaInputWidget {
  public:
   explicit MediaInputWidget(QWidget *parent = nullptr);
 
-  void setFromMedia(const media::Media &) override;
-  void makeFilterFor(InputWidget &) const override;
+  virtual void setFromMedia(const media::Media &);
+  virtual void makeFilterFor(InputWidget &) const;
 
   std::string getTitle() const;
   int getRelease() const;

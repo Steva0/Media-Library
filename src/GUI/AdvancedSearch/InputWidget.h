@@ -20,7 +20,7 @@ class InputWidget : public QWidget {
   QVBoxLayout *layout_;
   TypeSelector *type_selection_;
 
-  IMediaInputWidget *media_filter_;
+  MediaInputWidget *media_filter_;
   std::unique_ptr<media::Media> current_filter_;
 
  public:
