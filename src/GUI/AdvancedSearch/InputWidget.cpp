@@ -89,9 +89,10 @@ void InputWidget::makeFilterFrom(const AlbumInputWidget &media) {
   for (const auto &genre : media.getGenres()) {
     current_filter_->addGenre(genre);
   }
-  static_cast<media::Album &>(*current_filter_).setBand(media.getBandName());
-  static_cast<media::Album &>(*current_filter_).addMember(media.getBandMember());
-  static_cast<media::Album &>(*current_filter_).addSong(media.getSong());
+  media::Album& filter = static_cast<media::Album&>(*current_filter_);
+  filter.setBand(media.getBandName());
+  filter.addMember(media.getBandMember());
+  filter.addSong(media.getSong());
 }
 void InputWidget::makeFilterFrom(const NovelInputWidget &media) {
   current_filter_ = std::make_unique<media::Novel>(media.getTitle());
@@ -101,10 +102,11 @@ void InputWidget::makeFilterFrom(const NovelInputWidget &media) {
   for (const auto &genre : media.getGenres()) {
     current_filter_->addGenre(genre);
   }
-  static_cast<media::Novel &>(*current_filter_).setAuthor(media.getAuthor());
-  static_cast<media::Novel &>(*current_filter_).setPublisher(media.getPublisher());
-  static_cast<media::Novel &>(*current_filter_).setSeries(media.getSeries());
-  static_cast<media::Novel &>(*current_filter_).setIsbn(media.getISBN());
+  media::Novel &filter = static_cast<media::Novel&>(*current_filter_);
+  filter.setAuthor(media.getAuthor());
+  filter.setPublisher(media.getPublisher());
+  filter.setSeries(media.getSeries());
+  filter.setIsbn(media.getISBN());
 }
 void InputWidget::makeFilterFrom(const AudioBookInputWidget &media) {
   current_filter_ = std::make_unique<media::AudioBook>(media.getTitle());
@@ -114,12 +116,13 @@ void InputWidget::makeFilterFrom(const AudioBookInputWidget &media) {
   for (const auto &genre : media.getGenres()) {
     current_filter_->addGenre(genre);
   }
-  static_cast<media::AudioBook &>(*current_filter_).setAuthor(media.getAuthor());
-  static_cast<media::AudioBook &>(*current_filter_).setPublisher(media.getPublisher());
-  static_cast<media::AudioBook &>(*current_filter_).setSeries(media.getSeries());
-  static_cast<media::AudioBook &>(*current_filter_).setIsbn(media.getISBN());
-  static_cast<media::AudioBook &>(*current_filter_).setNarrator(media.getNarrator());
-  static_cast<media::AudioBook &>(*current_filter_).setStreamingService(media.getStreamingService());
+  media::AudioBook &filter = static_cast<media::AudioBook &>(*current_filter_);
+  filter.setAuthor(media.getAuthor());
+  filter.setPublisher(media.getPublisher());
+  filter.setSeries(media.getSeries());
+  filter.setIsbn(media.getISBN());
+  filter.setNarrator(media.getNarrator());
+  filter.setStreamingService(media.getStreamingService());
 }
 void InputWidget::makeFilterFrom(const EbookInputWidget &media) {
   current_filter_ = std::make_unique<media::Ebook>(media.getTitle());
@@ -129,11 +132,12 @@ void InputWidget::makeFilterFrom(const EbookInputWidget &media) {
   for (const auto &genre : media.getGenres()) {
     current_filter_->addGenre(genre);
   }
-  static_cast<media::Ebook &>(*current_filter_).setAuthor(media.getAuthor());
-  static_cast<media::Ebook &>(*current_filter_).setPublisher(media.getPublisher());
-  static_cast<media::Ebook &>(*current_filter_).setSeries(media.getSeries());
-  static_cast<media::Ebook &>(*current_filter_).setIsbn(media.getISBN());
-  static_cast<media::Ebook &>(*current_filter_).setDrm(media.getDRM());
+  media::Ebook &filter = static_cast<media::Ebook &>(*current_filter_);
+  filter.setAuthor(media.getAuthor());
+  filter.setPublisher(media.getPublisher());
+  filter.setSeries(media.getSeries());
+  filter.setIsbn(media.getISBN());
+  filter.setDrm(media.getDRM());
 }
 void InputWidget::makeFilterFrom(const MovieInputWidget &media) {
   current_filter_ = std::make_unique<media::Movie>(media.getTitle());
@@ -143,8 +147,9 @@ void InputWidget::makeFilterFrom(const MovieInputWidget &media) {
   for (const auto &genre : media.getGenres()) {
     current_filter_->addGenre(genre);
   }
-  static_cast<media::Movie &>(*current_filter_).addActor(media.getActor());
-  static_cast<media::Movie &>(*current_filter_).setUniverse(media.getUniverse());
+  media::Movie &filter = static_cast<media::Movie &>(*current_filter_);
+  filter.addActor(media.getActor());
+  filter.setUniverse(media.getUniverse());
 }
 void InputWidget::makeFilterFrom(const SeriesInputWidget &media) {
   current_filter_ = std::make_unique<media::Series>(media.getTitle());
@@ -154,9 +159,10 @@ void InputWidget::makeFilterFrom(const SeriesInputWidget &media) {
   for (const auto &genre : media.getGenres()) {
     current_filter_->addGenre(genre);
   }
-  static_cast<media::Series &>(*current_filter_).addActor(media.getActor());
-  static_cast<media::Series &>(*current_filter_).setUniverse(media.getUniverse());
-  static_cast<media::Series &>(*current_filter_).setEnded(media.getEnded());
+  media::Series &filter = static_cast<media::Series &>(*current_filter_);
+  filter.addActor(media.getActor());
+  filter.setUniverse(media.getUniverse());
+  filter.setEnded(media.getEnded());
 }
 }  // namespace advanced_search
 }  // namespace gui

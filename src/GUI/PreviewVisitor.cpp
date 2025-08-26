@@ -55,7 +55,7 @@ void PreviewVisitor::visit(const media::Movie &movie) {
 }
 
 void PreviewVisitor::visit(const media::Series &series) {
-  visit(static_cast<const media::Media &>(series));
+  visit(static_cast<const media::Movie &>(series));
   addRow("Stagioni:", series.getSeasons());
   addRow("Episodi:", series.getEpisodes());
   if (series.hasEnded()) {
@@ -73,13 +73,13 @@ void PreviewVisitor::visit(const media::Novel &novel) {
 }
 
 void PreviewVisitor::visit(const media::AudioBook &audiobook) {
-  visit(static_cast<const media::Media &>(audiobook));
+  visit(static_cast<const media::Novel &>(audiobook));
   addRow("Narratore:", audiobook.getNarrator());
   addRow("Streaming service:", audiobook.getStreamingService());
 }
 
 void PreviewVisitor::visit(const media::Ebook &ebook) {
-  visit(static_cast<const media::Media &>(ebook));
+  visit(static_cast<const media::Novel &>(ebook));
   if (ebook.hasDrm()) data_->addWidget(new QLabel("DRM", result_), data_->rowCount(), 0);
 }
 
