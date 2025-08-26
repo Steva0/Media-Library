@@ -33,6 +33,9 @@ void AudioBookInputWidget::setFromMedia(const media::Media &media) {
   }
 }
 std::string AudioBookInputWidget::getNarrator() const { return narrator_->text().toStdString(); }
-std::string AudioBookInputWidget::getStreamingService() const { return streaming_service_->currentText().toStdString(); }
+std::string AudioBookInputWidget::getStreamingService() const {
+  QString service = streaming_service_->currentText();
+  return (service == "Tutti") ? "" : service.toStdString();
+}
 }  // namespace advanced_search
 }  // namespace gui
