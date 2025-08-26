@@ -33,6 +33,6 @@ void AudioBookInputWidget::setFromMedia(const media::Media &media) {
   }
 }
 std::string AudioBookInputWidget::getNarrator() const { return narrator_->text().toStdString(); }
-std::string AudioBookInputWidget::getStreamingService() const { return narrator_->text().toStdString(); }
+std::string AudioBookInputWidget::getStreamingService() const { return streaming_service_->currentText().toStdString(); }
 }  // namespace advanced_search
 }  // namespace gui
