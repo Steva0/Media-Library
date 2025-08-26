@@ -95,7 +95,7 @@ void SearchMain::hidePreview() {
 }
 
 void SearchMain::clear() {
-  preview_->clear();  // svuota la preview
+  preview_->clear();  
 }
 }  // namespace search
 }  // namespace gui

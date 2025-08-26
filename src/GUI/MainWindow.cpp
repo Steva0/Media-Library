@@ -184,7 +184,6 @@ void MainWindow::onMediaDoubleClicked(const media::Media *media) {
   navigateTo(media_detail_page_);
 }
 
-// Slot per tornare indietro dalla pagina dettaglio
 void MainWindow::goBack() {
   if (!navigation_stack_.empty()) {
     QWidget *previous = navigation_stack_.top();
@@ -194,7 +193,6 @@ void MainWindow::goBack() {
   }
 }
 
-// Slot per rimuovere media, chiamato da widget dettaglio
 void MainWindow::onRemoveMediaRequested(const media::Media *media) {
   if (!media) {
     goBack();

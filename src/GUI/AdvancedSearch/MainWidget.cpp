@@ -45,7 +45,7 @@ void MainWidget::keyPressEvent(QKeyEvent* event) {
   } else if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
    emit requestResults(input_->getFilter());
   } else {
-  QWidget::keyPressEvent(event);  // Propaga altri tasti
+  QWidget::keyPressEvent(event);
   }
 }
 }  // namespace advanced_search

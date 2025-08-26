@@ -43,7 +43,6 @@ void GridResults::updateResults(const std::vector<const media::Media *> &results
     wrapper->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     max_height = std::max(max_height, wrapper->sizeHint().height());
 
-    // Connetti con lambda che emette il media specifico
     connect(wrapper, &ClickableFrame::doubleClicked, this, [this, media]() { emit mediaDoubleClicked(media); });
     connect(wrapper, &ClickableFrame::singleClicked, this, [this, media]() { emit mediaSingleClicked(media); });
 

@@ -28,7 +28,7 @@ void ResultsWidget::updateResults(const std::vector<const media::Media *> &new_r
   using gui::ClickableFrame;
 
   for (auto &result : results_) {
-    auto *wrapper = new ClickableFrame(this);  // Cambia QFrame -> ClickableFrame
+    auto *wrapper = new ClickableFrame(this); 
     wrapper->setFrameShape(QFrame::Box);
     wrapper->setLineWidth(1);
     auto *layout = new QHBoxLayout(wrapper);

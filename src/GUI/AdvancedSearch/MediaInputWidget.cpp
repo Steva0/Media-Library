@@ -58,7 +58,7 @@ void MediaInputWidget::addGenre() {
   }
   if (std::find_if(genres_.begin(), genres_.end(),
                    [&](QLineEdit *genre) { return genre_input_->text() == genre->text(); }) != genres_.end()) {
-    genre_input_->clear();  // feedback visivo
+    genre_input_->clear();  // feedback visivo (non posso cercare due volte lo stesso genere)
     return;
   }
   auto *new_genre = new QLineEdit(genre_input_->text(), this);

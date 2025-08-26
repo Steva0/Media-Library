@@ -41,7 +41,6 @@ void PreviewVisitor::visit(const media::Media &media) {
 }
 
 void PreviewVisitor::visit(const media::Album &album) {
-  // type_ = "ALBUM";
   visit(static_cast<const media::Media &>(album));
   addRow("Band:", album.getBand());
   addRowVector("Mebri della band:", album.getBandMembers());
@@ -49,7 +48,6 @@ void PreviewVisitor::visit(const media::Album &album) {
 }
 
 void PreviewVisitor::visit(const media::Movie &movie) {
-  // type_ = "MOVIE ";
   visit(static_cast<const media::Media &>(movie));
   addRow("Durata:", movie.getLength());
   addRow("Universo:", movie.getUniverse());
@@ -57,7 +55,6 @@ void PreviewVisitor::visit(const media::Movie &movie) {
 }
 
 void PreviewVisitor::visit(const media::Series &series) {
-  // type_ = "SERIES ";
   visit(static_cast<const media::Media &>(series));
   addRow("Stagioni:", series.getSeasons());
   addRow("Episodi:", series.getEpisodes());
@@ -67,7 +64,6 @@ void PreviewVisitor::visit(const media::Series &series) {
 }
 
 void PreviewVisitor::visit(const media::Novel &novel) {
-  // type_ = "NOVEL ";
   visit(static_cast<const media::Media &>(novel));
   addRow("Autore:", novel.getAuthor());
   addRow("Casa editrice:", novel.getPublisher());
@@ -77,14 +73,12 @@ void PreviewVisitor::visit(const media::Novel &novel) {
 }
 
 void PreviewVisitor::visit(const media::AudioBook &audiobook) {
-  // type_ = "AUDIOBOOK ";
   visit(static_cast<const media::Media &>(audiobook));
   addRow("Narratore:", audiobook.getNarrator());
   addRow("Streaming service:", audiobook.getStreamingService());
 }
 
 void PreviewVisitor::visit(const media::Ebook &ebook) {
-  // type_ = "EBOOK ";
   visit(static_cast<const media::Media &>(ebook));
   if (ebook.hasDrm()) data_->addWidget(new QLabel("DRM", result_), data_->rowCount(), 0);
 }

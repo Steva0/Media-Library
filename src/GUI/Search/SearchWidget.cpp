@@ -17,7 +17,6 @@ SearchWidget::SearchWidget(QWidget *parent)
   advanced_search_->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
   add_new_->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-  // Imposta la proprietà "verde" solo per il pulsante add_new_
   add_new_->setProperty("verde", true);
 
   auto *advanced_wrapper = new QHBoxLayout;

@@ -39,7 +39,7 @@ std::vector<const media::Media*> Database::filter(const media::Media& media) con
   std::vector<const media::Media*> results;
 
   for (const auto& m : data_) {
-    if (!m->getTitle().empty() && media.filter(*m)) {  // Ignora media senza titolo
+    if (!m->getTitle().empty() && media.filter(*m)) {  // Ignora media marcati come "rimosso"
       results.push_back(m.get());
     }
   }

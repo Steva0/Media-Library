@@ -33,7 +33,7 @@ std::vector<std::unique_ptr<media::Media>> FileManager::deserialize(const QStrin
     file.close();
   }
 
-  if (!file.open(QIODevice::ReadOnly | QIODevice::Text))  // return false;
+  if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     return {};
 
   std::vector<std::unique_ptr<media::Media>> result;
@@ -85,7 +85,7 @@ std::vector<std::unique_ptr<media::Media>> FileManager::fromJson(QFile& file) {
   QJsonParseError error;
   QJsonDocument doc = QJsonDocument::fromJson(data, &error);
 
-  if (error.error != QJsonParseError::NoError || !doc.isArray())  // return;
+  if (error.error != QJsonParseError::NoError || !doc.isArray())
     return {};
 
   std::vector<std::unique_ptr<media::Media>> result;

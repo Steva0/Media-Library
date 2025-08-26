@@ -29,7 +29,6 @@ class FileManager {
   std::vector<std::unique_ptr<media::Media>> deserialize(const QString& path);
   void close();                                                   // chiudi senza salvare
   bool close(const std::vector<const media::Media*>& save_data);  // chiudi dopo aver salvato
-  // bool save(const QString& path = QString());
   bool save(const std::vector<const media::Media*>& data, const QString& path = "");
 
   static const std::array<std::string, 2> kAcceptedExtensions;
