@@ -2,6 +2,8 @@
 #define GUI_MEDIAEDIT_AUDIOBOOKEDITWIDGET_H
 
 #include <QLineEdit>
+#include <QComboBox>
+#include <QStringList> 
 
 #include "NovelEditWidget.h"
 
@@ -18,7 +20,8 @@ class AudioBookEditWidget : public NovelEditWidget {
 
  private:
   QLineEdit* narrator_input_;
-  QLineEdit* streaming_service_input_;
+  QComboBox* streaming_service_;
+  static const QStringList kStreamingServices;
 };
 
 }  // namespace gui
