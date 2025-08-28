@@ -6,7 +6,7 @@
 #include <QStringList> 
 
 #include "NovelEditWidget.h"
-#include "../StreamServices.h"
+#include "../StreamingServices.h"
 
 namespace gui {
 

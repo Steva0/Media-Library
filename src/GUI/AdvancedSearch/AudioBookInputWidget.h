@@ -5,7 +5,7 @@
 
 #include "../../Media/AudioBook.h"
 #include "NovelInputWidget.h"
-#include "../StreamServices.h"
+#include "../StreamingServices.h"
 namespace gui {
 namespace advanced_search {
 class AudioBookInputWidget : public NovelInputWidget {

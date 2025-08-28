@@ -1,5 +1,5 @@
-#ifndef STREAMSERVICES_H
-#define STREAMSERVICES_H
+#ifndef STREAMINGSERVICES_H
+#define STREAMINGSERVICES_H
 
 #include <QStringList>
 
@@ -10,4 +10,4 @@ namespace gui {
     };
 }
 
-#endif // STREAMSERVICES_H
+#endif // STREAMINGSERVICES_H
