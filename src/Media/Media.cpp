@@ -43,7 +43,7 @@ bool Media::filter(const Media &media) const {
 
   if (getRelease() != std::numeric_limits<int>::min() && media.getRelease() != getRelease()) return false;
 
-  if (!getLanguage().empty() && media.getLanguage() != getLanguage()) return false;
+  if (!getLanguage().empty() && !stringContainsIgnoreCase(media.getLanguage(), getLanguage())) return false;
 
   if (isFavourite() && media.isFavourite() != isFavourite()) return false;
 
