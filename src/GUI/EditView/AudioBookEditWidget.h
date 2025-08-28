@@ -6,6 +6,7 @@
 #include <QStringList> 
 
 #include "NovelEditWidget.h"
+#include "../StreamServices.h"
 
 namespace gui {
 
@@ -21,7 +22,6 @@ class AudioBookEditWidget : public NovelEditWidget {
  private:
   QLineEdit* narrator_input_;
   QComboBox* streaming_service_;
-  static const QStringList kStreamingServices;
 };
 
 }  // namespace gui

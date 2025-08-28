@@ -8,8 +8,6 @@
 
 namespace gui {
 namespace advanced_search {
-const QStringList AudioBookInputWidget::kStreamingServices{
-    "Tutti", "Audible", "Audiobooks.com", "B&N Audiobooks", "Libro.fm", "Everand", "Spotify", "Libby", "Hoopla", "Chirp"};
 
 AudioBookInputWidget::AudioBookInputWidget(QWidget *parent) : NovelInputWidget(parent) {
   narrator_ = new QLineEdit(this);

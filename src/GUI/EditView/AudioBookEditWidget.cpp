@@ -5,10 +5,6 @@
 
 namespace gui {
 
-// Definisci la lista dei servizi streaming
-const QStringList AudioBookEditWidget::kStreamingServices{
-  "Tutti", "Audible", "Audiobooks.com", "B&N Audiobooks", "Libro.fm", "Everand", "Spotify", "Libby", "Hoopla", "Chirp"};
-
 AudioBookEditWidget::AudioBookEditWidget(QWidget* parent, bool min) : NovelEditWidget(parent, false, min) {
   auto* row_layout = new QHBoxLayout();
   // Label "Narratore"

@@ -17,6 +17,7 @@ QT += widgets xml
 # Input
 HEADERS += ../src/GUI/AbstractSearchWidget.h \
            ../src/GUI/ClickableFrame.h \
+           ../src/GUI/StreamServices.h \
            ../src/GUI/DatabaseSelectionWidget.h \
            ../src/GUI/IMediaWidgetVisitor.h \
            ../src/GUI/MainWindow.h \

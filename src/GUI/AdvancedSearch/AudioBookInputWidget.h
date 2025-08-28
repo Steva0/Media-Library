@@ -5,6 +5,7 @@
 
 #include "../../Media/AudioBook.h"
 #include "NovelInputWidget.h"
+#include "../StreamServices.h"
 namespace gui {
 namespace advanced_search {
 class AudioBookInputWidget : public NovelInputWidget {
@@ -12,8 +13,6 @@ class AudioBookInputWidget : public NovelInputWidget {
  private:
   QLineEdit *narrator_;
   QComboBox *streaming_service_;
-
-  static const QStringList kStreamingServices;
 
  public:
   explicit AudioBookInputWidget(QWidget *parent = nullptr);
