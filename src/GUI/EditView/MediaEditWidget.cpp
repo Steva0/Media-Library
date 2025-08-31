@@ -351,6 +351,7 @@ void MediaEditWidget::addNotesSection(QVBoxLayout* layout) {
 
 void MediaEditWidget::clearInputFields() {
   title_input_->clear();
+  release_input_->setValue(std::numeric_limits<int>::min());
   release_input_->clear();
   language_input_->clear();
   favourite_checkbox_->setChecked(false);
