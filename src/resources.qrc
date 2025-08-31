@@ -2,6 +2,7 @@
 <qresource>
     <file>assets/folder.jpeg</file>
     <file>assets/matita.jpg</file>
+    <file>assets/favourite.ico</file>
     <file>assets/style.qss</file>
 </qresource>
 </RCC>

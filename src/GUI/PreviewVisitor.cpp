@@ -29,8 +29,12 @@ void PreviewVisitor::visit(const media::Media &media) {
   }
 
   data_->addWidget(new QLabel(QString::fromStdString(media.displayType())), 0, 0);
-  if (media.isFavourite()) data_->addWidget(new QLabel("Preferito"));
-
+  if (media.isFavourite()) {
+    auto *favourite_label = new QLabel(result_);
+    favourite_label->setPixmap(QPixmap(":/assets/favourite.ico").scaledToHeight(favourite_label->fontInfo().pixelSize()));
+    data_->addWidget(favourite_label, data_->rowCount() - 1, data_->columnCount());
+  }
+  
   addRow("Titolo:", media.getTitle());
   addRow("Uscita:", media.getRelease());
   addRow("Lingua:", media.getLanguage());
