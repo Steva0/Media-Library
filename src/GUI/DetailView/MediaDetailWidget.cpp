@@ -125,15 +125,18 @@ void MediaDetailWidget::updateCoverPixmap() {
     return;
   }
 
-  // Calcolo la larghezza che la cover deve occupare (1/3 della larghezza del widget)
-  int targetWidth = width() / 3;
+  // Limiti massimi
+  int maxWidth  = width() / 3;
+  int maxHeight = height() / 2;
 
-  // Calcolo l'altezza mantenendo il rapporto d'aspetto
-  int targetHeight = coverPixmap_.height() * targetWidth / coverPixmap_.width();
+  // Scala mantenendo il rapporto d'aspetto entro entrambi i limiti
+  QPixmap scaled = coverPixmap_.scaled(maxWidth, maxHeight, 
+                                       Qt::KeepAspectRatio, 
+                                       Qt::SmoothTransformation);
 
-  // Ridimensiono e setto la pixmap
-  coverLabel_->setPixmap(coverPixmap_.scaled(targetWidth, targetHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+  coverLabel_->setPixmap(scaled);
 }
+
 
 void MediaDetailWidget::updateTextFontSize() {
   if (!leftWidget_) return;

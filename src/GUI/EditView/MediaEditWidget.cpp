@@ -177,12 +177,18 @@ void MediaEditWidget::updateCoverPixmap() {
     return;
   }
 
-  int targetWidth = width() / 3;
-  int targetHeight = cover_pixmap_.height() * targetWidth / cover_pixmap_.width();
+  // Limiti massimi
+  int maxWidth  = width() / 3;
+  int maxHeight = height() / 2;
 
-  cover_label_->setPixmap(
-      cover_pixmap_.scaled(targetWidth, targetHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+  // Scala mantenendo il rapporto d'aspetto entro entrambi i limiti
+  QPixmap scaled = cover_pixmap_.scaled(maxWidth, maxHeight,
+                                        Qt::KeepAspectRatio,
+                                        Qt::SmoothTransformation);
+
+  cover_label_->setPixmap(scaled);
 }
+
 
 void MediaEditWidget::resizeEvent(QResizeEvent* event) {
   IMediaEditWidget::resizeEvent(event);

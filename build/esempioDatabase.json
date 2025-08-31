@@ -13,6 +13,7 @@
         "Release": 1813,
         "Series": "Romanzo Singolo",
         "Title": "Orgoglio e Pregiudizio",
+        "ImagePath": ":/assets/orgoglio e pregiudizio.jpg",
         "type": "Novel"
     },
     {
@@ -29,6 +30,7 @@
         "Pages": 271,
         "Publisher": "Ace Books",
         "Release": 1984,
+        "ImagePath": ":/assets/neuromante.jpg",
         "Series": "Sprawl Trilogy",
         "Title": "Neuromante",
         "type": "Ebook"
@@ -44,6 +46,7 @@
         "Narrator": "Luigi La Monica",
         "Notes": "Versione narrata integrale",
         "Pages": 140,
+        "ImagePath": ":/assets/il nome della rosa.jpg",
         "Publisher": "Bompiani",
         "Release": 2015,
         "Series": "Romanzo Singolo",
@@ -65,6 +68,7 @@
             "Drammatico"
         ],
         "Language": "Inglese",
+        "ImagePath": ":/assets/interstellar.jpg",
         "Length": 169,
         "Notes": "Un viaggio epico tra galassie e dimensioni",
         "Release": 2014,
@@ -89,6 +93,7 @@
         "Seasons": 4,
         "Title": "Stranger Things",
         "Universe": "Realtà Alternativa",
+        "ImagePath": ":/assets/stranger things.jpg",
         "type": "Series"
     },
     {
@@ -103,6 +108,7 @@
             "Rock",
             "Pop"
         ],
+        "ImagePath": ":/assets/abbey road.jpg",
         "Language": "Inglese",
         "Release": 1969,
         "Songs": [
