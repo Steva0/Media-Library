@@ -49,7 +49,8 @@ MediaEditWidget::MediaEditWidget(QWidget* parent) : IMediaEditWidget(parent) {
   // Anno di uscita
   auto* release_label = new QLabel(tr("Anno di uscita:"), this);
   release_input_ = new QSpinBox(this);
-  release_input_->setRange(0, 4000);
+  release_input_->setRange(std::numeric_limits<int>::min(), 4000);
+  release_input_->setValue(std::numeric_limits<int>::min());
   row_layout->addWidget(release_label);
   row_layout->addWidget(release_input_);
 
@@ -199,7 +200,7 @@ void MediaEditWidget::setMedia(const media::Media* media) {
   if (!media) {
     // Media non valido -> resetto campi e metto immagine di default
     title_input_->clear();
-    release_input_->setValue(0);
+    release_input_->clear();
     language_input_->clear();
     favourite_checkbox_->setChecked(false);
     notes_input_->clear();
@@ -319,10 +320,22 @@ std::vector<std::string> MediaEditWidget::getGenres() const {
 media::Media* MediaEditWidget::getModifiedMedia(bool old) const {
   if (!old_media_ && old) return nullptr;
 
-  return new media::Media(title_input_->text().toStdString(), release_input_->value(),
-                          language_input_->text().toStdString(), favourite_checkbox_->isChecked(), getGenres(),
-                          img_path_.toStdString(), notes_input_->toPlainText().toStdString());
+  int releaseYear = release_input_->value();
+  if (releaseYear == std::numeric_limits<int>::min()) {
+    releaseYear = std::numeric_limits<int>::min();
+  }
+
+  return new media::Media(
+      title_input_->text().toStdString(),
+      releaseYear,
+      language_input_->text().toStdString(),
+      favourite_checkbox_->isChecked(),
+      getGenres(),
+      img_path_.toStdString(),
+      notes_input_->toPlainText().toStdString()
+  );
 }
+
 
 void MediaEditWidget::addNotesSection(QVBoxLayout* layout) {
   QHBoxLayout* notes_layout = new QHBoxLayout;
@@ -338,7 +351,7 @@ void MediaEditWidget::addNotesSection(QVBoxLayout* layout) {
 
 void MediaEditWidget::clearInputFields() {
   title_input_->clear();
-  release_input_->setValue(0);
+  release_input_->clear();
   language_input_->clear();
   favourite_checkbox_->setChecked(false);
   notes_input_->clear();
