@@ -29,7 +29,7 @@ void PreviewVisitor::visit(const media::Media &media) {
   }
 
   data_->addWidget(new QLabel(QString::fromStdString(media.displayType())), 0, 0);
-  if (media.isFavourite()) data_->addWidget(new QLabel("Favourite"));
+  if (media.isFavourite()) data_->addWidget(new QLabel("Preferito"));
 
   addRow("Titolo:", media.getTitle());
   addRow("Uscita:", media.getRelease());
