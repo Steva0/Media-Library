@@ -110,7 +110,9 @@ std::vector<std::unique_ptr<media::Media>> FileManager::fromJson(QFile& file) {
     std::string notes = obj.contains("Notes") ? obj["Notes"].toString().toStdString() : "";
     bool favourite = obj.contains("Favourite") ? obj["Favourite"].toBool() : false;
 
-    if (type == "Album") {
+    if (type == "Media") {
+      media = std::make_unique<media::Media>(title, release, language, favourite, genres, imagePath, notes);
+    } else if (type == "Album") {
       std::string band = obj.contains("Band") ? obj["Band"].toString().toStdString() : "";
       auto bandMembers = obj.contains("BandMembers") ? readStringArray(obj, "BandMembers") : std::vector<std::string>();
       auto songs = obj.contains("Songs") ? readStringArray(obj, "Songs") : std::vector<std::string>();
@@ -207,7 +209,9 @@ std::vector<std::unique_ptr<media::Media>> FileManager::fromXml(QFile& file) {
 
     std::unique_ptr<media::Media> media;
 
-    if (type == "Album") {
+    if (type == "Media") {
+      media = std::make_unique<media::Media>(title, release, language, favourite, genres, imagePath, notes);
+    } else if (type == "Album") {
       std::string band = el.firstChildElement("Band").text().toStdString();
       std::vector<std::string> members;
       QDomElement membersEl = el.firstChildElement("BandMembers");
